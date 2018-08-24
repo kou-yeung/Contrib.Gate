@@ -45,9 +45,13 @@ namespace Network
         /// <param name="cb"></param>
         public void Send(Action<Communication> cb)
         {
-            var s = JsonUtility.ToJson(this);
-            cb(JsonUtility.FromJson<Communication>(s));
-            //new Requests().Send("Communication");
+            new Requests().Send("Communication", JsonUtility.ToJson(this), (res, data) =>
+            {
+                if (res)
+                {
+
+                }
+            });
         }
     }
 }
