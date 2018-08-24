@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace Util
 {
-    public class CoroutineRunner
+    public class CoroutineRunner : MonoBehaviour
     {
         static MonoBehaviour mb;
 
         static CoroutineRunner()
         {
             var go = new GameObject("CoroutineRunner");
-            mb = go.AddComponent<MonoBehaviour>();
+            mb = go.AddComponent<CoroutineRunner>();
             GameObject.DontDestroyOnLoad(go);
         }
 

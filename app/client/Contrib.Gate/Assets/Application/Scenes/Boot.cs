@@ -12,6 +12,11 @@ public class Boot : MonoBehaviour
         {
             if (user != null)
             {
+                new Requests().Send("funcName", "", (res, data) =>
+                {
+                    Debug.Log(data);
+                });
+
                 Debug.Log("ログイン成功");
             }
             else
