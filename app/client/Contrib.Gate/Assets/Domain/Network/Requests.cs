@@ -11,12 +11,22 @@ using Util;
 
 namespace Network
 {
+    [Serializable]
+    class KiiCloudError
+    {
+        [Serializable]
+        public class Details
+        {
+            public string errorCode;
+            public string message;
+        }
+        public string errorCode;
+        public string message;
+        public Details details;
+    }
+
     public class Requests
     {
-        static readonly string AppID = "";
-        static readonly string AppKey = "";
-        static readonly Kii.Site Site = Kii.Site.JP;
-
         public void Send(string method, string data = "", Action<bool, string> cb = null)
         {
             CoroutineRunner.Run(InternalSend(method, data, cb));
@@ -40,6 +50,8 @@ namespace Network
             }
             else
             {
+                var error = JsonUtility.FromJson<KiiCloudError>(request.downloadHandler.text);
+                Debug.Log(JsonUtility.ToJson(error, true));
                 if (cb != null) cb(false, request.error);
             }
         }

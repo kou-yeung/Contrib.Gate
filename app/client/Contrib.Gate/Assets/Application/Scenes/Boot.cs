@@ -5,6 +5,10 @@ using Network;
 
 public class Boot : MonoBehaviour
 {
+    public class Foo
+    {
+        public string name = "FOO!!!";
+    }
     void Start()
     {
         KiiInitialize.Init();
@@ -12,9 +16,9 @@ public class Boot : MonoBehaviour
         {
             if (user != null)
             {
-                new Requests().Send("funcName", "", (res, data) =>
+                new Communication("Ping").Push(new Foo()).Send((c) =>
                 {
-                    Debug.Log(data);
+                    var foo = c.Pop<Foo>();
                 });
 
                 Debug.Log("ログイン成功");
