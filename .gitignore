@@ -16,6 +16,9 @@ app/server/*/Properties/
 app/server/*/*.js
 app/server/*/*.js.map
 
+# Tools
+tools/KiiCloud/setting.ini
+
 # Visual Studio cache directory
 .vs/
 
