@@ -1,0 +1,34 @@
+{
+  "name": "kii-cli",
+  "version": "1.5.1",
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "description": "Kii command line interface",
+  "author": "Kii <support@kii.com> (http://www.kii.com)",
+  "dependencies": {
+    "commander": "2.9.0",
+    "form-data": "2.1.2",
+    "moment": "2.12.0",
+    "ws": "1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "2.4.5",
+    "should": "3.1.2",
+    "sprintf-js": "1.0.3"
+  },
+  "keywords": [
+    "kii",
+    "command",
+    "shell",
+    "servercode",
+    "log"
+  ],
+  "scripts": {
+    "test": "make test"
+  },
+  "bin": {
+    "kii-servercode": "./bin/kii-servercode.js",
+    "kii-logs": "./bin/kii-logs.js"
+  }
+}

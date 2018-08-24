@@ -1,0 +1,157 @@
+{
+  "default"         : "${time} [${level}] ${key} description:${description} ",
+  "user.register"   : "${time} [${level}] ${key} description:${description} userID:${userID} login-name:${loginName} email-address:${emailAddress} phone-number:${phoneNumber} thirdParty:${thirdPartyAccountType} thirdPartyID:${thirdPartyID}",
+  "user.login"      : "${time} [${level}] ${key} description:${description} userID:${userID} login-name:${loginName}",
+  "user.login.refresh": "${time} [${level}] ${key} description:${description} userID:${userID}",
+  "user.facebook.link"         : "${time} [${level}] ${key} description:${description} userID:${userID}",
+  "user.twitter.link"         : "${time} [${level}] ${key} description:${description} userID:${userID}",
+  "user.facebook.unlink"         : "${time} [${level}] ${key} description:${description} userID:${userID}",
+  "user.twitter.unlink"         : "${time} [${level}] ${key} description:${description} userID:${userID}",
+  "user.3rdparty.link"          : "${time} [${level}] ${key} description:${description} userID:${userID} thirdParty:${thirdPartyAccountType}",
+  "user.3rdparty.unlink"          : "${time} [${level}] ${key} description:${description} userID:${userID} thirdParty:${thirdPartyAccountType}",
+  "user.password.change"         : "${time} [${level}] ${key} description:${description} userID:${userID}",
+  "user.password.reset"         : "${time} [${level}] ${key} description:${description} userID:${userID} account-type: ${accountType}",
+  "user.update"         : "${time} [${level}] ${key} description:${description} userID:${userID}",
+  "user.remove"         : "${time} [${level}] ${key} description:${description} userID:${userID}",
+  "user.email.verify"         : "${time} [${level}] ${key} description:${description} userID:${userID} email-address:${emailAddress}",
+  "user.phone.verify"         : "${time} [${level}] ${key} description:${description} userID:${userID} phone-number:${phoneNumber}",
+  "group.create"         : "${time} [${level}] ${key} description:${description} groupID:${groupID}",
+  "group.name.change"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} new-name:${newGroupName}",
+  "group.member.add"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} new-member:${newMember} failed-to-add:${failedToAdd}",
+  "group.member.remove"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} remove-member:${removedMember}",
+  "group.delete"         : "${time} [${level}] ${key} description:${description} groupID:${groupID}",
+
+  "bucket.app.create"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType}",
+  "bucket.group.create"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType}",
+  "bucket.user.create"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType}",
+  "bucket.thing.create"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType}",
+
+  "bucket.app.object.create"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} data-type:${dataType}",
+  "bucket.group.object.create"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} data-type:${dataType}",
+  "bucket.user.object.create"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} data-type:${dataType}",
+  "bucket.thing.object.create"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} data-type:${dataType}",
+
+  "bucket.app.object.retrieve"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.group.object.retrieve"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.user.object.retrieve"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.thing.object.retrieve"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+
+  "bucket.app.object.update"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} data-type:${dataType} trashed:${trashed}",
+  "bucket.group.object.update"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} data-type:${dataType} trashed:${trashed}",
+  "bucket.user.object.update"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} data-type:${dataType} trashed:${trashed}",
+  "bucket.thing.object.update"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} data-type:${dataType} trashed:${trashed}",
+
+  "bucket.app.object.query"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} query:${query} results-count:${resultsCount}",
+  "bucket.group.object.query"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} query:${query} results-count:${resultsCount}",
+  "bucket.user.object.query"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} query:${query} results-count:${resultsCount}",
+  "bucket.thing.object.query"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} query:${query} results-count:${resultsCount}",
+
+  "bucket.app.object.delete"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.group.object.delete"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.user.object.delete"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.thing.object.delete"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+
+  "bucket.app.object.body.upload"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} body-data-type:${bodyDataType} uploadID:${uploadID} client-hash:${clientHash}",
+  "bucket.group.object.body.upload"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} body-data-type:${bodyDataType} uploadID:${uploadID} client-hash:${clientHash}",
+  "bucket.user.object.body.upload"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} body-data-type:${bodyDataType} uploadID:${uploadID} client-hash:${clientHash}",
+  "bucket.thing.object.body.upload"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} body-data-type:${bodyDataType} uploadID:${uploadID} client-hash:${clientHash}",
+
+  "bucket.app.object.body.upload.terminate"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} uploadID:${uploadID}",
+  "bucket.group.object.body.upload.terminate"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} uploadID:${uploadID}",
+  "bucket.user.object.body.upload.terminate"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} uploadID:${uploadID}",
+  "bucket.thing.object.body.upload.terminate"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} uploadID:${uploadID}",
+
+  "bucket.app.object.body.chunk.upload"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} body-data-type:${bodyDataType} uploadID:${uploadID} client-hash:${clientHash} from:${from} to:${to} total:${total}",
+  "bucket.group.object.body.chunk.upload"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} body-data-type:${bodyDataType} uploadID:${uploadID} client-hash:${clientHash} from:${from} to:${to} total:${total}",
+  "bucket.user.object.body.chunk.upload"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} body-data-type:${bodyDataType} uploadID:${uploadID} client-hash:${clientHash} from:${from} to:${to} total:${total}",
+  "bucket.thing.object.body.chunk.upload"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} body-data-type:${bodyDataType} uploadID:${uploadID} client-hash:${clientHash} from:${from} to:${to} total:${total}",
+
+  "bucket.app.object.body.publish"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} expires:${expires}",
+  "bucket.group.object.body.publish"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} expires:${expires}",
+  "bucket.user.object.body.publish"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} expires:${expires}",
+  "bucket.thing.object.body.publish"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} expires:${expires}",
+
+  "bucket.app.object.body.delete"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.group.object.body.delete"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.user.object.body.delete"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.thing.object.body.delete"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  
+  "bucket.app.object.body.update"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.group.object.body.update"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.user.object.body.update"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+  "bucket.thing.object.body.update"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID}",
+
+  "bucket.app.acl.grant"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} verb:${verb} type:${type}",
+  "bucket.group.acl.grant"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} verb:${verb} type:${type}",
+  "bucket.user.acl.grant"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} verb:${verb} type:${type}",
+  "bucket.thing.acl.grant"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} verb:${verb} type:${type}",
+
+  "bucket.app.acl.revoke"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} verb:${verb} type:${type}",
+  "bucket.group.acl.revoke"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} verb:${verb} type:${type}",
+  "bucket.user.acl.revoke"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} verb:${verb} type:${type}",
+  "bucket.thing.acl.revoke"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} verb:${verb} type:${type}",
+
+  "bucket.app.object.acl.grant"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} verb:${verb}",
+  "bucket.group.object.acl.grant"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} verb:${verb}",
+  "bucket.user.object.acl.grant"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} verb:${verb}",
+  "bucket.thing.object.acl.grant"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} verb:${verb}",
+
+  "bucket.app.object.acl.revoke"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} verb:${verb}",
+  "bucket.group.object.acl.revoke"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} verb:${verb}",
+  "bucket.user.object.acl.revoke"         : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} verb:${verb}",
+  "bucket.thing.object.acl.revoke"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} objectID:${objectID} verb:${verb}",
+
+  "bucket.app.delete"                  : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} bucket-type:${bucketType} deleted-count:${deletedCount}",
+  "bucket.group.delete"                  : "${time} [${level}] ${key} description:${description} groupID:${groupID} bucketID:${bucketID} bucket-type:${bucketType} deleted-count:${deletedCount}",
+  "bucket.user.delete"                  : "${time} [${level}] ${key} description:${description} userID:${userID} bucketID:${bucketID} bucket-type:${bucketType} deleted-count:${deletedCount}",
+  "bucket.thing.delete"                  : "${time} [${level}] ${key} description:${description} thingID:${thingID} bucketID:${bucketID} bucket-type:${bucketType} deleted-count:${deletedCount}",
+
+  "object.app.scope.acl.grant"         : "${time} [${level}] ${key} description:${description} verb:${verb} type:${type}",
+  "object.group.scope.acl.grant"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} verb:${verb} type:${type}",
+  "object.user.scope.acl.grant"         : "${time} [${level}] ${key} description:${description} userID:${userID} verb:${verb} type:${type}",
+  "object.thing.scope.acl.grant"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} verb:${verb} type:${type}",
+
+  "object.app.scope.acl.revoke"         : "${time} [${level}] ${key} description:${description} verb:${verb} type:${type}",
+  "object.group.scope.acl.revoke"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} verb:${verb} type:${type}",
+  "object.user.scope.acl.revoke"         : "${time} [${level}] ${key} description:${description} userID:${userID} verb:${verb} type:${type}",
+  "object.thing.scope.acl.revoke"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} verb:${verb} type:${type}",
+
+  "push.acl.grant"         : "${time} [${level}] ${key} description:${description} topicID:${topicID} verb:${verb} type:${type}",
+  "push.acl.revoke"         : "${time} [${level}] ${key} description:${description} topicID:${topicID} verb:${verb} type:${type}",
+
+  "device.install"         : "${time} [${level}] ${key} description:${description} principalID:${principalID} device-type:${installationType} installationID:${installationID} development:${development}",
+  "device.uninstall"         : "${time} [${level}] ${key} description:${description} principalID:${principalID} device-type:${installationType} installationID:${installationID} development:${development}",
+
+  "push.bucket.subscribe"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} type:${type} filter-id:${filterID} subject:${subject}",
+  "push.bucket.unsubscribe"         : "${time} [${level}] ${key} description:${description} bucketID:${bucketID} type:${type} filter-id:${filterID} subject:${subject}",
+
+  "push.topic.app.create"         : "${time} [${level}] ${key} description:${description} topicID:${topicID}",
+  "push.topic.group.create"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} topicID:${topicID}",
+  "push.topic.user.create"         : "${time} [${level}] ${key} description:${description} userID:${userID} topicID:${topicID}",
+  "push.topic.thing.create"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} topicID:${topicID}",
+
+  "push.topic.app.delete"         : "${time} [${level}] ${key} description:${description} topicID:${topicID}",
+  "push.topic.group.delete"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} topicID:${topicID}",
+  "push.topic.user.delete"         : "${time} [${level}] ${key} description:${description} userID:${userID} topicID:${topicID}",
+  "push.topic.thing.delete"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} topicID:${topicID}",
+
+  "push.topic.app.subscribe"         : "${time} [${level}] ${key} description:${description} topicID:${topicID} subject:${subject}",
+  "push.topic.group.subscribe"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} topicID:${topicID} subject:${subject}",
+  "push.topic.user.subscribe"         : "${time} [${level}] ${key} description:${description} userID:${userID} topicID:${topicID} subject:${subject}",
+  "push.topic.thing.subscribe"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} topicID:${topicID} subject:${subject}",
+
+  "push.topic.app.unsubscribe"         : "${time} [${level}] ${key} description:${description} topicID:${topicID} subject:${subject}",
+  "push.topic.group.unsubscribe"         : "${time} [${level}] ${key} description:${description} groupID:${groupID} topicID:${topicID} subject:${subject}",
+  "push.topic.user.unsubscribe"         : "${time} [${level}] ${key} description:${description} userID:${userID} topicID:${topicID} subject:${subject}",
+  "push.topic.thing.unsubscribe"         : "${time} [${level}] ${key} description:${description} thingID:${thingID} topicID:${topicID} subject:${subject}",
+
+  "push.topic.acl.grant"              :  "${time} [${level}] ${key} description:${description} topicID:${topicID} verb:${verb} type:${type}",
+  "push.topic.acl.revoke"              :  "${time} [${level}] ${key} description:${description} topicID:${topicID} verb:${verb} type:${type}",
+
+  "push.send"         : "${time} [${level}] ${key} description:${description} sender:${senderID} origin:${origin} messageID:${messageID} type:${type} succeeded-endpoints:${succeededEndpoints} failed-endpoints:${failedEndpoints}",
+  "servercode.bundle.deploy" : "${time} [${level}] ${key} description:${description} data-type:${dataType} versionID:${versionID}",
+  "servercode.file.deploy"   : "${time} [${level}] ${key} description:${description} data-type:${dataType} versionID:${versionID}",
+  "servercode.delete"        : "${time} [${level}] ${key} description:${description} versionID:${versionID}",
+  "servercode.invoke"        : "${time} [${level}] ${key} description:${description} versionID:${versionID} args:${args} endpoint:${endpoint} auth-header:${authHeader} response-type:${responseType} response-step:${responseStep}",
+  "servercode.log"           : "${time} [${level}] ${key} description:${description} entry-name:${entry-name}"
+}

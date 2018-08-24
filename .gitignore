@@ -13,6 +13,8 @@ app/client/*/*.csproj
 app/server/*/bin/
 app/server/*/obj/
 app/server/*/Properties/
+app/server/*/*.js
+app/server/*/*.js.map
 
 # Visual Studio cache directory
 .vs/
