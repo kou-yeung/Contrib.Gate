@@ -15,6 +15,7 @@ function Ping(params, context, done) {
 
     // 返信する
     let r = new PingReceive();
+    r.message = s.message;
     r.timestamp = Date.now().toString().slice(0, -3);
     done(JSON.stringify(r));
 }

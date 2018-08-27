@@ -10,10 +10,12 @@ namespace Network
     /// </summary>
     public class PingSend
     {
+        public string message;
     }
 
     public class PingReceive
     {
+        public string message;
         public string timestamp;
     }
 

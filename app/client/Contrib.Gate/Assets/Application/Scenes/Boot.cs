@@ -18,9 +18,10 @@ public class Boot : MonoBehaviour
         {
             if (user != null)
             {
-                Protocol.Send(new PingSend(), (r) =>
+                Protocol.Send(new PingSend { message = "Hello!!" }, (r) =>
                 {
                     Debug.Log(UnixTime.FromUnixTime(r.timestamp));
+                    Debug.Log(r.message);
                 });
 
                 Debug.Log("ログイン成功");
