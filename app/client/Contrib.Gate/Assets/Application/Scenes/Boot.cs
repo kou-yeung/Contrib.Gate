@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Network;
+using System;
+using Util;
 
 public class Boot : MonoBehaviour
 {
@@ -16,9 +18,9 @@ public class Boot : MonoBehaviour
         {
             if (user != null)
             {
-                new Communication("Ping").Push(new Foo()).Send((c) =>
+                Protocol.Send(new PingSend(), (r) =>
                 {
-                    var foo = c.Pop<Foo>();
+                    Debug.Log(UnixTime.FromUnixTime(r.timestamp));
                 });
 
                 Debug.Log("ログイン成功");

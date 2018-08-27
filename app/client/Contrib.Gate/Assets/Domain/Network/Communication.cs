@@ -43,15 +43,9 @@ namespace Network
         /// 送信する
         /// </summary>
         /// <param name="cb"></param>
-        public void Send(Action<Communication> cb)
+        public void Send(Action<bool, string> cb)
         {
-            new Requests().Send("Communication", JsonUtility.ToJson(this), (res, data) =>
-            {
-                if (res)
-                {
-
-                }
-            });
+            new Requests().Send(command, JsonUtility.ToJson(this), cb);
         }
     }
 }

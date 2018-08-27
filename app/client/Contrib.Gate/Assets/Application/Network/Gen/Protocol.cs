@@ -1,0 +1,33 @@
+﻿/// <summary>
+/// 将来は自動生成する予定です
+/// </summary>
+using System;
+
+namespace Network
+{
+    /// <summary>
+    /// Ping
+    /// </summary>
+    public class PingSend
+    {
+    }
+
+    public class PingReceive
+    {
+        public string timestamp;
+    }
+
+
+    /// <summary>
+    /// 送信用メソッド一覧
+    /// </summary>
+    public static partial class Protocol
+    {
+        public static void Send(PingSend obj, Action<PingReceive> cb)
+        {
+            new Communication("Ping").Push(obj).Send((res, str) => OnReceive(res, str, cb));
+        }
+    }
+}
+
+
