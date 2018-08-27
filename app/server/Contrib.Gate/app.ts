@@ -1,26 +1,20 @@
-﻿// sample!!
+﻿/// <reference path="gen/protocol.ts">
+
+// sample!!
 function funcName(params, context) {
     return "Hello! World!!!!!!";
 }
 
 // Ping を受信する
 function Ping(params, context, done) {
-    let res = {};
 
-    let foo = JSON.parse(params.data[0]) as Foo; // parse object
+    // 受信データをパースする
+    let s = JSON.parse(params.data[0]) as PingSend;
 
-    res["timestamp"] = Date.now().toString();
-    done(JSON.stringify(res));
-}
+    // ... 何かの処理 //
 
-
-// 受信
-function Communication(params, context, done) {
-    switch (params.command) {
-        case "Ping": Ping(params, context, done); break;
-    }
-}
-
-class Foo {
-    name: string;
+    // 返信する
+    let r = new PingReceive();
+    r.timestamp = Date.now().toString().slice(0, -3);
+    done(JSON.stringify(r));
 }

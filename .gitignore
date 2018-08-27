@@ -15,6 +15,7 @@ app/server/*/obj/
 app/server/*/Properties/
 app/server/*/*.js
 app/server/*/*.js.map
+app/server/*/gen/*.js
 
 # Tools
 tools/KiiCloud/setting.ini

@@ -5,7 +5,7 @@ SET CurrentPath=%~dp0
 call %CurrentPath%/../loadenv %CurrentPath%/setting.ini
 
 SET KiiPath=%CurrentPath%/kii-cli-v1.5.1
-SET JSPath=%CurrentPath%/../../app/server/Contrib.Gate/app.js
+SET JSPath=%CurrentPath%/../../app/server/Contrib.Gate/server.js
 
 node %KiiPath%/bin/kii-servercode.js deploy-file ^
  --file %JSPath% ^
