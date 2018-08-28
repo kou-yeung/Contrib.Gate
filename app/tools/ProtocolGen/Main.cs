@@ -70,12 +70,13 @@ class ProtocolGen
         
         var args = Environment.GetCommandLineArgs();
 
-        if (args.Length <= 0)
+        if (args.Length <= 1)
         {
             Console.WriteLine("protocolPath=<fn>");
         }
         else
         {
+            // MEMO : デバッグ時に起動パラメータの設定 : protocolPath=./../../template/protocol.csv
             foreach (var arg in args)
             {
                 var data = arg.Split('=');
