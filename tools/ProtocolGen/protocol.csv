@@ -8,3 +8,8 @@ protocol,Ping,
 up,string,message,
 down,string,message,
 down,string,timestamp,
+
+// Login
+protocol,Login,
+down,int,state,
+

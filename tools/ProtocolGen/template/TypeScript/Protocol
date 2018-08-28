@@ -4,8 +4,18 @@
 
 class {{PROTOCOL}}Send {
     {{UP}}
+
+	// params -> {{PROTOCOL}}Send
+	static Parse(params : any): {{PROTOCOL}}Send {
+		return JSON.parse(params.data[0]) as {{PROTOCOL}}Send;
+	}
 }
 
 class {{PROTOCOL}}Receive {
     {{DOWN}}
+	
+	// {{PROTOCOL}}Receive -> string
+	Pack(): string {
+		return JSON.stringify(this);
+    }
 }

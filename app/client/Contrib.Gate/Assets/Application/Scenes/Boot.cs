@@ -24,6 +24,11 @@ public class Boot : MonoBehaviour
                     Debug.Log(r.message);
                 });
 
+                Protocol.Send(new LoginSend(), (r) =>
+                {
+                    Debug.Log(string.Format("Login : {0}", r.state));
+                });
+
                 Debug.Log("ログイン成功");
             }
             else

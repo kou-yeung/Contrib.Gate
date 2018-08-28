@@ -23,15 +23,31 @@ class ProtocolGen
         // C# のフォーマットで返す
         string CSharp()
         {
-            if(string.IsNullOrEmpty(comment)) return $"public {type} {name};";
-            else return $"public {type} {name}; // {comment}";
+            Dictionary<string, string> types = new Dictionary<string, string>()
+            {
+                {"string", "string"},
+                {"bool", "bool"},
+                {"int", "int"},
+                {"float", "float"},
+            };
+
+            if (string.IsNullOrEmpty(comment)) return $"public {types[type]} {name};";
+            else return $"public {types[type]} {name}; // {comment}";
         }
 
         // TypeScript のフォーマットで返す
         string TypeScript()
         {
-            if (string.IsNullOrEmpty(comment)) return $"{name}: {type};";
-            else return $"{name}: {type}; // {comment}";
+            Dictionary<string, string> types = new Dictionary<string, string>()
+            {
+                {"string", "string"},
+                {"bool", "boolean"},
+                {"int", "number"},
+                {"float", "number"},
+            };
+
+            if (string.IsNullOrEmpty(comment)) return $"{name}: {types[type]};";
+            else return $"{name}: {types[type]}; // {comment}";
         }
 
         public string ToString(Type type)
@@ -43,6 +59,8 @@ class ProtocolGen
                 default: return "";
             }
         }
+
+
     }
 
     class Protocol
