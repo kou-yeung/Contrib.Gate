@@ -1,0 +1,10 @@
+﻿// 環境設定
+template,./template
+output,CSharp,./../../app/client/Contrib.Gate/Assets/Application/Network/Gen/
+output,TypeScript,./../../app/server/Contrib.Gate/gen/
+
+// Ping
+protocol,Ping,
+up,string,message,
+down,string,message,
+down,string,timestamp,
