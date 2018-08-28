@@ -1,0 +1,17 @@
+﻿// 環境設定
+template,./../../template/
+output,CSharp,./
+output,TypeScript,./
+
+// Ping
+protocol,Ping,
+up,string,message,
+down,string,message,
+down,string,timestamp,
+
+// Ping2
+protocol,Ping2,
+up,string,message,
+up,string,messages,
+down,string,message,
+down,string,timestamp,

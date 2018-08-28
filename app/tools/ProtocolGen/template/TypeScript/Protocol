@@ -1,0 +1,11 @@
+﻿//====================
+// ProtocolGen から自動生成されます。直接編集しないでください
+//====================
+
+class {{PROTOCOL}}Send {
+    {{UP}}
+}
+
+class {{PROTOCOL}}Receive {
+    {{DOWN}}
+}
