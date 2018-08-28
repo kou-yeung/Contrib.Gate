@@ -1,5 +1,5 @@
-﻿/// <summary>
-/// 将来は自動生成する予定です
+/// <summary>
+/// ProtocolGen から自動生成されます。直接編集しないでください
 /// </summary>
 using System;
 
@@ -10,15 +10,14 @@ namespace Network
     /// </summary>
     public class PingSend
     {
-        public string message;
+		public string message;
     }
 
     public class PingReceive
     {
-        public string message;
-        public string timestamp;
+		public string message;
+		public string timestamp;
     }
-
 
     /// <summary>
     /// 送信用メソッド一覧
@@ -31,5 +30,3 @@ namespace Network
         }
     }
 }
-
-
