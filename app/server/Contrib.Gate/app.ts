@@ -1,5 +1,4 @@
-﻿/// <reference path="gen/protocol.ts">
-
+﻿
 // sample!!
 function funcName(params, context) {
     return "Hello! World!!!!!!";
