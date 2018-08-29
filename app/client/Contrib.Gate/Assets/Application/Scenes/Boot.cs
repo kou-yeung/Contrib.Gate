@@ -4,6 +4,7 @@ using UnityEngine;
 using Network;
 using System;
 using Util;
+using System.Linq;
 
 public class Boot : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class Boot : MonoBehaviour
 
                 Protocol.Send(new LoginSend(), (r) =>
                 {
-                    Debug.Log(string.Format("Login : {0}", r.state));
+                    Debug.Log(string.Format("Login : {0} {1}", r.state, string.Join(",", r.flags.Select(b => b.ToString()).ToArray())));
                 });
 
                 Debug.Log("ログイン成功");

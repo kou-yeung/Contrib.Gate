@@ -16,6 +16,7 @@ namespace Network
     public class LoginReceive
     {
 		public int state;
+		public bool[] flags;
     }
 
     /// <summary>

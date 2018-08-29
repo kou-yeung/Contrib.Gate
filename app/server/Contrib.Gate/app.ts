@@ -26,6 +26,7 @@ function Login(params, context, done) {
 
     // 返信
     let r = new LoginReceive();
-    r.state = 0;
+    r.state = 1;
+    r.flags = [true,false,true];
     done(r.Pack());
 }

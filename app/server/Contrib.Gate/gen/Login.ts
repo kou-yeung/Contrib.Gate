@@ -13,6 +13,7 @@ class LoginSend {
 
 class LoginReceive {
     state: number;
+    flags: boolean[];
 	
 	// LoginReceive -> string
 	Pack(): string {

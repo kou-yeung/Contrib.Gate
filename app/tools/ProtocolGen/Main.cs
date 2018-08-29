@@ -29,6 +29,11 @@ class ProtocolGen
                 {"bool", "bool"},
                 {"int", "int"},
                 {"float", "float"},
+                // []
+                {"string[]", "string[]"},
+                {"bool[]", "bool[]"},
+                {"int[]", "int[]"},
+                {"float[]", "float[]"},
             };
 
             if (string.IsNullOrEmpty(comment)) return $"public {types[type]} {name};";
@@ -44,6 +49,12 @@ class ProtocolGen
                 {"bool", "boolean"},
                 {"int", "number"},
                 {"float", "number"},
+                // []
+                {"string[]", "string[]"},
+                {"bool[]", "boolean[]"},
+                {"int[]", "number[]"},
+                {"float[]", "number[]"},
+
             };
 
             if (string.IsNullOrEmpty(comment)) return $"{name}: {types[type]};";

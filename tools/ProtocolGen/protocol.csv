@@ -12,4 +12,4 @@ down,string,timestamp,
 // Login
 protocol,Login,
 down,int,state,
-
+down,bool[],flags,
