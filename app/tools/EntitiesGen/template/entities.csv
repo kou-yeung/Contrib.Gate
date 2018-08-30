@@ -1,0 +1,29 @@
+﻿// 環境設定
+template,./../../template/
+output,CSharp,./
+output,TypeScript,./
+
+// Enum
+enum,Direction,<comment>
+// <name>,<value>,<comment>
+Up,1,
+Down,
+Left,
+Right,
+
+// Enum
+enum,Direction2,
+// <name>,<value>,<comment>
+Up,1,
+Down,
+Left,
+Right,
+
+// Entity
+class,Person,
+string,name,<comment>
+
+
+class,Persons,
+Person[],persons,
+

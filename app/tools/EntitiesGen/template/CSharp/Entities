@@ -1,0 +1,26 @@
+﻿/// <summary>
+/// EntitiesGen から自動生成されます。直接編集しないでください
+/// </summary>
+using System;
+
+namespace Entities
+{
+	{{ENUM}}
+    /// <summary>
+    /// {{COMMENT}}
+    /// </summary>
+	public enum {{NAME}}
+	{
+		{{MEMBERS}}
+	}
+	{{ENUM}}
+	{{CLASS}}
+    /// <summary>
+    /// {{COMMENT}}
+    /// </summary>
+	public class {{NAME}}
+	{
+		{{MEMBERS}}
+	}
+	{{CLASS}}
+}
