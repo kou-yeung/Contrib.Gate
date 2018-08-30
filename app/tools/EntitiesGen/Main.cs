@@ -82,14 +82,21 @@ class EntitiesGen
         }
         public string CSharp()
         {
-            string res = string.Format("public {0} {1};", type, name);
+            string res = string.Format("public {0} {1};", Replace(type, null), name);
             if (!string.IsNullOrEmpty(comment)) res += string.Format("// {0}", comment);
             return res;
         }
 
         public string TypeScript()
         {
-            string res = string.Format("{1}: {0};", ReplaceType(type), name);
+            Dictionary<string, string> replaces = new Dictionary<string, string>()
+            {
+                {"bool", "boolean"},
+                {"int", "number"},
+                {"float", "number"},
+            };
+
+            string res = string.Format("{1}: {0};", Replace(type, replaces), name);
             if (!string.IsNullOrEmpty(comment)) res += string.Format("// {0}", comment);
             return res;
         }
@@ -103,19 +110,16 @@ class EntitiesGen
             }
         }
 
-        public string ReplaceType(string type)
+        public string Replace(string str, Dictionary<string, string> replaces)
         {
-            Dictionary<string, string> replaces = new Dictionary<string, string>()
-            {
-                {"bool", "boolean"},
-                {"int", "number"},
-                {"float", "number"},
-            };
+            if (replaces == null) return str;
+
             foreach (var r in replaces)
             {
-                type = type.Replace(r.Key, r.Value);
+                str = str.Replace(r.Key, r.Value);
             }
-            return type;
+
+            return str;
         }
     }
 

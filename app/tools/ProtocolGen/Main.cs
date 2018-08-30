@@ -23,42 +23,21 @@ class ProtocolGen
         // C# のフォーマットで返す
         string CSharp()
         {
-            Dictionary<string, string> types = new Dictionary<string, string>()
-            {
-                {"string", "string"},
-                {"bool", "bool"},
-                {"int", "int"},
-                {"float", "float"},
-                // []
-                {"string[]", "string[]"},
-                {"bool[]", "bool[]"},
-                {"int[]", "int[]"},
-                {"float[]", "float[]"},
-            };
-
-            if (string.IsNullOrEmpty(comment)) return $"public {types[type]} {name};";
-            else return $"public {types[type]} {name}; // {comment}";
+            if (string.IsNullOrEmpty(comment)) return $"public {Replace(type, null)} {name};";
+            else return $"public {Replace(type, null)} {name}; // {comment}";
         }
 
         // TypeScript のフォーマットで返す
         string TypeScript()
         {
-            Dictionary<string, string> types = new Dictionary<string, string>()
+            Dictionary<string, string> replaces = new Dictionary<string, string>()
             {
-                {"string", "string"},
                 {"bool", "boolean"},
                 {"int", "number"},
                 {"float", "number"},
-                // []
-                {"string[]", "string[]"},
-                {"bool[]", "boolean[]"},
-                {"int[]", "number[]"},
-                {"float[]", "number[]"},
-
             };
-
-            if (string.IsNullOrEmpty(comment)) return $"{name}: {types[type]};";
-            else return $"{name}: {types[type]}; // {comment}";
+            if (string.IsNullOrEmpty(comment)) return $"{name}: {Replace(type, replaces)};";
+            else return $"{name}: {Replace(type, replaces)}; // {comment}";
         }
 
         public string ToString(Type type)
@@ -71,7 +50,16 @@ class ProtocolGen
             }
         }
 
+        public string Replace(string str, Dictionary<string, string> replaces)
+        {
+            if (replaces == null) return str;
 
+            foreach (var r in replaces)
+            {
+                str = str.Replace(r.Key, r.Value);
+            }
+            return str;
+        }
     }
 
     class Protocol
