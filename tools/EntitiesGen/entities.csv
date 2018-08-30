@@ -1,0 +1,29 @@
+﻿// 環境設定
+template,./template
+output,CSharp,./../../app/client/Contrib.Gate/Assets/Application/Entities/Gen/
+output,TypeScript,./../../app/server/Contrib.Gate/gen/
+
+// Enum
+enum,Direction,<comment>
+// <name>,<value>,<comment>
+Up,1,
+Down,
+Left,
+Right,
+
+enum,Direction2,
+// <name>,<value>,<comment>
+Up,1,
+Down,
+Left,
+Right,
+
+// Entity
+class,Person,<comment>
+//<type>,<name>,<comment>
+string,name,<comment>
+
+// Entity
+class,Persons,<comment>
+//<type>,<name>,<comment>
+Person[],persons,<comment>

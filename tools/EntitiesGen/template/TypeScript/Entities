@@ -1,0 +1,17 @@
+﻿//====================
+// EntitiesGen から自動生成されます。直接編集しないでください
+//====================
+{{ENUM}}
+// {{COMMENT}}
+enum {{NAME}} {
+	{{MEMBERS}}
+}
+{{ENUM}}
+{{CLASS}}
+/// <summary>
+/// {{COMMENT}}
+/// </summary>
+class {{NAME}} {
+	{{MEMBERS}}
+}
+{{CLASS}}
