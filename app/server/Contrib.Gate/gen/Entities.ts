@@ -2,33 +2,17 @@
 // EntitiesGen から自動生成されます。直接編集しないでください
 //====================
 
-// <comment>
-enum Direction {
-	Up=1,
-	Down,
-	Left,
-	Right,
-}
-
-// Direction2
-enum Direction2 {
-	Up=1,
-	Down,
-	Left,
-	Right,
+// UserCreateStep
+enum UserCreateStep {
+	EnterName,// // 名前入力
+	Prologue,// //プロローグ
+	Created,// // 作成済
 }
 
 
 /// <summary>
 /// <comment>
 /// </summary>
-class Person {
+class Player {
 	name: string;// <comment>
-}
-
-/// <summary>
-/// <comment>
-/// </summary>
-class Persons {
-	persons: Person[];// <comment>
 }

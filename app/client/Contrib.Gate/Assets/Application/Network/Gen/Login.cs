@@ -2,6 +2,7 @@
 /// ProtocolGen から自動生成されます。直接編集しないでください
 /// </summary>
 using System;
+using Entities;
 
 namespace Network
 {
@@ -15,8 +16,8 @@ namespace Network
 
     public class LoginReceive
     {
-		public int state;
-		public bool[] flags;
+		public string timestamp; // // サーバ時間
+		public UserCreateStep step;
     }
 
     /// <summary>

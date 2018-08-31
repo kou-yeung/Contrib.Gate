@@ -12,8 +12,8 @@ class LoginSend {
 }
 
 class LoginReceive {
-    state: number;
-    flags: boolean[];
+    timestamp: string; // // サーバ時間
+    step: UserCreateStep;
 	
 	// LoginReceive -> string
 	Pack(): string {

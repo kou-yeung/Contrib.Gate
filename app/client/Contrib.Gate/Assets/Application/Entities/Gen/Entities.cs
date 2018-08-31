@@ -7,42 +7,23 @@ namespace Entities
 {
 	
     /// <summary>
-    /// <comment>
+    /// UserCreateStep
     /// </summary>
-	public enum Direction
+	public enum UserCreateStep
 	{
-		Up=1,
-		Down,
-		Left,
-		Right,
-	}
-	
-    /// <summary>
-    /// Direction2
-    /// </summary>
-	public enum Direction2
-	{
-		Up=1,
-		Down,
-		Left,
-		Right,
+		EnterName,// // 名前入力
+		Prologue,// //プロローグ
+		Created,// // 作成済
 	}
 	
 	
     /// <summary>
     /// <comment>
     /// </summary>
-	public class Person
+    [Serializable]
+	public partial class Player
 	{
 		public string name;// <comment>
-	}
-	
-    /// <summary>
-    /// <comment>
-    /// </summary>
-	public class Persons
-	{
-		public Person[] persons;// <comment>
 	}
 	
 }

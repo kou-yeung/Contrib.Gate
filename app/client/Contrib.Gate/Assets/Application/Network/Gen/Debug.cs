@@ -7,17 +7,16 @@ using Entities;
 namespace Network
 {
     /// <summary>
-    /// Ping
+    /// Debug
     /// </summary>
-    public class PingSend
+    public class DebugSend
     {
-		public string message;
+
     }
 
-    public class PingReceive
+    public class DebugReceive
     {
 		public string message;
-		public string timestamp;
     }
 
     /// <summary>
@@ -25,9 +24,9 @@ namespace Network
     /// </summary>
     public static partial class Protocol
     {
-        public static void Send(PingSend obj, Action<PingReceive> cb)
+        public static void Send(DebugSend obj, Action<DebugReceive> cb)
         {
-            new Communication("Ping").Push(obj).Send((res, str) => OnReceive(res, str, cb));
+            new Communication("Debug").Push(obj).Send((res, str) => OnReceive(res, str, cb));
         }
     }
 }
