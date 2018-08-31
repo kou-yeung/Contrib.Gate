@@ -1,6 +1,6 @@
 // Type definitions for Kii SDK
 // Kii cloud : http://jp-cloud.kii.com/
-// Base on "Cloud SDK v2.1.21 "
+// Base on "Cloud SDK v2.1.21 " ( will update to v2.4.13 )
 // http://documentation.kii.com/references/js/storage/latest/index.html
 
 // Kii
@@ -297,8 +297,8 @@ declare module KiiCloud {
         //Get the limit of the current query
         public getLimit(): number;
         //Create a KiiQuery object based on a KiiClause
-        //By passing null as the ÅeclauseÅf parameter, all objects can be retrieved.
-        public static queryWithClause(clause: KiiClause);
+        //By passing null as the 'clause' parameter, all objects can be retrieved.
+        public static queryWithClause(clause?: KiiClause);
         //Set the limit of the given query
         public setLimit(value: number);
         //Set the query to sort by a field in ascending order If a sort has already been set, it will be overwritten.

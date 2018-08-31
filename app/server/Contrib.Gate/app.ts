@@ -36,7 +36,7 @@ function Login(params, context, done) {
     let user = GetUser(context);
 
     let bucket = user.bucketWithName("Player");
-    bucket.executeQuery(KiiQuery.queryWithClause(null), {
+    bucket.executeQuery(KiiQuery.queryWithClause(), {
         success: function (queryPerformed, resultSet, nextQuery) {
             // 返信
             let r = new LoginReceive();
