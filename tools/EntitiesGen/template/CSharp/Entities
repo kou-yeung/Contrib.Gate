@@ -18,7 +18,8 @@ namespace Entities
     /// <summary>
     /// {{COMMENT}}
     /// </summary>
-	public class {{NAME}}
+    [Serializable]
+	public partial class {{NAME}}
 	{
 		{{MEMBERS}}
 	}

@@ -83,9 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="gen\CreateUser.ts" />
     <TypeScriptCompile Include="gen\Entities.ts" />
     <TypeScriptCompile Include="gen\Login.ts" />
     <TypeScriptCompile Include="gen\Ping.ts" />
+    <TypeScriptCompile Include="gen\ServerDebug.ts" />
+    <TypeScriptCompile Include="KiiCloud\Kii.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

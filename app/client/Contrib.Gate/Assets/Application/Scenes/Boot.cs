@@ -5,9 +5,13 @@ using Network;
 using System;
 using Util;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Boot : MonoBehaviour
 {
+    public InputField input;
+    public Button btn;
+
     public class Foo
     {
         public string name = "FOO!!!";
@@ -19,23 +23,40 @@ public class Boot : MonoBehaviour
         {
             if (user != null)
             {
-                Protocol.Send(new PingSend { message = "Hello!!" }, (r) =>
-                {
-                    Debug.Log(UnixTime.FromUnixTime(r.timestamp));
-                    Debug.Log(r.message);
-                });
+                //Protocol.Send(new PingSend { message = "Hello!!" }, (r) =>
+                //{
+                //    Debug.Log(UnixTime.FromUnixTime(r.timestamp));
+                //    Debug.Log(r.message);
+                //});
 
                 Protocol.Send(new LoginSend(), (r) =>
                 {
-                    Debug.Log(string.Format("Login : {0} {1}", r.state, string.Join(",", r.flags.Select(b => b.ToString()).ToArray())));
+                    Debug.Log(r.step);
+                    switch (r.step)
+                    {
+                        case Entities.UserCreateStep.EnterName:
+                            input.gameObject.SetActive(true);
+                            btn.gameObject.SetActive(true);
+                            break;
+                    }
                 });
 
-                Debug.Log("ログイン成功");
+                //Protocol.Send(new ServerDebugSend(), (r) =>
+                //{
+                //    Debug.Log(r.param);
+                //    Debug.Log(r.context);
+                //});
             }
-            else
-            {
-                Debug.Log("ログイン失敗");
-            }
+        });
+    }
+
+    public void OnCreate()
+    {
+        Protocol.Send(new CreateUserSend { name = input.text }, (r) =>
+        {
+            Debug.Log(r.step);
+            input.gameObject.SetActive(false);
+            btn.gameObject.SetActive(false);
         });
     }
 }

@@ -3,27 +3,14 @@ template,./template
 output,CSharp,./../../app/client/Contrib.Gate/Assets/Application/Entities/Gen/
 output,TypeScript,./../../app/server/Contrib.Gate/gen/
 
-// Enum
-enum,Direction,<comment>
-// <name>,<value>,<comment>
-Up,1,
-Down,
-Left,
-Right,
-
-enum,Direction2,
-// <name>,<value>,<comment>
-Up,1,
-Down,
-Left,
-Right,
+// ユーザ生成状況
+enum,UserCreateStep,
+EnterName,,// 名前入力
+Prologue,,//プロローグ
+Created,,// 作成済
 
 // Entity
-class,Person,<comment>
+class,Player,<comment>
 //<type>,<name>,<comment>
 string,name,<comment>
 
-// Entity
-class,Persons,<comment>
-//<type>,<name>,<comment>
-Person[],persons,<comment>

@@ -9,7 +9,17 @@ up,string,message,
 down,string,message,
 down,string,timestamp,
 
-// Login
+// デバッグ用
+protocol,ServerDebug,
+down,string,param,
+down,string,context,
+
+// ログイン処理
 protocol,Login,
-down,int,state,
-down,bool[],flags,
+down,string,timestamp,// サーバ時間
+down,UserCreateStep,step,
+
+// ユーザ登録
+protocol,CreateUser,
+up,string,name,
+down,UserCreateStep,step,

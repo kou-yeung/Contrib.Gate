@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// ProtocolGen から自動生成されます。直接編集しないでください
 /// </summary>
 using System;
@@ -7,16 +7,16 @@ using Entities;
 namespace Network
 {
     /// <summary>
-    /// {{PROTOCOL}}
+    /// CreateUser
     /// </summary>
-    public class {{PROTOCOL}}Send
+    public class CreateUserSend
     {
-		{{UP}}
+		public string name;
     }
 
-    public class {{PROTOCOL}}Receive
+    public class CreateUserReceive
     {
-		{{DOWN}}
+		public UserCreateStep step;
     }
 
     /// <summary>
@@ -24,9 +24,9 @@ namespace Network
     /// </summary>
     public static partial class Protocol
     {
-        public static void Send({{PROTOCOL}}Send obj, Action<{{PROTOCOL}}Receive> cb)
+        public static void Send(CreateUserSend obj, Action<CreateUserReceive> cb)
         {
-            new Communication("{{PROTOCOL}}").Push(obj).Send((res, str) => OnReceive(res, str, cb));
+            new Communication("CreateUser").Push(obj).Send((res, str) => OnReceive(res, str, cb));
         }
     }
 }
