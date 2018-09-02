@@ -44,7 +44,8 @@ function Login(params, context, done) {
             if (resultSet.length == 0) {
                 r.step = UserCreateStep.EnterName;
             } else {
-                r.step = UserCreateStep.Prologue;
+                let o = resultSet[0] as KiiObject;
+                r.step = o.get<number>("UserCreateStep");
             }
 
             r.timestamp = GetServerTime();
@@ -60,12 +61,11 @@ function CreateUser(params, context, done) {
     // 受信データをパースする
     let s = CreateUserSend.Parse(params);
 
-    let user = GetUser(context);
-
     // 返信
-    let obj = user.bucketWithName("Player").createObject();
+    let obj = GetUser(context).bucketWithName("Player").createObject();
 
     obj.set("name", s.name);
+    obj.set<number>("UserCreateStep", UserCreateStep.Prologue);
 
     obj.save({
         success: function (theSavedObject: KiiObject) {
@@ -78,6 +78,30 @@ function CreateUser(params, context, done) {
     });
 }
 
+function FinishPrologue(params, context, done) {
+
+    let bucket = GetUser(context).bucketWithName("Player");
+
+    bucket.executeQuery(KiiQuery.queryWithClause(), {
+        success: function (queryPerformed, resultSet, nextQuery) {
+            var o = resultSet[0] as KiiObject;
+            o.set<number>("UserCreateStep", UserCreateStep.Created);
+            o.save({
+                success: function (theSavedObject: KiiObject) {
+                    // 返信
+                    let r = new FinishPrologueReceive();
+                    r.step = o.get<number>("UserCreateStep");
+                    done(r.Pack());
+                },
+                failure: function () {
+                },
+            }, true);
+        },
+        failure: function (queryPerformed, anErrorString) {
+        },
+    });
+
+}
 
 // サーバー時間を取得する
 // MEMO : JavaScript では ミリ秒まで取得されるため、最後の3桁は削除しています!!

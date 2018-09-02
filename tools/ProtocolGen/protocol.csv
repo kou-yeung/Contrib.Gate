@@ -23,3 +23,7 @@ down,UserCreateStep,step,
 protocol,CreateUser,
 up,string,name,
 down,UserCreateStep,step,
+
+// プロローグを完了する
+protocol,FinishPrologue
+down,UserCreateStep,step,
