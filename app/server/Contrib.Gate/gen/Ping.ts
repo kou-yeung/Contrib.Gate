@@ -13,7 +13,7 @@ class PingSend {
 
 class PingReceive {
     message: string;
-    timestamp: string;
+    timestamp: number;
 	
 	// PingReceive -> string
 	Pack(): string {

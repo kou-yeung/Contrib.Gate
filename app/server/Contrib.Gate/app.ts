@@ -81,8 +81,10 @@ function CreateUser(params, context, done) {
 
 // サーバー時間を取得する
 // MEMO : JavaScript では ミリ秒まで取得されるため、最後の3桁は削除しています!!
-function GetServerTime(): string {
-    return Date.now().toString().slice(0, -3);
+function GetServerTime(): number {
+    var str = Date.now().toString().slice(0, -3);
+    return parseInt(str);
+    //Number.isSafeInteger(parseInt(ThisInt))
 }
 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Network;
 using System;
-using Util;
+using Util.Time;
 using System.Linq;
 using UnityEngine.UI;
 
@@ -32,6 +32,10 @@ public class Boot : MonoBehaviour
                 Protocol.Send(new LoginSend(), (r) =>
                 {
                     Debug.Log(r.step);
+
+                    ServerTime.Init(r.timestamp);
+
+                    Debug.Log(UnixTime.FromUnixTime(r.timestamp));
                     switch (r.step)
                     {
                         case Entities.UserCreateStep.EnterName:
@@ -58,6 +62,11 @@ public class Boot : MonoBehaviour
             input.gameObject.SetActive(false);
             btn.gameObject.SetActive(false);
         });
+    }
+
+    public void Update()
+    {
+        //Debug.Log(UnixTime.FromUnixTime(ServerTime.CurrentUnixTime));
     }
 }
 

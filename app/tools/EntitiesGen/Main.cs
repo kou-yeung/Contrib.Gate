@@ -94,6 +94,7 @@ class EntitiesGen
                 {"bool", "boolean"},
                 {"int", "number"},
                 {"float", "number"},
+                {"long", "number"},
             };
 
             string res = string.Format("{1}: {0};", Replace(type, replaces), name);

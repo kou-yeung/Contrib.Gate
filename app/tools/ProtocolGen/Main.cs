@@ -35,6 +35,7 @@ class ProtocolGen
                 {"bool", "boolean"},
                 {"int", "number"},
                 {"float", "number"},
+                {"long", "number"},
             };
             if (string.IsNullOrEmpty(comment)) return $"{name}: {Replace(type, replaces)};";
             else return $"{name}: {Replace(type, replaces)}; // {comment}";

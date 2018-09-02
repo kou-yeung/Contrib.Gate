@@ -12,7 +12,7 @@ class LoginSend {
 }
 
 class LoginReceive {
-    timestamp: string; // // サーバ時間
+    timestamp: number; // // サーバ時間
     step: UserCreateStep;
 	
 	// LoginReceive -> string

@@ -17,7 +17,7 @@ namespace Network
     public class PingReceive
     {
 		public string message;
-		public string timestamp;
+		public long timestamp;
     }
 
     /// <summary>

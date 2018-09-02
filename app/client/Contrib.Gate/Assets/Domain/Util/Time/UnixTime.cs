@@ -5,7 +5,7 @@
 
 using System;
 
-namespace Util
+namespace Util.Time
 {
     public static class UnixTime
     {

@@ -16,7 +16,7 @@ namespace Network
 
     public class LoginReceive
     {
-		public string timestamp; // // サーバ時間
+		public long timestamp; // // サーバ時間
 		public UserCreateStep step;
     }
 

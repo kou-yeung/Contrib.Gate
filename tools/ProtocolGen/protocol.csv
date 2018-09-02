@@ -7,7 +7,7 @@ output,TypeScript,./../../app/server/Contrib.Gate/gen/
 protocol,Ping,
 up,string,message,
 down,string,message,
-down,string,timestamp,
+down,long,timestamp,
 
 // デバッグ用
 protocol,ServerDebug,
@@ -16,7 +16,7 @@ down,string,context,
 
 // ログイン処理
 protocol,Login,
-down,string,timestamp,// サーバ時間
+down,long,timestamp,// サーバ時間
 down,UserCreateStep,step,
 
 // ユーザ登録
