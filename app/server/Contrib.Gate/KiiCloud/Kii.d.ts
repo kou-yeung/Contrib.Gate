@@ -251,6 +251,7 @@ declare module KiiCloud {
         //Gets the geo point associated with the given key.
         public getGeoPoint(key: string): KiiGeoPoint;
         //Get the modified date of the given object, assigned by the server
+        public getKeys(): string[];
         public getModified(): string;
         //Get the application - defined type name of the object
         public getObjectType(): string;

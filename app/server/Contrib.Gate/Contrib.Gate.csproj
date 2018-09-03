@@ -83,6 +83,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="application\entities\Player.ts" />
+    <TypeScriptCompile Include="domain\util\Bucket.ts" />
     <TypeScriptCompile Include="gen\CreateUser.ts" />
     <TypeScriptCompile Include="gen\Entities.ts" />
     <TypeScriptCompile Include="gen\FinishPrologue.ts" />
@@ -90,13 +92,13 @@
     <TypeScriptCompile Include="gen\Ping.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
     <TypeScriptCompile Include="KiiCloud\Kii.d.ts" />
+    <TypeScriptCompile Include="domain\util\time\ServerTime.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="util\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
