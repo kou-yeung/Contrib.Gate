@@ -1,9 +1,4 @@
 ﻿
-// sample!!
-function funcName(params, context) {
-    return "Hello! World!!!!!!";
-}
-
 // Ping を受信する
 function Ping(params, context, done) {
 
@@ -34,15 +29,15 @@ function Login(params, context, done) {
     let s = LoginSend.Parse(params);
 
     // context -> user
-    let user = GetUser(context);
+    GetUser(context, user => {
+        new Entities.Player(user).bucket.refresh(player => {
+            // 返信
+            let r = new LoginReceive();
+            r.step = player.userCreateStep;
+            r.timestamp = Util.Time.ServerTime.current;
 
-    new Entities.Player(user).bucket.refresh(player => {
-        // 返信
-        let r = new LoginReceive();
-        r.step = player.userCreateStep;
-        r.timestamp = Util.Time.ServerTime.current;
-
-        done(r.Pack());
+            done(r.Pack());
+        });
     });
 }
 
@@ -51,40 +46,50 @@ function CreateUser(params, context, done) {
     // 受信データをパースする
     let s = CreateUserSend.Parse(params);
 
-    let user = GetUser(context);
-    new Entities.Player(user).bucket.refresh(player => {
+    GetUser(context, user => {
+        new Entities.Player(user).bucket.refresh(player => {
 
-        player.UserName = s.name;
-        player.userCreateStep = UserCreateStep.Prologue;
+            player.UserName = s.name;
+            player.userCreateStep = UserCreateStep.Prologue;
 
-        player.bucket.save(player => {
-            // 返信
-            let r = new CreateUserReceive();
-            r.step = player.userCreateStep;
-            done(r.Pack());
+            player.bucket.save(player => {
+                // 返信
+                let r = new CreateUserReceive();
+                r.step = player.userCreateStep;
+                done(r.Pack());
+            });
         });
     });
 }
 
 function FinishPrologue(params, context, done) {
 
-    let user = GetUser(context);
-
-    new Entities.Player(user).bucket.refresh(player => {
-        player.userCreateStep = UserCreateStep.Created;
-        player.bucket.save(player => {
-            // 返信
-            let r = new FinishPrologueReceive();
-            r.step = player.userCreateStep;
-            done(r.Pack());
+    GetUser(context, (user) => {
+        new Entities.Player(user).bucket.refresh(player => {
+            player.userCreateStep = UserCreateStep.Created;
+            player.bucket.save(player => {
+                // 返信
+                let r = new FinishPrologueReceive();
+                r.step = player.userCreateStep;
+                done(r.Pack());
+            });
         });
     });
 }
 
 
-
-function GetUser(context): KiiUser {
-    var admin = context.getAppAdminContext() as KiiAppAdminContext;   // admin で実行する
-    return admin.userWithID(context.userID);    // userId -> KiiUser
+// 参考 : https://docs.kii.com/ja/guides/serverextension/writing_servercode/executing-user/
+// context -> user
+function GetUser(context, done: (user: KiiUser) => void): void{
+    KiiUser.authenticateWithToken(context.getAccessToken(), {
+        success: function (theAuthedUser) {
+            done(theAuthedUser);
+        },
+        failure: function (theUser, error) {
+        }
+    });
 }
-
+// context -> 管理者取得
+function GetAdmin(context, done: (admin: KiiAppAdminContext) => void): void {
+    done(context.getAppAdminContext() as KiiAppAdminContext);   // AdminContext 取得
+}

@@ -1,28 +1,35 @@
 ﻿// MEMO : KiiCloud では Arrayが使えないため extendsは 使用できません!!
 // このクラスはメンバで持ちます
 class Bucket<T> {
-    private user: KiiUser;
+    private user: KiiUser | KiiAppAdminContext;
     private t: T;
     private bucketName: string;
     private obj: KiiObject;
 
-    constructor(t: T, user: KiiUser, bucketName: string) {
+    constructor(t: T, user: KiiUser | KiiAppAdminContext | null, bucketName: string) {
         this.t = t;
         this.user = user;
         this.bucketName = bucketName;
     }
 
+    private bucketWithName(): KiiBucket {
+        if (this.user == null) {
+            return Kii.bucketWithName(this.bucketName);
+        } else {
+            return this.user.bucketWithName(this.bucketName);
+        }
+    }
     refresh(done: (t: T) => void): void {
         let self = this;
 
-        var bucket = self.user.bucketWithName(self.bucketName);
+        var bucket = self.bucketWithName();
 
         bucket.executeQuery(KiiQuery.queryWithClause(), {
             success: function (query, result, next) {
                 if (result.length != 0) {
                     self.obj = result[0];
                 } else {
-                    self.obj = self.user.bucketWithName(self.bucketName).createObject();
+                    self.obj = self.bucketWithName().createObject();
                 }
                 done(self.t);
             },
@@ -43,8 +50,12 @@ class Bucket<T> {
         }, true);
     };
 
-    get<T>(key: string): T {
-        return this.obj.get<T>(key);
+    get<T>(key: string, def?: T): T {
+        if (def == undefined || this.has(key)) {
+            return this.obj.get<T>(key);
+        } else {
+            return def;
+        }
     }
     set<T>(key: string, value: T) {
         this.obj.set<T>(key, value);

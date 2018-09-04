@@ -9,18 +9,14 @@ namespace Entities {
         }
 
         get userCreateStep(): UserCreateStep {
-            if (this.bucket.has("UserCreateStep")) {
-                return this.bucket.get<UserCreateStep>("UserCreateStep");
-            } else {
-                return UserCreateStep.EnterName;
-            }
+            return this.bucket.get("UserCreateStep", UserCreateStep.EnterName);
         };
         set userCreateStep(step: UserCreateStep) {
             this.bucket.set("UserCreateStep", step);
         }
 
         get UserName(): string {
-            return this.bucket.get<string>("UserName");
+            return this.bucket.get("UserName");
         }
         set UserName(name: string) {
             this.bucket.set<string>("UserName", name);
