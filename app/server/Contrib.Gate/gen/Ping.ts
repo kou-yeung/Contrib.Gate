@@ -20,3 +20,22 @@ class PingReceive {
 		return JSON.stringify(this);
     }
 }
+
+/*
+// 以下プロトコルを実装する
+// MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
+function Ping(params, context, done) {
+
+    // 受信データをパースする
+    let s = PingSend.Parse(params);
+
+    GetUser(context, (user) => {
+		// 返信
+	    let r = new PingReceive();
+
+		// TODO : 返信パラメータを設定する
+
+        done(r.Pack());
+    });
+}
+*/

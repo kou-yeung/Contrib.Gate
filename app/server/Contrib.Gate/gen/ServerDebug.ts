@@ -20,3 +20,22 @@ class ServerDebugReceive {
 		return JSON.stringify(this);
     }
 }
+
+/*
+// 以下プロトコルを実装する
+// MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
+function ServerDebug(params, context, done) {
+
+    // 受信データをパースする
+    let s = ServerDebugSend.Parse(params);
+
+    GetUser(context, (user) => {
+		// 返信
+	    let r = new ServerDebugReceive();
+
+		// TODO : 返信パラメータを設定する
+
+        done(r.Pack());
+    });
+}
+*/
