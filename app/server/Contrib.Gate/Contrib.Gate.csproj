@@ -85,9 +85,11 @@
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="application\entities\Player.ts" />
     <TypeScriptCompile Include="domain\util\Bucket.ts" />
+    <TypeScriptCompile Include="domain\util\Random.ts" />
     <TypeScriptCompile Include="gen\CreateUser.ts" />
     <TypeScriptCompile Include="gen\Entities.ts" />
     <TypeScriptCompile Include="gen\FinishPrologue.ts" />
+    <TypeScriptCompile Include="gen\GenRandom.ts" />
     <TypeScriptCompile Include="gen\Login.ts" />
     <TypeScriptCompile Include="gen\Ping.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />

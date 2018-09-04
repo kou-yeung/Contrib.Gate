@@ -26,8 +26,14 @@ public class Boot : MonoBehaviour
         {
             if (user != null)
             {
-                SceneManager.LoadSceneAsync(SceneName.Title);
-
+                Protocol.Send(new GenRandomSend { num = 20 }, (r) =>
+                {
+                    foreach (var i in r.results)
+                    {
+                        Debug.Log(i);
+                    }
+                    SceneManager.LoadSceneAsync(SceneName.Title);
+                });
             }
         });
     }
