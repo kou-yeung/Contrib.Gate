@@ -86,7 +86,6 @@ function GenRandom(params, context, done) {
     let r = new GenRandomReceive();
     r.results = [];
     for (var i = 0; i < s.num; i++) {
-        // 0 ~ 99
         r.results.push(Random.NextInteger(10,20));
     }
     done(r.Pack());
