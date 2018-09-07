@@ -93,8 +93,14 @@ class DataDownloader
         var fn = Path.GetFileName(path);
         if (string.IsNullOrEmpty(fn))
         {
-            path = Path.Combine(path, "");
+            path = Path.Combine(path, $"{setting.SheetName}.csv");
         }
+
+        if (!Directory.Exists(Path.GetDirectoryName(path)))
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+        }
+
         File.WriteAllText(path, Parse(sheet, setting));
     }
 
