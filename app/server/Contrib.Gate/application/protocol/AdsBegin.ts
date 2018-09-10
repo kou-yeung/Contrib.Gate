@@ -7,16 +7,14 @@ function AdsBegin(params, context, done) {
 
     GetUser(context, user =>
     {
-        GetAdmin(context, admin =>
+        let admin = GetAdmin(context);
+        new Entities.Ads(admin, user).refresh(ads1 =>
         {
-            new Entities.Ads(admin, user).refresh(ads1 =>
-            {
-                ads1.create(s.type, ads2 => {
-                    // 返信
-                    let r = new AdsBeginReceive();
-                    r.id = ads2.guid;
-                    done(r.Pack());
-                });
+            ads1.create(s.type, ads2 => {
+                // 返信
+                let r = new AdsBeginReceive();
+                r.id = ads2.guid;
+                done(r.Pack());
             });
         });
     });

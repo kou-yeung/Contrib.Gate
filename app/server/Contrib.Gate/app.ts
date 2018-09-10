@@ -12,8 +12,8 @@ function GetUser(context, done: (user: KiiUser) => void): void{
     });
 }
 // context -> 管理者取得
-function GetAdmin(context, done: (admin: KiiAppAdminContext) => void): void {
-    done(context.getAppAdminContext() as KiiAppAdminContext);   // AdminContext 取得
+function GetAdmin(context): KiiAppAdminContext {
+    return context.getAppAdminContext() as KiiAppAdminContext;   // AdminContext 取得
 }
 
 
