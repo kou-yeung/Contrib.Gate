@@ -3,7 +3,7 @@
 //====================
 
 class ServerDebugSend {
-
+    command: string;
 
 	// params -> ServerDebugSend
 	static Parse(params : any): ServerDebugSend {
@@ -14,6 +14,7 @@ class ServerDebugSend {
 class ServerDebugReceive {
     param: string;
     context: string;
+    message: string;
 	
 	// ServerDebugReceive -> string
 	Pack(): string {

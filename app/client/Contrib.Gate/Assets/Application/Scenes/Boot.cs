@@ -29,17 +29,21 @@ public class Boot : MonoBehaviour
         {
             if (user != null)
             {
+                Protocol.Send(new ServerDebugSend { command = "GenGUID" }, (r) =>
+                {
+                    Debug.Log(r.message);
+                });
             }
         });
 
-        // CSV の 検証
-        var str = Resources.Load<TextAsset>("Entities/familiar").text.Trim();
-        using (var csv = new CsvHelper.CsvReader(new StringReader(str)))
-        {
-            csv.Configuration.HeaderValidated = null;
-            csv.Configuration.RegisterClassMap<Entities.FamiliarMap>();
-            var records = csv.GetRecords<Entities.Familiar>().ToArray();
-        }
+        //// CSV の 検証
+        //var str = Resources.Load<TextAsset>("Entities/familiar").text.Trim();
+        //using (var csv = new CsvHelper.CsvReader(new StringReader(str)))
+        //{
+        //    csv.Configuration.HeaderValidated = null;
+        //    csv.Configuration.RegisterClassMap<Entities.FamiliarMap>();
+        //    var records = csv.GetRecords<Entities.Familiar>().ToArray();
+        //}
     }
 
     public void OnCreate()

@@ -11,13 +11,14 @@ namespace Network
     /// </summary>
     public class ServerDebugSend
     {
-
+		public string command;
     }
 
     public class ServerDebugReceive
     {
 		public string param;
 		public string context;
+		public string message;
     }
 
     /// <summary>

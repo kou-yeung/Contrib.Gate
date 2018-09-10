@@ -86,7 +86,6 @@
     <TypeScriptCompile Include="application\entities\Player.ts" />
     <TypeScriptCompile Include="application\protocol\CreateUser.ts" />
     <TypeScriptCompile Include="application\protocol\FinishPrologue.ts" />
-    <TypeScriptCompile Include="application\protocol\GenRandom.ts" />
     <TypeScriptCompile Include="application\protocol\Login.ts" />
     <TypeScriptCompile Include="application\protocol\Ping.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
@@ -99,6 +98,7 @@
     <TypeScriptCompile Include="gen\Login.ts" />
     <TypeScriptCompile Include="gen\Ping.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
+    <TypeScriptCompile Include="infrastructure\GUID\GUID.ts" />
     <TypeScriptCompile Include="KiiCloud\Kii.d.ts" />
     <TypeScriptCompile Include="domain\util\time\ServerTime.ts" />
   </ItemGroup>

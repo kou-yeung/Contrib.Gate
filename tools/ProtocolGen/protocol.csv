@@ -11,13 +11,10 @@ down,long,timestamp,
 
 // デバッグ用
 protocol,ServerDebug,
+up,string,command,
 down,string,param,
 down,string,context,
-
-// 乱数テスト
-protocol,GenRandom,
-up,int,num,
-down,int[],results,
+down,string,message,
 
 // ログイン処理
 protocol,Login,
