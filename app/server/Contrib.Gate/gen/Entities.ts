@@ -5,8 +5,13 @@
 // UserCreateStep
 enum UserCreateStep {
 	EnterName,// // 名前入力
-	Prologue,// //プロローグ
+	Prologue,// // プロローグ
 	Created,// // 作成済
+}
+
+// AdReward
+enum AdReward {
+	Coin,// // コイン
 }
 
 

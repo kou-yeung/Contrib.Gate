@@ -12,8 +12,16 @@ namespace Entities
 	public enum UserCreateStep
 	{
 		EnterName,// // 名前入力
-		Prologue,// //プロローグ
+		Prologue,// // プロローグ
 		Created,// // 作成済
+	}
+	
+    /// <summary>
+    /// AdReward
+    /// </summary>
+	public enum AdReward
+	{
+		Coin,// // コイン
 	}
 	
 	

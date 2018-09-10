@@ -2,19 +2,19 @@
 // ProtocolGen から自動生成されます。直接編集しないでください
 //====================
 
-class GenRandomSend {
-    num: number;
+class AdsEndSend {
+    id: string;
 
-	// params -> GenRandomSend
-	static Parse(params : any): GenRandomSend {
-		return JSON.parse(params.data[0]) as GenRandomSend;
+	// params -> AdsEndSend
+	static Parse(params : any): AdsEndSend {
+		return JSON.parse(params.data[0]) as AdsEndSend;
 	}
 }
 
-class GenRandomReceive {
-    results: number[];
+class AdsEndReceive {
+    result: string; //  // まだ仮パラメータです
 	
-	// GenRandomReceive -> string
+	// AdsEndReceive -> string
 	Pack(): string {
 		return JSON.stringify(this);
     }
@@ -23,14 +23,14 @@ class GenRandomReceive {
 /*
 // 以下プロトコルを実装する
 // MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
-function GenRandom(params, context, done) {
+function AdsEnd(params, context, done) {
 
     // 受信データをパースする
-    let s = GenRandomSend.Parse(params);
+    let s = AdsEndSend.Parse(params);
 
     GetUser(context, (user) => {
 		// 返信
-	    let r = new GenRandomReceive();
+	    let r = new AdsEndReceive();
 
 		// TODO : 返信パラメータを設定する
 

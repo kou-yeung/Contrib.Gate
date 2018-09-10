@@ -19,12 +19,17 @@ class Bucket<T> {
             return this.user.bucketWithName(this.bucketName);
         }
     }
-    refresh(done: (t: T) => void): void {
+
+    refresh(done: (t: T) => void, query?: KiiQuery): void {
         let self = this;
+
+        if (query == undefined || query == null) {
+            query = KiiQuery.queryWithClause();
+        }
 
         var bucket = self.bucketWithName();
 
-        bucket.executeQuery(KiiQuery.queryWithClause(), {
+        bucket.executeQuery(query, {
             success: function (query, result, next) {
                 if (result.length != 0) {
                     self.obj = result[0];

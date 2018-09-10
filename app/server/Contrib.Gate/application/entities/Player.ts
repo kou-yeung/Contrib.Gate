@@ -5,7 +5,7 @@ namespace Entities {
     {
         bucket: Bucket<Player>;
         constructor(user: KiiUser) {
-            this.bucket = new Bucket<Player>(this, user, "Player");
+            this.bucket = new Bucket(this, user, "Player");
         }
 
         get userCreateStep(): UserCreateStep {

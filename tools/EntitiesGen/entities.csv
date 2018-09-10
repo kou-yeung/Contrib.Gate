@@ -6,8 +6,12 @@ output,TypeScript,./../../app/server/Contrib.Gate/gen/
 // ユーザ生成状況
 enum,UserCreateStep,
 EnterName,,// 名前入力
-Prologue,,//プロローグ
+Prologue,,// プロローグ
 Created,,// 作成済
+
+// 広告報酬種類
+enum,AdReward,
+Coin,,// コイン
 
 // Entity
 class,Player,<comment>

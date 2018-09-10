@@ -29,3 +29,14 @@ down,UserCreateStep,step,
 // プロローグを完了する
 protocol,FinishPrologue
 down,UserCreateStep,step,
+
+// Ads開始する
+protocol,AdsBegin,
+up,AdReward,type,
+down,string,id,
+
+// Ads終了する
+protocol,AdsEnd,
+up,string,id,
+down,string,result, // まだ仮パラメータです
+

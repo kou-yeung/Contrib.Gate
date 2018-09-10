@@ -20,12 +20,12 @@ namespace Network
         [Serializable]
         public class Details
         {
-            public string errorCode;
-            public string message;
+            public string errorCode = null;
+            public string message = null;
         }
-        public string errorCode;
-        public string message;
-        public Details details;
+        public string errorCode = null;
+        public string message = null;
+        public Details details = null;
     }
     /// <summary>
     /// KiiCloudの通信に成功したときのデータ構造
@@ -33,7 +33,7 @@ namespace Network
     [Serializable]
     class KiiCloudReturn
     {
-        public string returnedValue;
+        public string returnedValue = null;
     }
 
     public class Requests
