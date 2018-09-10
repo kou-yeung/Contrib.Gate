@@ -32,7 +32,10 @@ public class Boot : MonoBehaviour
             {
                 Protocol.Send(new ServerDebugSend { command = "GenGUID" }, (r) =>
                 {
+                    var id = new Entities.Identify(uint.Parse(r.message));
                     Debug.Log(r.message);
+                    Debug.Log(id.Type);
+                    Debug.Log(id.Id);
                 });
             }
         });

@@ -24,6 +24,15 @@ namespace Entities
 		Coin,// // コイン
 	}
 	
+    /// <summary>
+    /// IDType
+    /// </summary>
+	public enum IDType
+	{
+		Unknown,// //不明
+		Familiar,// //使い魔
+	}
+	
 	
     /// <summary>
     /// <comment>

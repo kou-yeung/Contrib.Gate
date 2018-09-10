@@ -16,12 +16,6 @@ using Util;
 
 namespace Entities
 {
-    public enum IDType
-    {
-        Unknown,    // 不明
-        Familiar,   // 使い魔
-    }
-
     public class Identify
     {
         public uint idWithType { get; private set; }

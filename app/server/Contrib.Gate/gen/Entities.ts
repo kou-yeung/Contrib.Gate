@@ -14,6 +14,12 @@ enum AdReward {
 	Coin,// // コイン
 }
 
+// IDType
+enum IDType {
+	Unknown,// //不明
+	Familiar,// //使い魔
+}
+
 
 /// <summary>
 /// <comment>

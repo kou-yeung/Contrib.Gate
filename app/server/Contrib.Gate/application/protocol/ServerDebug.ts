@@ -4,7 +4,7 @@ function ServerDebug(params, context, done) {
 
     r.param = JSON.stringify(params);
     r.context = JSON.stringify(context);
-    r.message = GUID.Gen();
+    r.message = new Entities.Identify(16778217).idWithType.toString();
 
     done(r.Pack());
 }

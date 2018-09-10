@@ -18,3 +18,7 @@ class,Player,<comment>
 //<type>,<name>,<comment>
 string,name,<comment>
 
+// Id タイプ
+enum,IDType,
+Unknown,,//不明
+Familiar,,//使い魔
