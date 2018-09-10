@@ -33,9 +33,8 @@ namespace Entities {
         set reward(reward: AdReward) {
             this.bucket.set("reward", reward);
         }
-
         get date(): number {
-            return this.bucket.get("date");
+            return this.bucket.get("date", Util.Time.ServerTime.current);
         }
         set date(date: number) {
             this.bucket.set("date", date);
@@ -47,6 +46,18 @@ namespace Entities {
             this.reward = reward;
             this.date = Util.Time.ServerTime.current;
             this.bucket.save(done);
+        }
+
+        clear(done: (ads: Ads) => void) {
+            this.guid = ""; // 空き文字列に設定する
+            this.bucket.save(done);
+        }
+
+        // 有効かどうか
+        // MEMO : コード発行一定期間後有効になる仕組み
+        vaild(id: string): boolean {
+            if (id != this.guid) return false;  // id が違う
+            return (Util.Time.ServerTime.current - this.date) >= 10;
         }
     }
 }

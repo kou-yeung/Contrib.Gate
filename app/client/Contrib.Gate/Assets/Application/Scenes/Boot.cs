@@ -55,10 +55,10 @@ public class Boot : MonoBehaviour
             {
                 resultCallback = (res) =>
                 {
-                    //Protocol.Send(new AdsEndSend { id = r.id }, (end) =>
-                    //{
-                    //    Debug.Log(end.result);
-                    //});
+                    Protocol.Send(new AdsEndSend { id = r.id }, (end) =>
+                    {
+                        Debug.Log(end.result);
+                    });
                 }
             });
         });
