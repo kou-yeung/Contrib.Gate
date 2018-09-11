@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Network;
-using System;
-using Util.Time;
-using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.IO;
-using System.Text;
 using UnityEngine.Advertisements;
-using CsvHelper;
-using CsvHelper.TypeConversion;
-using CsvHelper.Configuration;
 
 public class Boot : MonoBehaviour
 {
@@ -69,21 +61,8 @@ public class Boot : MonoBehaviour
         //        }
         //    });
         //});
-
-        // CSV の 検証
-        var familiars = Parse<Entities.Familiar>("Entities/familiar");
-        var materials = Parse<Entities.Materials>("Entities/materials");
     }
 
-    T[] Parse<T>(string fn)
-    {
-        var str = Resources.Load<TextAsset>(fn).text.Trim();
-        using (var csv = new CsvReader(new StringReader(str), CsvHelperRegister.configuration))
-        {
-            return csv.GetRecords<T>().ToArray();
-        }
-
-    }
 
     public void Update()
     {
