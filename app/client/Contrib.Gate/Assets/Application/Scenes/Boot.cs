@@ -24,6 +24,10 @@ public class Boot : MonoBehaviour
     IEnumerator Start()
     {
         KiiInitialize.Init();
+        Protocol.OnError += (code) =>
+        {
+            Debug.Log(string.Format("Default OnError : {0}", code));
+        };
 
         // KiiCloudの認証
         Auth.Authentication((user) =>
@@ -61,6 +65,10 @@ public class Boot : MonoBehaviour
                     Protocol.Send(new AdsEndSend { id = r.id }, (end) =>
                     {
                         Debug.Log(end.result);
+                    }, (code) =>
+                    {
+                        Debug.Log(string.Format("Custom OnError : {0}", code));
+                        return true;
                     });
                 }
             });

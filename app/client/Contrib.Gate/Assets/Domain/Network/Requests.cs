@@ -8,6 +8,7 @@ using KiiCorp.Cloud.Storage;
 using System;
 using System.Text;
 using Util;
+using Entities;
 
 namespace Network
 {
@@ -36,14 +37,23 @@ namespace Network
         public string returnedValue = null;
     }
 
+    /// <summary>
+    /// ApiError
+    /// </summary>
+    [Serializable]
+    public class ApiError
+    {
+        public ErrorCode errorCode; // エラーコードが 0 以外だとエラー
+    }
+
     public class Requests
     {
-        public void Send(string method, string json = "{}", Action<bool, string> cb = null)
+        public void Send(string method, string json = "{}", Action<ErrorCode, string> cb = null)
         {
             CoroutineRunner.Run(InternalSend(method, json, cb));
         }
 
-        IEnumerator InternalSend(string method, string json, Action<bool, string> cb)
+        IEnumerator InternalSend(string method, string json, Action<ErrorCode, string> cb)
         {
             var url = string.Format("https://api-jp.kii.com/api/apps/{0}/server-code/versions/current/{1}", Kii.AppId, method);
             var request = new UnityWebRequest(url, "POST");
@@ -58,13 +68,18 @@ namespace Network
             if (string.IsNullOrEmpty(request.error))
             {
                 var res = JsonUtility.FromJson<KiiCloudReturn>(request.downloadHandler.text);
-                if (cb != null) cb(true, res.returnedValue);
+
+                if (cb != null)
+                {
+                    var error = JsonUtility.FromJson<ApiError>(res.returnedValue);
+                    cb(error.errorCode, res.returnedValue);
+                }
             }
             else
             {
                 var error = JsonUtility.FromJson<KiiCloudError>(request.downloadHandler.text);
                 Debug.Log(JsonUtility.ToJson(error, true));
-                if (cb != null) cb(false, request.error);
+                if (cb != null) cb(ErrorCode.Network, request.error);
             }
         }
     }

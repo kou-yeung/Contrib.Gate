@@ -20,10 +20,10 @@ enum IDType {
 	Familiar,// //使い魔
 }
 
-
-/// <summary>
-/// <comment>
-/// </summary>
-class Player {
-	name: string;// <comment>
+// ErrorCode
+enum ErrorCode {
+	None=0,
+	InvalidAdsCode,// // 無効な広告コード
+	Network=9999,// // ネットワークエラー
 }
+

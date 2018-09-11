@@ -3,6 +3,10 @@ template,./template
 output,CSharp,./../../app/client/Contrib.Gate/Assets/Application/Entities/Gen/
 output,TypeScript,./../../app/server/Contrib.Gate/gen/
 
+///========================================
+/// 以下 enum
+///========================================
+
 // ユーザ生成状況
 enum,UserCreateStep,
 EnterName,,// 名前入力
@@ -13,12 +17,21 @@ Created,,// 作成済
 enum,AdReward,
 Coin,,// コイン
 
-// Entity
-class,Player,<comment>
-//<type>,<name>,<comment>
-string,name,<comment>
-
 // Id タイプ
 enum,IDType,
 Unknown,,//不明
 Familiar,,//使い魔
+
+// ErrorCode
+enum,ErrorCode,
+None,0,
+InvalidAdsCode,,// 無効な広告コード
+Network,9999,// ネットワークエラー
+
+///========================================
+/// 以下 class
+///========================================
+
+// Error
+//class,ApiError,
+//ErrorCode,errorCode,// エラーコードが 0 以外だとエラー

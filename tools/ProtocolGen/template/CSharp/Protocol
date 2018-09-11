@@ -24,9 +24,9 @@ namespace Network
     /// </summary>
     public static partial class Protocol
     {
-        public static void Send({{PROTOCOL}}Send obj, Action<{{PROTOCOL}}Receive> cb)
+        public static void Send({{PROTOCOL}}Send obj, Action<{{PROTOCOL}}Receive> cb, Func<ErrorCode, bool> error = null)
         {
-            new Communication("{{PROTOCOL}}").Push(obj).Send((res, str) => OnReceive(res, str, cb));
+            new Communication("{{PROTOCOL}}").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
         }
     }
 }

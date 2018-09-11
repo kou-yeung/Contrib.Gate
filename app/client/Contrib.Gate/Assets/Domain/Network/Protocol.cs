@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System;
+using Entities;
 
 namespace Network
 {
     public static partial class Protocol
     {
-        public static event Action<string> OnError = (error) => { };
+        public static event Action<ErrorCode> OnError = (error) => { };
 
         /// <summary>
         /// 受信時の共通処理
@@ -14,10 +15,19 @@ namespace Network
         /// <param name="res"></param>
         /// <param name="str"></param>
         /// <param name="cb"></param>
-        static void OnReceive<T>(bool res, string str, Action<T> cb)
+        static void OnReceive<T>(ErrorCode res, string str, Action<T> cb, Func<ErrorCode, bool> error = null)
         {
-            if (res) cb(JsonUtility.FromJson<T>(str));
-            else OnError(str);
+            if (res == ErrorCode.None)
+            {
+                cb(JsonUtility.FromJson<T>(str));
+            }
+            else
+            {
+                if (error == null || !error(res))
+                {
+                    OnError(res);
+                }
+            }
         }
     }
 }

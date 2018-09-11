@@ -33,14 +33,15 @@ namespace Entities
 		Familiar,// //使い魔
 	}
 	
-	
     /// <summary>
-    /// <comment>
+    /// ErrorCode
     /// </summary>
-    [Serializable]
-	public partial class Player
+	public enum ErrorCode
 	{
-		public string name;// <comment>
+		None=0,
+		InvalidAdsCode,// // 無効な広告コード
+		Network=9999,// // ネットワークエラー
 	}
+	
 	
 }

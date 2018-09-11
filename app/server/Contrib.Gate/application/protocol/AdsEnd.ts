@@ -19,8 +19,7 @@
             } else
             {
                 ad1.clear(ad2 => {
-                    let r = new AdsEndReceive();
-                    r.result = "NG";
+                    let r = ApiError.Create(ErrorCode.InvalidAdsCode);
                     done(r.Pack());
                 });
             }

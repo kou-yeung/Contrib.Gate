@@ -93,6 +93,7 @@
     <TypeScriptCompile Include="application\protocol\Login.ts" />
     <TypeScriptCompile Include="application\protocol\Ping.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
+    <TypeScriptCompile Include="domain\network\ApiError.ts" />
     <TypeScriptCompile Include="domain\util\Bucket.ts" />
     <TypeScriptCompile Include="domain\util\Random.ts" />
     <TypeScriptCompile Include="gen\AdsBegin.ts" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Entities;
 
 namespace Network
 {
@@ -43,7 +44,7 @@ namespace Network
         /// 送信する
         /// </summary>
         /// <param name="cb"></param>
-        public void Send(Action<bool, string> cb)
+        public void Send(Action<ErrorCode, string> cb)
         {
             new Requests().Send(command, JsonUtility.ToJson(this), cb);
         }
