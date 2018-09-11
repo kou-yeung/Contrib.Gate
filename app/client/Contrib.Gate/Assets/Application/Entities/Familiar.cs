@@ -1,11 +1,6 @@
 ﻿///============================
 /// データ : 使い魔
 ///============================
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using CsvHelper;
-using CsvHelper.TypeConversion;
 using CsvHelper.Configuration;
 
 namespace Entities
@@ -26,7 +21,7 @@ namespace Entities
 
     public class Familiar
     {
-        public Identify identify;
+        public Identify Identify;
         public string Name;
         public Race Race;
     }
@@ -35,9 +30,9 @@ namespace Entities
     {
         public FamiliarMap()
         {
-            Map(x => x.identify).Index(0).TypeConverter<IdentifyTypeConverter>();
+            Map(x => x.Identify).Index(0);
             Map(x => x.Name).Index(1);
-            Map(x => x.Race).Index(2).TypeConverter<Util.EnumTypeConverter<Race>>();
+            Map(x => x.Race).Index(2);
         }
     }
 }
