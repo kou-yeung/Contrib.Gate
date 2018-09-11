@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using CsvHelper.TypeConversion;
-using CsvHelper.Configuration;
+﻿using CsvHelper.Configuration;
 using Entities;
 using Util;
 
@@ -18,13 +16,14 @@ public class CsvHelperRegister
 
     static void AddConverter()
     {
-        configuration.TypeConverterCache.AddConverter<Entities.Identify>(new IdentifyTypeConverter());
-        configuration.TypeConverterCache.AddConverter<Entities.Race>(new EnumTypeConverter<Race>());
+        configuration.TypeConverterCache.AddConverter<Identify>(new IdentifyTypeConverter());
+        configuration.TypeConverterCache.AddConverter<Race>(new EnumTypeConverter<Race>());
     }
 
     static void RegisterClassMap()
     {
         configuration.RegisterClassMap<FamiliarMap>();
         configuration.RegisterClassMap<MaterialsMap>();
+        configuration.RegisterClassMap<VendingMap>();
     }
 }

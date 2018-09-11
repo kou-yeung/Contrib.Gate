@@ -25,11 +25,13 @@ namespace Entities
 
         public Familiar[] Familiars { get; private set; }
         public Materials[] Materials { get; private set; }
+        public Vending[] Vendings { get; private set; }
 
         void Load()
         {
             Familiars = Parse<Familiar>("Entities/familiar");
             Materials = Parse<Materials>("Entities/materials");
+            Vendings = Parse<Vending>("Entities/vending");
         }
 
         T[] Parse<T>(string fn)
