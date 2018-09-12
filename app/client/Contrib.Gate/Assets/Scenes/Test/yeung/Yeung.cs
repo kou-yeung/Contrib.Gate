@@ -47,5 +47,18 @@ namespace Test
         {
 
         }
+
+        public void OnClick(GameObject go)
+        {
+            Debug.Log("OnClick : " + go.name);
+        }
+        public void OnEnter(GameObject go)
+        {
+            Debug.Log("OnEnter : " + go.name);
+        }
+        public void OnExit(GameObject go)
+        {
+            Debug.Log("OnExit : " + go.name);
+        }
     }
 }
