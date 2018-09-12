@@ -4,6 +4,7 @@ using UnityEngine;
 using CsvHelper;
 using System.IO;
 using System.Linq;
+using System;
 
 namespace Entities
 {
@@ -32,6 +33,22 @@ namespace Entities
             Familiars = Parse<Familiar>("Entities/familiar");
             Materials = Parse<Materials>("Entities/materials");
             Vendings = Parse<Vending>("Entities/vending");
+        }
+
+        public string Name(Identify identify)
+        {
+            switch (identify.Type)
+            {
+                case IDType.Materials:
+                    return Array.Find(Materials, (v) =>
+                    {
+                        var a = identify;
+                        return v.Identify == identify;
+                    }).Name;
+                case IDType.Familiar:
+                    return Array.Find(Familiars, (v) => v.Identify == identify).Name;
+            }
+            return "";
         }
 
         T[] Parse<T>(string fn)

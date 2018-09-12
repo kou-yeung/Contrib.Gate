@@ -43,6 +43,29 @@ namespace Entities
         {
             return $"{Type}_{Id / 1000:D3}_{Id % 1000:D3}";
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Identify)
+            {
+                return idWithType == (obj as Identify).idWithType;
+            }
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return idWithType.GetHashCode();
+        }
+
+        public static bool operator ==(Identify a, Identify b)
+        {
+            return a.idWithType == b.idWithType;
+        }
+        public static bool operator !=(Identify a, Identify b)
+        {
+            return !(a == b);
+        }
+
     }
 
 
