@@ -25,21 +25,25 @@ namespace Entities
         }
 
         public Familiar[] Familiars { get; private set; }
-        public Materials[] Materials { get; private set; }
+        public Material[] Materials { get; private set; }
         public Vending[] Vendings { get; private set; }
+        public Recipe[] Recipes { get; private set; }
 
         void Load()
         {
             Familiars = Parse<Familiar>("Entities/familiar");
-            Materials = Parse<Materials>("Entities/materials");
+            Materials = Parse<Material>("Entities/material");
             Vendings = Parse<Vending>("Entities/vending");
+            Recipes = Parse<Recipe>("Entities/recipe");
+
+            Debug.Log(Recipes[0].Materials.Count);
         }
 
         public string Name(Identify identify)
         {
             switch (identify.Type)
             {
-                case IDType.Materials:
+                case IDType.Material:
                     return Array.Find(Materials, (v) =>
                     {
                         var a = identify;

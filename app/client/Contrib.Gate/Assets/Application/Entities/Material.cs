@@ -2,15 +2,15 @@
 
 namespace Entities
 {
-    public class Materials
+    public class Material
     {
         public Identify Identify;
         public string Name;
     }
 
-    public sealed class MaterialsMap : ClassMap<Materials>
+    public sealed class MaterialMap : ClassMap<Material>
     {
-        public MaterialsMap()
+        public MaterialMap()
         {
             Map(x => x.Identify).Index(0);
             Map(x => x.Name).Index(1);

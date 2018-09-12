@@ -18,6 +18,8 @@ namespace Entities
 {
     public class Identify
     {
+        public static readonly Identify Empty = new Identify(0);
+
         public uint idWithType { get; private set; }
 
         public IDType Type

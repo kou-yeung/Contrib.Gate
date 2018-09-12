@@ -23,7 +23,8 @@ public class CsvHelperRegister
     static void RegisterClassMap()
     {
         configuration.RegisterClassMap<FamiliarMap>();
-        configuration.RegisterClassMap<MaterialsMap>();
+        configuration.RegisterClassMap<MaterialMap>();
         configuration.RegisterClassMap<VendingMap>();
+        configuration.RegisterClassMap<RecipeMap>();
     }
 }

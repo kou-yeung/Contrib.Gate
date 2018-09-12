@@ -29,9 +29,10 @@ namespace Entities
     /// </summary>
 	public enum IDType
 	{
-		Unknown,// //不明
-		Familiar,// //使い魔
-		Materials,// //素材
+		Unknown,// 不明
+		Familiar,// 使い魔
+		Material,// 素材
+		Recipe,// レシピ
 	}
 	
     /// <summary>
