@@ -1,0 +1,55 @@
+﻿///=========================================
+/// UnityEditor.UI.MenuOptions の HACK です
+/// メニューからUI を配置したら、イベントを受け取るように自前処理をしたいときに使用します
+/// 
+/// 参考 : https://github.com/tenpn/unity3d-ui/blob/master/UnityEditor.UI/UI/MenuOptions.cs
+///=========================================
+using UnityEngine.UI;
+using System.Reflection;
+using System.IO;
+using System;
+using System.Linq;
+using Xyz.AnzFactory.UI;
+
+namespace UnityEditor.UI
+{
+    public static class MenuOptions
+    {
+        static readonly string Path2DLL = Path.Combine(Path.GetDirectoryName(EditorApplication.applicationPath), @"Data\UnityExtensions\Unity\GUISystem\Editor\UnityEditor.UI.dll");
+        static readonly string TypeName = @"UnityEditor.UI.MenuOptions";
+
+        // ボタン作成時のコールバック
+        public static event Action<Button> OnCreatedButton = (btn) => { };
+
+        static Type Type
+        {
+            get { return Assembly.LoadFile(Path2DLL).GetType(TypeName); }
+        }
+
+        [MenuItem("GameObject/UI/Button", false, 2001)]
+        static void AddButton(MenuCommand menuCommand)
+        {
+            /// MEMO : 元の実装を呼び出す
+            var method = Type.GetMethod("AddButton");
+            method.Invoke(null, new object[] { menuCommand });
+
+            /// MEMO : ヒエラルキーに選択されているオブジェクトを取得し、先頭オブジェクトのコンポーネントを取得する
+            var go = Selection.gameObjects.First();
+            OnCreatedButton(go.GetComponent<Button>());
+        }
+
+        [MenuItem("GameObject/UI/Table View", false, 2060)]
+        static void AddTableView(MenuCommand menuCommand)
+        {
+            /// MEMO : 元の実装を呼び出す
+            var method = Type.GetMethod("AddScrollView");
+            method.Invoke(null, new object[] { menuCommand });
+
+            /// MEMO : ヒエラルキーに選択されているオブジェクトを取得し、先頭オブジェクトのコンポーネントを取得する
+            var go = Selection.gameObjects.First();
+            go.name = "Table View";
+            go.GetComponent<ScrollRect>().horizontal = false;   // 水平方向のスクロール制限
+            go.AddComponent<ANZListView>(); // ANZListView追加しておく
+        }
+    }
+}
