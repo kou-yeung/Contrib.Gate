@@ -1,5 +1,5 @@
 ﻿/*********************************
- Like UITableView
+ ANZTableView をコピペしてセル表示対応する
 *********************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -11,40 +11,32 @@ using UnityEngine.EventSystems;
 namespace Xyz.AnzFactory.UI
 {
     [RequireComponent(typeof(ScrollRect))]
-    public class ANZListView : MonoBehaviour
+    public class ANZCellView : MonoBehaviour
     {
-
         public interface IDataSource
         {
             int NumOfItems();
-            float HeightItem();
-            GameObject ListViewItem(int index, GameObject item);
+            Vector2 ItemSize();
+            GameObject CellViewItem(int index, GameObject item);
         }
 
         public interface IActionDelegate
         {
-            void TapListItem(int index, GameObject listItem);
+            void TapCellItem(int index, GameObject listItem);
         }
 
         #region "Fields"
         private ScrollRect scrollRect;
-        private float rowHeight;
-        private int itemCount;
         private int visibleItemCount;
         private List<ListItemData> itemDataList;
         private List<ListItemData> visibleItemDataList;
         private float prevPositionY;
+        private GridLayoutGroup gridLayoutGroup;
         #endregion
 
         #region "Properties"
-        public float RowHeight
-        {
-            get { return this.rowHeight; }
-        }
-        public int ItemCount
-        {
-            get { return this.itemCount; }
-        }
+        public Vector2 ItemSize { get; private set; }
+        public int ItemCount { get; private set; }
         public IDataSource DataSource { get; set; }
         public IActionDelegate ActionDelegate { get; set; }
         #endregion
@@ -52,8 +44,8 @@ namespace Xyz.AnzFactory.UI
         #region "Events"
         private void Awake()
         {
-            this.rowHeight = 0;
-            this.itemCount = 0;
+            this.ItemSize = Vector2.zero;
+            this.ItemCount = 0;
             this.visibleItemCount = 0;
             this.itemDataList = new List<ListItemData>();
             this.prevPositionY = -100f;
@@ -121,7 +113,7 @@ namespace Xyz.AnzFactory.UI
 
             for (int i = 0; i < this.visibleItemDataList.Count; i++) {
                 if (this.visibleItemDataList[i].Item == listItem) {
-                    this.ActionDelegate.TapListItem(this.visibleItemDataList[i].Position, listItem);
+                    this.ActionDelegate.TapCellItem(this.visibleItemDataList[i].Position, listItem);
                     break;
                 }
             }
@@ -138,9 +130,12 @@ namespace Xyz.AnzFactory.UI
         {
             yield return new WaitForEndOfFrame();
 
-            this.itemCount = this.DataSource.NumOfItems();
-            this.rowHeight = this.DataSource.HeightItem();
-            this.visibleItemCount = Mathf.CeilToInt(this.scrollRect.viewport.rect.height / this.rowHeight) + 2;
+            this.ItemCount = this.DataSource.NumOfItems();
+            this.ItemSize = this.DataSource.ItemSize();
+            gridLayoutGroup.cellSize = ItemSize;
+
+            var numOfCell = Mathf.FloorToInt(this.scrollRect.viewport.rect.width / this.ItemSize.x);
+            this.visibleItemCount = (Mathf.CeilToInt(this.scrollRect.viewport.rect.height / this.ItemSize.y) + 2) * numOfCell;
 
             this.FillItems();
             this.visibleItemDataList = this.VisibleItems();
@@ -155,14 +150,10 @@ namespace Xyz.AnzFactory.UI
         {
             this.scrollRect = this.gameObject.GetComponent<ScrollRect>();
 
-            var verticalLayout = this.scrollRect.content.gameObject.GetComponent<VerticalLayoutGroup>();
-            if (verticalLayout == null) {
-                verticalLayout = this.scrollRect.content.gameObject.AddComponent<VerticalLayoutGroup>();
+            gridLayoutGroup = this.scrollRect.content.gameObject.GetComponent<GridLayoutGroup>();
+            if (gridLayoutGroup == null) {
+                gridLayoutGroup = this.scrollRect.content.gameObject.AddComponent<GridLayoutGroup>();
             }
-            verticalLayout.childForceExpandHeight = false;
-            verticalLayout.childForceExpandWidth = true;
-            verticalLayout.childControlHeight = true;
-            verticalLayout.childControlWidth = true;
 
             var contentSizeFitter = this.scrollRect.content.gameObject.GetComponent<ContentSizeFitter>();
             if (contentSizeFitter == null) {
@@ -214,7 +205,8 @@ namespace Xyz.AnzFactory.UI
             if (this.scrollRect.content.rect.height > this.scrollRect.viewport.rect.height) {
                 var length = (this.scrollRect.content.rect.size.y - this.scrollRect.viewport.rect.size.y);
                 var frameY = length - (length * this.scrollRect.verticalNormalizedPosition);
-                index = Mathf.FloorToInt(frameY / this.rowHeight);
+                var numOfCell = Mathf.FloorToInt(this.scrollRect.viewport.rect.width / this.ItemSize.x);
+                index = Mathf.FloorToInt(frameY / this.ItemSize.y) * numOfCell;
             }
 
             index = Mathf.Max(index, 0);
@@ -236,7 +228,7 @@ namespace Xyz.AnzFactory.UI
         {
             GameObject item;
             if (listItem.Item == null) {
-                item = this.DataSource.ListViewItem(listItem.Position, null);
+                item = this.DataSource.CellViewItem(listItem.Position, null);
                 Assert.IsNotNull(item, "ListItem is null!!");
                 item.name = "ListItem";
                 listItem.SetItemObjcet(item);
@@ -249,7 +241,7 @@ namespace Xyz.AnzFactory.UI
                     this.TapItem(gameObject);
                 };
             } else {
-                item = this.DataSource.ListViewItem(listItem.Position, listItem.Item);
+                item = this.DataSource.CellViewItem(listItem.Position, listItem.Item);
             }
             item.SetActive(true);
         }
@@ -259,7 +251,8 @@ namespace Xyz.AnzFactory.UI
             var itemContainer = new GameObject(name);
             var layoutElement = itemContainer.AddComponent<LayoutElement>();
             itemContainer.transform.SetParent(this.scrollRect.content.gameObject.transform, false);
-            layoutElement.preferredHeight = this.RowHeight;
+            layoutElement.preferredWidth = this.ItemSize.x;
+            layoutElement.preferredHeight = this.ItemSize.y;
             return itemContainer;
         }
 
@@ -272,7 +265,7 @@ namespace Xyz.AnzFactory.UI
                 var newContainer = this.CreateContainer("ItemContainer");
                 listItemData = new ListItemData(position, newContainer);
             }
-            listItemData.Layout.preferredHeight = this.rowHeight;
+            listItemData.Layout.preferredHeight = this.ItemSize.y;
             listItemData.ContainerRectTransform.pivot = new Vector2(0, 1);
             return listItemData;
         }
