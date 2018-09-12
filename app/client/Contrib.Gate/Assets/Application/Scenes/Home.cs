@@ -13,4 +13,11 @@ public class Home : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void OnClickVending()
+    {
+        var prefab = Resources.Load("UI/Vending/VendingWindow");
+        Instantiate(prefab);
+        //Debug.Log("OnClickVending");
+    }
 }

@@ -7,6 +7,7 @@ namespace Entities
         public Identify Identify;
         public int Level;
         public int Price;
+        public int Num;
     }
 
     public sealed class VendingMap : ClassMap<Vending>
@@ -16,6 +17,7 @@ namespace Entities
             Map(x => x.Identify).Index(0);
             Map(x => x.Level).Index(1);
             Map(x => x.Price).Index(2);
+            Map(x => x.Num).Index(3);
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Entities
 	{
 		Unknown,// //不明
 		Familiar,// //使い魔
+		Materials,// //素材
 	}
 	
     /// <summary>
