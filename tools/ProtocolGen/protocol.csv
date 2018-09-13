@@ -47,3 +47,8 @@ down,uint,identify,
 down,uint,added,
 down,uint,current,
 down,uint,coin,
+
+// レシピ実行
+protocol,Recipe,
+up,uint,identify,実行したいレシピID
+down,uint,identify,獲得されたもの

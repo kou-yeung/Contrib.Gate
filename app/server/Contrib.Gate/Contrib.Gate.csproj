@@ -95,6 +95,7 @@
     <TypeScriptCompile Include="application\protocol\FinishPrologue.ts" />
     <TypeScriptCompile Include="application\protocol\Login.ts" />
     <TypeScriptCompile Include="application\protocol\Ping.ts" />
+    <TypeScriptCompile Include="application\protocol\Recipe.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
     <TypeScriptCompile Include="application\protocol\Vending.ts" />
     <TypeScriptCompile Include="domain\network\ApiError.ts" />
@@ -107,6 +108,7 @@
     <TypeScriptCompile Include="gen\FinishPrologue.ts" />
     <TypeScriptCompile Include="gen\Login.ts" />
     <TypeScriptCompile Include="gen\Ping.ts" />
+    <TypeScriptCompile Include="gen\Recipe.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
     <TypeScriptCompile Include="gen\Vending.ts" />
     <TypeScriptCompile Include="infrastructure\GUID\GUID.ts" />

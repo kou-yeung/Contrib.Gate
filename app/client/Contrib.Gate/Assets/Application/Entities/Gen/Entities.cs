@@ -41,9 +41,10 @@ namespace Entities
 	public enum ErrorCode
 	{
 		None=0,
-		InvalidAdsCode,// // 無効な広告コード
-		CoinLack,// // コインが不足
-		Network=9999,// // ネットワークエラー
+		InvalidAdsCode,// 無効な広告コード
+		CoinLack,// コインが不足
+		MaterialLack,// 素材が不足
+		Network=9999,// ネットワークエラー
 	}
 	
 	
