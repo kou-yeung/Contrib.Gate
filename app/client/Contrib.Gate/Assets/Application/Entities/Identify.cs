@@ -68,6 +68,14 @@ namespace Entities
             return !(a == b);
         }
 
+        public static implicit operator uint(Identify d)
+        {
+            return d.idWithType;
+        }
+        public static implicit operator Identify(uint idWithType)
+        {
+            return new Identify(idWithType);
+        }
     }
 
 

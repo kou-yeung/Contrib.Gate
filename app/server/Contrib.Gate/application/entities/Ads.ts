@@ -10,9 +10,7 @@ namespace Entities {
         }
         refresh(done: (ads: Ads) => void): void {
             let clause = KiiClause.equals("userid", this.user.getID());
-            this.bucket.refresh((r) => {
-                done(r);
-            }, KiiQuery.queryWithClause(clause));
+            this.bucket.refresh(done, KiiQuery.queryWithClause(clause));
         }
 
         get userid(): string {

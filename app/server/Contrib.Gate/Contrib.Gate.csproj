@@ -86,6 +86,7 @@
     <TypeScriptCompile Include="application\entities\Ads.ts" />
     <TypeScriptCompile Include="application\entities\Identify.ts" />
     <TypeScriptCompile Include="application\entities\Player.ts" />
+    <TypeScriptCompile Include="application\entities\Vending.ts" />
     <TypeScriptCompile Include="application\protocol\AdsBegin.ts" />
     <TypeScriptCompile Include="application\protocol\AdsEnd.ts" />
     <TypeScriptCompile Include="application\protocol\CreateUser.ts" />
@@ -93,6 +94,7 @@
     <TypeScriptCompile Include="application\protocol\Login.ts" />
     <TypeScriptCompile Include="application\protocol\Ping.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
+    <TypeScriptCompile Include="application\protocol\Vending.ts" />
     <TypeScriptCompile Include="domain\network\ApiError.ts" />
     <TypeScriptCompile Include="domain\util\Bucket.ts" />
     <TypeScriptCompile Include="domain\util\Random.ts" />
@@ -104,6 +106,7 @@
     <TypeScriptCompile Include="gen\Login.ts" />
     <TypeScriptCompile Include="gen\Ping.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
+    <TypeScriptCompile Include="gen\Vending.ts" />
     <TypeScriptCompile Include="infrastructure\GUID\GUID.ts" />
     <TypeScriptCompile Include="KiiCloud\Kii.d.ts" />
     <TypeScriptCompile Include="domain\util\time\ServerTime.ts" />

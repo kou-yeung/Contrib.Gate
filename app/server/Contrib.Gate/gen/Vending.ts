@@ -2,19 +2,22 @@
 // ProtocolGen から自動生成されます。直接編集しないでください
 //====================
 
-class CreateUserSend {
-    name: string;
+class VendingSend {
+    identify: number;
 
-	// params -> CreateUserSend
-	static Parse(params : any): CreateUserSend {
-		return JSON.parse(params.data[0]) as CreateUserSend;
+	// params -> VendingSend
+	static Parse(params : any): VendingSend {
+		return JSON.parse(params.data[0]) as VendingSend;
 	}
 }
 
-class CreateUserReceive {
-    step: UserCreateStep;
+class VendingReceive {
+    identify: number;
+    added: number;
+    current: number;
+    debug: string;
 	
-	// CreateUserReceive -> string
+	// VendingReceive -> string
 	Pack(): string {
 		return JSON.stringify(this);
     }
@@ -23,14 +26,14 @@ class CreateUserReceive {
 /*
 // 以下プロトコルを実装する
 // MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
-function CreateUser(params, context, done) {
+function Vending(params, context, done) {
 
     // 受信データをパースする
-    let s = CreateUserSend.Parse(params);
+    let s = VendingSend.Parse(params);
 
     GetUser(context, (user) => {
 		// 返信
-	    let r = new CreateUserReceive();
+	    let r = new VendingReceive();
 
 		// TODO : 返信パラメータを設定する
 

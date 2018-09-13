@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xyz.AnzFactory.UI;
 using Entities;
+using Network;
 
 namespace UI
 {
-    public class VendingWindow : MonoBehaviour, ANZListView.IDataSource
+    public class VendingWindow : MonoBehaviour, ANZListView.IDataSource, ANZListView.IActionDelegate
     {
         public ANZListView list;
         public GameObject vendingItemPrefab;
@@ -32,7 +33,22 @@ namespace UI
         void Start()
         {
             list.DataSource = this;
+            list.ActionDelegate = this;
             list.ReloadData();
+        }
+
+        public void OnClose()
+        {
+            Destroy(this.gameObject);
+        }
+
+        public void TapListItem(int index, GameObject listItem)
+        {
+            var item = listItem.GetComponent<VendingItem>();
+            Protocol.Send(new VendingSend { identify = item.vending.Identify }, (r) =>
+            {
+                Debug.Log($"{Entity.Instance.Name(r.identify)} {r.current}個(+{r.added})");
+            });
         }
     }
 }

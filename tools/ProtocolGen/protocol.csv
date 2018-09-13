@@ -40,3 +40,10 @@ protocol,AdsEnd,
 up,string,id,
 down,string,result, // まだ仮パラメータです
 
+// 自動販売
+protocol,Vending,
+up,uint,identify,
+down,uint,identify,
+down,uint,added,
+down,uint,current,
+down,string,debug,

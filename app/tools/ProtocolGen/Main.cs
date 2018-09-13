@@ -32,6 +32,8 @@ class ProtocolGen
         {
             Dictionary<string, string> replaces = new Dictionary<string, string>()
             {
+                {"uint", "number"},
+                {"ulong", "number"},
                 {"bool", "boolean"},
                 {"int", "number"},
                 {"float", "number"},
