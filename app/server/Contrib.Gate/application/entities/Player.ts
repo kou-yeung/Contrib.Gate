@@ -21,6 +21,13 @@ namespace Entities {
         set UserName(name: string) {
             this.bucket.set<string>("UserName", name);
         }
+
+        get coin(): number {
+            return this.bucket.get("coin", 0);
+        }
+        set coin(coin: number) {
+            this.bucket.set("coin", coin);
+        }
     }
 
 }

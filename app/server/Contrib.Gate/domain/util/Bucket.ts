@@ -67,6 +67,9 @@ class Bucket<T> {
         this.obj.set<T>(key, value);
     }
     has(key: string): boolean {
-        return this.obj.getKeys().indexOf(key) != -1;
+        return this.allkey.indexOf(key) != -1;
+    }
+    get allkey(): string[] {
+        return this.obj.getKeys();
     }
 }

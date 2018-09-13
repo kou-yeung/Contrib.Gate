@@ -7,14 +7,29 @@
     new Entities.Vending(admin, new Entities.Identify(s.identify)).refresh(vending =>
     {
         GetUser(context, (user) => {
-            new Entities.Inventory(user).refresh(inventory =>
+
+            // TODO : vending.level で自販機レベルチェック
+            new Entities.Player(user).bucket.refresh(player =>
             {
-                // 返信
-                let r = new VendingReceive();
-                r.identify = vending.target.idWithType;
-                r.added = vending.num;
-                r.current = inventory.add(vending.target, vending.num);
-                inventory.bucket.save(() => done(r.Pack()));
+                if (player.coin < vending.price) {
+                    // コインが足りない
+                    let r = new ApiError(ErrorCode.CoinLack);
+                    done(r.Pack());
+                } else {
+                    player.coin -= vending.price;
+                    player.bucket.save(() => {
+                        // 正常処理
+                        new Entities.Inventory(user).refresh(inventory => {
+                            // 返信
+                            let r = new VendingReceive();
+                            r.identify = vending.target.idWithType;
+                            r.added = vending.num;
+                            r.current = inventory.add(vending.target, vending.num);
+                            r.coin = player.coin;
+                            inventory.bucket.save(() => done(r.Pack()));
+                        });
+                    });
+                }
             });
         });
     });

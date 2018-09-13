@@ -15,7 +15,7 @@ class VendingReceive {
     identify: number;
     added: number;
     current: number;
-    debug: string;
+    coin: number;
 	
 	// VendingReceive -> string
 	Pack(): string {

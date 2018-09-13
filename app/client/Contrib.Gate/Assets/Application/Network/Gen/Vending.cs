@@ -19,7 +19,7 @@ namespace Network
 		public uint identify;
 		public uint added;
 		public uint current;
-		public string debug;
+		public uint coin;
     }
 
     /// <summary>
