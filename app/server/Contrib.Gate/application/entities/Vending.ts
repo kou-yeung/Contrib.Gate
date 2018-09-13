@@ -14,10 +14,6 @@ namespace Entities {
             this.bucket.refresh(done, KiiQuery.queryWithClause(clause));
         }
 
-        get id(): string {
-            return this.bucket.get("購入対象ID");
-        }
-
         get target(): Identify {
             return Identify.Parse(this.bucket.get("購入対象ID"));
         }
