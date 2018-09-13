@@ -1,5 +1,6 @@
 ﻿// MEMO : KiiCloud では Arrayが使えないため extendsは 使用できません!!
 // このクラスはメンバで持ちます
+// 条件が複数オブジェクトをヒットした場合、先頭以外無視する！！
 class Bucket<T> {
     private user: KiiUser | KiiAppAdminContext;
     private t: T;
