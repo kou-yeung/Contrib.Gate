@@ -85,6 +85,7 @@
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="application\entities\Ads.ts" />
     <TypeScriptCompile Include="application\entities\Identify.ts" />
+    <TypeScriptCompile Include="application\entities\Inventory.ts" />
     <TypeScriptCompile Include="application\entities\Player.ts" />
     <TypeScriptCompile Include="application\entities\Recipe.ts" />
     <TypeScriptCompile Include="application\entities\Vending.ts" />
