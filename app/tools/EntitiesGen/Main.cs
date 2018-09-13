@@ -92,8 +92,10 @@ class EntitiesGen
             Dictionary<string, string> replaces = new Dictionary<string, string>()
             {
                 {"bool", "boolean"},
+                {"uint", "number"},
                 {"int", "number"},
                 {"float", "number"},
+                {"ulong", "number"},
                 {"long", "number"},
             };
 
