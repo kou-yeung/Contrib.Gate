@@ -124,6 +124,7 @@ namespace Xyz.AnzFactory.UI
         #region "Public Methods"
         public void ReloadData()
         {
+            if (!Application.isPlaying) return;
             StartCoroutine(this._reloadData());
         }
         private IEnumerator _reloadData()
