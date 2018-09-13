@@ -34,5 +34,12 @@ namespace Entities {
                 return new Identify(0, IDType.Unknown);
             }
         }
+
+        static isEmpty(identify: Identify): boolean {
+            return identify.idWithType == 0;
+        }
+        static get Empty(): Identify {
+            return new Identify(0);
+        }
     }
 }

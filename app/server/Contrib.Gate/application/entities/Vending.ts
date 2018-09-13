@@ -1,8 +1,8 @@
 ﻿// 自販機データ
 namespace Entities {
     export class Vending {
-        bucket: Bucket<Vending>;
-        identify: Identify;
+        private bucket: Bucket<Vending>;
+        private identify: Identify;
 
         constructor(admin: KiiAppAdminContext, identify: Identify) {
             this.bucket = new Bucket(this, admin, "vending");
