@@ -17,10 +17,12 @@ public class Title : MonoBehaviour
         // ログインする
         Protocol.Send(new LoginSend(), (r) =>
         {
-            Crypt.Init(r.timestamp, r.iv, r.key);
             ServerTime.Init(r.timestamp);
 
+            Crypt.Init(r.timestamp, r.iv, r.key);
+            Entity.Instance.Load(); // 暗号化の準備が終わったため、もう一回ロードする
             Entity.Instance.UpdateUserState(r.userState);
+
             switch (Entity.Instance.userState.createStep)
             {
                 case UserCreateStep.EnterName:

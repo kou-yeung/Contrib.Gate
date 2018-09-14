@@ -5,6 +5,7 @@ using Network;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Advertisements;
+using Entities;
 
 public class Boot : MonoBehaviour
 {
@@ -17,10 +18,13 @@ public class Boot : MonoBehaviour
     }
     IEnumerator Start()
     {
+        Entity.Instance.Load();
+
         KiiInitialize.Init();
         Protocol.OnError += (code) =>
         {
-            Debug.Log(string.Format("Default OnError : {0}", code));
+            var str = Entity.Instance.StringTable.Get(code);
+            Debug.Log(string.Format("Default OnError : {0}", str));
         };
 
 #if UNITY_ADS

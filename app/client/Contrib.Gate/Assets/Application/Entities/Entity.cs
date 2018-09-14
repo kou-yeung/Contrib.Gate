@@ -31,21 +31,23 @@ namespace Entities
         public Material[] Materials { get; private set; }
         public Vending[] Vendings { get; private set; }
         public Recipe[] Recipes { get; private set; }
-        public Item[] items { get; private set; }
-        public Cheat[] cheats { get; private set; }
-        public UserState userState { get; private set; }
+        public Item[] Items { get; private set; }
+        public Cheat[] Cheats { get; private set; }
+        public StringTable StringTable { get; private set; }
 
         // 受信データなど、サーバ側キャッシュしたデータ（ローカル更新による疑似的同期を行う
         public Inventory inventory { get; private set; }
+        public UserState userState { get; private set; }
 
-        void Load()
+        public void Load()
         {
             Familiars = Parse<Familiar>("Entities/familiar");
             Materials = Parse<Material>("Entities/material");
             Vendings = Parse<Vending>("Entities/vending");
             Recipes = Parse<Recipe>("Entities/recipe");
-            items = Parse<Item>("Entities/item");
-            cheats = Parse<Cheat>("Entities/cheat");
+            Items = Parse<Item>("Entities/item");
+            Cheats = Parse<Cheat>("Entities/cheat");
+            StringTable = new StringTable(Parse<StringTableKV>("Entities/string_table", false));
         }
 
         public static string Name(Identify identify)
@@ -57,15 +59,19 @@ namespace Entities
                 case IDType.Familiar:
                     return Array.Find(Instance.Familiars, (v) => v.Identify == identify).Name;
                 case IDType.Item:
-                    return Array.Find(Instance.items, (v) => v.Identify == identify).Name;
+                    return Array.Find(Instance.Items, (v) => v.Identify == identify).Name;
             }
             return "";
         }
 
-        T[] Parse<T>(string fn)
+        T[] Parse<T>(string fn, bool crypt = true)
         {
-            var str = Crypt.Decrypt(Resources.Load<TextAsset>(fn).text).Trim();
-            using (var csv = new CsvReader(new StringReader(str), CsvHelperRegister.configuration))
+            if (crypt && !Crypt.Ready()) return default(T[]);
+
+            var str = Resources.Load<TextAsset>(fn).text;
+            if (crypt) str = Crypt.Decrypt(str);
+
+            using (var csv = new CsvReader(new StringReader(str.Trim()), CsvHelperRegister.configuration))
             {
                 return csv.GetRecords<T>().ToArray();
             }

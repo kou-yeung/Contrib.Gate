@@ -28,5 +28,6 @@ public class CsvHelperRegister
         configuration.RegisterClassMap<RecipeMap>();
         configuration.RegisterClassMap<ItemMap>();
         configuration.RegisterClassMap<CheatMap>();
+        configuration.RegisterClassMap<StringTableMap>();
     }
 }

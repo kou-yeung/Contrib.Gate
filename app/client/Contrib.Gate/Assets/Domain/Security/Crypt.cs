@@ -12,6 +12,10 @@ namespace Security
         static int[] iv;
         static int[] key;
 
+        public static bool Ready()
+        {
+            return crypt != null;
+        }
         public static void Init(long timestamp, int[] iv, int[] key)
         {
             Crypt.crypt = CryptKeys(timestamp);

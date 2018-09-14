@@ -25,13 +25,13 @@ namespace UI
         public GameObject ListViewItem(int index, GameObject item)
         {
             if (item == null) item = Instantiate(prefab);
-            item.GetComponent<DebugItem>().Setup(Entity.Instance.cheats[index]);
+            item.GetComponent<DebugItem>().Setup(Entity.Instance.Cheats[index]);
             return item;
         }
 
         public int NumOfItems()
         {
-            return Entity.Instance.cheats.Length;
+            return Entity.Instance.Cheats.Length;
         }
 
         public void TapListItem(int index, GameObject listItem)

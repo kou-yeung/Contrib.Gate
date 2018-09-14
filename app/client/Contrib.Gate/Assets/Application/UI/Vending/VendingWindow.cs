@@ -48,7 +48,7 @@ namespace UI
 
             if (Entity.Instance.userState.coin < item.vending.Price)
             {
-                Debug.Log("コインが足りません！！");
+                Debug.Log(Entity.Instance.StringTable.Get(ErrorCode.CoinLack));
                 return;
             }
             Protocol.Send(new VendingSend { identify = item.vending.Identify }, (r) =>
