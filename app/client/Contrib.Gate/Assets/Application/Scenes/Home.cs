@@ -24,4 +24,10 @@ public class Home : MonoBehaviour {
     {
         Instantiate(Resources.Load("UI/Bake/BakeWindow"));
     }
+
+    public void OnClickDebug()
+    {
+        Instantiate(Resources.Load("UI/Debug/DebugWindow"));
+    }
 }
+

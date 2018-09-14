@@ -26,11 +26,15 @@ namespace Entities
             }
         }
 
+        // csv データ:ゲーム中変化なし
         public Familiar[] Familiars { get; private set; }
         public Material[] Materials { get; private set; }
         public Vending[] Vendings { get; private set; }
         public Recipe[] Recipes { get; private set; }
         public Item[] items { get; private set; }
+        public Cheat[] cheats { get; private set; }
+
+        // 受信データなど、サーバ側キャッシュしたデータ（ローカル更新による疑似的同期を行う
         public Inventory inventory { get; private set; }
 
         void Load()
@@ -40,6 +44,7 @@ namespace Entities
             Vendings = Parse<Vending>("Entities/vending");
             Recipes = Parse<Recipe>("Entities/recipe");
             items = Parse<Item>("Entities/item");
+            cheats = Parse<Cheat>("Entities/cheat");
         }
 
         public static string Name(Identify identify)
