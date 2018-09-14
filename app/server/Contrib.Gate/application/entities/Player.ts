@@ -28,6 +28,14 @@ namespace Entities {
         set coin(coin: number) {
             this.bucket.first.set("coin", coin);
         }
+
+        get userState(): UserState {
+            let userState = new UserState();
+            userState.createStep = this.userCreateStep;
+            userState.playerName = this.UserName;
+            userState.coin = this.coin;
+            return userState;
+        }
     }
 
 }

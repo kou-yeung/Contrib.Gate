@@ -62,4 +62,15 @@ namespace Entities
 		public int num;// 所持数
 	}
 	
+    /// <summary>
+    /// UserState
+    /// </summary>
+    [Serializable]
+	public partial class UserState
+	{
+		public UserCreateStep createStep;
+		public string playerName;
+		public int coin;
+	}
+	
 }

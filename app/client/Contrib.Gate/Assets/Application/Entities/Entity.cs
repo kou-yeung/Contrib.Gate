@@ -33,6 +33,7 @@ namespace Entities
         public Recipe[] Recipes { get; private set; }
         public Item[] items { get; private set; }
         public Cheat[] cheats { get; private set; }
+        public UserState userState { get; private set; }
 
         // 受信データなど、サーバ側キャッシュしたデータ（ローカル更新による疑似的同期を行う
         public Inventory inventory { get; private set; }
@@ -81,6 +82,11 @@ namespace Entities
                 wait = false;
             });
             while (wait) yield return null;
+        }
+
+        public void UpdateUserState(UserState userState)
+        {
+            this.userState = userState;
         }
     }
 }

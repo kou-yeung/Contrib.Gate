@@ -47,3 +47,8 @@ Network,9999,ネットワークエラー
 class,InventoryItem,
 uint,identify,
 int,num,所持数
+
+class,UserState,
+UserCreateStep,createStep,
+string,playerName,
+int,coin,

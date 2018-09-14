@@ -23,6 +23,7 @@ public class Boot : MonoBehaviour
             Debug.Log(string.Format("Default OnError : {0}", code));
         };
 
+#if UNITY_ADS
         // https://github.com/unity3d-jp/unityads-help-jp/wiki/Integration-Guide-for-Unity
         // Ads の初期化待ち
         Advertisement.Initialize("2788195");
@@ -30,6 +31,9 @@ public class Boot : MonoBehaviour
         {
             yield return null;
         }
+#else
+        yield return null;
+#endif
 
         // KiiCloudの認証
         Auth.Authentication((user) =>

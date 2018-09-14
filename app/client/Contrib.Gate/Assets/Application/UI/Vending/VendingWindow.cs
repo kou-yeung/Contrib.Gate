@@ -45,6 +45,12 @@ namespace UI
         public void TapListItem(int index, GameObject listItem)
         {
             var item = listItem.GetComponent<VendingItem>();
+
+            if (Entity.Instance.userState.coin < item.vending.Price)
+            {
+                Debug.Log("コインが足りません！！");
+                return;
+            }
             Protocol.Send(new VendingSend { identify = item.vending.Identify }, (r) =>
             {
                 Debug.Log($"{Entity.Name(r.identify)} {r.current}個(+{r.added})");

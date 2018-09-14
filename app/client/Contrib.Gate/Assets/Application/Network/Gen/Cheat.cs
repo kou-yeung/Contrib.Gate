@@ -7,19 +7,17 @@ using Entities;
 namespace Network
 {
     /// <summary>
-    /// Login
+    /// Cheat
     /// </summary>
-    public class LoginSend
+    public class CheatSend
     {
-
+		public string command;
+		public string[] param;
     }
 
-    public class LoginReceive
+    public class CheatReceive
     {
-		public long timestamp; // // サーバ時間
 		public UserState userState;
-		public int[] iv;
-		public int[] key;
     }
 
     /// <summary>
@@ -27,9 +25,9 @@ namespace Network
     /// </summary>
     public static partial class Protocol
     {
-        public static void Send(LoginSend obj, Action<LoginReceive> cb, Func<ErrorCode, bool> error = null)
+        public static void Send(CheatSend obj, Action<CheatReceive> cb, Func<ErrorCode, bool> error = null)
         {
-            new Communication("Login").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
+            new Communication("Cheat").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
         }
     }
 }

@@ -16,10 +16,16 @@ down,string,param,
 down,string,context,
 down,string,message,
 
+// チートコマンド実行
+protocol,Cheat,
+up,string,command,
+up,string[],param,
+down,UserState,userState,
+
 // ログイン処理
 protocol,Login,
 down,long,timestamp,// サーバ時間
-down,UserCreateStep,step,
+down,UserState,userState,
 down,int[],iv,
 down,int[],key,
 

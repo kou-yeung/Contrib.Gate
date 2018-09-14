@@ -6,6 +6,7 @@ using Network;
 using Util.Time;
 using Security;
 using UnityEngine.SceneManagement;
+using Entities;
 
 public class Title : MonoBehaviour
 {
@@ -17,19 +18,20 @@ public class Title : MonoBehaviour
         Protocol.Send(new LoginSend(), (r) =>
         {
             Crypt.Init(r.timestamp, r.iv, r.key);
-
             ServerTime.Init(r.timestamp);
-            switch (r.step)
+
+            Entity.Instance.UpdateUserState(r.userState);
+            switch (Entity.Instance.userState.createStep)
             {
-                case Entities.UserCreateStep.EnterName:
+                case UserCreateStep.EnterName:
                     // ユーザ作成画面へ
                     SceneManager.LoadScene(SceneName.Create);
                     break;
-                case Entities.UserCreateStep.Prologue:
+                case UserCreateStep.Prologue:
                     // プロローグ画面へ
                     SceneManager.LoadScene(SceneName.Prologue);
                     break;
-                case Entities.UserCreateStep.Created:
+                case UserCreateStep.Created:
                     // 作成済なので、ホーム画面へ
                     SceneManager.LoadScene(SceneName.Home);
                     break;

@@ -10,7 +10,7 @@ function Login(params, context, done) {
             new Entities.Player(user).bucket.refresh(player => {
                 // 返信
                 let r = new LoginReceive();
-                r.step = player.userCreateStep;
+                r.userState = player.userState;
                 r.timestamp = Util.Time.ServerTime.current;
                 config.crypt = r.timestamp; // 暗号化タイミング設定
                 r.iv = config.iv;

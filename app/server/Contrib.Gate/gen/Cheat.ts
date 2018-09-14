@@ -2,22 +2,20 @@
 // ProtocolGen から自動生成されます。直接編集しないでください
 //====================
 
-class LoginSend {
+class CheatSend {
+    command: string;
+    param: string[];
 
-
-	// params -> LoginSend
-	static Parse(params : any): LoginSend {
-		return JSON.parse(params.data[0]) as LoginSend;
+	// params -> CheatSend
+	static Parse(params : any): CheatSend {
+		return JSON.parse(params.data[0]) as CheatSend;
 	}
 }
 
-class LoginReceive {
-    timestamp: number; // // サーバ時間
+class CheatReceive {
     userState: UserState;
-    iv: number[];
-    key: number[];
 	
-	// LoginReceive -> string
+	// CheatReceive -> string
 	Pack(): string {
 		return JSON.stringify(this);
     }
@@ -26,14 +24,14 @@ class LoginReceive {
 /*
 // 以下プロトコルを実装する
 // MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
-function Login(params, context, done) {
+function Cheat(params, context, done) {
 
     // 受信データをパースする
-    let s = LoginSend.Parse(params);
+    let s = CheatSend.Parse(params);
 
     GetUser(context, (user) => {
 		// 返信
-	    let r = new LoginReceive();
+	    let r = new CheatReceive();
 
 		// TODO : 返信パラメータを設定する
 

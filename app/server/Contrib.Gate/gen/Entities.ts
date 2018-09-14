@@ -43,3 +43,12 @@ class InventoryItem {
 	identify: number;
 	num: number;// 所持数
 }
+
+/// <summary>
+/// UserState
+/// </summary>
+class UserState {
+	createStep: UserCreateStep;
+	playerName: string;
+	coin: number;
+}
