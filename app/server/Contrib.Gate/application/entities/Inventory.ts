@@ -12,12 +12,12 @@ namespace Entities {
         }
 
         num(identify: Identify): number {
-            return this.bucket.get(identify.toString(), 0);
+            return this.bucket.first.get(identify.toString(), 0);
         }
 
         add(identify: Identify, add: number): number {
             let res = this.num(identify) + add;
-            this.bucket.set(identify.toString(), res);
+            this.bucket.first.set(identify.toString(), res);
             return res;
         }
     }

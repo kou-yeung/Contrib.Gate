@@ -17,9 +17,9 @@ namespace Network
     public class VendingReceive
     {
 		public uint identify;
-		public uint added;
-		public uint current;
-		public uint coin;
+		public int added;
+		public int current;
+		public int coin;
     }
 
     /// <summary>

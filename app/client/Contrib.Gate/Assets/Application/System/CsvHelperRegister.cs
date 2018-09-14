@@ -26,5 +26,6 @@ public class CsvHelperRegister
         configuration.RegisterClassMap<MaterialMap>();
         configuration.RegisterClassMap<VendingMap>();
         configuration.RegisterClassMap<RecipeMap>();
+        configuration.RegisterClassMap<ItemMap>();
     }
 }

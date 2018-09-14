@@ -15,16 +15,16 @@ namespace Entities {
         }
 
         get target(): Identify {
-            return Identify.Parse(this.bucket.get("購入対象ID"));
+            return Identify.Parse(this.bucket.first.get("購入対象ID"));
         }
         get level(): number {
-            return this.bucket.get("購入レベル");
+            return this.bucket.first.get("購入レベル");
         }
         get price(): number {
-            return this.bucket.get("値段");
+            return this.bucket.first.get("値段");
         }
         get num(): number {
-            return this.bucket.get("個数");
+            return this.bucket.first.get("個数");
         }
     }
 }

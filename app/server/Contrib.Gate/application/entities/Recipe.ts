@@ -24,8 +24,8 @@ namespace Entities {
         }
 
         private push(material: string, num: string) {
-            let m = Identify.Parse(this.bucket.get(material, ""));
-            let n = this.bucket.get(num, 0);
+            let m = Identify.Parse(this.bucket.first.get(material, ""));
+            let n = this.bucket.first.get(num, 0);
             if (Identify.isEmpty(m) || n <= 0) return;
             this.material.push(m);
             this.num.push(n);
@@ -36,7 +36,7 @@ namespace Entities {
         }
 
         get result(): Identify {
-            return Identify.Parse(this.bucket.get("Result"));
+            return Identify.Parse(this.bucket.first.get("Result", ""));
         }
     }
 }

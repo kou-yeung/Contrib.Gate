@@ -3,6 +3,14 @@
     // 受信データをパースする
     let s = RecipeSend.Parse(params);
 
+    let id = new Entities.Identify(s.identify);
+    if (id.Type != IDType.Recipe) {
+        // 無効なレシピID
+        let r = new ApiError(ErrorCode.RecipeInvalid);
+        done(r.Pack());
+        return;
+    }
+
     let admin = GetAdmin(context);
 
     // レシピを取得
@@ -26,11 +34,12 @@
                 // ものを付与する
                 switch (recipe.result.Type) {
                     case IDType.Material:
+                    case IDType.Item:
                         inventory.add(recipe.result, 1);
                         break;
                 }
                 // DBに反映して返信する
-                inventory.bucket.save(() => {
+                inventory.bucket.save((i) => {
                     // 返信
                     let r = new RecipeReceive();
                     r.identify = recipe.result.idWithType;

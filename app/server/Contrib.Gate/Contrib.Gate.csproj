@@ -93,6 +93,7 @@
     <TypeScriptCompile Include="application\protocol\AdsEnd.ts" />
     <TypeScriptCompile Include="application\protocol\CreateUser.ts" />
     <TypeScriptCompile Include="application\protocol\FinishPrologue.ts" />
+    <TypeScriptCompile Include="application\protocol\Inventory.ts" />
     <TypeScriptCompile Include="application\protocol\Login.ts" />
     <TypeScriptCompile Include="application\protocol\Ping.ts" />
     <TypeScriptCompile Include="application\protocol\Recipe.ts" />
@@ -106,6 +107,7 @@
     <TypeScriptCompile Include="gen\CreateUser.ts" />
     <TypeScriptCompile Include="gen\Entities.ts" />
     <TypeScriptCompile Include="gen\FinishPrologue.ts" />
+    <TypeScriptCompile Include="gen\Inventory.ts" />
     <TypeScriptCompile Include="gen\Login.ts" />
     <TypeScriptCompile Include="gen\Ping.ts" />
     <TypeScriptCompile Include="gen\Recipe.ts" />

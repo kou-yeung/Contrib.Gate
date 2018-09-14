@@ -47,7 +47,8 @@ namespace UI
             var item = listItem.GetComponent<VendingItem>();
             Protocol.Send(new VendingSend { identify = item.vending.Identify }, (r) =>
             {
-                Debug.Log($"{Entity.Instance.Name(r.identify)} {r.current}個(+{r.added})");
+                Debug.Log($"{Entity.Name(r.identify)} {r.current}個(+{r.added})");
+                Entity.Instance.inventory.Add(r.identify, (int)r.added);
             });
         }
     }

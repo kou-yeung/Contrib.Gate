@@ -44,11 +44,15 @@ down,string,result, // まだ仮パラメータです
 protocol,Vending,
 up,uint,identify,
 down,uint,identify,
-down,uint,added,
-down,uint,current,
-down,uint,coin,
+down,int,added,
+down,int,current,
+down,int,coin,
 
 // レシピ実行
 protocol,Recipe,
 up,uint,identify,実行したいレシピID
 down,uint,identify,獲得されたもの
+
+// インベントリ一覧取得
+protocol,Inventory,
+down,InventoryItem[],items,所持アイテム一覧

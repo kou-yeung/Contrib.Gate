@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Entities;
 
 public class Home : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
-		
-	}
+	IEnumerator Start () {
+        yield return Entity.Instance.GetInventory();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -16,8 +17,11 @@ public class Home : MonoBehaviour {
 
     public void OnClickVending()
     {
-        var prefab = Resources.Load("UI/Vending/VendingWindow");
-        Instantiate(prefab);
-        //Debug.Log("OnClickVending");
+        Instantiate(Resources.Load("UI/Vending/VendingWindow"));
+    }
+
+    public void OnClickBake()
+    {
+        Instantiate(Resources.Load("UI/Bake/BakeWindow"));
     }
 }

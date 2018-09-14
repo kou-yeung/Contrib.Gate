@@ -9,24 +9,24 @@ namespace Entities {
         }
 
         get userCreateStep(): UserCreateStep {
-            return this.bucket.get("UserCreateStep", UserCreateStep.EnterName);
+            return this.bucket.first.get("UserCreateStep", UserCreateStep.EnterName);
         };
         set userCreateStep(step: UserCreateStep) {
-            this.bucket.set("UserCreateStep", step);
+            this.bucket.first.set("UserCreateStep", step);
         }
 
         get UserName(): string {
-            return this.bucket.get("UserName");
+            return this.bucket.first.get("UserName");
         }
         set UserName(name: string) {
-            this.bucket.set<string>("UserName", name);
+            this.bucket.first.set<string>("UserName", name);
         }
 
         get coin(): number {
-            return this.bucket.get("coin", 0);
+            return this.bucket.first.get("coin", 0);
         }
         set coin(coin: number) {
-            this.bucket.set("coin", coin);
+            this.bucket.first.set("coin", coin);
         }
     }
 

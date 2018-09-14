@@ -14,28 +14,28 @@ namespace Entities {
         }
 
         get userid(): string {
-            return this.bucket.get("userid");
+            return this.bucket.first.get("userid");
         };
         set userid(userid: string) {
-            this.bucket.set("userid", userid);
+            this.bucket.first.set("userid", userid);
         }
         get guid(): string {
-            return this.bucket.get("guid");
+            return this.bucket.first.get("guid");
         };
         set guid(guid: string) {
-            this.bucket.set("guid", guid);
+            this.bucket.first.set("guid", guid);
         }
         get reward(): AdReward {
-            return this.bucket.get("reward");
+            return this.bucket.first.get("reward");
         }
         set reward(reward: AdReward) {
-            this.bucket.set("reward", reward);
+            this.bucket.first.set("reward", reward);
         }
         get date(): number {
-            return this.bucket.get("date", Util.Time.ServerTime.current);
+            return this.bucket.first.get("date", Util.Time.ServerTime.current);
         }
         set date(date: number) {
-            this.bucket.set("date", date);
+            this.bucket.first.set("date", date);
         }
 
         create(reward: AdReward, done: (ads: Ads) => void) {

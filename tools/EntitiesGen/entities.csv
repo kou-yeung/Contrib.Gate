@@ -9,9 +9,9 @@ output,TypeScript,./../../app/server/Contrib.Gate/gen/
 
 // ユーザ生成状況
 enum,UserCreateStep,
-EnterName,,// 名前入力
-Prologue,,// プロローグ
-Created,,// 作成済
+EnterName,,名前入力
+Prologue,,プロローグ
+Created,,作成済
 
 // 広告報酬種類
 enum,AdReward,
@@ -23,6 +23,7 @@ Unknown,,不明
 Familiar,,使い魔
 Material,,素材
 Recipe,,レシピ
+Item,,アイテム
 
 // ErrorCode
 enum,ErrorCode,
@@ -30,6 +31,7 @@ None,0,
 InvalidAdsCode,,無効な広告コード
 CoinLack,,コインが不足
 MaterialLack,,素材が不足
+RecipeInvalid,,無効なレシピID
 Network,9999,ネットワークエラー
 
 ///========================================
@@ -38,4 +40,8 @@ Network,9999,ネットワークエラー
 
 // Error
 //class,ApiError,
-//ErrorCode,errorCode,// エラーコードが 0 以外だとエラー
+//ErrorCode,errorCode,エラーコードが 0 以外だとエラー
+
+class,InventoryItem,
+uint,identify,
+int,num,所持数
