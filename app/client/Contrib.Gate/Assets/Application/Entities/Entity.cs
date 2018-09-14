@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System;
 using Network;
+using Security;
 
 namespace Entities
 {
@@ -57,7 +58,7 @@ namespace Entities
 
         T[] Parse<T>(string fn)
         {
-            var str = Resources.Load<TextAsset>(fn).text.Trim();
+            var str = Crypt.Decrypt(Resources.Load<TextAsset>(fn).text).Trim();
             using (var csv = new CsvReader(new StringReader(str), CsvHelperRegister.configuration))
             {
                 return csv.GetRecords<T>().ToArray();

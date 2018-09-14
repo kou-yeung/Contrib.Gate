@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Network;
 using Util.Time;
+using Security;
 using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
@@ -15,6 +16,8 @@ public class Title : MonoBehaviour
         // ログインする
         Protocol.Send(new LoginSend(), (r) =>
         {
+            Crypt.Init(r.timestamp, r.iv, r.key);
+
             ServerTime.Init(r.timestamp);
             switch (r.step)
             {

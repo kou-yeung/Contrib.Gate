@@ -14,6 +14,8 @@ class LoginSend {
 class LoginReceive {
     timestamp: number; // // サーバ時間
     step: UserCreateStep;
+    iv: number[];
+    key: number[];
 	
 	// LoginReceive -> string
 	Pack(): string {

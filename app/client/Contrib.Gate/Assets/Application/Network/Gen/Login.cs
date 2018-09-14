@@ -18,6 +18,8 @@ namespace Network
     {
 		public long timestamp; // // サーバ時間
 		public UserCreateStep step;
+		public int[] iv;
+		public int[] key;
     }
 
     /// <summary>

@@ -20,6 +20,8 @@ down,string,message,
 protocol,Login,
 down,long,timestamp,// サーバ時間
 down,UserCreateStep,step,
+down,int[],iv,
+down,int[],key,
 
 // ユーザ登録
 protocol,CreateUser,
