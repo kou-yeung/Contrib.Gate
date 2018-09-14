@@ -5,6 +5,9 @@
 using System;
 using UnityEngine;
 using KiiCorp.Cloud.Storage;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif // UNITY_EDITOR
 
 namespace Network
 {
@@ -81,6 +84,13 @@ namespace Network
                 }
             });
         }
+#if UNITY_EDITOR
+        [MenuItem("Debug/Auth/Delete AccessToken")]
+        static void DeleteAccessToken()
+        {
+            Auth.AccessToken = "";
+        }
+#endif
     }
 }
 

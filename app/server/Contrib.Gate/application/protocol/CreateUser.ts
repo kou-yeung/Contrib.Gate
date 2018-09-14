@@ -6,15 +6,21 @@ function CreateUser(params, context, done) {
     GetUser(context, user => {
         new Entities.Player(user).bucket.refresh(player => {
 
-            player.UserName = s.name;
-            player.userCreateStep = UserCreateStep.Prologue;
+            user.update({}, {
+                success: function () {
+                    player.UserName = s.name;
+                    player.userCreateStep = UserCreateStep.Prologue;
 
-            player.bucket.save(player => {
-                // 返信
-                let r = new CreateUserReceive();
-                r.step = player.userCreateStep;
-                done(r.Pack());
-            });
+                    player.bucket.save(player => {
+                        // 返信
+                        let r = new CreateUserReceive();
+                        r.step = player.userCreateStep;
+                        done(r.Pack());
+                    });
+                },
+                failure: function () {
+                }
+            },{ "displayName": s.name });
         });
     });
 }
