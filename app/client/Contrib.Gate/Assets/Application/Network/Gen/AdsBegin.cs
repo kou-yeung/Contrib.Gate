@@ -12,6 +12,7 @@ namespace Network
     public class AdsBeginSend
     {
 		public AdReward type;
+		public uint param;
     }
 
     public class AdsBeginReceive

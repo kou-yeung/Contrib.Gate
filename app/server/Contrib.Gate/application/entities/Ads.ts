@@ -31,6 +31,12 @@ namespace Entities {
         set reward(reward: AdReward) {
             this.bucket.first.set("reward", reward);
         }
+        get param(): number {
+            return this.bucket.first.get("param");
+        }
+        set param(param: number) {
+            this.bucket.first.set("param", param);
+        }
         get date(): number {
             return this.bucket.first.get("date", Util.Time.ServerTime.current);
         }
@@ -38,10 +44,11 @@ namespace Entities {
             this.bucket.first.set("date", date);
         }
 
-        create(reward: AdReward, done: (ads: Ads) => void) {
+        create(reward: AdReward, param: number, done: (ads: Ads) => void) {
             this.userid = this.user.getID();
             this.guid = GUID.Gen();
             this.reward = reward;
+            this.param = param;
             this.date = Util.Time.ServerTime.current;
             this.bucket.save(done);
         }

@@ -4,6 +4,7 @@
 
 class AdsBeginSend {
     type: AdReward;
+    param: number;
 
 	// params -> AdsBeginSend
 	static Parse(params : any): AdsBeginSend {

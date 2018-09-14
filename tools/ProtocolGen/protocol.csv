@@ -33,6 +33,7 @@ down,UserCreateStep,step,
 // Ads開始する
 protocol,AdsBegin,
 up,AdReward,type,
+up,uint,param,
 down,string,id,
 
 // Ads終了する
