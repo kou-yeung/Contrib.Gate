@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net.Http;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using System.ComponentModel;
-using System.Globalization;
-using Util;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -91,11 +86,6 @@ class DataDownloader
             }
             Console.WriteLine(arg);
         }
-
-        // 変換する配列型を登録します
-        Converter.RegisterArray<string>();
-        Converter.RegisterArray<int>();
-        Converter.RegisterArray<float>();
 
         var url = string.Format(urlFormat, setting.SheetId, setting.SheetName, setting.ApiKey);
         var sheet = Download<Sheet>(url);

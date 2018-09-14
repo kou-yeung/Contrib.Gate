@@ -37,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="Util\Converter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
