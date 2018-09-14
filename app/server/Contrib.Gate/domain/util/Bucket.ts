@@ -11,6 +11,7 @@ class Result/*<T>*/ {
         let self = this;
         self.obj.save({
             success: function (theSavedObject: KiiObject) {
+                self.obj = theSavedObject; // 最新のほうを使う!!
                 done(self);
             },
             failure: function (theObject, error) {
