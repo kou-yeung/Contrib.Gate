@@ -10,6 +10,8 @@ using System.Runtime.Serialization.Json;
 using System.ComponentModel;
 using System.Globalization;
 using Util;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 class DataDownloader
 {
@@ -40,6 +42,10 @@ class DataDownloader
         public int DataStart;       // データ開始の行（この行から最後まで読み込む
         public string Output;       // 出力パス(ファイル名まで)
 
+        // 暗号化設定
+        public string crypt_iv;
+        public string crypt_key;
+
     }
     static void Main()
     {
@@ -53,26 +59,34 @@ class DataDownloader
         var setting = new Setting();
         foreach (var arg in Environment.GetCommandLineArgs())
         {
-            var data = arg.Split('=');
-            switch (data[0])
+            var match = Regex.Match(arg, @"(\w+)=(.+)");
+            if (match == Match.Empty) continue;
+
+            switch (match.Groups[1].ToString())
             {
                 case "sheetid":
-                    setting.SheetId = data[1];
+                    setting.SheetId = match.Groups[2].ToString();
                     break;
                 case "apikey":
-                    setting.ApiKey = data[1];
+                    setting.ApiKey = match.Groups[2].ToString();
                     break;
                 case "sheetname":
-                    setting.SheetName = data[1];
+                    setting.SheetName = match.Groups[2].ToString();
                     break;
                 case "flagLine":
-                    setting.FlagLine = int.Parse(data[1]) - 1;
+                    setting.FlagLine = int.Parse(match.Groups[2].ToString()) - 1;
                     break;
                 case "dataStart":
-                    setting.DataStart = int.Parse(data[1]) - 1;
+                    setting.DataStart = int.Parse(match.Groups[2].ToString()) - 1;
                     break;
                 case "output":
-                    setting.Output = data[1];
+                    setting.Output = match.Groups[2].ToString();
+                    break;
+                case "crypt_iv":
+                    setting.crypt_iv = match.Groups[2].ToString();
+                    break;
+                case "crypt_key":
+                    setting.crypt_key = match.Groups[2].ToString();
                     break;
             }
             Console.WriteLine(arg);
@@ -101,7 +115,7 @@ class DataDownloader
             Directory.CreateDirectory(Path.GetDirectoryName(path));
         }
 
-        File.WriteAllText(path, Parse(sheet, setting));
+        File.WriteAllText(path, Encrypt(Parse(sheet, setting), setting.crypt_iv, setting.crypt_key));
     }
 
     static string Parse(Sheet sheet, Setting setting)
@@ -155,5 +169,30 @@ class DataDownloader
             return (T)serializer.ReadObject(stream);
         }
     }
+
+    private static string Encrypt(string plainText, string iv, string key)
+    {
+        if (string.IsNullOrEmpty(iv) || string.IsNullOrEmpty(key)) return plainText;
+
+        using (var manager = new AesManaged())
+        {
+            manager.Key = Convert.FromBase64String(key);
+            manager.IV = Convert.FromBase64String(iv);
+            var encryptor = manager.CreateEncryptor(manager.Key, manager.IV);
+
+            using (var ms = new MemoryStream())
+            {
+                using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                {
+                    using (StreamWriter sw = new StreamWriter(cs))
+                    {
+                        sw.Write(plainText);
+                    }
+                    return Convert.ToBase64String(ms.ToArray());
+                }
+            }
+        }
+    }
+
 }
 
