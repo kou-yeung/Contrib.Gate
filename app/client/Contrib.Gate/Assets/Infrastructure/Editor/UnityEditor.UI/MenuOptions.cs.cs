@@ -4,6 +4,7 @@
 /// 
 /// 参考 : https://github.com/tenpn/unity3d-ui/blob/master/UnityEditor.UI/UI/MenuOptions.cs
 ///=========================================
+using UnityEngine;
 using UnityEngine.UI;
 using System.Reflection;
 using System.IO;
@@ -19,7 +20,8 @@ namespace UnityEditor.UI
         static readonly string TypeName = @"UnityEditor.UI.MenuOptions";
 
         // ボタン作成時のコールバック
-        public static event Action<Button> OnCreatedButton = (btn) => { };
+        public static event Action<GameObject> OnCreatedButton = (obj) => { };
+        public static event Action<GameObject> OnCreatedScrollRect = (obj) => { };
 
         static Type Type
         {
@@ -35,10 +37,10 @@ namespace UnityEditor.UI
 
             /// MEMO : ヒエラルキーに選択されているオブジェクトを取得し、先頭オブジェクトのコンポーネントを取得する
             var go = Selection.gameObjects.First();
-            OnCreatedButton(go.GetComponent<Button>());
+            OnCreatedButton(go);
         }
 
-        [MenuItem("GameObject/UI/Table View", false, 2060)]
+        [MenuItem("GameObject/UI/Table View", false, 2050)]
         static void AddTableView(MenuCommand menuCommand)
         {
             /// MEMO : 元の実装を呼び出す
@@ -50,6 +52,24 @@ namespace UnityEditor.UI
             go.name = "Table View";
             go.GetComponent<ScrollRect>().horizontal = false;   // 水平方向のスクロール制限
             go.AddComponent<ANZListView>(); // ANZListView追加しておく
+
+            OnCreatedScrollRect(go);
+        }
+
+        [MenuItem("GameObject/UI/Cell View", false, 2051)]
+        static void AddCellView(MenuCommand menuCommand)
+        {
+            /// MEMO : 元の実装を呼び出す
+            var method = Type.GetMethod("AddScrollView");
+            method.Invoke(null, new object[] { menuCommand });
+
+            /// MEMO : ヒエラルキーに選択されているオブジェクトを取得し、先頭オブジェクトのコンポーネントを取得する
+            var go = Selection.gameObjects.First();
+            go.name = "Cell View";
+            go.GetComponent<ScrollRect>().horizontal = false;   // 水平方向のスクロール制限
+            go.AddComponent<ANZCellView>(); // ANZCellView追加しておく
+
+            OnCreatedScrollRect(go);
         }
     }
 }
