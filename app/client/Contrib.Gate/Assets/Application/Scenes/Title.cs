@@ -23,7 +23,7 @@ public class Title : MonoBehaviour
             Entity.Instance.Load(); // 暗号化の準備が終わったため、もう一回ロードする
             Entity.Instance.UpdateUserState(r.userState);
 
-            switch (Entity.Instance.userState.createStep)
+            switch (Entity.Instance.UserState.createStep)
             {
                 case UserCreateStep.EnterName:
                     // ユーザ作成画面へ

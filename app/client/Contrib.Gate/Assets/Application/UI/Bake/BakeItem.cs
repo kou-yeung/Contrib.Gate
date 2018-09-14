@@ -19,7 +19,7 @@ namespace UI
             valid = true;
 
             name.text = Entity.Name(recipe.Result);
-            var inventory = Entity.Instance.inventory;
+            var inventory = Entity.Instance.Inventory;
             for (int i = 0; i < materials.Length; i++)
             {
                 if (i < recipe.Materials.Count)

@@ -44,10 +44,10 @@ namespace UI
                     // 消費したアイテムを減らし
                     foreach (var mat in recipe.Materials)
                     {
-                        Entity.Instance.inventory.Add(mat.Item1, -mat.Item2);
+                        Entity.Instance.Inventory.Add(mat.Item1, -mat.Item2);
                     }
                     // 獲得したものを追加します
-                    Entity.Instance.inventory.Add(r.identify, 1);
+                    Entity.Instance.Inventory.Add(r.identify, 1);
 
                     // セル更新する
                     cell.ReloadData();

@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using Network;
 using Security;
+using Event;
 
 namespace Entities
 {
@@ -36,8 +37,8 @@ namespace Entities
         public StringTable StringTable { get; private set; }
 
         // 受信データなど、サーバ側キャッシュしたデータ（ローカル更新による疑似的同期を行う
-        public Inventory inventory { get; private set; }
-        public UserState userState { get; private set; }
+        public Inventory Inventory { get; private set; }
+        public UserState UserState { get; private set; }
 
         public void Load()
         {
@@ -79,12 +80,12 @@ namespace Entities
 
         public IEnumerator GetInventory(bool refresh = false)
         {
-            if (!refresh && inventory != null) yield break;
+            if (!refresh && Inventory != null) yield break;
 
             bool wait = true;
             Protocol.Send(new InventorySend(), (r) =>
             {
-                inventory = new Inventory(r.items);
+                Inventory = new Inventory(r.items);
                 wait = false;
             });
             while (wait) yield return null;
@@ -92,7 +93,8 @@ namespace Entities
 
         public void UpdateUserState(UserState userState)
         {
-            this.userState = userState;
+            this.UserState = userState;
+            Observer.Instance.Notify(UserState.Update.ToString(), userState);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace UI
         {
             var item = listItem.GetComponent<VendingItem>();
 
-            if (Entity.Instance.userState.coin < item.vending.Price)
+            if (Entity.Instance.UserState.coin < item.vending.Price)
             {
                 Debug.Log(Entity.Instance.StringTable.Get(ErrorCode.CoinLack));
                 return;
@@ -54,7 +54,8 @@ namespace UI
             Protocol.Send(new VendingSend { identify = item.vending.Identify }, (r) =>
             {
                 Debug.Log($"{Entity.Name(r.identify)} {r.current}個(+{r.added})");
-                Entity.Instance.inventory.Add(r.identify, (int)r.added);
+                Entity.Instance.Inventory.Add(r.identify, (int)r.added);
+                Entity.Instance.UserState.SetCoin(r.coin);
             });
         }
     }
