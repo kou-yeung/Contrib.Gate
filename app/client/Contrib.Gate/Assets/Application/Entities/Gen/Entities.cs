@@ -34,6 +34,7 @@ namespace Entities
 		Material,// 素材
 		Recipe,// レシピ
 		Item,// アイテム
+		Vending,// 自販機
 	}
 	
     /// <summary>
@@ -46,6 +47,7 @@ namespace Entities
 		CoinLack,// コインが不足
 		MaterialLack,// 素材が不足
 		RecipeInvalid,// 無効なレシピID
+		VendingInvalid,// 無効な自販機ID
 		Network=9999,// ネットワークエラー
 	}
 	

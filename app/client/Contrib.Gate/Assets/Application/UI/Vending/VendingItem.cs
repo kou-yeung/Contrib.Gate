@@ -18,7 +18,7 @@ namespace UI
         public void Setup(Vending data)
         {
             vending = data;
-            name.text = Entity.Name(data.Identify);
+            name.text = Entity.Name(data.Result);
             price.text = $"{data.Num}個 ￥{data.Price}";
         }
     }

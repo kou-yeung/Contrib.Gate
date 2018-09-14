@@ -3,6 +3,12 @@
     // 受信データをパースする
     let s = VendingSend.Parse(params);
 
+    if (new Entities.Identify(s.identify).Type != IDType.Vending) {
+        // 無効な自販機ID
+        let r = new ApiError(ErrorCode.VendingInvalid);
+        done(r.Pack());
+    }
+
     let admin = GetAdmin(context);
     new Entities.Vending(admin, new Entities.Identify(s.identify)).refresh(vending =>
     {

@@ -10,7 +10,7 @@ namespace Entities {
         }
 
         refresh(done: (vending: Vending) => void) {
-            let clause = KiiClause.equals("購入対象ID", this.identify.toString());
+            let clause = KiiClause.equals("ID", this.identify.toString());
             this.bucket.refresh(done, KiiQuery.queryWithClause(clause));
         }
 
