@@ -5,7 +5,7 @@ namespace Entities {
         bucket: Bucket<Ads>;
         user: KiiUser;
         constructor(admin: KiiAppAdminContext, user: KiiUser) {
-            this.bucket = new Bucket(this, admin, "Ads");
+            this.bucket = new Bucket(this, admin, "advertisement");
             this.user = user;
         }
         refresh(done: (ads: Ads) => void): void {
