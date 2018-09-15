@@ -195,7 +195,6 @@ GameObject:
   - component: {fileID: 223995711679223176}
   - component: {fileID: 114881331085032656}
   - component: {fileID: 114249659625866626}
-  - component: {fileID: 114433810991098992}
   - component: {fileID: 114910300744721236}
   m_Layer: 5
   m_Name: DialogWindow
@@ -387,21 +386,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: YES
---- !u!114 &114433810991098992
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1942967378371662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b30b7b125481f14daa88903408b8ebf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layer: 1000
-  list: {fileID: 0}
-  vendingItemPrefab: {fileID: 1410578427402644, guid: 6825928f4832cd84abfbaff97f66473e,
-    type: 2}
 --- !u!114 &114488278027689028
 MonoBehaviour:
   m_ObjectHideFlags: 1

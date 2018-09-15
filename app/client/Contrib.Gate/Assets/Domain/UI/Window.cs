@@ -17,7 +17,7 @@ namespace UI
 
         void Start()
         {
-            foreach (var btn in GetComponentsInChildren<Button>())
+            foreach (var btn in GetComponentsInChildren<Button>(true))
             {
                 btn.onClick.AddListener(() => OnButtonClick(btn));
             }
