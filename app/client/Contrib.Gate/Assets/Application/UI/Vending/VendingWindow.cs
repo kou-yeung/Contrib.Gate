@@ -7,7 +7,7 @@ using Network;
 
 namespace UI
 {
-    public class VendingWindow : MonoBehaviour, ANZListView.IDataSource, ANZListView.IActionDelegate
+    public class VendingWindow : Window, ANZListView.IDataSource, ANZListView.IActionDelegate
     {
         public ANZListView list;
         public GameObject vendingItemPrefab;
@@ -30,16 +30,12 @@ namespace UI
         }
 
         // Use this for initialization
-        void Start()
+        protected override void OnStart()
         {
             list.DataSource = this;
             list.ActionDelegate = this;
             list.ReloadData();
-        }
-
-        public void OnClose()
-        {
-            Destroy(this.gameObject);
+            base.OnStart();
         }
 
         public void TapListItem(int index, GameObject listItem)
@@ -48,15 +44,21 @@ namespace UI
 
             if (Entity.Instance.UserState.coin < item.vending.Price)
             {
-                Debug.Log(Entity.Instance.StringTable.Get(ErrorCode.CoinLack));
+                DialogWindow.OpenOk("確認", Entity.Instance.StringTable.Get(ErrorCode.CoinLack));
                 return;
             }
-            Protocol.Send(new VendingSend { identify = item.vending.Identify }, (r) =>
-            {
-                Debug.Log($"{Entity.Name(r.identify)} {r.current}個(+{r.added})");
-                Entity.Instance.Inventory.Add(r.identify, (int)r.added);
-                Entity.Instance.UserState.SetCoin(r.coin);
-            });
+
+            DialogWindow.OpenYesNo("確認", $"{item.vending.Price} コインを使って\n{Entity.Name(item.vending.Result)} x {item.vending.Num}個を交換しますか？",
+                ()=>
+                {
+                    Protocol.Send(new VendingSend { identify = item.vending.Identify }, (r) =>
+                    {
+                        Debug.Log($"{Entity.Name(r.identify)} {r.current}個(+{r.added})");
+                        Entity.Instance.Inventory.Add(r.identify, (int)r.added);
+                        Entity.Instance.UserState.SetCoin(r.coin);
+                    });
+                });
+
         }
     }
 }

@@ -9,8 +9,9 @@ using System.Linq;
 
 namespace UI
 {
-    public class DebugWindow : MonoBehaviour, ANZListView.IDataSource, ANZListView.IActionDelegate
+    public class DebugWindow : Window, ANZListView.IDataSource, ANZListView.IActionDelegate
     {
+        public GameObject Background;
         public new Text name;
         public DebugParam[] Params;
         public ANZListView list;
@@ -56,34 +57,53 @@ namespace UI
         }
 
         // Use this for initialization
-        void Start()
+        protected override void OnStart()
         {
+            GameObject.DontDestroyOnLoad(this.gameObject);
             list.DataSource = this;
             list.ActionDelegate = this;
-            list.ReloadData();
-        }
-
-        public void OnClose()
-        {
-            Destroy(this.gameObject);
+            base.OnStart();
         }
 
         public void OnClickExec()
         {
-            if (current == null) return;
-            var send = new CheatSend();
-            send.command = current.Command;
-            send.param = Params.Where(p => p.gameObject.activeSelf).Select(p => p.input.text).ToArray();
-            Protocol.Send(send, (r) =>
+        }
+
+        public override void OnButtonClick(Button btn)
+        {
+            switch (btn.name)
             {
-                switch (send.command)
-                {
-                    case "addcoin":
-                        Entity.Instance.UpdateUserState(r.userState);
-                        break;
-                }
-                //Debug.Log(r.message);
-            });   
+                case "Send":
+                    {
+                        if (current == null) return;
+                        var send = new CheatSend();
+                        send.command = current.Command;
+                        send.param = Params.Where(p => p.gameObject.activeSelf).Select(p => p.input.text).ToArray();
+                        Protocol.Send(send, (r) =>
+                        {
+                            switch (send.command)
+                            {
+                                case "addcoin":
+                                    Entity.Instance.UpdateUserState(r.userState);
+                                    break;
+                            }
+                            //Debug.Log(r.message);
+                        });
+                    }
+                    break;
+                case "Switch":
+                    {
+                        Background.SetActive(!Background.activeSelf);
+                        if (Background.activeSelf)
+                        {
+                            list.ReloadData();
+                        }
+                    }
+                    break;
+                default:
+                    base.OnButtonClick(btn);
+                    break;
+            }
         }
     }
 }

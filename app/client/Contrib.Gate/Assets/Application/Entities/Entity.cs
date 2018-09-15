@@ -47,7 +47,7 @@ namespace Entities
             Vendings = Parse<Vending>("Entities/vending");
             Recipes = Parse<Recipe>("Entities/recipe");
             Items = Parse<Item>("Entities/item");
-            Cheats = Parse<Cheat>("Entities/cheat");
+            Cheats = Parse<Cheat>("Entities/cheat", false);
             StringTable = new StringTable(Parse<StringTableKV>("Entities/string_table", false));
         }
 

@@ -4,10 +4,11 @@ using UnityEngine;
 using Xyz.AnzFactory.UI;
 using Entities;
 using Network;
+using System.Linq;
 
 namespace UI
 {
-    public class BakeWindow : MonoBehaviour, ANZCellView.IDataSource, ANZCellView.IActionDelegate
+    public class BakeWindow : Window, ANZCellView.IDataSource, ANZCellView.IActionDelegate
     {
         public ANZCellView cell;
         public GameObject bakeItemPrefab;
@@ -37,39 +38,40 @@ namespace UI
 
             if (item.valid)
             {
-                Protocol.Send(new RecipeSend { identify = recipe.Identify }, (r) =>
+                var msg = recipe.Materials.Select(m => $"{Entity.Name(m.Item1)} x {m.Item2}");
+
+                DialogWindow.OpenYesNo($"{Entity.Name(recipe.Result)} を製作します", string.Join("\n",msg.ToArray()), () =>
                 {
-                    // 交換しました、キャッシュした情報を更新します
-
-                    // 消費したアイテムを減らし
-                    foreach (var mat in recipe.Materials)
+                    Protocol.Send(new RecipeSend { identify = recipe.Identify }, (r) =>
                     {
-                        Entity.Instance.Inventory.Add(mat.Item1, -mat.Item2);
-                    }
-                    // 獲得したものを追加します
-                    Entity.Instance.Inventory.Add(r.identify, 1);
+                        // 交換しました、キャッシュした情報を更新します
 
-                    // セル更新する
-                    cell.ReloadData();
+                        // 消費したアイテムを減らし
+                        foreach (var mat in recipe.Materials)
+                        {
+                            Entity.Instance.Inventory.Add(mat.Item1, -mat.Item2);
+                        }
+                        // 獲得したものを追加します
+                        Entity.Instance.Inventory.Add(r.identify, 1);
+
+                        // セル更新する
+                        cell.ReloadData();
+                    });
                 });
             }
             else
             {
+                DialogWindow.OpenOk("確認", Entity.Instance.StringTable.Get(ErrorCode.MaterialLack));
             }
             Debug.Log(index);
         }
 
-        // Use this for initialization
-        void Start()
+        protected override void OnStart()
         {
             cell.DataSource = this;
             cell.ActionDelegate = this;
             cell.ReloadData();
-        }
-
-        public void OnClose()
-        {
-            Destroy(this.gameObject);
+            base.OnStart();
         }
     }
 }

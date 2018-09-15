@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Advertisements;
 using Entities;
+using UI;
 
 public class Boot : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Boot : MonoBehaviour
     }
     IEnumerator Start()
     {
+        Window.Open<DebugWindow>();
+
         Entity.Instance.Load();
 
         KiiInitialize.Init();

@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 114606671440225152}
   - component: {fileID: 114758869257212492}
   m_Layer: 5
-  m_Name: Close
+  m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -363,6 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e2dce39f7091648bb0d1196574b152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: 1000
   prefab: {fileID: 1020413434708128, guid: 16fecf1e85e674f4db42abed015e130e, type: 2}
   cell: {fileID: 114212799791130144}
 --- !u!114 &114116561253161410
@@ -551,18 +552,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114606671440225152}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114064883706518190}
-        m_MethodName: OnClose
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114767336835483342
@@ -723,8 +713,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114845018226765376}
   m_HandleRect: {fileID: 224687930489203014}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -925,7 +915,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000043801032}
+  m_AnchoredPosition: {x: 0, y: -0.000017304037}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224612618010338344
@@ -960,7 +950,7 @@ RectTransform:
   m_Father: {fileID: 224297186974745650}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.000000059604645, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}

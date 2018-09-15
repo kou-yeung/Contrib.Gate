@@ -6,7 +6,7 @@ using Entities;
 
 namespace UI
 {
-    public class InventoryWindow : MonoBehaviour, ANZCellView.IDataSource
+    public class InventoryWindow : Window, ANZCellView.IDataSource
     {
         public GameObject prefab;
         public ANZCellView cell;
@@ -28,14 +28,11 @@ namespace UI
             return Entity.Instance.Inventory.items.Count;
         }
 
-        void Start()
+        protected override void OnStart()
         {
             cell.DataSource = this;
             cell.ReloadData();
-        }
-        public void OnClose()
-        {
-            Destroy(this.gameObject);
+            base.OnStart();
         }
     }
 }

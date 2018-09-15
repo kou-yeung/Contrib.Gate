@@ -4,6 +4,7 @@ using UnityEngine;
 using Entities;
 using UnityEngine.UI;
 using Event;
+using UI;
 
 public class Home : MonoBehaviour {
 
@@ -24,21 +25,23 @@ public class Home : MonoBehaviour {
 
     public void OnClickVending()
     {
-        Instantiate(Resources.Load("UI/Vending/VendingWindow"));
+        // "UI/Vending/VendingWindow"
+        Window.Open<VendingWindow>();
     }
 
     public void OnClickBake()
     {
-        Instantiate(Resources.Load("UI/Bake/BakeWindow"));
+        Window.Open<BakeWindow>();
     }
 
-    public void OnClickDebug()
-    {
-        Instantiate(Resources.Load("UI/Debug/DebugWindow"));
-    }
+    //public void OnClickDebug()
+    //{
+    //    Window.Open<DebugWindow>("UI/Vending/VendingWindow");
+    //    Instantiate(Resources.Load("UI/Debug/DebugWindow"));
+    //}
     public void OnClickInventory()
     {
-        Instantiate(Resources.Load("UI/Inventory/InventoryWindow"));
+        Window.Open<InventoryWindow>();
     }
 
     void UpdateUserState(string name = "", object arg = null)
