@@ -9,7 +9,7 @@ namespace Test
     {
         void Start()
         {
-            DungeonGen.Gen(300, 300);
+            DungeonGen.Gen(150, 150);
         }
 
         void Update()
