@@ -9,7 +9,7 @@ namespace Test
     {
         void Start()
         {
-            DungeonGen.Gen(new Vector2Int(45, 45), new Vector2Int(3, 3), new Vector2Int(12, 12));
+            DungeonGen.Gen(0, new Vector2Int(45, 45), new Vector2Int(3, 3), new Vector2Int(12, 12));
         }
 
         void Update()

@@ -9,8 +9,20 @@ using UnityEditor;
 #endif
 namespace Dungeon
 {
+    /// <summary>
+    /// 0,1,2
+    /// 3,4,5
+    /// 6,7,8
+    /// </summary>
+    [Flags]
     enum Tile
     {
+        None = 0,
+        UP = 1 << 0,
+        Down = 1 << 1,
+        Left = 1 << 2,
+        Right = 1 << 3,
+        All = UP | Down | Left | Right,
     }
 
     class Road
@@ -67,24 +79,33 @@ namespace Dungeon
                 var xMax = rooms.Item2.Area.x;      // 右
                 var xCenter = (xMax + xMin) / 2;    // 中央
 
-                var y1 = random.Next(rooms.Item1.Area.height) + rooms.Item1.Area.y;
-                var y2 = random.Next(rooms.Item2.Area.height) + rooms.Item2.Area.y;
+                var y1 = random.Next(-rooms.Item1.Area.height / 4, rooms.Item1.Area.height / 4) + (int)rooms.Item1.Area.center.y;
+                var y2 = random.Next(-rooms.Item2.Area.height / 4, rooms.Item2.Area.height / 4) + (int)rooms.Item2.Area.center.y;
 
                 // 左部屋から中間までの道
                 for (int i = xMin; i <= xCenter; i++)
                 {
-                    pos.Add(new Vector2Int(i, y1));
+                    for (int y = y1 - 1; y <= y1 + 1; y++)
+                    {
+                        pos.Add(new Vector2Int(i, y));
+                    }
                 }
                 // 左部屋から中間までの道
                 for (int i = xMax - 1; i >= xCenter; i--)
                 {
-                    pos.Add(new Vector2Int(i, y2));
+                    for (int y = y2-1; y <= y2+1; y++)
+                    {
+                        pos.Add(new Vector2Int(i, y));
+                    }
                 }
 
                 // 連結
                 for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2); ++y)
                 {
-                    pos.Add(new Vector2Int(xCenter, y));
+                    for (int x = xCenter - 1; x <= xCenter + 1; x++)
+                    {
+                        pos.Add(new Vector2Int(x, y));
+                    }
                 }
             }
             else
@@ -94,30 +115,39 @@ namespace Dungeon
                 var yMax = rooms.Item2.Area.y;      // 下
                 var yCenter = (yMax + yMin) / 2;    // 中央
 
-                var x1 = random.Next(rooms.Item1.Area.width) + rooms.Item1.Area.x;
-                var x2 = random.Next(rooms.Item2.Area.width) + rooms.Item2.Area.x;
+                var x1 = random.Next(-rooms.Item1.Area.width / 4, rooms.Item1.Area.width / 4) + (int)rooms.Item1.Area.center.x;
+                var x2 = random.Next(-rooms.Item2.Area.width / 4, rooms.Item2.Area.width / 4) + (int)rooms.Item2.Area.center.x;
 
                 // 左部屋から中間までの道
                 for (int i = yMin; i <= yCenter; i++)
                 {
-                    pos.Add(new Vector2Int(x1, i));
+                    for (int x = x1 -1 ; x <= x1+1; x++)
+                    {
+                        pos.Add(new Vector2Int(x, i));
+                    }
                 }
                 // 左部屋から中間までの道
                 for (int i = yMax - 1; i >= yCenter; i--)
                 {
-                    pos.Add(new Vector2Int(x2, i));
+                    for (int x = x2-1; x <= x2+1; x++)
+                    {
+                        pos.Add(new Vector2Int(x, i));
+                    }
                 }
 
                 // 連結
                 for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2); ++x)
                 {
-                    pos.Add(new Vector2Int(x, yCenter));
+                    for (int y = yCenter-1; y <= yCenter + 1; y++)
+                    {
+                        pos.Add(new Vector2Int(x, y));
+                    }
                 }
             }
             return pos;
         }
 
-        public void Merge()
+        public void Merge(System.Random random)
         {
             List<Vector2Int> pos = new List<Vector2Int>();
             if (rooms.Item1.Grid.y == rooms.Item2.Grid.y)
@@ -125,7 +155,7 @@ namespace Dungeon
                 // 横接続
                 var xMin = rooms.Item1.Area.xMax;   // 左
                 var xMax = rooms.Item2.Area.x;      // 右
-                var xCenter = (xMax + xMin) / 2;    // 中央
+                var xCenter = random.Next(xMax - xMin) + xMin;    // 中央
 
                 rooms.Item1.Area.xMax = xCenter;
                 rooms.Item2.Area.xMin = xCenter;
@@ -135,7 +165,7 @@ namespace Dungeon
                 // 縦接続
                 var yMin = rooms.Item1.Area.yMax; // 上
                 var yMax = rooms.Item2.Area.y;    // 下
-                var yCenter = (yMax + yMin) / 2;  // 中央
+                var yCenter = random.Next(yMax - yMin) + yMin;  // 中央
 
                 rooms.Item1.Area.yMax = yCenter;
                 rooms.Item2.Area.yMin = yCenter;
@@ -164,85 +194,89 @@ namespace Dungeon
         [UnityEditor.MenuItem("Tools/DungeonGen/Gen")]
         public static void Gen()
         {
-            Gen(new Vector2Int(30, 30), new Vector2Int(3, 3), new Vector2Int(12, 20));
-        }
-#endif
-        public static void Gen(Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin)
-        {
-            for (int p = 0; p < 100; p++)
+            var count = 100;
+            for (int i = 0; i < count; i++)
             {
-                EditorUtility.DisplayProgressBar("生成中", $"{p}/{100}", p / 100f);
-                System.Random random = new System.Random(p);
-
-                var width = areaSize.x;
-                var height = areaSize.y;
-                var numX = grid.x;
-                var numY = grid.y;
-
-                var flag = new bool[areaSize.x * numX, areaSize.y * numY];
-                var rooms = new List<Room>();
-                var passages = new List<Passage>();
-
-                for (int x = 0; x < numX; x++)
-                {
-                    for (int y = 0; y < numY; y++)
-                    {
-                        var rect = RandomRect(new RectInt(x * width, y * height, width, height), roomSizeMin, random);
-                        rooms.Add(new Room(x + y * numX, new Vector2Int(x, y), rect));
-                    }
-                }
-
-                for (int i = 0; i < rooms.Count; i++)
-                {
-                    for (int y = 0; y < rooms.Count; y++)
-                    {
-                        if (i == y) continue;
-
-                        var room1 = rooms[i];
-                        var room2 = rooms[y];
-
-                        if ((room1.Grid - room2.Grid).magnitude > 1) continue;
-
-                        var passage = new Passage(room1, room2);
-                        if (!passages.Contains(passage))
-                        {
-                            passages.Add(passage);
-                        }
-                    }
-                }
-
-                var deleteRoomTryCount = random.Next((grid.x * grid.y) / 2);    // MEMO : CSV から調整できるようにします
-                var deleteRoadTryCount = random.Next((grid.x * grid.y) / 2);    // MEMO : CSV から調整できるようにします
-                var mergeRoomRoomTryCount = random.Next(2);                     // MEMO : CSV から調整できるようにします
-
-                DeleteRoom(rooms, passages, deleteRoomTryCount, random);
-                MergeRoom(rooms, passages, mergeRoomRoomTryCount, random);
-                DeleteRoad(rooms, passages, deleteRoadTryCount, random);
-
-                // 画像出力:部屋
-                foreach (var room in rooms)
-                {
-                    var area = room.Area;
-                    for (int x = area.xMin; x < area.xMax; x++)
-                    {
-                        for (int y = area.yMin; y < area.yMax; y++)
-                        {
-                            flag[x, y] = true;
-                        }
-                    }
-                }
-                // 画像出力:道
-                foreach (var passage in passages)
-                {
-                    foreach (var road in passage.Road(random))
-                    {
-                        flag[road.x, road.y] = true;
-                    }
-                }
-
-                Print(flag, p.ToString());
+                EditorUtility.DisplayProgressBar("生成中", $"{i}/{count}", i / (float)count);
+                Gen(i, new Vector2Int(60, 60), new Vector2Int(3, 3), new Vector2Int(24, 24), new Vector2Int(40, 40));
             }
             EditorUtility.ClearProgressBar();
+        }
+#endif
+        public static void Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int? roomSizeMax = null)
+        {
+            if (!roomSizeMax.HasValue)
+            {
+                roomSizeMax = areaSize;
+            }
+            System.Random random = new System.Random(seed);
+
+            var width = areaSize.x;
+            var height = areaSize.y;
+            var numX = grid.x;
+            var numY = grid.y;
+
+            var flag = new bool[areaSize.x * numX, areaSize.y * numY];
+            var rooms = new List<Room>();
+            var passages = new List<Passage>();
+
+            for (int x = 0; x < numX; x++)
+            {
+                for (int y = 0; y < numY; y++)
+                {
+                    var rect = RandomRect(new RectInt(x * width, y * height, width, height), roomSizeMin, roomSizeMax.Value, random);
+                    rooms.Add(new Room(x + y * numX, new Vector2Int(x, y), rect));
+                }
+            }
+
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                for (int y = 0; y < rooms.Count; y++)
+                {
+                    if (i == y) continue;
+
+                    var room1 = rooms[i];
+                    var room2 = rooms[y];
+
+                    if ((room1.Grid - room2.Grid).magnitude > 1) continue;
+
+                    var passage = new Passage(room1, room2);
+                    if (!passages.Contains(passage))
+                    {
+                        passages.Add(passage);
+                    }
+                }
+            }
+
+            var deleteRoomTryCount = random.Next((grid.x * grid.y) / 2);    // MEMO : CSV から調整できるようにします
+            var deleteRoadTryCount = random.Next((grid.x * grid.y) / 2);    // MEMO : CSV から調整できるようにします
+            var mergeRoomRoomTryCount = random.Next(3);                     // MEMO : CSV から調整できるようにします
+
+            DeleteRoom(rooms, passages, deleteRoomTryCount, random);
+            DeleteRoad(rooms, passages, deleteRoadTryCount, random);
+            MergeRoom(rooms, passages, mergeRoomRoomTryCount, random);
+
+            // 画像出力:部屋
+            foreach (var room in rooms)
+            {
+                var area = room.Area;
+                for (int x = area.xMin; x < area.xMax; x++)
+                {
+                    for (int y = area.yMin; y < area.yMax; y++)
+                    {
+                        flag[x, y] = true;
+                    }
+                }
+            }
+            // 画像出力:道
+            foreach (var passage in passages)
+            {
+                foreach (var road in passage.Road(random))
+                {
+                    flag[road.x, road.y] = true;
+                }
+            }
+            Print(CalcTile(flag), seed.ToString());
         }
 
         /// <summary>
@@ -305,10 +339,9 @@ namespace Dungeon
         {
             for (int i = 0; i < tryCount; i++)
             {
-                var index = random.Next(rooms.Count);
-                var room = rooms[index];
-                var passage = passages.Where(v => v.Has(room)).Shuffle().First();
-                passage.Merge();
+                var index = random.Next(passages.Count);
+                var passage = passages[index];
+                passage.Merge(random);
                 passages.Remove(passage);
             }
         }
@@ -352,15 +385,86 @@ namespace Dungeon
             File.WriteAllBytes($"Dungeon/{fn}.png", tex.EncodeToPNG());
         }
 
-        static RectInt RandomRect(RectInt area, Vector2Int roomSizeMin, System.Random random)
+        static void Print(Tile[,] flag, string fn)
+        {
+            List<Color> colors = new List<Color>();
+            var width = flag.GetLength(0);
+            var height = flag.GetLength(1);
+            var tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
+
+            for (int y = height - 1; y >= 0; y--)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    switch ((int)flag[x,y])
+                    {
+                        case 0:
+                            colors.Add(Color.black);
+                            break;
+                        case (int)Tile.All:
+                            colors.Add(Color.white);
+                            break;
+                        case (int)Tile.UP:
+                            colors.Add(Color.blue);
+                            break;
+                        case (int)Tile.Down:
+                            colors.Add(Color.green);
+                            break;
+                        case (int)Tile.Left:
+                            colors.Add(Color.yellow);
+                            break;
+                        case (int)Tile.Right:
+                            colors.Add(Color.magenta);
+                            break;
+                        default:
+                            colors.Add(Color.red);
+                            break;
+                    }
+                }
+            }
+
+            tex.SetPixels(colors.ToArray());
+            tex.Apply();
+            File.WriteAllBytes($"Dungeon/{fn}.png", tex.EncodeToPNG());
+        }
+
+        static Tile[,] CalcTile(bool[,] flag)
+        {
+            var width = flag.GetLength(0);
+            var height = flag.GetLength(1);
+            var tiles = new Tile[width, height];
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Tile tile = Tile.None;
+
+                    var left = x - 1;
+                    var right = x + 1;
+                    var up = y - 1;
+                    var down = y + 1;
+
+                    if (left >= 0 && flag[left, y]) tile |= Tile.Right;
+                    if (right < width && flag[right, y]) tile |= Tile.Left;
+                    if (up >= 0 && flag[x, up]) tile |= Tile.Down;
+                    if (down < height && flag[x, down]) tile |= Tile.UP;
+                    if (flag[x, y]) tile = Tile.All;
+                    tiles[x, y] = tile;
+                }
+            }
+            return tiles;
+        }
+
+        static RectInt RandomRect(RectInt area, Vector2Int roomSizeMin, Vector2Int roomSizeMax, System.Random random)
         {
             // 部屋サイズ
-            int w = random.Next(area.width - roomSizeMin.x) + roomSizeMin.x;
-            int h = random.Next(area.height - roomSizeMin.y) + roomSizeMin.y;
+            int w = Math.Min(random.Next(area.width - roomSizeMin.x) + roomSizeMin.x, roomSizeMax.x);
+            int h = Math.Min(random.Next(area.height - roomSizeMin.y) + roomSizeMin.y, roomSizeMax.y);
 
             // 部屋座標
-            int sx = random.Next(area.width - w) + (area.x + 1);
-            int sy = random.Next(area.height - h) + (area.y + 1);
+            int sx = random.Next(area.width - w) + (area.x);
+            int sy = random.Next(area.height - h) + (area.y);
 
             return new RectInt(sx, sy, w, h);
         }
