@@ -179,8 +179,8 @@ namespace Dungeon
                     }
                 }
 
+                DeleteRoad(rooms, passages, random);
                 DeleteRoom(rooms, passages, random);
-                //DeleteRoad(rooms, passages, random);
 
                 // 画像出力:部屋
                 foreach (var room in rooms)
@@ -205,12 +205,13 @@ namespace Dungeon
 
                 Print(flag, p.ToString());
             }
+            EditorUtility.ClearProgressBar();
         }
 
         static void DeleteRoom(List<Room> rooms, List<Passage> passages, System.Random random)
         {
             bool Fbreak = false;
-            var deleteNum = random.Next(1, 3);
+            var deleteNum = random.Next(1, 4);
             for (int i = 0; i < deleteNum; i++)
             {
                 var index = random.Next(rooms.Count);
@@ -231,21 +232,21 @@ namespace Dungeon
             }
         }
 
-        //static void DeleteRoad(List<Room> rooms, List<Passage> passages, System.Random random)
-        //{
-        //    var deleteNum = random.Next(1, 2);
-        //    for (int i = 0; i < deleteNum; i++)
-        //    {
-        //        var index = random.Next(passages.Count);
-        //        var passage = passages[index];
-        //        passages.RemoveAt(index);
-        //        if (!IsAllConnect(rooms, passages))
-        //        {
-        //            passages.Add(passage);
-        //            --i;
-        //        }
-        //    }
-        //}
+        static void DeleteRoad(List<Room> rooms, List<Passage> passages, System.Random random)
+        {
+            var deleteNum = random.Next(2, 4);
+            for (int i = 0; i < deleteNum; i++)
+            {
+                var index = random.Next(passages.Count);
+                var passage = passages[index];
+                passages.RemoveAt(index);
+                if (!IsAllConnect(rooms, passages))
+                {
+                    passages.Add(passage);
+                    --i;
+                }
+            }
+        }
 
         static bool IsAllConnect(List<Room> rooms, List<Passage> passages)
         {
