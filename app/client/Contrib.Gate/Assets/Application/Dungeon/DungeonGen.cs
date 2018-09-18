@@ -90,9 +90,9 @@ namespace Dungeon
             else
             {
                 // 縦接続
-                var yMin = rooms.Item1.Area.y + rooms.Item1.Area.height;    // 上
-                var yMax = rooms.Item2.Area.y;    // 下
-                var yCenter = (yMax + yMin) / 2;  // 中央
+                var yMin = rooms.Item1.Area.yMax;   // 上
+                var yMax = rooms.Item2.Area.y;      // 下
+                var yCenter = (yMax + yMin) / 2;    // 中央
 
                 var x1 = random.Next(rooms.Item1.Area.width) + rooms.Item1.Area.x;
                 var x2 = random.Next(rooms.Item2.Area.width) + rooms.Item2.Area.x;
@@ -115,6 +115,31 @@ namespace Dungeon
                 }
             }
             return pos;
+        }
+
+        public void Merge()
+        {
+            List<Vector2Int> pos = new List<Vector2Int>();
+            if (rooms.Item1.Grid.y == rooms.Item2.Grid.y)
+            {
+                // 横接続
+                var xMin = rooms.Item1.Area.xMax;   // 左
+                var xMax = rooms.Item2.Area.x;      // 右
+                var xCenter = (xMax + xMin) / 2;    // 中央
+
+                rooms.Item1.Area.xMax = xCenter;
+                rooms.Item2.Area.xMin = xCenter;
+            }
+            else
+            {
+                // 縦接続
+                var yMin = rooms.Item1.Area.yMax; // 上
+                var yMax = rooms.Item2.Area.y;    // 下
+                var yCenter = (yMax + yMin) / 2;  // 中央
+
+                rooms.Item1.Area.yMax = yCenter;
+                rooms.Item2.Area.yMin = yCenter;
+            }
         }
     }
 
@@ -188,8 +213,10 @@ namespace Dungeon
 
                 var deleteRoomTryCount = random.Next((grid.x * grid.y) / 2);    // MEMO : CSV から調整できるようにします
                 var deleteRoadTryCount = random.Next((grid.x * grid.y) / 2);    // MEMO : CSV から調整できるようにします
+                var mergeRoomRoomTryCount = random.Next(2);                     // MEMO : CSV から調整できるようにします
 
                 DeleteRoom(rooms, passages, deleteRoomTryCount, random);
+                MergeRoom(rooms, passages, mergeRoomRoomTryCount, random);
                 DeleteRoad(rooms, passages, deleteRoadTryCount, random);
 
                 // 画像出力:部屋
@@ -218,6 +245,13 @@ namespace Dungeon
             EditorUtility.ClearProgressBar();
         }
 
+        /// <summary>
+        /// 部屋をランダムで削除する
+        /// </summary>
+        /// <param name="rooms"></param>
+        /// <param name="passages"></param>
+        /// <param name="tryCount"></param>
+        /// <param name="random"></param>
         static void DeleteRoom(List<Room> rooms, List<Passage> passages, int tryCount, System.Random random)
         {
             for (int i = 0; i < tryCount; i++)
@@ -238,6 +272,13 @@ namespace Dungeon
             }
         }
 
+        /// <summary>
+        /// 道をランダムで削除
+        /// </summary>
+        /// <param name="rooms"></param>
+        /// <param name="passages"></param>
+        /// <param name="tryCount"></param>
+        /// <param name="random"></param>
         static void DeleteRoad(List<Room> rooms, List<Passage> passages, int tryCount, System.Random random)
         {
             for (int i = 0; i < tryCount; i++)
@@ -250,6 +291,25 @@ namespace Dungeon
                     // 分断されたため戻します
                     passages.Add(passage);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 部屋をマージする
+        /// </summary>
+        /// <param name="rooms"></param>
+        /// <param name="passages"></param>
+        /// <param name="tryCount"></param>
+        /// <param name="random"></param>
+        static void MergeRoom(List<Room> rooms, List<Passage> passages, int tryCount, System.Random random)
+        {
+            for (int i = 0; i < tryCount; i++)
+            {
+                var index = random.Next(rooms.Count);
+                var room = rooms[index];
+                var passage = passages.Where(v => v.Has(room)).Shuffle().First();
+                passage.Merge();
+                passages.Remove(passage);
             }
         }
 
