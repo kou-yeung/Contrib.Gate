@@ -1,4 +1,6 @@
 ID,購入対象ID,購入レベル,値段,個数,
 Vending_001_001,Material_001_001,1,100,10,
 Vending_001_002,Material_001_002,2,150,5,
-Vending_001_003,Material_001_003,3,300,10,
+Vending_001_003,Material_001_003,3,150,10,
+Vending_001_004,Material_001_004,3,200,10,
+Vending_001_005,Material_001_005,3,100,2,

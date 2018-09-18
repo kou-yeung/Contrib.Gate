@@ -68,7 +68,6 @@ namespace UI
 
         public static T Open<T>(string fn, params object[] args) where T : Window
         {
-            //"UI/Vending/VendingWindow";
             var go = Instantiate(Resources.Load<GameObject>(fn));
             var res = go.GetComponent<T>();
             res.OnOpen();
