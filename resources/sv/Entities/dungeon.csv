@@ -1,0 +1,4 @@
+ID,名前,上り階段,下り階段,Room設定,
+Dungeon_001_001,始まりの森(1),Dungeon_000_000,Dungeon_001_002,Room_001_001,
+Dungeon_001_002,始まりの森(2),Dungeon_001_001,Dungeon_001_003,Room_001_002,
+Dungeon_001_003,始まりの森(3),Dungeon_001_002,Dungeon_999_999,Room_001_003,
