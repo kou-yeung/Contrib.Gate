@@ -34,11 +34,13 @@ namespace Entities
         public Recipe[] Recipes { get; private set; }
         public Item[] Items { get; private set; }
         public Cheat[] Cheats { get; private set; }
-        public StringTable StringTable { get; private set; }
+        public Dungeon[] Dungeons { get; private set; }
+        public Room[] Rooms { get; private set; }
 
         // 受信データなど、サーバ側キャッシュしたデータ（ローカル更新による疑似的同期を行う
         public Inventory Inventory { get; private set; }
         public UserState UserState { get; private set; }
+        public StringTable StringTable { get; private set; }
 
         public void Load()
         {
@@ -47,6 +49,9 @@ namespace Entities
             Vendings = Parse<Vending>("Entities/vending");
             Recipes = Parse<Recipe>("Entities/recipe");
             Items = Parse<Item>("Entities/item");
+            Dungeons = Parse<Dungeon>("Entities/dungeon");
+            Rooms = Parse<Room>("Entities/room");
+
             Cheats = Parse<Cheat>("Entities/cheat", false);
             StringTable = new StringTable(Parse<StringTableKV>("Entities/string_table", false));
         }

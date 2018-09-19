@@ -35,6 +35,8 @@ namespace Entities
 		Recipe,// レシピ
 		Item,// アイテム
 		Vending,// 自販機
+		Dungeon,// ダンジョン
+		Room,// 部屋設定
 	}
 	
     /// <summary>

@@ -1,11 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using System;
 using System.Linq;
-using CsvHelper;
-using CsvHelper.Configuration;
-using CsvHelper.TypeConversion;
 
 namespace Util
 {
@@ -36,19 +30,6 @@ namespace Util
                 if (Keys[i].Equals(text)) return Values[i];
             }
             return default(T);
-        }
-    }
-
-    public class EnumTypeConverter<T> : ITypeConverter where T : struct, IConvertible
-    {
-        public object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
-        {
-            return EnumExtension<T>.Parse(text);
-        }
-
-        public string ConvertToString(object value, IWriterRow row, MemberMapData memberMapData)
-        {
-            return EnumExtension<T>.ToString((T)value);
         }
     }
 }
