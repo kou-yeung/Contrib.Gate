@@ -82,7 +82,7 @@ namespace Dungeon
                 var y2 = random.Next(-rooms.Item2.Area.height / 4, rooms.Item2.Area.height / 4) + (int)rooms.Item2.Area.center.y;
 
                 // 左部屋から中間までの道
-                for (int i = xMin; i <= xCenter + 1; i++)
+                for (int i = xMin; i <= xCenter + roadWidth; i++)
                 {
                     for (int y = y1 - roadWidth; y <= y1 + roadWidth; y++)
                     {
@@ -90,7 +90,7 @@ namespace Dungeon
                     }
                 }
                 // 左部屋から中間までの道
-                for (int i = xMax - 1; i >= xCenter - 1; i--)
+                for (int i = xMax - 1; i >= xCenter - roadWidth; i--)
                 {
                     for (int y = y2 - roadWidth; y <= y2 + roadWidth; y++)
                     {
@@ -118,7 +118,7 @@ namespace Dungeon
                 var x2 = random.Next(-rooms.Item2.Area.width / 4, rooms.Item2.Area.width / 4) + (int)rooms.Item2.Area.center.x;
 
                 // 左部屋から中間までの道
-                for (int i = yMin; i <= yCenter + 1; i++)
+                for (int i = yMin; i <= yCenter + roadWidth; i++)
                 {
                     for (int x = x1 - roadWidth; x <= x1+ roadWidth; x++)
                     {
@@ -126,7 +126,7 @@ namespace Dungeon
                     }
                 }
                 // 左部屋から中間までの道
-                for (int i = yMax - 1; i >= yCenter - 1; i--)
+                for (int i = yMax - 1; i >= yCenter - roadWidth; i--)
                 {
                     for (int x = x2- roadWidth; x <= x2+ roadWidth; x++)
                     {
