@@ -146,7 +146,7 @@ namespace Dungeon
             return pos;
         }
 
-        public void Merge(System.Random random)
+        public bool Merge(System.Random random)
         {
             List<Vector2Int> pos = new List<Vector2Int>();
             if (rooms.Item1.Grid.y == rooms.Item2.Grid.y)
@@ -158,6 +158,17 @@ namespace Dungeon
 
                 rooms.Item1.Area.xMax = xCenter;
                 rooms.Item2.Area.xMin = xCenter;
+
+                // 部屋の高さによって重ねてない場合もあるため、確認する
+                if (rooms.Item1.Area.yMin < rooms.Item2.Area.yMin && rooms.Item1.Area.yMax > rooms.Item2.Area.yMin)
+                {
+                    return true;
+                }
+                if (rooms.Item1.Area.yMin < rooms.Item2.Area.yMax && rooms.Item1.Area.yMax > rooms.Item2.Area.yMax)
+                {
+                    return true;
+                }
+                return false; // 重ねてない場合、道は削除しないようにします
             }
             else
             {
@@ -168,6 +179,17 @@ namespace Dungeon
 
                 rooms.Item1.Area.yMax = yCenter;
                 rooms.Item2.Area.yMin = yCenter;
+
+                // 部屋の高さによって重ねてない場合もあるため、確認する
+                if (rooms.Item1.Area.xMin < rooms.Item2.Area.xMin && rooms.Item1.Area.xMax > rooms.Item2.Area.xMin)
+                {
+                    return true;
+                }
+                if (rooms.Item1.Area.xMin < rooms.Item2.Area.xMax && rooms.Item1.Area.xMax > rooms.Item2.Area.xMax)
+                {
+                    return true;
+                }
+                return false; // 重ねてない場合、道は削除しないようにします
             }
         }
     }
@@ -341,8 +363,11 @@ namespace Dungeon
             {
                 var index = random.Next(passages.Count);
                 var passage = passages[index];
-                passage.Merge(random);
-                passages.Remove(passage);
+                if (passage.Merge(random))
+                {
+                    // 重ねてる場合のみ道を削除する
+                    passages.Remove(passage);
+                }
             }
         }
 
