@@ -27,6 +27,10 @@ namespace Dungeon
         RightUpCorner = 1 << 5,
         LeftDownCorner = 1 << 6,
         RightDownCorner = 1 << 7,
+
+        UpStairs = 1 << 8,  // 上り階段
+        DownStairs = 1 << 9,  // 下り階段
+        Treasure = 1 << 10, // 宝箱？[仕様未定]
     }
 
     class Passage
@@ -219,13 +223,14 @@ namespace Dungeon
             for (int i = 0; i < count; i++)
             {
                 EditorUtility.DisplayProgressBar("生成中", $"{i}/{count}", i / (float)count);
-                var res = Gen(i, new Vector2Int(20, 20), new Vector2Int(3, 3), new Vector2Int(8, 8), new Vector2Int(14, 14));
+                var additional = new[] { Tile.UpStairs, Tile.DownStairs, Tile.Treasure, Tile.Treasure };
+                var res = Gen(i, new Vector2Int(20, 20), new Vector2Int(3, 3), new Vector2Int(8, 8), new Vector2Int(14, 14), additional);
                 Print(res, i.ToString());
             }
             EditorUtility.ClearProgressBar();
         }
 #endif
-        public static Tile[,] Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int? roomSizeMax = null)
+        public static Tile[,] Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int? roomSizeMax = null, Tile[] additional = null)
         {
             if (!roomSizeMax.HasValue)
             {
@@ -278,7 +283,7 @@ namespace Dungeon
             DeleteRoad(rooms, passages, deleteRoadTryCount, random);
             MergeRoom(rooms, passages, mergeRoomRoomTryCount, random);
 
-            // 画像出力:部屋
+            // フラグ設定:部屋
             foreach (var room in rooms)
             {
                 var area = room.Area;
@@ -290,7 +295,7 @@ namespace Dungeon
                     }
                 }
             }
-            // 画像出力:道
+            // フラグ設定:道
             foreach (var passage in passages)
             {
                 foreach (var road in passage.Road(random))
@@ -298,9 +303,34 @@ namespace Dungeon
                     flag[road.x, road.y] = true;
                 }
             }
-            return CalcTile(flag);
+
+            var res = CalcTile(flag);
+
+            // 追加タイルの設定
+            if(additional != null)
+            {
+                foreach (var add in additional)
+                {
+                    int x, y;
+                    RandomPosition(res, Tile.All, random, out x, out y);
+                    res[x, y] = add;
+                }
+            }
+            return res;
         }
 
+        static void RandomPosition(Tile[,] tiles, Tile findType, System.Random random, out int x, out int y)
+        {
+            var width = tiles.GetLength(0);
+            var height = tiles.GetLength(1);
+
+            while(true)
+            {
+                x = random.Next(0, width);
+                y = random.Next(0, height);
+                if (tiles[x, y] == findType) break;
+            }
+        }
         /// <summary>
         /// 部屋をランダムで削除する
         /// </summary>
@@ -440,6 +470,15 @@ namespace Dungeon
                             break;
                         case (int)Tile.Right:
                             colors.Add(Color.magenta);
+                            break;
+                        case (int)Tile.UpStairs:
+                            colors.Add(Color.yellow);
+                            break;
+                        case (int)Tile.DownStairs:
+                            colors.Add(Color.blue);
+                            break;
+                        case (int)Tile.Treasure:
+                            colors.Add(Color.green);
                             break;
                         default:
                             colors.Add(Color.red);

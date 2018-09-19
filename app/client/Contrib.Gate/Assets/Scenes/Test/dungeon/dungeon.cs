@@ -12,7 +12,8 @@ namespace Test
 
         void Start()
         {
-            var map = DungeonGen.Gen(0, new Vector2Int(30, 30), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(20, 20));
+            var additional = new[] { Tile.UpStairs, Tile.DownStairs };
+            var map = DungeonGen.Gen(0, new Vector2Int(30, 30), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(20, 20), additional);
 
             var width = map.GetLength(0);
             var height = map.GetLength(1);
