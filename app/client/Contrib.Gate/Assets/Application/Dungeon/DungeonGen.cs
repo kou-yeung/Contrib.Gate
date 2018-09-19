@@ -23,6 +23,10 @@ namespace Dungeon
         Left = 1 << 2,
         Right = 1 << 3,
         All = UP | Down | Left | Right,
+        LeftUpCorner = 1 << 4,
+        RightUpCorner = 1 << 5,
+        LeftDownCorner = 1 << 6,
+        RightDownCorner = 1 << 7,
     }
 
     class Passage
@@ -446,6 +450,27 @@ namespace Dungeon
                         if (right < width && flag[right, y]) tile |= Tile.Left;
                         if (up >= 0 && flag[x, up]) tile |= Tile.Down;
                         if (down < height && flag[x, down]) tile |= Tile.UP;
+
+                        if (tile == Tile.All)
+                        {
+                            if (left >= 0 && up >= 0 && !flag[left, up])
+                            {
+                                tile = Tile.LeftUpCorner;
+                            }
+                            else if (left >= 0 && down < height && !flag[left, down])
+                            {
+                                tile = Tile.LeftDownCorner;
+                            }
+                            else if (right < width && up >= 0 && !flag[right, up])
+                            {
+                                tile = Tile.RightUpCorner;
+                            }
+                            else if (right < width && down < height && !flag[right, down])
+                            {
+                                tile = Tile.RightDownCorner;
+                            }
+                        }
+
                         tiles[x, y] = tile;
                     }
                     else
