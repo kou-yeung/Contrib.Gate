@@ -69,7 +69,7 @@ namespace Dungeon
 
         public List<Vector2Int> Road(System.Random random)
         {
-            var roadWidth = 2;
+            var roadWidth = 1;
             List<Vector2Int> pos = new List<Vector2Int>();
             if (rooms.Item1.Grid.y == rooms.Item2.Grid.y)
             {
@@ -82,7 +82,7 @@ namespace Dungeon
                 var y2 = random.Next(-rooms.Item2.Area.height / 4, rooms.Item2.Area.height / 4) + (int)rooms.Item2.Area.center.y;
 
                 // 左部屋から中間までの道
-                for (int i = xMin; i <= xCenter; i++)
+                for (int i = xMin; i <= xCenter + 1; i++)
                 {
                     for (int y = y1 - roadWidth; y <= y1 + roadWidth; y++)
                     {
@@ -90,7 +90,7 @@ namespace Dungeon
                     }
                 }
                 // 左部屋から中間までの道
-                for (int i = xMax - 1; i >= xCenter; i--)
+                for (int i = xMax - 1; i >= xCenter - 1; i--)
                 {
                     for (int y = y2 - roadWidth; y <= y2 + roadWidth; y++)
                     {
@@ -118,7 +118,7 @@ namespace Dungeon
                 var x2 = random.Next(-rooms.Item2.Area.width / 4, rooms.Item2.Area.width / 4) + (int)rooms.Item2.Area.center.x;
 
                 // 左部屋から中間までの道
-                for (int i = yMin; i <= yCenter; i++)
+                for (int i = yMin; i <= yCenter + 1; i++)
                 {
                     for (int x = x1 - roadWidth; x <= x1+ roadWidth; x++)
                     {
@@ -126,7 +126,7 @@ namespace Dungeon
                     }
                 }
                 // 左部屋から中間までの道
-                for (int i = yMax - 1; i >= yCenter; i--)
+                for (int i = yMax - 1; i >= yCenter - 1; i--)
                 {
                     for (int x = x2- roadWidth; x <= x2+ roadWidth; x++)
                     {
@@ -219,7 +219,7 @@ namespace Dungeon
             for (int i = 0; i < count; i++)
             {
                 EditorUtility.DisplayProgressBar("生成中", $"{i}/{count}", i / (float)count);
-                var res = Gen(i, new Vector2Int(45, 45), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(36,36));
+                var res = Gen(i, new Vector2Int(20, 20), new Vector2Int(3, 3), new Vector2Int(8, 8), new Vector2Int(14, 14));
                 Print(res, i.ToString());
             }
             EditorUtility.ClearProgressBar();
