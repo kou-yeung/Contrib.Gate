@@ -2,14 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Dungeon;
+using UnityEngine.UI;
 
 namespace Test
 {
     public class dungeon : MonoBehaviour
     {
+        public GameObject[] chip;
+
         void Start()
         {
-            DungeonGen.Gen(0, new Vector2Int(45, 45), new Vector2Int(3, 3), new Vector2Int(12, 12));
+            var map = DungeonGen.Gen(2, new Vector2Int(45, 45), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(36, 36));
+
+            var width = map.GetLength(0);
+            var height = map.GetLength(1);
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    var prefab = GetChip(map[x, y]);
+                    if (prefab != null)
+                    {
+                        var go = Instantiate(prefab, this.transform);
+                        go.transform.localPosition = new Vector3(x, 0, -y);
+                    }
+                }
+            }
+        }
+        GameObject GetChip(Tile tile)
+        {
+            switch ((int)tile)
+            {
+                case (int)Tile.All:
+                    return chip[0];
+                case (int)(Tile.UP | Tile.Left):
+                    return chip[1];
+                case (int)(Tile.UP | Tile.Right):
+                    return chip[2];
+                case (int)(Tile.UP | Tile.Left | Tile.Right):
+                    return chip[3];
+                case (int)(Tile.Right | Tile.UP | Tile.Down):
+                    return chip[4];
+                case (int)(Tile.Left | Tile.UP | Tile.Down):
+                    return chip[5];
+                case (int)(Tile.Down | Tile.Left):
+                    return chip[6];
+                case (int)(Tile.Down | Tile.Right):
+                    return chip[7];
+                case (int)(Tile.Down | Tile.Left | Tile.Right):
+                    return chip[8];
+                case (int)(Tile.None):
+                    return null;
+                default:
+                    {
+                        Debug.Log(tile);
+                        return null;
+                    }
+            }
         }
 
         void Update()

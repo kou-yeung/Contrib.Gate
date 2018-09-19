@@ -15,7 +15,7 @@ namespace Dungeon
     /// 6,7,8
     /// </summary>
     [Flags]
-    enum Tile
+    public enum Tile
     {
         None = 0,
         UP = 1 << 0,
@@ -23,12 +23,6 @@ namespace Dungeon
         Left = 1 << 2,
         Right = 1 << 3,
         All = UP | Down | Left | Right,
-    }
-
-    class Road
-    {
-        public Vector2Int start;
-        public Vector2Int end;
     }
 
     class Passage
@@ -71,6 +65,7 @@ namespace Dungeon
 
         public List<Vector2Int> Road(System.Random random)
         {
+            var roadWidth = 2;
             List<Vector2Int> pos = new List<Vector2Int>();
             if (rooms.Item1.Grid.y == rooms.Item2.Grid.y)
             {
@@ -85,7 +80,7 @@ namespace Dungeon
                 // 左部屋から中間までの道
                 for (int i = xMin; i <= xCenter; i++)
                 {
-                    for (int y = y1 - 1; y <= y1 + 1; y++)
+                    for (int y = y1 - roadWidth; y <= y1 + roadWidth; y++)
                     {
                         pos.Add(new Vector2Int(i, y));
                     }
@@ -93,7 +88,7 @@ namespace Dungeon
                 // 左部屋から中間までの道
                 for (int i = xMax - 1; i >= xCenter; i--)
                 {
-                    for (int y = y2-1; y <= y2+1; y++)
+                    for (int y = y2 - roadWidth; y <= y2 + roadWidth; y++)
                     {
                         pos.Add(new Vector2Int(i, y));
                     }
@@ -102,7 +97,7 @@ namespace Dungeon
                 // 連結
                 for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2); ++y)
                 {
-                    for (int x = xCenter - 1; x <= xCenter + 1; x++)
+                    for (int x = xCenter - roadWidth; x <= xCenter + roadWidth; x++)
                     {
                         pos.Add(new Vector2Int(x, y));
                     }
@@ -121,7 +116,7 @@ namespace Dungeon
                 // 左部屋から中間までの道
                 for (int i = yMin; i <= yCenter; i++)
                 {
-                    for (int x = x1 -1 ; x <= x1+1; x++)
+                    for (int x = x1 - roadWidth; x <= x1+ roadWidth; x++)
                     {
                         pos.Add(new Vector2Int(x, i));
                     }
@@ -129,7 +124,7 @@ namespace Dungeon
                 // 左部屋から中間までの道
                 for (int i = yMax - 1; i >= yCenter; i--)
                 {
-                    for (int x = x2-1; x <= x2+1; x++)
+                    for (int x = x2- roadWidth; x <= x2+ roadWidth; x++)
                     {
                         pos.Add(new Vector2Int(x, i));
                     }
@@ -138,7 +133,7 @@ namespace Dungeon
                 // 連結
                 for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2); ++x)
                 {
-                    for (int y = yCenter-1; y <= yCenter + 1; y++)
+                    for (int y = yCenter- roadWidth; y <= yCenter + roadWidth; y++)
                     {
                         pos.Add(new Vector2Int(x, y));
                     }
@@ -198,12 +193,13 @@ namespace Dungeon
             for (int i = 0; i < count; i++)
             {
                 EditorUtility.DisplayProgressBar("生成中", $"{i}/{count}", i / (float)count);
-                Gen(i, new Vector2Int(60, 60), new Vector2Int(3, 3), new Vector2Int(24, 24), new Vector2Int(40, 40));
+                var res = Gen(i, new Vector2Int(45, 45), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(36,36));
+                Print(res, i.ToString());
             }
             EditorUtility.ClearProgressBar();
         }
 #endif
-        public static void Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int? roomSizeMax = null)
+        public static Tile[,] Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int? roomSizeMax = null)
         {
             if (!roomSizeMax.HasValue)
             {
@@ -276,7 +272,7 @@ namespace Dungeon
                     flag[road.x, road.y] = true;
                 }
             }
-            Print(CalcTile(flag), seed.ToString());
+            return CalcTile(flag);
         }
 
         /// <summary>
@@ -438,19 +434,24 @@ namespace Dungeon
             {
                 for (int y = 0; y < height; y++)
                 {
-                    Tile tile = Tile.None;
+                    if (flag[x, y])
+                    {
+                        Tile tile = Tile.None;
+                        var left = x - 1;
+                        var right = x + 1;
+                        var up = y - 1;
+                        var down = y + 1;
 
-                    var left = x - 1;
-                    var right = x + 1;
-                    var up = y - 1;
-                    var down = y + 1;
-
-                    if (left >= 0 && flag[left, y]) tile |= Tile.Right;
-                    if (right < width && flag[right, y]) tile |= Tile.Left;
-                    if (up >= 0 && flag[x, up]) tile |= Tile.Down;
-                    if (down < height && flag[x, down]) tile |= Tile.UP;
-                    if (flag[x, y]) tile = Tile.All;
-                    tiles[x, y] = tile;
+                        if (left >= 0 && flag[left, y]) tile |= Tile.Right;
+                        if (right < width && flag[right, y]) tile |= Tile.Left;
+                        if (up >= 0 && flag[x, up]) tile |= Tile.Down;
+                        if (down < height && flag[x, down]) tile |= Tile.UP;
+                        tiles[x, y] = tile;
+                    }
+                    else
+                    {
+                        tiles[x, y] = Tile.None;
+                    }
                 }
             }
             return tiles;
