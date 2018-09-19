@@ -61,6 +61,10 @@ namespace Test
                     return chip[11];
                 case (int)(Tile.RightDownCorner):
                     return chip[12];
+                case (int)(Tile.UpStairs):
+                    return chip[13];
+                case (int)(Tile.DownStairs):
+                    return chip[14];
                 case (int)(Tile.None):
                     return null;
                 default:

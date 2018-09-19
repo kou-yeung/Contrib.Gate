@@ -33,6 +33,7 @@ namespace CsvHelper
             configuration.RegisterClassMap<StringTableMap>();
             configuration.RegisterClassMap<DungeonMap>();
             configuration.RegisterClassMap<RoomMap>();
+            configuration.RegisterClassMap<StageMap>();
         }
     }
 }

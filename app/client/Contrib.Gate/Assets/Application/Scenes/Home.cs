@@ -25,7 +25,6 @@ public class Home : MonoBehaviour {
 
     public void OnClickVending()
     {
-        // "UI/Vending/VendingWindow"
         Window.Open<VendingWindow>();
     }
 
@@ -34,14 +33,14 @@ public class Home : MonoBehaviour {
         Window.Open<BakeWindow>();
     }
 
-    //public void OnClickDebug()
-    //{
-    //    Window.Open<DebugWindow>("UI/Vending/VendingWindow");
-    //    Instantiate(Resources.Load("UI/Debug/DebugWindow"));
-    //}
     public void OnClickInventory()
     {
         Window.Open<InventoryWindow>();
+    }
+
+    public void OnClickStage()
+    {
+        Window.Open<StageWindow>();
     }
 
     void UpdateUserState(string name = "", object arg = null)

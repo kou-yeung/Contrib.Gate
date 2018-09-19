@@ -8,4 +8,5 @@ CALL cheat.bat
 CALL string_table.bat
 CALL dungeon.bat
 CALL room.bat
+CALL stage.bat
 

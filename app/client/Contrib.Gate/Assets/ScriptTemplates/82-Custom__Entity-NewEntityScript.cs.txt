@@ -1,0 +1,21 @@
+using CsvHelper.Configuration;
+
+namespace Entities
+{
+    public class #SCRIPTNAME#
+    {
+		// TODO : プロパティ追加
+		//public Identify Identify;
+
+    }
+
+    public sealed class #SCRIPTNAME#Map : ClassMap<#SCRIPTNAME#>
+    {
+        public #SCRIPTNAME#Map()
+        {
+			// マッピング方法対応
+            //Map(x => x.Identify).Index(0);
+	        //Map(x => x.Materials).ConvertUsing(row =>{});
+        }
+    }
+}
