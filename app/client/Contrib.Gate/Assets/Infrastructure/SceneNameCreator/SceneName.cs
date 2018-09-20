@@ -8,4 +8,5 @@ public static class SceneName
 	public const string Create = "Create";
 	public const string Prologue = "Prologue";
 	public const string Home = "Home";
+	public const string InGame = "InGame";
 }

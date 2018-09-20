@@ -27,6 +27,7 @@ Item,,アイテム
 Vending,,自販機
 Dungeon,,ダンジョン
 Room,,部屋設定
+Stage,,ステージ
 
 // ErrorCode
 enum,ErrorCode,
@@ -36,6 +37,7 @@ CoinLack,,コインが不足
 MaterialLack,,素材が不足
 RecipeInvalid,,無効なレシピID
 VendingInvalid,,無効な自販機ID
+StageInvalid,,無効なステージID
 Network,9999,ネットワークエラー
 
 ///========================================
@@ -54,3 +56,10 @@ class,UserState,
 UserCreateStep,createStep,
 string,playerName,
 int,coin,
+
+// ステージ情報
+class,StageInfo,
+uint,dungeonId,ダンジョンID
+uint,seed,乱数シード
+string,guid,StageBegin時生成される値、フロア移動時のチェックに使用します
+long,lossTime,消失時間

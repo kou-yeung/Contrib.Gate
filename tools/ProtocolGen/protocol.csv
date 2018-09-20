@@ -65,3 +65,9 @@ down,uint,identify,獲得されたもの
 // インベントリ一覧取得
 protocol,Inventory,
 down,InventoryItem[],items,所持アイテム一覧
+
+// ステージ開始
+protocol,StageBegin
+up,uint,stageId,ステージID
+down,StageInfo,stageInfo,ステージ情報
+

@@ -44,6 +44,7 @@ namespace Network
     public class ApiError
     {
         public ErrorCode errorCode; // エラーコードが 0 以外だとエラー
+        public string message;      // 追加メッセージ
     }
 
     public class Requests
@@ -72,6 +73,10 @@ namespace Network
                 if (cb != null)
                 {
                     var error = JsonUtility.FromJson<ApiError>(res.returnedValue);
+                    if(!string.IsNullOrEmpty(error.message))
+                    {
+                        Debug.Log(error.message);
+                    }
                     cb(error.errorCode, res.returnedValue);
                 }
             }

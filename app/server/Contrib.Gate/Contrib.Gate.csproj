@@ -89,6 +89,8 @@
     <TypeScriptCompile Include="application\entities\Inventory.ts" />
     <TypeScriptCompile Include="application\entities\Player.ts" />
     <TypeScriptCompile Include="application\entities\Recipe.ts" />
+    <TypeScriptCompile Include="application\entities\Stage.ts" />
+    <TypeScriptCompile Include="application\entities\StageInfo.ts" />
     <TypeScriptCompile Include="application\entities\Vending.ts" />
     <TypeScriptCompile Include="application\protocol\AdsBegin.ts" />
     <TypeScriptCompile Include="application\protocol\AdsEnd.ts" />
@@ -100,8 +102,10 @@
     <TypeScriptCompile Include="application\protocol\Ping.ts" />
     <TypeScriptCompile Include="application\protocol\Recipe.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
+    <TypeScriptCompile Include="application\protocol\StageBegin.ts" />
     <TypeScriptCompile Include="application\protocol\Vending.ts" />
     <TypeScriptCompile Include="domain\network\ApiError.ts" />
+    <TypeScriptCompile Include="domain\stage\StageHelper.ts" />
     <TypeScriptCompile Include="domain\util\Bucket.ts" />
     <TypeScriptCompile Include="domain\util\Random.ts" />
     <TypeScriptCompile Include="gen\AdsBegin.ts" />
@@ -115,6 +119,7 @@
     <TypeScriptCompile Include="gen\Ping.ts" />
     <TypeScriptCompile Include="gen\Recipe.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
+    <TypeScriptCompile Include="gen\StageBegin.ts" />
     <TypeScriptCompile Include="gen\Vending.ts" />
     <TypeScriptCompile Include="infrastructure\GUID\GUID.ts" />
     <TypeScriptCompile Include="KiiCloud\Kii.d.ts" />

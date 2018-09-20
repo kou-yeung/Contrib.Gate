@@ -7,6 +7,7 @@ using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 namespace Dungeon
 {
     /// <summary>
@@ -31,6 +32,8 @@ namespace Dungeon
         UpStairs = 1 << 8,  // 上り階段
         DownStairs = 1 << 9,  // 下り階段
         Treasure = 1 << 10, // 宝箱？[仕様未定]
+        Start = 1 << 11,    // スタート
+        Goal = 1 << 12,    // ゴール
     }
 
     class Passage
@@ -224,18 +227,14 @@ namespace Dungeon
             {
                 EditorUtility.DisplayProgressBar("生成中", $"{i}/{count}", i / (float)count);
                 var additional = new[] { Tile.UpStairs, Tile.DownStairs, Tile.Treasure, Tile.Treasure };
-                var res = Gen(i, new Vector2Int(20, 20), new Vector2Int(3, 3), new Vector2Int(8, 8), new Vector2Int(14, 14), additional);
+                var res = Gen(i, new Vector2Int(20, 20), new Vector2Int(3, 3), new Vector2Int(8, 8), new Vector2Int(14, 14), 2, 2, 1, additional);
                 Print(res, i.ToString());
             }
             EditorUtility.ClearProgressBar();
         }
 #endif
-        public static Tile[,] Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int? roomSizeMax = null, Tile[] additional = null)
+        public static Tile[,] Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int roomSizeMax,int deleteRoomTryCount,int deleteRoadTryCount, int mergeRoomRoomTryCount,  Tile[] additional = null)
         {
-            if (!roomSizeMax.HasValue)
-            {
-                roomSizeMax = areaSize;
-            }
             System.Random random = new System.Random(seed);
 
             var width = areaSize.x;
@@ -251,7 +250,7 @@ namespace Dungeon
             {
                 for (int y = 0; y < numY; y++)
                 {
-                    var rect = RandomRect(new RectInt(x * width, y * height, width, height), roomSizeMin, roomSizeMax.Value, random);
+                    var rect = RandomRect(new RectInt(x * width, y * height, width, height), roomSizeMin, roomSizeMax, random);
                     rooms.Add(new Room(x + y * numX, new Vector2Int(x, y), rect));
                 }
             }
@@ -275,9 +274,9 @@ namespace Dungeon
                 }
             }
 
-            var deleteRoomTryCount = random.Next((grid.x * grid.y) / 2);    // MEMO : CSV から調整できるようにします
-            var deleteRoadTryCount = random.Next((grid.x * grid.y) / 2);    // MEMO : CSV から調整できるようにします
-            var mergeRoomRoomTryCount = random.Next(3);                     // MEMO : CSV から調整できるようにします
+            deleteRoomTryCount = random.Next(deleteRoomTryCount);
+            deleteRoadTryCount = random.Next(deleteRoadTryCount);
+            mergeRoomRoomTryCount = random.Next(mergeRoomRoomTryCount);
 
             DeleteRoom(rooms, passages, deleteRoomTryCount, random);
             DeleteRoad(rooms, passages, deleteRoadTryCount, random);

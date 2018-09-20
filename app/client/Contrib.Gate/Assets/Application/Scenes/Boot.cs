@@ -13,10 +13,6 @@ public class Boot : MonoBehaviour
     public InputField input;
     public Button btn;
 
-    public class Foo
-    {
-        public string name = "FOO!!!";
-    }
     IEnumerator Start()
     {
         Window.Open<DebugWindow>();
@@ -27,7 +23,14 @@ public class Boot : MonoBehaviour
         Protocol.OnError += (code) =>
         {
             var str = Entity.Instance.StringTable.Get(code);
-            Debug.Log(string.Format("Default OnError : {0}", str));
+            if (!string.IsNullOrEmpty(str))
+            {
+                Debug.Log(string.Format("Default OnError : {0}", str));
+            }
+            else
+            {
+                Debug.Log(string.Format("Default OnError : {0}", code));
+            }
         };
 
 #if UNITY_ADS

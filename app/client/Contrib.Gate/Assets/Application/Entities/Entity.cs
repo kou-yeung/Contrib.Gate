@@ -42,6 +42,7 @@ namespace Entities
         public Inventory Inventory { get; private set; }
         public UserState UserState { get; private set; }
         public StringTable StringTable { get; private set; }
+        public StageInfo StageInfo { get; private set; }
 
         public void Load()
         {
@@ -102,6 +103,15 @@ namespace Entities
         {
             this.UserState = userState;
             Observer.Instance.Notify(UserState.Update.ToString(), userState);
+        }
+
+        /// <summary>
+        /// ユーザが遊んでるステージの情報
+        /// </summary>
+        /// <param name="stageInfo"></param>
+        public void UpdateStageInfo(StageInfo stageInfo)
+        {
+            this.StageInfo = stageInfo;
         }
     }
 }

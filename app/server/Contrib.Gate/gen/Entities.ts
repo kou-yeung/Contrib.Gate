@@ -24,6 +24,7 @@ enum IDType {
 	Vending,// 自販機
 	Dungeon,// ダンジョン
 	Room,// 部屋設定
+	Stage,// ステージ
 }
 
 // ErrorCode
@@ -34,6 +35,7 @@ enum ErrorCode {
 	MaterialLack,// 素材が不足
 	RecipeInvalid,// 無効なレシピID
 	VendingInvalid,// 無効な自販機ID
+	StageInvalid,// 無効なステージID
 	Network=9999,// ネットワークエラー
 }
 
@@ -53,4 +55,14 @@ class UserState {
 	createStep: UserCreateStep;
 	playerName: string;
 	coin: number;
+}
+
+/// <summary>
+/// StageInfo
+/// </summary>
+class StageInfo {
+	dungeonId: number;// ダンジョンID
+	seed: number;// 乱数シード
+	guid: string;// StageBegin時生成される値、フロア移動時のチェックに使用します
+	lossTime: number;// 消失時間
 }

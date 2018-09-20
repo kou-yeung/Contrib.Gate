@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xyz.AnzFactory.UI;
 using Entities;
+using Network;
+using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -31,6 +33,14 @@ namespace UI
 
         public void TapListItem(int index, GameObject listItem)
         {
+            var item = listItem.GetComponent<StageItem>();
+            var stage = item.stage;
+            Protocol.Send(new StageBeginSend { stageId = stage.Identify }, (r) =>
+            {
+                // ステージ情報を保存してシーンを変更する
+                Entity.Instance.UpdateStageInfo(r.stageInfo);
+                SceneManager.LoadScene(SceneName.InGame);
+            });
         }
 
         protected override void OnStart()
