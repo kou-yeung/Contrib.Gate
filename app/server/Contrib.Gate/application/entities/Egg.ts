@@ -40,13 +40,19 @@ namespace Entities {
         set result(result: Identify) {
             this.bucket.first.set("result", result.toString());
         }
-
         // uniqid (実質guid)
         get uniqid(): string {
             return this.bucket.first.get("uniqid");
         }
         set uniqid(uniqid: string) {
             this.bucket.first.set("uniqid", uniqid);
+        }
+        // 生成時間
+        get createTime(): number {
+            return this.bucket.first.get("createTime");
+        }
+        set createTime(createTime: number) {
+            this.bucket.first.set("createTime", createTime);
         }
     }
 }

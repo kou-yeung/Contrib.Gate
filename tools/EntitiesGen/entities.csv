@@ -93,3 +93,4 @@ class,EggItem,
 string,uniqid,識別ID
 Race,race,種族
 int,rarity,レアリティ
+long,createTime,生成時間

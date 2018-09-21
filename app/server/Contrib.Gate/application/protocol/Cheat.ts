@@ -34,6 +34,7 @@
                 egg.result = id;
                 egg.race = familiar.race;
                 egg.rarity = familiar.rarity;
+                egg.createTime = Util.Time.ServerTime.current;
                 egg.bucket.save(() => {
                     var r = new CheatReceive();
                     done(r.Pack());

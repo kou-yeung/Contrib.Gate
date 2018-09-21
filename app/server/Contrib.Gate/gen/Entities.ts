@@ -99,4 +99,5 @@ class EggItem {
 	uniqid: string;// 識別ID
 	race: Race;// 種族
 	rarity: number;// レアリティ
+	createTime: number;// 生成時間
 }

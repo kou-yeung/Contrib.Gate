@@ -129,6 +129,7 @@ namespace Entities
 		public string uniqid;// 識別ID
 		public Race race;// 種族
 		public int rarity;// レアリティ
+		public long createTime;// 生成時間
 	}
 	
 }

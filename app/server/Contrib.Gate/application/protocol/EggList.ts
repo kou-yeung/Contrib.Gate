@@ -15,6 +15,7 @@ function EggList(params, context, done) {
                 item.uniqid = egg.bucket.results[i].get("uniqid");
                 item.race = egg.bucket.results[i].get("race");
                 item.rarity = egg.bucket.results[i].get("rarity");
+                item.createTime = egg.bucket.results[i].get("createTime");
                 r.items.push(item);
             }
             // TODO : 返信パラメータを設定する
