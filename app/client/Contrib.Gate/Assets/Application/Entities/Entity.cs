@@ -44,7 +44,8 @@ namespace Entities
         public StringTable StringTable { get; private set; }
         public StageInfo StageInfo { get; private set; }
         public Eggs Eggs { get; private set; }
-
+        public Pets Pets { get; private set; }
+        
         public void Load()
         {
             Familiars = Parse<Familiar>("Entities/familiar");
@@ -112,7 +113,18 @@ namespace Entities
             });
             while (wait) yield return null;
         }
-
+        // ペット一覧取得
+        public IEnumerator GetPets(bool refresh = false)
+        {
+            if (!refresh && Pets != null) yield break;
+            bool wait = true;
+            Protocol.Send(new PetListSend(), (r) =>
+            {
+                Pets = new Pets(r.items);
+                wait = false;
+            });
+            while (wait) yield return null;
+        }
         public void UpdateUserState(UserState userState)
         {
             this.UserState = userState;

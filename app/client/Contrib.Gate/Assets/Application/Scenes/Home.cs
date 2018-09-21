@@ -15,6 +15,7 @@ public class Home : MonoBehaviour {
 	IEnumerator Start () {
         yield return Entity.Instance.GetInventory();
         yield return Entity.Instance.GetEggs();
+        yield return Entity.Instance.GetPets();
         Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
         UpdateUserState();
     }

@@ -52,8 +52,19 @@
             return;
         }
         lv = Math.max(lv, 1);
-
-        // TODO : 未対応
+        new Entities.Level(admin).refresh(level => {
+            let guid = GUID.Gen();
+            new Entities.Pet(user, guid).refresh(pet => {
+                pet.id = id;
+                pet.uniqid = guid;
+                pet.createTime = Util.Time.ServerTime.current;
+                pet.exp = level.exp(lv);
+                pet.bucket.save(() => {
+                    var r = new CheatReceive();
+                    done(r.Pack());
+                });
+            });
+        });
     }
 
     GetUser(context, (user) => {

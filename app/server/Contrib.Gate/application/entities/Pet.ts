@@ -24,7 +24,7 @@ namespace Entities {
             return Identify.Parse(this.bucket.first.get("id"));
         }
         set id(id: Identify) {
-            this.bucket.first.set("id", id);
+            this.bucket.first.set("id", id.toString());
         }
         // uniqid (実質guid)
         get uniqid(): string {
@@ -42,24 +42,24 @@ namespace Entities {
         }
         // 経験値
         get exp(): number {
-            return this.bucket.first.get("exp");
+            return this.bucket.first.get("exp", 0);
         }
         set exp(createTime: number) {
             this.bucket.first.set("exp", createTime);
         }
         // 強化回数
-        get powerCount(): number {
-            return this.bucket.first.get("powerCount");
+        get powerupCount(): number {
+            return this.bucket.first.get("powerupCount", 0);
         }
-        set powerCount(powerCount: number) {
-            this.bucket.first.set("powerCount", powerCount);
+        set powerupCount(powerCount: number) {
+            this.bucket.first.set("powerupCount", powerCount);
         }
         // パラメータ
-        get param(): number[] {
-            return this.bucket.first.get("param");
+        getParam(param: Param): number {
+            return this.bucket.first.get(IDType[param], 0);
         }
-        set param(param: number[]) {
-            this.bucket.first.get("param", param);
+        setParam(param: Param, value: number) {
+            this.bucket.first.set(IDType[param], value);
         }
     }
 }

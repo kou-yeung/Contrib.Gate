@@ -79,3 +79,7 @@ down,StageInfo,stageInfo,ステージ情報
 // タマゴ一覧取得
 protocol,EggList,
 down,EggItem[],items,所持タマゴ一覧
+
+// ペット一覧取得
+protocol,PetList,
+down,PetItem[],items,所持ペット一覧

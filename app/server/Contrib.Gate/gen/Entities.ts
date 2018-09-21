@@ -63,6 +63,13 @@ enum Race {
 	Other,
 }
 
+// Param
+enum Param {
+	Strength,// 力
+	Magical,// 魔
+	Agility,// 素早さ
+}
+
 
 /// <summary>
 /// InventoryItem
@@ -100,4 +107,16 @@ class EggItem {
 	race: Race;// 種族
 	rarity: number;// レアリティ
 	createTime: number;// 生成時間
+}
+
+/// <summary>
+/// PetItem
+/// </summary>
+class PetItem {
+	uniqid: string;// 識別ID
+	id: number;// 使い魔ID
+	createTime: number;// 生成時間
+	exp: number;// 経験値(レベルはRuntimeで計算します)
+	powerupCount: number;// 餌付け回数(最大回数は レベル - 1)
+	param: number[];// 増加パラメータ(Param)
 }

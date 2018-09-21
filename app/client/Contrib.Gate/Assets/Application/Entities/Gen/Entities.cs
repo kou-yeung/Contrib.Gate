@@ -85,6 +85,16 @@ namespace Entities
 		Other,
 	}
 	
+    /// <summary>
+    /// Param
+    /// </summary>
+	public enum Param
+	{
+		Strength,// 力
+		Magical,// 魔
+		Agility,// 素早さ
+	}
+	
 	
     /// <summary>
     /// InventoryItem
@@ -130,6 +140,20 @@ namespace Entities
 		public Race race;// 種族
 		public int rarity;// レアリティ
 		public long createTime;// 生成時間
+	}
+	
+    /// <summary>
+    /// PetItem
+    /// </summary>
+    [Serializable]
+	public partial class PetItem
+	{
+		public string uniqid;// 識別ID
+		public uint id;// 使い魔ID
+		public long createTime;// 生成時間
+		public int exp;// 経験値(レベルはRuntimeで計算します)
+		public int powerupCount;// 餌付け回数(最大回数は レベル - 1)
+		public int[] param;// 増加パラメータ(Param)
 	}
 	
 }

@@ -62,6 +62,12 @@ Dragon,,
 Human,,
 Other,,
 
+// 使い魔パラメータ
+enum,Param,
+Strength,,力
+Magical,,魔
+Agility,,素早さ
+
 ///========================================
 /// 以下 class
 ///========================================
@@ -94,3 +100,13 @@ string,uniqid,識別ID
 Race,race,種族
 int,rarity,レアリティ
 long,createTime,生成時間
+
+// sv->cl ペットデータ１個分
+class,PetItem,
+string,uniqid,識別ID
+uint,id,使い魔ID
+long,createTime,生成時間
+int,exp,経験値(レベルはRuntimeで計算します)
+int,powerupCount,餌付け回数(最大回数は レベル - 1)
+int[],param,増加パラメータ(Param)
+
