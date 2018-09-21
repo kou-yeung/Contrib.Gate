@@ -34,6 +34,17 @@ class Result/*<T>*/ {
     get allkey(): string[] {
         return this.obj.getKeys();
     }
+
+    delete(done: (result: Result) => void): void {
+        let self = this;
+        self.obj.delete({
+            success: function (theDeleteObject: KiiObject) {
+                done(self);
+            },
+            failure: function (theObject, error) {
+            }
+        });
+    }
 }
 class Bucket<T> {
     private user: KiiUser | KiiAppAdminContext;

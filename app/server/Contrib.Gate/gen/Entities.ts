@@ -38,6 +38,7 @@ enum ErrorCode {
 	StageInvalid,// 無効なステージID
 	StageCantMove,// ステージ移動できません
 	StageLoss,// ステージ消失
+	Common=9998,// 一般エラー(一時対応時使用します)
 	Network=9999,// ネットワークエラー
 }
 
@@ -46,6 +47,20 @@ enum Move {
 	None,// なし
 	Up,// 上の階へ移動
 	Down,// 下の階へ移動
+}
+
+// Race
+enum Race {
+	Beast,
+	Undead,
+	Fly,
+	Insect,
+	Plant,
+	Amorphas,
+	Metal,
+	Dragon,
+	Human,
+	Other,
 }
 
 
@@ -75,4 +90,13 @@ class StageInfo {
 	guid: string;// StageBegin時生成される値、フロア移動時のチェックに使用します
 	lossTime: number;// 消失時間
 	move: Move;// 移動方向
+}
+
+/// <summary>
+/// EggItem
+/// </summary>
+class EggItem {
+	uniqid: string;// 識別ID
+	race: Race;// 種族
+	rarity: number;// レアリティ
 }

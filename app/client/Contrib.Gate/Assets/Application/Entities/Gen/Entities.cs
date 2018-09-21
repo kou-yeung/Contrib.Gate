@@ -54,6 +54,7 @@ namespace Entities
 		StageInvalid,// 無効なステージID
 		StageCantMove,// ステージ移動できません
 		StageLoss,// ステージ消失
+		Common=9998,// 一般エラー(一時対応時使用します)
 		Network=9999,// ネットワークエラー
 	}
 	
@@ -65,6 +66,23 @@ namespace Entities
 		None,// なし
 		Up,// 上の階へ移動
 		Down,// 下の階へ移動
+	}
+	
+    /// <summary>
+    /// Race
+    /// </summary>
+	public enum Race
+	{
+		Beast,
+		Undead,
+		Fly,
+		Insect,
+		Plant,
+		Amorphas,
+		Metal,
+		Dragon,
+		Human,
+		Other,
 	}
 	
 	
@@ -100,6 +118,17 @@ namespace Entities
 		public string guid;// StageBegin時生成される値、フロア移動時のチェックに使用します
 		public long lossTime;// 消失時間
 		public Move move;// 移動方向
+	}
+	
+    /// <summary>
+    /// EggItem
+    /// </summary>
+    [Serializable]
+	public partial class EggItem
+	{
+		public string uniqid;// 識別ID
+		public Race race;// 種族
+		public int rarity;// レアリティ
 	}
 	
 }

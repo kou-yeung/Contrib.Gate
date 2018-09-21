@@ -5,20 +5,6 @@ using CsvHelper.Configuration;
 
 namespace Entities
 {
-    public enum Race
-    {
-        Beast,
-        Undead,
-        Fly,
-        Insect,
-        Plant,
-        Amorphas,
-        Metal,
-        Dragon,
-        Human,
-        Other,
-    }
-
     public class Familiar
     {
         public Identify Identify;

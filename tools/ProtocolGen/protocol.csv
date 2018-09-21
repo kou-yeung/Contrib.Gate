@@ -75,3 +75,7 @@ down,StageInfo,stageInfo,ステージ情報
 protocol,StageMove
 up,StageInfo,stageInfo,ステージ情報
 down,StageInfo,stageInfo,ステージ情報
+
+// タマゴ一覧取得
+protocol,EggList,
+down,EggItem[],items,所持タマゴ一覧

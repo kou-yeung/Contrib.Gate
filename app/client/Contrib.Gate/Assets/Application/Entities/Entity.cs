@@ -43,6 +43,7 @@ namespace Entities
         public UserState UserState { get; private set; }
         public StringTable StringTable { get; private set; }
         public StageInfo StageInfo { get; private set; }
+        public Eggs Eggs { get; private set; }
 
         public void Load()
         {
@@ -86,6 +87,7 @@ namespace Entities
             }
         }
 
+        // インベントリ取得
         public IEnumerator GetInventory(bool refresh = false)
         {
             if (!refresh && Inventory != null) yield break;
@@ -94,6 +96,18 @@ namespace Entities
             Protocol.Send(new InventorySend(), (r) =>
             {
                 Inventory = new Inventory(r.items);
+                wait = false;
+            });
+            while (wait) yield return null;
+        }
+        // タマゴ一覧取得
+        public IEnumerator GetEggs(bool refresh = false)
+        {
+            if (!refresh && Eggs != null) yield break;
+            bool wait = true;
+            Protocol.Send(new EggListSend(), (r) =>
+            {
+                Eggs = new Eggs(r.items);
                 wait = false;
             });
             while (wait) yield return null;

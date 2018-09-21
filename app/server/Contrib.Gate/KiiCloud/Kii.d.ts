@@ -237,6 +237,8 @@ declare module KiiCloud {
 // KiiObject
 declare module KiiCloud {
     export class KiiObject {
+        //Delete the object from the server.
+        public delete(callbacks: { success(theDeletedObject: KiiObject); failure(obj: KiiObject, anErrorString: string) });
         //Delete the object body from the server.
         public deleteBody(callbacks: { success(obj: KiiObject); failure(obj: KiiObject, anErrorString: string) });
         //Download body data of this object.

@@ -19,10 +19,33 @@
         });
     }
 
+    // タマゴ追加
+    function addegg(user: KiiUser) {
+        let id = Entities.Identify.Parse(s.param[0]);
+        // ID が違う
+        if (id.Type != IDType.Familiar) {
+            done(ApiError.Create(ErrorCode.Common, "id.Type != IDType.Familiar").Pack())
+            return;
+        }
+        new Entities.Familiar(admin, id).refresh(familiar => {
+            let guid = GUID.Gen();  // 新たなGUIDを生成する
+            new Entities.Egg(user, guid).refresh(egg => {
+                egg.uniqid = guid;
+                egg.result = id;
+                egg.race = familiar.race;
+                egg.rarity = familiar.rarity;
+                egg.bucket.save(() => {
+                    var r = new CheatReceive();
+                    done(r.Pack());
+                });
+            });
+        });
+    }
 
     GetUser(context, (user) => {
         switch (s.command) {
             case "addcoin": addcoin(user); break;
+            case "addegg": addegg(user); break;
         }
     }, false);
 
