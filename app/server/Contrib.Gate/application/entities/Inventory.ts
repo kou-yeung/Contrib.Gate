@@ -1,4 +1,4 @@
-﻿// 自販機データ
+﻿// インベントリデータ
 namespace Entities {
     export class Inventory {
         bucket: Bucket<Inventory>;

@@ -9,6 +9,12 @@ namespace Entities {
         refresh(done: (stageInfo: StageInfo) => void) {
             this.bucket.refresh(done);
         }
+        get stage(): Identify {
+            return this.bucket.first.get("stage");
+        }
+        set stage(identify: Identify) {
+            this.bucket.first.get("stage", identify);
+        }
         get guid(): string {
             return this.bucket.first.get("guid");
         }

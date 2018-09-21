@@ -23,16 +23,13 @@ function StageBegin(params, context, done) {
 
         GetUser(context, (user) => {
             new Entities.StageInfo(user).refresh(stageInfo => {
-                try {
 
-                    stageInfo.dungeon = stage.dungeon;                  // ダンジョンIDを取得
-                    stageInfo.guid = GUID.Gen();                        // IDを振る
-                    stageInfo.lossTime = StageHelper.StageLossTime();   // 消失時間を設定
-                } catch (error) {
-                    let r = new ApiError(ErrorCode.StageInvalid);
-                    done(r.Pack());
-                }
+                stageInfo.stage = stageId;                          // ステージIDを保持する
+                stageInfo.dungeon = stage.dungeon;                  // ダンジョンIDを取得
+                stageInfo.guid = GUID.Gen();                        // IDを振る
+                stageInfo.lossTime = StageHelper.StageLossTime();   // 消失時間を設定
                 let seed = StageHelper.StageSeed(stageInfo.dungeon);    // ダンジョンIDのシード値取得
+
                 stageInfo.bucket.save(() => {
                     // 返信
                     let r = new StageBeginReceive();

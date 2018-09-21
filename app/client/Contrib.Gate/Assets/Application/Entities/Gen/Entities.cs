@@ -52,7 +52,19 @@ namespace Entities
 		RecipeInvalid,// 無効なレシピID
 		VendingInvalid,// 無効な自販機ID
 		StageInvalid,// 無効なステージID
+		StageCantMove,// ステージ移動できません
+		StageLoss,// ステージ消失
 		Network=9999,// ネットワークエラー
+	}
+	
+    /// <summary>
+    /// Move
+    /// </summary>
+	public enum Move
+	{
+		None,// なし
+		Up,// 上の階へ移動
+		Down,// 下の階へ移動
 	}
 	
 	
@@ -87,6 +99,7 @@ namespace Entities
 		public uint seed;// 乱数シード
 		public string guid;// StageBegin時生成される値、フロア移動時のチェックに使用します
 		public long lossTime;// 消失時間
+		public Move move;// 移動方向
 	}
 	
 }

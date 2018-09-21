@@ -1,7 +1,7 @@
 ﻿class StageHelper {
 
-    // ステージID から生成時のシード値を取得する
-    static StageSeed(identify: Entities.Identify): number {
+    // ダンジョンID から生成時のシード値を取得する
+    static StageSeed(dungeonId: Entities.Identify): number {
         var time = new Date();   // 現在の時刻を取得する
         // 2時間間隔固定する
         time.setHours(Math.floor(time.getHours() / 2) * 2); // 時間は最後の偶数にする
@@ -11,7 +11,7 @@
         // 桁を反転する
         let str = time.getTime().toString();
         let base = parseInt(str.split("").reverse().join(""));
-        return base + identify.Id;
+        return base + dungeonId.Id;
     }
 
     // ステージの消失時間を取得

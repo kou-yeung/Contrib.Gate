@@ -85,6 +85,7 @@
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="application\entities\Ads.ts" />
     <TypeScriptCompile Include="application\entities\Config.ts" />
+    <TypeScriptCompile Include="application\entities\Dungeon.ts" />
     <TypeScriptCompile Include="application\entities\Identify.ts" />
     <TypeScriptCompile Include="application\entities\Inventory.ts" />
     <TypeScriptCompile Include="application\entities\Player.ts" />
@@ -103,6 +104,7 @@
     <TypeScriptCompile Include="application\protocol\Recipe.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
     <TypeScriptCompile Include="application\protocol\StageBegin.ts" />
+    <TypeScriptCompile Include="application\protocol\StageMove.ts" />
     <TypeScriptCompile Include="application\protocol\Vending.ts" />
     <TypeScriptCompile Include="domain\network\ApiError.ts" />
     <TypeScriptCompile Include="domain\stage\StageHelper.ts" />
@@ -120,6 +122,7 @@
     <TypeScriptCompile Include="gen\Recipe.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
     <TypeScriptCompile Include="gen\StageBegin.ts" />
+    <TypeScriptCompile Include="gen\StageMove.ts" />
     <TypeScriptCompile Include="gen\Vending.ts" />
     <TypeScriptCompile Include="infrastructure\GUID\GUID.ts" />
     <TypeScriptCompile Include="KiiCloud\Kii.d.ts" />

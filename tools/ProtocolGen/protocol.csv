@@ -71,3 +71,7 @@ protocol,StageBegin
 up,uint,stageId,ステージID
 down,StageInfo,stageInfo,ステージ情報
 
+// ステージ移動
+protocol,StageMove
+up,StageInfo,stageInfo,ステージ情報
+down,StageInfo,stageInfo,ステージ情報

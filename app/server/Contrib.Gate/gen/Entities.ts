@@ -36,7 +36,16 @@ enum ErrorCode {
 	RecipeInvalid,// 無効なレシピID
 	VendingInvalid,// 無効な自販機ID
 	StageInvalid,// 無効なステージID
+	StageCantMove,// ステージ移動できません
+	StageLoss,// ステージ消失
 	Network=9999,// ネットワークエラー
+}
+
+// Move
+enum Move {
+	None,// なし
+	Up,// 上の階へ移動
+	Down,// 下の階へ移動
 }
 
 
@@ -65,4 +74,5 @@ class StageInfo {
 	seed: number;// 乱数シード
 	guid: string;// StageBegin時生成される値、フロア移動時のチェックに使用します
 	lossTime: number;// 消失時間
+	move: Move;// 移動方向
 }

@@ -55,7 +55,7 @@ class Bucket<T> {
         }
     }
 
-    refresh(done: (t: T) => void, query?: KiiQuery): void {
+    refresh(done: (t: T) => void, query: KiiQuery = null): void {
         let self = this;
 
         if (query == undefined || query == null) {

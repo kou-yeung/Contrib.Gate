@@ -150,7 +150,7 @@ declare module KiiCloud {
         //Create a KiiClause with the AND operator concatenating multiple KiiClause objects
         public static and(...restOfClause: KiiClause[]);
         //Create an expression of the form(key == value)
-        public static equals(key: string, value: any);
+        public static equals(key: string, value: any): KiiClause;
         //Create a clause of geo box.
         public static geoBox(key: string, northEast: KiiGeoPoint, southWest: KiiGeoPoint): KiiClause;
         //Create a clause of geo distance.
@@ -299,7 +299,7 @@ declare module KiiCloud {
         public getLimit(): number;
         //Create a KiiQuery object based on a KiiClause
         //By passing null as the 'clause' parameter, all objects can be retrieved.
-        public static queryWithClause(clause?: KiiClause);
+        public static queryWithClause(clause?: KiiClause): KiiQuery;
         //Set the limit of the given query
         public setLimit(value: number);
         //Set the query to sort by a field in ascending order If a sort has already been set, it will be overwritten.
