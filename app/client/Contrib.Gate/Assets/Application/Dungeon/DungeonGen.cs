@@ -274,9 +274,9 @@ namespace Dungeon
                 }
             }
 
-            deleteRoomTryCount = random.Next(deleteRoomTryCount);
-            deleteRoadTryCount = random.Next(deleteRoadTryCount);
-            mergeRoomRoomTryCount = random.Next(mergeRoomRoomTryCount);
+            deleteRoomTryCount = random.Next(deleteRoomTryCount + 1);
+            deleteRoadTryCount = random.Next(deleteRoadTryCount + 1);
+            mergeRoomRoomTryCount = random.Next(mergeRoomRoomTryCount + 1);
 
             DeleteRoom(rooms, passages, deleteRoomTryCount, random);
             DeleteRoad(rooms, passages, deleteRoadTryCount, random);
