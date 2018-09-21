@@ -66,6 +66,22 @@ class Bucket<T> {
         }
     }
 
+    count(done: (count: number) => void, query: KiiQuery = null): void {
+        let self = this;
+        var bucket = self.bucketWithName();
+
+        let cb = {
+            success: function (bucket, query, count) { done(count); },
+            failure: function (bucket, query, error) { }
+        };
+
+        if (query == null) {
+            bucket.count(cb);
+        } else {
+            bucket.countWithQuery(query, cb);
+        }
+    }
+
     refresh(done: (t: T) => void, query: KiiQuery = null): void {
         let self = this;
 

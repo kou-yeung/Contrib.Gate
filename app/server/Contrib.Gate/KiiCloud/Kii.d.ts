@@ -125,9 +125,9 @@ declare module KiiCloud {
         //Any KiiACLEntry objects added or revoked from this ACL object will be appended to / removed from the server on ACL save.
         public acl(): KiiACL;
         //Execute count aggregation of all clause query on current bucket.
-        public count(callbacks: { success(bucket: KiiBucket, query: KiiQuery, count: any); failure(bucket: KiiBucket, query: KiiQuery, errorString: string) });
+        public count(callbacks: { success(bucket: KiiBucket, query: KiiQuery, count: number); failure(bucket: KiiBucket, query: KiiQuery, errorString: string) });
         //Execute count aggregation of specified query on current bucket.
-        public countWithQuery(query: KiiQuery, callbacks: { success(bucket: KiiBucket, query: KiiQuery, count: any); failure(bucket: KiiBucket, query: KiiQuery, errorString: string) });
+        public countWithQuery(query: KiiQuery, callbacks: { success(bucket: KiiBucket, query: KiiQuery, count: number); failure(bucket: KiiBucket, query: KiiQuery, errorString: string) });
         //Create a KiiObject within the current bucket 
         //The object will not be created on the server until the KiiObject is explicitly saved.
         public createObject(): KiiObject;
