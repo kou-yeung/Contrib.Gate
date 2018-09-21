@@ -61,7 +61,7 @@ public class InGame : MonoBehaviour
             tiles.Add(Tile.DownStairs);
         }
 
-        var map = DungeonGen.Gen(0, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, tiles.ToArray());
+        var map = DungeonGen.Gen(stageInfo.seed, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, tiles.ToArray());
         var width = map.GetLength(0);
         var height = map.GetLength(1);
         for (int x = 0; x < width; x++)

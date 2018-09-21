@@ -96,7 +96,7 @@ namespace Entities
 	public partial class StageInfo
 	{
 		public uint dungeonId;// ダンジョンID
-		public uint seed;// 乱数シード
+		public int seed;// 乱数シード
 		public string guid;// StageBegin時生成される値、フロア移動時のチェックに使用します
 		public long lossTime;// 消失時間
 		public Move move;// 移動方向
