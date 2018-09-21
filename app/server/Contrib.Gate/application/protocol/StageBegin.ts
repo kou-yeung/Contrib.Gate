@@ -23,12 +23,11 @@ function StageBegin(params, context, done) {
 
         GetUser(context, (user) => {
             new Entities.StageInfo(user).refresh(stageInfo => {
-
                 stageInfo.stage = stageId;                          // ステージIDを保持する
                 stageInfo.dungeon = stage.dungeon;                  // ダンジョンIDを取得
                 stageInfo.guid = GUID.Gen();                        // IDを振る
                 stageInfo.lossTime = StageHelper.StageLossTime();   // 消失時間を設定
-                let seed = StageHelper.StageSeed(stageInfo.dungeon);    // ダンジョンIDのシード値取得
+                stageInfo.seed = StageHelper.StageSeed(stageInfo.dungeon);    // ダンジョンIDのシード値取得
 
                 stageInfo.bucket.save(() => {
                     // 返信
@@ -37,7 +36,7 @@ function StageBegin(params, context, done) {
                     r.stageInfo.dungeonId = stageInfo.dungeon.idWithType;
                     r.stageInfo.guid = stageInfo.guid;
                     r.stageInfo.lossTime = stageInfo.lossTime;
-                    r.stageInfo.seed = seed;
+                    r.stageInfo.seed = stageInfo.seed;
                     done(r.Pack());
                 });
             });

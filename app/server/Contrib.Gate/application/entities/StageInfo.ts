@@ -13,7 +13,10 @@ namespace Entities {
             return this.bucket.first.get("stage");
         }
         set stage(identify: Identify) {
-            this.bucket.first.get("stage", identify);
+            this.bucket.first.set("stage", identify.toString());
+        }
+        set seed(seed: number) {
+            this.bucket.first.set("seed", seed);
         }
         get guid(): string {
             return this.bucket.first.get("guid");
