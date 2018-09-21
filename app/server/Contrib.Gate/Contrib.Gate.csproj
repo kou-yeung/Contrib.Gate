@@ -90,6 +90,8 @@
     <TypeScriptCompile Include="application\entities\Familiar.ts" />
     <TypeScriptCompile Include="application\entities\Identify.ts" />
     <TypeScriptCompile Include="application\entities\Inventory.ts" />
+    <TypeScriptCompile Include="application\entities\Level.ts" />
+    <TypeScriptCompile Include="application\entities\Pet.ts" />
     <TypeScriptCompile Include="application\entities\Player.ts" />
     <TypeScriptCompile Include="application\entities\Recipe.ts" />
     <TypeScriptCompile Include="application\entities\Stage.ts" />

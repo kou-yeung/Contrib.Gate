@@ -1,4 +1,4 @@
-﻿// 使い魔データ
+﻿// 使い魔データ(CSVデータ)
 namespace Entities {
     export class Familiar {
         bucket: Bucket<Familiar>;
