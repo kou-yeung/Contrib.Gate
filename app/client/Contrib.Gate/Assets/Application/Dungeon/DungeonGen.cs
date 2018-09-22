@@ -158,45 +158,37 @@ namespace Dungeon
             List<Vector2Int> pos = new List<Vector2Int>();
             if (rooms.Item1.Grid.y == rooms.Item2.Grid.y)
             {
-                // 横接続
-                var xMin = rooms.Item1.Area.xMax;   // 左
-                var xMax = rooms.Item2.Area.x;      // 右
-                var xCenter = random.Next(xMax - xMin) + xMin;    // 中央
-
-                rooms.Item1.Area.xMax = xCenter;
-                rooms.Item2.Area.xMin = xCenter;
-
                 // 部屋の高さによって重ねてない場合もあるため、確認する
-                if (rooms.Item1.Area.yMin < rooms.Item2.Area.yMin && rooms.Item1.Area.yMax > rooms.Item2.Area.yMin)
+                var h1 = (rooms.Item1.Area.height / 2) + (rooms.Item2.Area.height / 2);
+                var h2 = Math.Abs(rooms.Item1.Area.center.y - rooms.Item2.Area.center.y);
+
+                if ((h1 - h2) >= 5)
                 {
+                    var xMin = rooms.Item1.Area.xMax;   // 左
+                    var xMax = rooms.Item2.Area.x;      // 右
+                    var xCenter = random.Next(xMax - xMin) + xMin;    // 中央
+                    rooms.Item1.Area.xMax = xCenter;
+                    rooms.Item2.Area.xMin = xCenter;
                     return true;
                 }
-                if (rooms.Item1.Area.yMin < rooms.Item2.Area.yMax && rooms.Item1.Area.yMax > rooms.Item2.Area.yMax)
-                {
-                    return true;
-                }
-                return false; // 重ねてない場合、道は削除しないようにします
+                return false;
             }
             else
             {
                 // 縦接続
-                var yMin = rooms.Item1.Area.yMax; // 上
-                var yMax = rooms.Item2.Area.y;    // 下
-                var yCenter = random.Next(yMax - yMin) + yMin;  // 中央
+                var w1 = (rooms.Item1.Area.width / 2) + (rooms.Item2.Area.width / 2);
+                var w2 = Math.Abs(rooms.Item1.Area.center.x - rooms.Item2.Area.center.x);
 
-                rooms.Item1.Area.yMax = yCenter;
-                rooms.Item2.Area.yMin = yCenter;
-
-                // 部屋の高さによって重ねてない場合もあるため、確認する
-                if (rooms.Item1.Area.xMin < rooms.Item2.Area.xMin && rooms.Item1.Area.xMax > rooms.Item2.Area.xMin)
+                if ((w1 - w2) >= 5)
                 {
+                    var yMin = rooms.Item1.Area.yMax; // 上
+                    var yMax = rooms.Item2.Area.y;    // 下
+                    var yCenter = random.Next(yMax - yMin) + yMin;  // 中央
+                    rooms.Item1.Area.yMax = yCenter;
+                    rooms.Item2.Area.yMin = yCenter;
                     return true;
                 }
-                if (rooms.Item1.Area.xMin < rooms.Item2.Area.xMax && rooms.Item1.Area.xMax > rooms.Item2.Area.xMax)
-                {
-                    return true;
-                }
-                return false; // 重ねてない場合、道は削除しないようにします
+                return false;
             }
         }
     }
@@ -226,8 +218,8 @@ namespace Dungeon
             for (int i = 0; i < count; i++)
             {
                 EditorUtility.DisplayProgressBar("生成中", $"{i}/{count}", i / (float)count);
-                var additional = new[] { Tile.UpStairs, Tile.DownStairs, Tile.Treasure, Tile.Treasure };
-                var res = Gen(i, new Vector2Int(20, 20), new Vector2Int(3, 3), new Vector2Int(8, 8), new Vector2Int(14, 14), 2, 2, 1, additional);
+                var additional = new[] { Tile.UpStairs };//, Tile.DownStairs, Tile.Treasure, Tile.Treasure };
+                var res = Gen(i, new Vector2Int(30, 30), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(20, 20), 4, 4, 3, additional);
                 Print(res, i.ToString());
             }
             EditorUtility.ClearProgressBar();
