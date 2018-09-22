@@ -41,6 +41,7 @@
                 egg.result = id;
                 egg.bucket.save(() => {
                     var r = new CheatReceive();
+                    r.egg = item;
                     done(r.Pack());
                 });
             });
@@ -71,6 +72,7 @@
 
                 pet.bucket.save(() => {
                     var r = new CheatReceive();
+                    r.pet = item;
                     done(r.Pack());
                 });
             });

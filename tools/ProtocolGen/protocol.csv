@@ -21,6 +21,8 @@ protocol,Cheat,
 up,string,command,
 up,string[],param,
 down,UserState,userState,
+down,EggItem,egg,
+down,PetItem,pet,
 
 // ログイン処理
 protocol,Login,

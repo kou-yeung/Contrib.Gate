@@ -18,6 +18,8 @@ namespace Network
     public class CheatReceive
     {
 		public UserState userState;
+		public EggItem egg;
+		public PetItem pet;
     }
 
     /// <summary>

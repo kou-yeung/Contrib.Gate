@@ -12,6 +12,18 @@ namespace Entities
         {
             this.items = new List<PetItem>(items);
         }
+
+        /// <summary>
+        /// 変更する
+        /// </summary>
+        /// <param name="egg"></param>
+        public void Modify(PetItem pet)
+        {
+            var index = items.FindIndex(v => v.uniqid == pet.uniqid);
+            if (index != -1) items[index] = pet;
+            else items.Add(pet);
+        }
+
     }
 }
 

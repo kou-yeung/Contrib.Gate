@@ -81,13 +81,18 @@ namespace UI
                         send.param = Params.Where(p => p.gameObject.activeSelf).Select(p => p.input.text).ToArray();
                         Protocol.Send(send, (r) =>
                         {
-                            switch (send.command)
+                            if (!string.IsNullOrEmpty(r.userState.playerName))
                             {
-                                case "addcoin":
-                                    Entity.Instance.UpdateUserState(r.userState);
-                                    break;
+                                Entity.Instance.UpdateUserState(r.userState);
                             }
-                            //Debug.Log(r.message);
+                            if (!string.IsNullOrEmpty(r.egg.uniqid))
+                            {
+                                Entity.Instance.Eggs.Modify(r.egg);
+                            }
+                            if (!string.IsNullOrEmpty(r.pet.uniqid))
+                            {
+                                Entity.Instance.Pets.Modify(r.pet);
+                            }
                         });
                     }
                     break;

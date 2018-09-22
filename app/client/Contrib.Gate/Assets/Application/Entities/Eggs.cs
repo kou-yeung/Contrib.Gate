@@ -14,6 +14,17 @@ namespace Entities
         {
             this.items = new List<EggItem>(items);
         }
+
+        /// <summary>
+        /// 変更する
+        /// </summary>
+        /// <param name="egg"></param>
+        public void Modify(EggItem egg)
+        {
+            var index = items.FindIndex(v => v.uniqid == egg.uniqid);
+            if (index != -1) items[index] = egg;
+            else items.Add(egg);
+        }
     }
 }
 
