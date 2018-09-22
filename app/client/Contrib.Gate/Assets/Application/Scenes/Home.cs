@@ -44,6 +44,10 @@ public class Home : MonoBehaviour {
     {
         Window.Open<StageWindow>();
     }
+    public void OnClickEgg()
+    {
+        Window.Open<EggWindow>();
+    }
 
     void UpdateUserState(string name = "", object arg = null)
     {
