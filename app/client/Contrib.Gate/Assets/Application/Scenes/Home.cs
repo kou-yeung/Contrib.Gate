@@ -48,6 +48,10 @@ public class Home : MonoBehaviour {
     {
         Window.Open<EggWindow>();
     }
+    public void OnClickPet()
+    {
+        Window.Open<PetWindow>();
+    }
 
     void UpdateUserState(string name = "", object arg = null)
     {

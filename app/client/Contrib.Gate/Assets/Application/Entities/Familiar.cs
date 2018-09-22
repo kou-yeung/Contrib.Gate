@@ -10,6 +10,7 @@ namespace Entities
         public Identify Identify;
         public string Name;
         public Race Race;
+        public int Rarity;
     }
 
     public sealed class FamiliarMap : ClassMap<Familiar>
@@ -19,6 +20,7 @@ namespace Entities
             Map(x => x.Identify).Index(0);
             Map(x => x.Name).Index(1);
             Map(x => x.Race).Index(2);
+            Map(x => x.Rarity).Index(3);
         }
     }
 }
