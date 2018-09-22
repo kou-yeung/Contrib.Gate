@@ -65,7 +65,7 @@
                 item.id = id.idWithType;
                 item.uniqid = guid;
                 item.createTime = Util.Time.ServerTime.current;
-                item.param = [level.exp(lv), 2, 0, 0, 0, 0, 0, 0, 0, 0]; // param x 10
+                item.param = [level.exp(lv), 0, 0, 0, 0, 0, 0, 0, 0, 0]; // param x 10
 
                 pet.uniqid = guid;
                 pet.item = item;

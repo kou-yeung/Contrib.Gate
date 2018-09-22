@@ -85,3 +85,9 @@ down,EggItem[],items,所持タマゴ一覧
 // ペット一覧取得
 protocol,PetList,
 down,PetItem[],items,所持ペット一覧
+
+// 孵化
+protocol,Hatch,
+up,string,uniqid,タマゴ Uniqid
+down,PetItem,item,結果
+down,EggItem,deleteEgg,孵化したタマゴ

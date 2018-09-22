@@ -103,6 +103,7 @@
     <TypeScriptCompile Include="application\protocol\CreateUser.ts" />
     <TypeScriptCompile Include="application\protocol\EggList.ts" />
     <TypeScriptCompile Include="application\protocol\FinishPrologue.ts" />
+    <TypeScriptCompile Include="application\protocol\Hatch.ts" />
     <TypeScriptCompile Include="application\protocol\Inventory.ts" />
     <TypeScriptCompile Include="application\protocol\Login.ts" />
     <TypeScriptCompile Include="application\protocol\PetList.ts" />
@@ -123,6 +124,7 @@
     <TypeScriptCompile Include="gen\EggList.ts" />
     <TypeScriptCompile Include="gen\Entities.ts" />
     <TypeScriptCompile Include="gen\FinishPrologue.ts" />
+    <TypeScriptCompile Include="gen\Hatch.ts" />
     <TypeScriptCompile Include="gen\Inventory.ts" />
     <TypeScriptCompile Include="gen\Login.ts" />
     <TypeScriptCompile Include="gen\PetList.ts" />

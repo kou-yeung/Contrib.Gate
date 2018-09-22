@@ -25,6 +25,16 @@ namespace Entities
             if (index != -1) items[index] = egg;
             else items.Add(egg);
         }
+
+        /// <summary>
+        /// 削除する
+        /// </summary>
+        /// <param name="egg"></param>
+        public void Remove(EggItem egg)
+        {
+            var index = items.FindIndex(v => v.uniqid == egg.uniqid);
+            if (index != -1) items.RemoveAt(index);
+        }
     }
 }
 

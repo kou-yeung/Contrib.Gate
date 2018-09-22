@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Xyz.AnzFactory.UI;
 using Entities;
+using Network;
 
 namespace UI
 {
@@ -31,7 +32,16 @@ namespace UI
 
         public void TapCellItem(int index, GameObject listItem)
         {
-
+            var egg = listItem.GetComponent<EggItem>().egg;
+            DialogWindow.OpenYesNo("確認", $"{egg.race}のタマゴを孵化します", () =>
+            {
+                Protocol.Send(new HatchSend { uniqid = egg.uniqid }, (r) =>
+                {
+                    Entity.Instance.Pets.Modify(r.item);
+                    Entity.Instance.Eggs.Remove(r.deleteEgg);
+                    cell.ReloadData();  // リスト更新
+                });
+            });
         }
 
         protected override void OnStart()
