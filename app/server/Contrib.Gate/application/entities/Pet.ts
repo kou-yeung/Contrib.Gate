@@ -19,13 +19,6 @@ namespace Entities {
             }
         }
 
-        // 使い魔ID
-        get id(): Identify {
-            return Identify.Parse(this.bucket.first.get("id"));
-        }
-        set id(id: Identify) {
-            this.bucket.first.set("id", id.toString());
-        }
         // uniqid (実質guid)
         get uniqid(): string {
             return this.bucket.first.get("uniqid");
@@ -33,33 +26,15 @@ namespace Entities {
         set uniqid(uniqid: string) {
             this.bucket.first.set("uniqid", uniqid);
         }
-        // 生成時間
-        get createTime(): number {
-            return this.bucket.first.get("createTime");
+        get item(): PetItem {
+            return JSON.parse(this.bucket.first.get("item")) as PetItem;
         }
-        set createTime(createTime: number) {
-            this.bucket.first.set("createTime", createTime);
+        set item(item: PetItem) {
+            this.bucket.first.set("item", JSON.stringify(item));
         }
-        // 経験値
-        get exp(): number {
-            return this.bucket.first.get("exp", 0);
-        }
-        set exp(createTime: number) {
-            this.bucket.first.set("exp", createTime);
-        }
-        // 強化回数
-        get powerupCount(): number {
-            return this.bucket.first.get("powerupCount", 0);
-        }
-        set powerupCount(powerCount: number) {
-            this.bucket.first.set("powerupCount", powerCount);
-        }
-        // パラメータ
-        getParam(param: Param): number {
-            return this.bucket.first.get(IDType[param], 0);
-        }
-        setParam(param: Param, value: number) {
-            this.bucket.first.set(IDType[param], value);
+        // item のプレーンテキスト
+        get plainText(): string {
+            return this.bucket.first.get("item");
         }
     }
 }

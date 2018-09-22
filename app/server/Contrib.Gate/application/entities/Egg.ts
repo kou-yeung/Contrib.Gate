@@ -17,29 +17,6 @@ namespace Entities {
                 this.bucket.refresh(done, KiiQuery.queryWithClause(clause));
             }
         }
-
-        // 種族
-        get race(): Race {
-            return this.bucket.first.get("race");
-        }
-        set race(race: Race) {
-            this.bucket.first.set("race", race);
-        }
-
-        // レアリティ
-        get rarity(): number {
-            return this.bucket.first.get("rarity");
-        }
-        set rarity(rarity: number) {
-            this.bucket.first.set("rarity", rarity);
-        }
-        // リザルド
-        get result(): Identify {
-            return Identify.Parse(this.bucket.first.get("result"));
-        }
-        set result(result: Identify) {
-            this.bucket.first.set("result", result.toString());
-        }
         // uniqid (実質guid)
         get uniqid(): string {
             return this.bucket.first.get("uniqid");
@@ -47,12 +24,22 @@ namespace Entities {
         set uniqid(uniqid: string) {
             this.bucket.first.set("uniqid", uniqid);
         }
-        // 生成時間
-        get createTime(): number {
-            return this.bucket.first.get("createTime");
+        get item(): EggItem {
+            return JSON.parse(this.bucket.first.get("item")) as EggItem;
         }
-        set createTime(createTime: number) {
-            this.bucket.first.set("createTime", createTime);
+        set item(item: EggItem) {
+            this.bucket.first.set("item", JSON.stringify(item));
+        }
+        // item のプレーンテキスト
+        get plainText(): string {
+            return this.bucket.first.get("item");
+        }
+        // リザルド
+        get result(): Identify {
+            return Identify.Parse(this.bucket.first.get("result"));
+        }
+        set result(result: Identify) {
+            this.bucket.first.set("result", result.toString());
         }
     }
 }

@@ -30,11 +30,15 @@
         new Entities.Familiar(admin, id).refresh(familiar => {
             let guid = GUID.Gen();  // 新たなGUIDを生成する
             new Entities.Egg(user, guid).refresh(egg => {
+                let item = new EggItem();
+                item.race = familiar.race;
+                item.rarity = familiar.rarity;
+                item.createTime = Util.Time.ServerTime.current;
+                item.uniqid = guid;
+
                 egg.uniqid = guid;
+                egg.item = item;
                 egg.result = id;
-                egg.race = familiar.race;
-                egg.rarity = familiar.rarity;
-                egg.createTime = Util.Time.ServerTime.current;
                 egg.bucket.save(() => {
                     var r = new CheatReceive();
                     done(r.Pack());
@@ -46,7 +50,7 @@
     // 使い魔追加
     function addfamiliar(user: KiiUser) {
         let id = Entities.Identify.Parse(s.param[0]);
-        let lv = parseInt(s.param[1]);
+        let lv = parseInt(s.param[1].length <= 0 ? "1" : s.param[1]);
         if (id.Type != IDType.Familiar) {
             done(ApiError.Create(ErrorCode.Common, "id.Type != IDType.Familiar").Pack());
             return;
@@ -55,10 +59,16 @@
         new Entities.Level(admin).refresh(level => {
             let guid = GUID.Gen();
             new Entities.Pet(user, guid).refresh(pet => {
-                pet.id = id;
+
+                let item = new PetItem();
+                item.id = id.idWithType;
+                item.uniqid = guid;
+                item.createTime = Util.Time.ServerTime.current;
+                item.param = [level.exp(lv), 2, 0, 0, 0, 0, 0, 0, 0, 0]; // param x 10
+
                 pet.uniqid = guid;
-                pet.createTime = Util.Time.ServerTime.current;
-                pet.exp = level.exp(lv);
+                pet.item = item;
+
                 pet.bucket.save(() => {
                     var r = new CheatReceive();
                     done(r.Pack());
