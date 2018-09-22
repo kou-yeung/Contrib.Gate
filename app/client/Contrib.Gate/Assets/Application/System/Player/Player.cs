@@ -1,16 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
+    public Action onTriggerEnter;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         var pos = this.transform.localPosition;
 
         if (Input.GetKey(KeyCode.W)) pos.z -= .1f;
@@ -21,5 +26,13 @@ public class Player : MonoBehaviour {
         Camera.main.transform.LookAt(this.transform);
         this.transform.localPosition = pos;
 
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (onTriggerEnter != null)
+        {
+            onTriggerEnter();
+        }
     }
 }

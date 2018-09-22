@@ -7,6 +7,7 @@ using Network;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using System;
+using UI;
 
 public class InGame : MonoBehaviour
 {
@@ -79,6 +80,8 @@ public class InGame : MonoBehaviour
                 {
                     var go = Instantiate(player, this.transform);
                     go.transform.localPosition = new Vector3(x, 0, -y);
+
+                    go.GetComponent<Player>().onTriggerEnter = Goal;
                 }
 
                 if ( (map[x, y] == Tile.UpStairs && stageInfo.move == Move.Down) ||
@@ -87,11 +90,35 @@ public class InGame : MonoBehaviour
                     // 上り階段 && 下ってきた場合、あるいは逆の場合プレイヤーを置きます。
                     var go = Instantiate(player, this.transform);
                     go.transform.localPosition = new Vector3(x, 0, -y);
+                    go.GetComponent<Player>().onTriggerEnter = Goal;
                 }
             }
         }
     }
 
+    bool flag = false;
+    void Goal()
+    {
+        if (flag) return;
+        flag = true;
+
+        var send = new CheatSend();
+        send.command = "addegg";
+        var index = UnityEngine.Random.Range(0, Entity.Instance.Familiars.Length);
+        var id = Entity.Instance.Familiars[index].Identify;
+        send.param = new[] { id.ToString() };
+        Protocol.Send(send, (r) =>
+        {
+            if (!string.IsNullOrEmpty(r.egg.uniqid))
+            {
+                Entity.Instance.Eggs.Modify(r.egg);
+                DialogWindow.OpenOk("おめでとう", $"{r.egg.race}のタマゴが獲得した", () =>
+                {
+                    SceneManager.LoadScene(SceneName.Home);
+                });
+            }
+        });
+    }
     // Update is called once per frame
     void Update()
     {
@@ -161,6 +188,8 @@ public class InGame : MonoBehaviour
                 return prefab[13];
             case (int)(Tile.DownStairs):
                 return prefab[14];
+            case (int)(Tile.Goal):
+                return prefab[15];
             case (int)(Tile.None):
                 return null;
             default:

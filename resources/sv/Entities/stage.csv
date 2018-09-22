@@ -1,3 +1,2 @@
 ID,名前,Dungeon,解放トリガ,
-Stage_001_001,始まりの森,Dungeon_001_001,,
-Stage_001_002,迷宮,Dungeon_002_001,Stage_001_001,
+Stage_099_999,一層のみ,Dungeon_099_001,,
