@@ -19,9 +19,13 @@ public class Home : MonoBehaviour {
         Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
         UpdateUserState();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnDestroy()
+    {
+        Observer.Instance.Unsubscribe(UserState.Update, UpdateUserState);
+    }
+    // Update is called once per frame
+    void Update () {
 		
 	}
 

@@ -46,10 +46,9 @@ namespace Event
         /// <param name="action"></param>
         public void Unsubscribe(string name, Action<string, object> action)
         {
-            Action<string, object> cb;
-            if (collection.TryGetValue(name, out cb))
+            if (collection.ContainsKey(name))
             {
-                cb -= action;
+                collection[name] -= action;
             }
         }
 
