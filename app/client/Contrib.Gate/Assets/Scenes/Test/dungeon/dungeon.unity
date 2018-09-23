@@ -203,21 +203,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chip:
-  - {fileID: 1006176855397172, guid: 4266637f78b3d3d49b8188956ea5f040, type: 2}
-  - {fileID: 1572809423736654, guid: c7ad35b3ac168f848bbbc52635df994a, type: 2}
-  - {fileID: 1273654545878150, guid: ffa961a6838d8234faa483d98d91c5bc, type: 2}
-  - {fileID: 1124214184951856, guid: a94868e0b81400b4bb5eed4f54a74f10, type: 2}
-  - {fileID: 1011100295370866, guid: 707a6b7124b7fde40b7903ce695a6a85, type: 2}
-  - {fileID: 1455595654550392, guid: 8d81f61fadf700246aeddd9283b63349, type: 2}
-  - {fileID: 1154289903732534, guid: 17e0e17e011048a4cb07cd3497dbfeb0, type: 2}
-  - {fileID: 1728819942688650, guid: 76f7553cb1bb66e4fbf57cc9c208083d, type: 2}
-  - {fileID: 1034035360865000, guid: f50932763bd6ccd45af1b4c5e20471a3, type: 2}
-  - {fileID: 1444905826429620, guid: fac17155ac09c6b44b25610256102b92, type: 2}
-  - {fileID: 1561127288052234, guid: 3144af54e9fe0a048b662d444feb9793, type: 2}
-  - {fileID: 1702603701340326, guid: 130975ec2e1b7bc4e8a3be1fbaab069a, type: 2}
-  - {fileID: 1672566212509560, guid: b0c93a562eb7dcc4bb3c1f7d280ff2d9, type: 2}
-  - {fileID: 1945698079616660, guid: 26ebdf3e52003cd4d97028bd83e722fa, type: 2}
-  - {fileID: 1866116382913064, guid: fd0c538e7b3c3424c99b0ef0f4ae70e0, type: 2}
+  - {fileID: 1659412512261546, guid: cfcf15f319e45e544bb18e5df5788d90, type: 2}
+  - {fileID: 1659412512261546, guid: 720e83226e954034daa4552c08f2403e, type: 2}
+  - {fileID: 1659412512261546, guid: a3036c7b460541242b78370ac8c2ac7e, type: 2}
+  - {fileID: 1659412512261546, guid: 4b7f5a24d6322f0458d11b399684e491, type: 2}
+  - {fileID: 1659412512261546, guid: 0774ac9d5ca1c0d4eb69a73ffa7bc5e0, type: 2}
+  - {fileID: 1659412512261546, guid: f8345aa978a604a49891fc48abd76cf7, type: 2}
+  - {fileID: 1659412512261546, guid: 88d9992b1f59eeb4bbaec53d5955a3ca, type: 2}
+  - {fileID: 1659412512261546, guid: 0ac2c6c4f62ffcd488178e38983f2325, type: 2}
+  - {fileID: 1659412512261546, guid: a96660650e5d95d48a131f96e2bee3d3, type: 2}
+  - {fileID: 1659412512261546, guid: 54e85892b206bd24ca4246930c972bb4, type: 2}
+  - {fileID: 1659412512261546, guid: 8073ac919e9a3ac43b6c4e701979d111, type: 2}
+  - {fileID: 1659412512261546, guid: 8697e48d990c3834390159b0c8381d78, type: 2}
+  - {fileID: 1659412512261546, guid: 1173916a0de169d49aaa4b0fe613902e, type: 2}
+  - {fileID: 1659412512261546, guid: 48a7243b5e99e2644bf730b886ea622c, type: 2}
+  - {fileID: 1659412512261546, guid: 7b8d50e517419ca4ea4f2cfabab5b439, type: 2}
 --- !u!4 &443927656
 Transform:
   m_ObjectHideFlags: 0
@@ -278,7 +278,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 12
   m_Depth: -1
   m_CullingMask:
@@ -301,13 +301,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 748732053}
-  m_LocalRotation: {x: 0.32957643, y: 0.3092049, z: -0.115202114, w: 0.88459045}
-  m_LocalPosition: {x: 0.8, y: 53.8, z: -158.4}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 40.868004, y: 38.534, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1022056855
 GameObject:
   m_ObjectHideFlags: 0

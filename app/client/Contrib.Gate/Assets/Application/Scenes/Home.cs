@@ -13,11 +13,13 @@ public class Home : MonoBehaviour {
 
 	// Use this for initialization
 	IEnumerator Start () {
+        enabled = false;
         yield return Entity.Instance.GetInventory();
         yield return Entity.Instance.GetEggs();
         yield return Entity.Instance.GetPets();
         Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
         UpdateUserState();
+        enabled = true;
     }
 
     private void OnDestroy()
