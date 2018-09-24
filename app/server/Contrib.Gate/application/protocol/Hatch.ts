@@ -7,32 +7,47 @@ function Hatch(params, context, done) {
     //s.uniqid;
     GetUser(context, (user) => {
 
-        new Entities.Egg(user, s.uniqid).refresh(egg => {
-            //====================
-            // MEMO : 将来は孵化完了したかどうかチェックを追加します。今はそのままPET にする
-            //====================
+        new Entities.Hatch(user, s.uniqid).refresh(hatch => {
 
-            let guid = GUID.Gen();
-            new Entities.Pet(user, guid).refresh(pet => {
+            // データの取得ができなかった
+            if (!hatch.valid) {
+                done(ApiError.Create(ErrorCode.Common, "無効な孵化ID").Pack());
+                return;
+            }
+            // 時間がまだ足りない
+            let remain = (hatch.item.startTime + hatch.item.timeRequired) - Util.Time.ServerTime.current;
+            if (remain > 0) {
+                done(ApiError.Create(ErrorCode.Common, "まだ時間が足りない").Pack());
+                return;
+            }
 
-                let item = new PetItem();
-                item.id = egg.result.idWithType;
-                item.uniqid = guid;
-                item.createTime = Util.Time.ServerTime.current;
-                item.param = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // param x 10
+            new Entities.Egg(user, s.uniqid).refresh(egg => {
 
-                pet.uniqid = guid;
-                pet.item = item;
+                let guid = GUID.Gen();
+                new Entities.Pet(user, guid).refresh(pet => {
 
-                // タマゴ削除
-                egg.bucket.first.delete(() => {
-                    // ペット保存
-                    pet.bucket.save(() => {
-                        // 返信
-                        let r = new HatchReceive();
-                        r.item = item;
-                        r.deleteEgg = egg.item;
-                        done(r.Pack());
+                    let item = new PetItem();
+                    item.id = egg.result.idWithType;
+                    item.uniqid = guid;
+                    item.createTime = Util.Time.ServerTime.current;
+                    item.param = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // param x 10
+
+                    pet.uniqid = guid;
+                    pet.item = item;
+
+                    // 孵化情報削除
+                    hatch.bucket.first.delete(() => {
+                        // タマゴ削除
+                        egg.bucket.first.delete(() => {
+                            // ペット保存
+                            pet.bucket.save(() => {
+                                // 返信
+                                let r = new HatchReceive();
+                                r.item = item;
+                                r.deleteEgg = egg.item;
+                                done(r.Pack());
+                            });
+                        });
                     });
                 });
             });

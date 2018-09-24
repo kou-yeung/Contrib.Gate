@@ -21,7 +21,8 @@ namespace Entities
     /// </summary>
 	public enum AdReward
 	{
-		Coin,// // コイン
+		Unknown,// 不明
+		Hatch,// 孵化時間短縮
 	}
 	
     /// <summary>

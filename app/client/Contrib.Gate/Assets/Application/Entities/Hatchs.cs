@@ -30,7 +30,12 @@ namespace Entities
         /// <param name="egg"></param>
         public void Remove(HatchItem hatch)
         {
-            var index = items.FindIndex(v => v.uniqid == hatch.uniqid);
+            Remove(hatch.uniqid);
+        }
+
+        public void Remove(string uniqid)
+        {
+            var index = items.FindIndex(v => v.uniqid == uniqid);
             if (index != -1) items.RemoveAt(index);
         }
     }

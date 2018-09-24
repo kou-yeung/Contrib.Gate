@@ -43,13 +43,13 @@ down,UserCreateStep,step,
 // Ads開始する
 protocol,AdsBegin,
 up,AdReward,type,
-up,uint,param,
+up,string,param,
 down,string,id,
 
 // Ads終了する
 protocol,AdsEnd,
 up,string,id,
-down,string,result, // まだ仮パラメータです
+down,HatchItem,item, // まだ仮パラメータです
 
 // 自動販売
 protocol,Vending,

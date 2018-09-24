@@ -12,7 +12,7 @@ class AdsEndSend {
 }
 
 class AdsEndReceive {
-    result: string; //  // まだ仮パラメータです
+    item: HatchItem; //  // まだ仮パラメータです
 	
 	// AdsEndReceive -> string
 	Pack(): string {

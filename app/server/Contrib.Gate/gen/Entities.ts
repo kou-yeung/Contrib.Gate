@@ -11,7 +11,8 @@ enum UserCreateStep {
 
 // AdReward
 enum AdReward {
-	Coin,// // コイン
+	Unknown,// 不明
+	Hatch,// 孵化時間短縮
 }
 
 // IDType

@@ -11,7 +11,7 @@ function HatchList(params, context, done) {
             let r = new HatchListReceive();
             r.items = [];
             let results = hatch.bucket.results;
-            for (var i = results[0].has("item") ? 0 : 1; i < results.length; i++) {
+            for (var i = hatch.valid ? 0 : 1; i < results.length; i++) {
                 r.items.push(JSON.parse(results[i].get("item")) as HatchItem);
             }
             done(r.Pack());

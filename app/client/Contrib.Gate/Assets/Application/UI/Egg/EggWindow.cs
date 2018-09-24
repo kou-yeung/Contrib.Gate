@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Xyz.AnzFactory.UI;
 using Entities;
 using Network;
+using UnityEngine.Advertisements;
 
 namespace UI
 {
@@ -33,14 +34,63 @@ namespace UI
         public void TapCellItem(int index, GameObject listItem)
         {
             var egg = listItem.GetComponent<EggItem>().egg;
-            DialogWindow.OpenYesNo("確認", $"{egg.race}のタマゴを孵化予約します", () =>
+
+            var hatch = Entity.Instance.Hatchs.items.Find(v => v.uniqid == egg.uniqid);
+
+            if (hatch != null)
             {
-                Protocol.Send(new HatchReserveSend { uniqid = egg.uniqid }, (r) =>
+                var remain = (hatch.startTime + hatch.timeRequired) - Util.Time.ServerTime.CurrentUnixTime;
+                if (remain <= 0)
                 {
-                    Entity.Instance.Hatchs.Modify(r.item);
-                    cell.ReloadData();  // リスト更新
+                    DialogWindow.OpenYesNo("確認", $"{egg.race}のタマゴを孵化します", () =>
+                    {
+                        Protocol.Send(new HatchSend { uniqid = egg.uniqid }, (HatchReceive r) =>
+                        {
+                            Entity.Instance.Pets.Modify(r.item);
+                            Entity.Instance.Eggs.Remove(r.deleteEgg);
+                            Entity.Instance.Hatchs.Remove(r.deleteEgg.uniqid);
+                            cell.ReloadData();  // リスト更新
+                        });
+                    });
+                }
+                else
+                {
+                    DialogWindow.OpenYesNo("確認", $"孵化残り時間： {remain / 60}:{remain % 60}\n広告を観て 30分短縮しますか？", () =>
+                    {
+                        // 広告開始します
+                        Protocol.Send(new AdsBeginSend { type = AdReward.Hatch, param = egg.uniqid }, (r) =>
+                        {
+                            // 実際に再生開始
+                            Advertisement.Show(new ShowOptions
+                            {
+                                resultCallback = (res) =>
+                                {
+                                    if (res == ShowResult.Finished)
+                                    {
+                                        Protocol.Send(new AdsEndSend { id = r.id }, (end) =>
+                                        {
+                                            Entity.Instance.Hatchs.Modify(end.item);
+                                            cell.ReloadData();
+                                        });
+                                    }
+                                }
+                            });
+
+                        });
+                    });
+                }
+            }
+            else
+            {
+                DialogWindow.OpenYesNo("確認", $"{egg.race}のタマゴを孵化予約します", () =>
+                {
+                    Protocol.Send(new HatchReserveSend { uniqid = egg.uniqid }, (r) =>
+                    {
+                        Entity.Instance.Hatchs.Modify(r.item);
+                        cell.ReloadData();  // リスト更新
+                    });
                 });
-            });
+            }
         }
 
         protected override void OnStart()
