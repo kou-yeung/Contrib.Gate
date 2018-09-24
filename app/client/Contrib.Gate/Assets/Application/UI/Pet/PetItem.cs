@@ -16,7 +16,7 @@ namespace UI
             this.pet = item;
             var rarity = "";
             var id = new Entities.Identify(item.id);
-            icon.sprite = Resources.Load<Sprite>($"test/familiar/{id.Id}");
+            icon.sprite = Resources.LoadAll<Sprite>($"Familiar/{id.Id}/face")[0];
 
             var familiar = Array.Find(Entities.Entity.Instance.Familiars, v => v.Identify == id);
             if (familiar != null)
