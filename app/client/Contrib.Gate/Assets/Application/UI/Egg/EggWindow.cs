@@ -33,12 +33,11 @@ namespace UI
         public void TapCellItem(int index, GameObject listItem)
         {
             var egg = listItem.GetComponent<EggItem>().egg;
-            DialogWindow.OpenYesNo("確認", $"{egg.race}のタマゴを孵化します", () =>
+            DialogWindow.OpenYesNo("確認", $"{egg.race}のタマゴを孵化予約します", () =>
             {
-                Protocol.Send(new HatchSend { uniqid = egg.uniqid }, (r) =>
+                Protocol.Send(new HatchReserveSend { uniqid = egg.uniqid }, (r) =>
                 {
-                    Entity.Instance.Pets.Modify(r.item);
-                    Entity.Instance.Eggs.Remove(r.deleteEgg);
+                    Entity.Instance.Hatchs.Modify(r.item);
                     cell.ReloadData();  // リスト更新
                 });
             });

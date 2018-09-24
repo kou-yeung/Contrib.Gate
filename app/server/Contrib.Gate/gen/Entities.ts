@@ -38,6 +38,7 @@ enum ErrorCode {
 	StageInvalid,// 無効なステージID
 	StageCantMove,// ステージ移動できません
 	StageLoss,// ステージ消失
+	HatchMax,// 孵化最大数に達した
 	Common=9998,// 一般エラー(一時対応時使用します)
 	Network=9999,// ネットワークエラー
 }
@@ -124,4 +125,13 @@ class PetItem {
 	id: number;// 使い魔ID
 	createTime: number;// 生成時間
 	param: number[];// 増加パラメータ(Param)
+}
+
+/// <summary>
+/// HatchItem
+/// </summary>
+class HatchItem {
+	uniqid: string;// 識別ID
+	startTime: number;// 開始時間
+	timeRequired: number;// 秒数
 }

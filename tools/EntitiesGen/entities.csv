@@ -40,6 +40,7 @@ VendingInvalid,,無効な自販機ID
 StageInvalid,,無効なステージID
 StageCantMove,,ステージ移動できません
 StageLoss,,ステージ消失
+HatchMax,,孵化最大数に達した
 Common,9998,一般エラー(一時対応時使用します)
 Network,9999,ネットワークエラー
 
@@ -114,4 +115,10 @@ string,uniqid,識別ID
 uint,id,使い魔ID
 long,createTime,生成時間
 int[],param,増加パラメータ(Param)
+
+// sv->cl 予約データ1個分
+class,HatchItem,
+string,uniqid,識別ID
+long,startTime,開始時間
+long,timeRequired,秒数
 

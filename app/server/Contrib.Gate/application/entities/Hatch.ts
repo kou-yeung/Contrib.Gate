@@ -1,14 +1,15 @@
-﻿// タマゴデータ
+﻿// 孵化データ
 namespace Entities {
-    export class Egg {
-        bucket: Bucket<Egg>;
+    export class Hatch {
+        bucket: Bucket<Hatch>;
         private guid: string;
+
         constructor(user: KiiUser, guid: string = null) {
-            this.bucket = new Bucket(this, user, "egg");
+            this.bucket = new Bucket(this, user, "hatch");
             this.guid = guid;
         }
 
-        refresh(done: (egg: Egg) => void) {
+        refresh(done: (pet: Hatch) => void) {
             if (this.guid == null) {
                 // すべてを取得する
                 this.bucket.refresh(done, KiiQuery.queryWithClause());
@@ -17,6 +18,7 @@ namespace Entities {
                 this.bucket.refresh(done, KiiQuery.queryWithClause(clause));
             }
         }
+
         // uniqid (実質guid)
         get uniqid(): string {
             return this.bucket.first.get("uniqid");
@@ -24,24 +26,12 @@ namespace Entities {
         set uniqid(uniqid: string) {
             this.bucket.first.set("uniqid", uniqid);
         }
-        get item(): EggItem {
-            return JSON.parse(this.bucket.first.get("item")) as EggItem;
+        get item(): HatchItem {
+            return JSON.parse(this.bucket.first.get("item")) as HatchItem;
         }
-        set item(item: EggItem) {
+        set item(item: HatchItem) {
             this.bucket.first.set("item", JSON.stringify(item));
         }
-        // item のプレーンテキスト
-        get plainText(): string {
-            return this.bucket.first.get("item");
-        }
-        // リザルド
-        get result(): Identify {
-            return Identify.Parse(this.bucket.first.get("result"));
-        }
-        set result(result: Identify) {
-            this.bucket.first.set("result", result.toString());
-        }
-
         get valid(): boolean {
             return this.bucket.first.has("item");
         }

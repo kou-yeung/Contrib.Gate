@@ -36,5 +36,8 @@ namespace Entities {
         get plainText(): string {
             return this.bucket.first.get("item");
         }
+        get valid(): boolean {
+            return this.bucket.first.has("item");
+        }
     }
 }

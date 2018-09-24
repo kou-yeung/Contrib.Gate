@@ -54,6 +54,7 @@ namespace Entities
 		StageInvalid,// 無効なステージID
 		StageCantMove,// ステージ移動できません
 		StageLoss,// ステージ消失
+		HatchMax,// 孵化最大数に達した
 		Common=9998,// 一般エラー(一時対応時使用します)
 		Network=9999,// ネットワークエラー
 	}
@@ -159,6 +160,17 @@ namespace Entities
 		public uint id;// 使い魔ID
 		public long createTime;// 生成時間
 		public int[] param;// 増加パラメータ(Param)
+	}
+	
+    /// <summary>
+    /// HatchItem
+    /// </summary>
+    [Serializable]
+	public partial class HatchItem
+	{
+		public string uniqid;// 識別ID
+		public long startTime;// 開始時間
+		public long timeRequired;// 秒数
 	}
 	
 }

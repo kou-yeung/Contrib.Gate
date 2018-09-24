@@ -86,8 +86,18 @@ down,EggItem[],items,所持タマゴ一覧
 protocol,PetList,
 down,PetItem[],items,所持ペット一覧
 
+// 孵化予約
+protocol,HatchReserve,
+up,string,uniqid,タマゴ Uniqid
+down,HatchItem,item,孵化情報
+
 // 孵化
 protocol,Hatch,
 up,string,uniqid,タマゴ Uniqid
 down,PetItem,item,結果
 down,EggItem,deleteEgg,孵化したタマゴ
+
+// 孵化情報一覧取得
+protocol,HatchList,
+down,HatchItem[],items,孵化情報一覧
+

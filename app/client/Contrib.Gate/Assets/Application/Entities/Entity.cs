@@ -45,7 +45,8 @@ namespace Entities
         public StageInfo StageInfo { get; private set; }
         public Eggs Eggs { get; private set; }
         public Pets Pets { get; private set; }
-        
+        public Hatchs Hatchs { get; private set; }
+
         public void Load()
         {
             Familiars = Parse<Familiar>("Entities/familiar");
@@ -125,6 +126,20 @@ namespace Entities
             });
             while (wait) yield return null;
         }
+
+        // 孵化一覧取得
+        public IEnumerator GetHatchs(bool refresh = false)
+        {
+            if (!refresh && Hatchs != null) yield break;
+            bool wait = true;
+            Protocol.Send(new HatchListSend(), (r) =>
+            {
+                Hatchs = new Hatchs(r.items);
+                wait = false;
+            });
+            while (wait) yield return null;
+        }
+
         public void UpdateUserState(UserState userState)
         {
             this.UserState = userState;
