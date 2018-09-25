@@ -100,13 +100,6 @@ namespace Entities
 		MagicDefense,// 魔法防御
 		Agility,// 素早さ
 		Luck,// 運
-		Reserve1,// 予約
-		Reserve2,// 予約
-		Reserve3,// 予約
-		Reserve4,// 予約
-		Reserve5,// 予約
-		Reserve6,// 予約
-		Reserve7,// 予約
 		Count,// 数
 	}
 	
@@ -168,7 +161,7 @@ namespace Entities
 		public long createTime;// 生成時間
 		public int exp;// 経験値(レベルはRuntimeで計算します)
 		public int powerupCount;// 餌付け回数(最大回数は レベル - 1)
-		public int[] param;// 増加パラメータ(Param)
+		public int[] param;// 餌付けによる増加パラメータ(Param)
 	}
 	
     /// <summary>
