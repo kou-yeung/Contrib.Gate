@@ -54,7 +54,6 @@ namespace UI
             var name = typeof(T).Name;
             var go = Instantiate(Resources.Load<GameObject>($"UI/{name.Replace("Window", "")}/{name}"));
             var res = go.GetComponent<T>();
-            res.OnOpen(args);
 
             List<Window> list;
             if (!windows.TryGetValue(res.layer, out list))
@@ -64,6 +63,7 @@ namespace UI
             }
             go.GetComponent<Canvas>().sortingOrder = (int)res.layer + list.Count;
 
+            res.OnOpen(args);
             return res;
         }
 
