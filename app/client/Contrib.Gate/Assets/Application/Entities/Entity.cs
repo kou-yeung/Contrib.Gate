@@ -37,6 +37,7 @@ namespace Entities
         public Dungeon[] Dungeons { get; private set; }
         public Room[] Rooms { get; private set; }
         public Stage[] Stages { get; private set; }
+        public LevelTable LevelTable { get; private set; }
 
         // 受信データなど、サーバ側キャッシュしたデータ（ローカル更新による疑似的同期を行う
         public Inventory Inventory { get; private set; }
@@ -57,6 +58,8 @@ namespace Entities
             Dungeons = Parse<Dungeon>("Entities/dungeon");
             Rooms = Parse<Room>("Entities/room");
             Stages = Parse<Stage>("Entities/stage");
+            var levels = Parse<Level>("Entities/level");
+            if (levels != null) LevelTable = new LevelTable(levels);
 
             Cheats = Parse<Cheat>("Entities/cheat", false);
             StringTable = new StringTable(Parse<StringTableKV>("Entities/string_table", false));

@@ -34,6 +34,7 @@ namespace CsvHelper
             configuration.RegisterClassMap<DungeonMap>();
             configuration.RegisterClassMap<RoomMap>();
             configuration.RegisterClassMap<StageMap>();
+            configuration.RegisterClassMap<LevelMap>();
         }
     }
 }
