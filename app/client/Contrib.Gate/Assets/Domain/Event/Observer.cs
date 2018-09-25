@@ -10,6 +10,11 @@ namespace Event
         static Observer instance;
         static Dictionary<string, Action<string, object>> collection = new Dictionary<string, Action<string, object>>();
 
+        public static bool Valid
+        {
+            get { return instance != null; }
+        }
+
         public static Observer Instance
         {
             get
