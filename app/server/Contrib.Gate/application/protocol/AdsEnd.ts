@@ -20,7 +20,7 @@
                         new Entities.Hatch(user, ads.param).refresh(hatch =>
                         {
                             let item = hatch.item;
-                            item.timeRequired -= 30 * 60;
+                            item.startTime -= 30 * 60;  // 開始時間を過去に!!(計算上はこっちのほうがしやすいです)
                             hatch.item = item;
                             hatch.bucket.save(() => {
                                 let r = new AdsEndReceive();
