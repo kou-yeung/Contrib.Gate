@@ -30,7 +30,8 @@ function Hatch(params, context, done) {
                     item.id = egg.result.idWithType;
                     item.uniqid = guid;
                     item.createTime = Util.Time.ServerTime.current;
-                    item.param = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // param x 10
+                    item.param = [];
+                    for (var i = 0; i < Param.Count; i++) item.param.push(0);
 
                     pet.uniqid = guid;
                     pet.item = item;

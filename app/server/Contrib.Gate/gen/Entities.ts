@@ -67,16 +67,22 @@ enum Race {
 
 // Param
 enum Param {
-	Exp,// 経験値(レベルはRuntimeで計算します)
-	PowerupCount,// 餌付け回数(最大回数は レベル - 1)
-	Strength,// 力
-	Magical,// 魔
+	HP,// 体力
+	MP,// 魔力
+	PhysicalAttack,// 物理攻撃
+	PhysicalDefense,// 物理防御
+	MagicAttack,// 魔法攻撃
+	MagicDefense,// 魔法防御
 	Agility,// 素早さ
+	Luck,// 運
 	Reserve1,// 予約
 	Reserve2,// 予約
 	Reserve3,// 予約
 	Reserve4,// 予約
 	Reserve5,// 予約
+	Reserve6,// 予約
+	Reserve7,// 予約
+	Count,// 数
 }
 
 
@@ -125,6 +131,8 @@ class PetItem {
 	uniqid: string;// 識別ID
 	id: number;// 使い魔ID
 	createTime: number;// 生成時間
+	exp: number;// 経験値(レベルはRuntimeで計算します)
+	powerupCount: number;// 餌付け回数(最大回数は レベル - 1)
 	param: number[];// 増加パラメータ(Param)
 }
 

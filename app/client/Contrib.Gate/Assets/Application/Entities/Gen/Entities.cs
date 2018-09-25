@@ -92,16 +92,22 @@ namespace Entities
     /// </summary>
 	public enum Param
 	{
-		Exp,// 経験値(レベルはRuntimeで計算します)
-		PowerupCount,// 餌付け回数(最大回数は レベル - 1)
-		Strength,// 力
-		Magical,// 魔
+		HP,// 体力
+		MP,// 魔力
+		PhysicalAttack,// 物理攻撃
+		PhysicalDefense,// 物理防御
+		MagicAttack,// 魔法攻撃
+		MagicDefense,// 魔法防御
 		Agility,// 素早さ
+		Luck,// 運
 		Reserve1,// 予約
 		Reserve2,// 予約
 		Reserve3,// 予約
 		Reserve4,// 予約
 		Reserve5,// 予約
+		Reserve6,// 予約
+		Reserve7,// 予約
+		Count,// 数
 	}
 	
 	
@@ -160,6 +166,8 @@ namespace Entities
 		public string uniqid;// 識別ID
 		public uint id;// 使い魔ID
 		public long createTime;// 生成時間
+		public int exp;// 経験値(レベルはRuntimeで計算します)
+		public int powerupCount;// 餌付け回数(最大回数は レベル - 1)
 		public int[] param;// 増加パラメータ(Param)
 	}
 	

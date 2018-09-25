@@ -26,6 +26,7 @@ namespace Entities {
         set uniqid(uniqid: string) {
             this.bucket.first.set("uniqid", uniqid);
         }
+
         get item(): PetItem {
             return JSON.parse(this.bucket.first.get("item")) as PetItem;
         }

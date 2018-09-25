@@ -65,8 +65,9 @@
                 item.id = id.idWithType;
                 item.uniqid = guid;
                 item.createTime = Util.Time.ServerTime.current;
-                item.param = [level.exp(lv), 0, 0, 0, 0, 0, 0, 0, 0, 0]; // param x 10
-
+                item.exp = level.exp(lv);
+                item.param = [];
+                for (var i = 0; i < Param.Count; i++) item.param.push(0);
                 pet.uniqid = guid;
                 pet.item = item;
 
