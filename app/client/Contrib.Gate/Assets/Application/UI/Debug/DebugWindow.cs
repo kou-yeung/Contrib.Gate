@@ -69,7 +69,7 @@ namespace UI
         {
         }
 
-        public override void OnButtonClick(Button btn)
+        protected override void OnButtonClick(Button btn)
         {
             switch (btn.name)
             {

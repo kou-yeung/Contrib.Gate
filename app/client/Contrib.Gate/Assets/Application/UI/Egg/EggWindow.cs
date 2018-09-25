@@ -57,26 +57,8 @@ namespace UI
                 {
                     DialogWindow.OpenYesNo("確認", $"孵化残り時間： {remain / 60}:{remain % 60}\n広告を観て 30分短縮しますか？", () =>
                     {
-                        // 広告開始します
-                        Protocol.Send(new AdsBeginSend { type = AdReward.Hatch, param = egg.uniqid }, (r) =>
-                        {
-                            // 実際に再生開始
-                            Advertisement.Show(new ShowOptions
-                            {
-                                resultCallback = (res) =>
-                                {
-                                    if (res == ShowResult.Finished)
-                                    {
-                                        Protocol.Send(new AdsEndSend { id = r.id }, (end) =>
-                                        {
-                                            Entity.Instance.Hatchs.Modify(end.item);
-                                            cell.ReloadData();
-                                        });
-                                    }
-                                }
-                            });
-
-                        });
+                        var window = Window.Open<AdvertisementWindow>(AdReward.Hatch, egg.uniqid);
+                        window.OnCloseEvent += cell.ReloadData;
                     });
                 }
             }
