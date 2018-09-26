@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     Vector3 move;
     Sprite[] sprites;
     float celloffset;
-
+    //Rigidbody2D
     void Start()
     {
         sprites = Resources.LoadAll<Sprite>($"Familiar/{1001}/walk");
@@ -20,39 +20,36 @@ public class Player : MonoBehaviour
 
     public void Move(Vector2 move)
     {
-        this.move = new Vector3(move.x, 0, move.y) * walkSpeed;
+        this.move = new Vector3(move.x, move.y, 0) * walkSpeed;
     }
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKey(KeyCode.W)) move.z = Mathf.Clamp(move.z + .05f, -walkSpeed, walkSpeed);
-        //if (Input.GetKey(KeyCode.S)) move.z = Mathf.Clamp(move.z - .05f, -walkSpeed, walkSpeed);
-        //if (Input.GetKey(KeyCode.A)) move.x = Mathf.Clamp(move.x - .05f, -walkSpeed, walkSpeed);
-        //if (Input.GetKey(KeyCode.D)) move.x = Mathf.Clamp(move.x + .05f, -walkSpeed, walkSpeed);
-
         this.transform.localPosition += move;
 
         celloffset += move.sqrMagnitude * cellSpeed;
 
         var startIndex = 0;
-        if (Mathf.Abs(move.z) >= Mathf.Abs(move.x))
+        if (Mathf.Abs(move.y) >= Mathf.Abs(move.x))
         {
-            startIndex = (move.z > 0) ? 9 : 0;
+            startIndex = (move.y > 0) ? 9 : 0;
         }
         else
         {
             startIndex = (move.x >= 0) ? 6 : 3;
         }
 
-        //Debug.Log(string.Format("({0}) {1}",move.ToString(), startIndex));
         sprite.sprite = sprites[startIndex + ((int)celloffset) % 3];
 
         move *= 0.75f;
         if (Mathf.Abs(move.x) < 0.01) move.x = 0;
-        if (Mathf.Abs(move.z) < 0.01) move.z = 0;
+        if (Mathf.Abs(move.y) < 0.01) move.y = 0;
 
         // カメラはプレイヤーに
-        Camera.main.transform.position = transform.localPosition + Vector3.up;
+        var pos = Camera.main.transform.position;
+        pos.x = transform.localPosition.x;
+        pos.y = transform.localPosition.y;
+        Camera.main.transform.position = pos;
         //// プレイやはカメラに
         //Vector3 p = Camera.main.transform.position;
         //p.y = transform.position.y;

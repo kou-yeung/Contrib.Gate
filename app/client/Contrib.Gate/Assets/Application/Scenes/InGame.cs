@@ -73,13 +73,13 @@ public class InGame : MonoBehaviour
                 if (prefab != null)
                 {
                     var go = Instantiate(prefab, this.transform);
-                    go.transform.localPosition = new Vector3(x, 0, -y);
+                    go.transform.localPosition = new Vector3(x, y, 0);
                 }
 
                 if (map[x, y] == Tile.Start && stageInfo.move == Move.None)
                 {
                     var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(x, 1, -y);
+                    go.transform.localPosition = new Vector3(x, y, 0);
                     player = go.GetComponent<Player>();
                     player.onTriggerEnter = Goal;
                 }
@@ -89,7 +89,7 @@ public class InGame : MonoBehaviour
                 {
                     // 上り階段 && 下ってきた場合、あるいは逆の場合プレイヤーを置きます。
                     var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(x, 1, -y);
+                    go.transform.localPosition = new Vector3(x, y, 0);
                     player = go.GetComponent<Player>();
                     player.onTriggerEnter = Goal;
                 }
