@@ -62,6 +62,7 @@ namespace UI
                 windows.Add(res.layer, list);
             }
             go.GetComponent<Canvas>().sortingOrder = (int)res.layer + list.Count;
+            list.Add(res);
 
             res.OnOpen(args);
             return res;

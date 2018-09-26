@@ -33,15 +33,15 @@ namespace UI
         {
             // 詳細表示
             var pet = listItem.GetComponent<PetItem>().pet;
+            Window.Open<PetDetailWindow>(pet.uniqid);
+            //Debug.Log("===================");
+            //Debug.Log($"{pet.Familiar.Name} Lv({pet.Level})" );
 
-            Debug.Log("===================");
-            Debug.Log($"{pet.Familiar.Name} Lv({pet.Level})" );
-
-            for (int i = 0; i < (int)Param.Count; i++)
-            {
-                Debug.Log($"{(Param)i} : {pet.GetParam((Param)i)}");
-            }
-            Debug.Log("===================");
+            //for (int i = 0; i < (int)Param.Count; i++)
+            //{
+            //    Debug.Log($"{(Param)i} : {pet.GetParam((Param)i)}");
+            //}
+            //Debug.Log("===================");
         }
 
         protected override void OnStart()
