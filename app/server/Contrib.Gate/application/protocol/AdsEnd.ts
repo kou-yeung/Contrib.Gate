@@ -2,6 +2,12 @@
 {
     // 受信データをパースする
     let s = AdsEndSend.Parse(params);
+
+    // 空き文字列で送信してきた
+    if (s.id.length <= 0) {
+        done(ApiError.Create(ErrorCode.Common, "不明な報酬").Pack());
+        return;
+    }
     //s.id
     GetUser(context, (user) =>
     {
