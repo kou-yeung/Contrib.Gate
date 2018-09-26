@@ -11,7 +11,7 @@ using UI;
 
 public class InGame : MonoBehaviour
 {
-    //Stage stage;
+    public Joystick joystick;
 
     StageInfo stageInfo
     {
@@ -35,8 +35,8 @@ public class InGame : MonoBehaviour
     }
 
     public GameObject[] prefab;    // 一時対応、将来は見た目で変えられるようにします!!
-    public GameObject player;       // プレイヤープレハブ
-
+    public GameObject playerPrefab;      // プレイヤープレハブ
+    Player player;
 
     void Start()
     {
@@ -78,19 +78,20 @@ public class InGame : MonoBehaviour
 
                 if (map[x, y] == Tile.Start && stageInfo.move == Move.None)
                 {
-                    var go = Instantiate(player, this.transform);
+                    var go = Instantiate(playerPrefab, this.transform);
                     go.transform.localPosition = new Vector3(x, 1, -y);
-
-                    go.GetComponent<Player>().onTriggerEnter = Goal;
+                    player = go.GetComponent<Player>();
+                    player.onTriggerEnter = Goal;
                 }
 
                 if ( (map[x, y] == Tile.UpStairs && stageInfo.move == Move.Down) ||
                      (map[x, y] == Tile.DownStairs && stageInfo.move == Move.Up))
                 {
                     // 上り階段 && 下ってきた場合、あるいは逆の場合プレイヤーを置きます。
-                    var go = Instantiate(player, this.transform);
+                    var go = Instantiate(playerPrefab, this.transform);
                     go.transform.localPosition = new Vector3(x, 1, -y);
-                    go.GetComponent<Player>().onTriggerEnter = Goal;
+                    player = go.GetComponent<Player>();
+                    player.onTriggerEnter = Goal;
                 }
             }
         }
@@ -151,6 +152,7 @@ public class InGame : MonoBehaviour
                 });
             }
         }
+        player.Move(joystick.Position);
     }
 
     GameObject GetChip(Tile tile)
