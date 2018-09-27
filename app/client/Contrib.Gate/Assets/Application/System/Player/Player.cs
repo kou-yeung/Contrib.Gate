@@ -12,35 +12,40 @@ public class Player : MonoBehaviour
     Vector3 move;
     Sprite[] sprites;
     float celloffset;
-    //Rigidbody2D
+    new Rigidbody2D rigidbody;
+    Vector2 currentPos;
+    int cellStartIndex = 0;
+
     void Start()
     {
+        rigidbody = GetComponent<Rigidbody2D>();
+        currentPos = rigidbody.position;
         sprites = Resources.LoadAll<Sprite>($"Familiar/{1001}/walk");
     }
 
     public void Move(Vector2 move)
     {
+        if (move == Vector2.zero) return;
         this.move = new Vector3(move.x, move.y, 0) * walkSpeed;
+        if (Mathf.Abs(move.y) >= Mathf.Abs(move.x))
+        {
+            cellStartIndex = (move.y > 0) ? 9 : 0;
+        }
+        else
+        {
+            cellStartIndex = (move.x >= 0) ? 6 : 3;
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        this.transform.localPosition += move;
+        rigidbody.velocity = (move);
 
-        celloffset += move.sqrMagnitude * cellSpeed;
+        celloffset += (currentPos - rigidbody.position).sqrMagnitude * cellSpeed;
+        currentPos = rigidbody.position;
 
-        var startIndex = 0;
-        if (Mathf.Abs(move.y) >= Mathf.Abs(move.x))
-        {
-            startIndex = (move.y > 0) ? 9 : 0;
-        }
-        else
-        {
-            startIndex = (move.x >= 0) ? 6 : 3;
-        }
 
-        sprite.sprite = sprites[startIndex + ((int)celloffset) % 3];
-
+        sprite.sprite = sprites[cellStartIndex + ((int)celloffset) % 3];
         move *= 0.75f;
         if (Mathf.Abs(move.x) < 0.01) move.x = 0;
         if (Mathf.Abs(move.y) < 0.01) move.y = 0;
