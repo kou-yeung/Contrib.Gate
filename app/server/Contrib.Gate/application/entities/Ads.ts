@@ -62,7 +62,8 @@ namespace Entities {
         // MEMO : コード発行一定期間後有効になる仕組み
         vaild(id: string): boolean {
             if (id != this.guid) return false;  // id が違う
-            return (Util.Time.ServerTime.current - this.date) >= 10;
+            //return (Util.Time.ServerTime.current - this.date) >= 10;
+            return (Util.Time.ServerTime.current - this.date) >= 0; // 検証で 0 にします。時間制限なし
         }
     }
 }
