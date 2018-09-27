@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using System;
 using UI;
+using Util;
 
 public class InGame : MonoBehaviour
 {
@@ -81,28 +82,44 @@ public class InGame : MonoBehaviour
                     var go = Instantiate(playerPrefab, this.transform);
                     go.transform.localPosition = new Vector3(x, y, 0);
                     player = go.GetComponent<Player>();
-                    player.onTriggerEnter = Goal;
+                    player.onTriggerEnter = onTriggerEnter;
                 }
 
                 if ( (map[x, y] == Tile.UpStairs && stageInfo.move == Move.Down) ||
                      (map[x, y] == Tile.DownStairs && stageInfo.move == Move.Up))
                 {
+                    var offset = new Vector3(0, 0, 0);
+                    if (x - 1 >= 0 && map[x - 1, y] == Tile.All) offset.x -= 1;
+                    else if (x + 1 < width && map[x + 1, y] == Tile.All) offset.x += 1;
+                    else if (y - 1 >= 0 && map[y - 1, y] == Tile.All) offset.y -= 1;
+                    else if (y + 1 < height && map[y + 1, y] == Tile.All) offset.y += 1;
+
                     // 上り階段 && 下ってきた場合、あるいは逆の場合プレイヤーを置きます。
                     var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(x, y, 0);
+                    go.transform.localPosition = new Vector3(x, y, 0) + offset;
                     player = go.GetComponent<Player>();
-                    player.onTriggerEnter = Goal;
+                    player.onTriggerEnter = onTriggerEnter;
                 }
             }
         }
     }
 
     bool flag = false;
-    void Goal()
+
+    void onTriggerEnter(string s)
     {
         if (flag) return;
         flag = true;
 
+        switch (EnumExtension<Tile>.Parse(s))
+        {
+            case Tile.Goal: Goal(); break;
+            case Tile.UpStairs: Stairs(Move.Up); break;
+            case Tile.DownStairs: Stairs(Move.Down); break;
+        }
+    }
+    void Goal()
+    {
         var send = new CheatSend();
         send.command = "addegg";
         var index = UnityEngine.Random.Range(0, Entity.Instance.Familiars.Length);
@@ -120,38 +137,26 @@ public class InGame : MonoBehaviour
             }
         });
     }
+
+    /// <summary>
+    /// 階段移動
+    /// </summary>
+    /// <param name="move"></param>
+    void Stairs(Move move)
+    {
+        var send = new StageMoveSend();
+        send.stageInfo = stageInfo;
+        send.stageInfo.move = move;
+        Protocol.Send(send, (r) =>
+        {
+            Entity.Instance.UpdateStageInfo(r.stageInfo);
+            SceneManager.LoadScene(SceneName.InGame);
+        });
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            if (dungeon.UpFloor != new Identify(IDType.Dungeon, 0))
-            {
-                var send = new StageMoveSend();
-                send.stageInfo = stageInfo;
-                send.stageInfo.move = Move.Up;
-                Protocol.Send(send, (r) =>
-                {
-                    Entity.Instance.UpdateStageInfo(r.stageInfo);
-                    SceneManager.LoadScene(SceneName.InGame);
-                });
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            if (dungeon.DownFloor != new Identify(IDType.Dungeon, 999999))
-            {
-                var send = new StageMoveSend();
-                send.stageInfo = stageInfo;
-                send.stageInfo.move = Move.Down;
-                Protocol.Send(send, (r) =>
-                {
-                    Entity.Instance.UpdateStageInfo(r.stageInfo);
-                    SceneManager.LoadScene(SceneName.InGame);
-                });
-            }
-        }
         player.Move(joystick.Position);
     }
 

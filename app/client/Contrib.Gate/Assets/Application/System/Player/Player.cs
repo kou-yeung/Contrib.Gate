@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Util;
 
 public class Player : MonoBehaviour
 {
-    public Action onTriggerEnter;
+    public Action<string> onTriggerEnter;
     public SpriteRenderer sprite;
     public float walkSpeed = 0.1f;
     public float cellSpeed = 5;
@@ -61,11 +62,18 @@ public class Player : MonoBehaviour
         //transform.LookAt(p);
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (onTriggerEnter != null)
-        {
-            onTriggerEnter();
-        }
+        var e = other.gameObject.GetComponent<MapchipEvent>();
+        if (e == null) return;
+        onTriggerEnter(EnumExtension<Dungeon.Tile>.ToString(e.tile));
     }
+
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (onTriggerEnter != null)
+    //    {
+    //        onTriggerEnter();
+    //    }
+    //}
 }
