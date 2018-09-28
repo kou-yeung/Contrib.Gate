@@ -12,7 +12,7 @@ class BattleBeginSend {
 }
 
 class BattleBeginReceive {
-    enemies: string[]; // 敵一覧
+    enemies: EnemyItem[]; // 敵一覧
 	
 	// BattleBeginReceive -> string
 	Pack(): string {

@@ -140,3 +140,11 @@ class HatchItem {
 	startTime: number;// 開始時間
 	timeRequired: number;// 秒数
 }
+
+/// <summary>
+/// EnemyItem
+/// </summary>
+class EnemyItem {
+	id: number;// 敵のID
+	level: number;// レベル
+}

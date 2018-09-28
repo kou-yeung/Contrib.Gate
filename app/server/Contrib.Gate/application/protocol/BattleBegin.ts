@@ -18,10 +18,13 @@ function BattleBegin(params, context, done) {
                     // 返信
                     let r = new BattleBeginReceive();
                     r.enemies = [];
-                    r.enemies.push(dungeon.weightTotal.toString());
                     for (var i = 0; i < enemyGroud.enemies.length; i++) {
-                        r.enemies.push(enemyGroud.enemies[i].toString());
-                        r.enemies.push(JSON.stringify(enemyGroud.ranges[i]));
+                        let enemy = enemyGroud.enemies[i];
+                        let range = enemyGroud.ranges[i];
+                        let item = new EnemyItem();
+                        item.id = enemy.idWithType;
+                        item.level = Random.NextInteger(range.start, range.end + 1);
+                        r.enemies.push(item);
                     }
                     done(r.Pack());
 

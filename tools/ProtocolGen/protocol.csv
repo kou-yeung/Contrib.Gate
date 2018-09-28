@@ -103,4 +103,4 @@ down,HatchItem[],items,孵化情報一覧
 
 // バトル開始
 protocol,BattleBegin,
-down,string[],enemies,敵一覧
+down,EnemyItem[],enemies,敵一覧

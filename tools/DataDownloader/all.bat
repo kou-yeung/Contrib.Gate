@@ -12,3 +12,4 @@ CALL stage.bat
 CALL familiar.bat
 CALL level.bat
 CALL enemy_groud.bat
+CALL enemy.bat

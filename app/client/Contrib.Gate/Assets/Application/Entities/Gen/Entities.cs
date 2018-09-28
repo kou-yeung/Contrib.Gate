@@ -178,4 +178,14 @@ namespace Entities
 		public long timeRequired;// 秒数
 	}
 	
+    /// <summary>
+    /// EnemyItem
+    /// </summary>
+    [Serializable]
+	public partial class EnemyItem
+	{
+		public uint id;// 敵のID
+		public int level;// レベル
+	}
+	
 }

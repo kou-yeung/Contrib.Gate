@@ -16,7 +16,7 @@ namespace Network
 
     public class BattleBeginReceive
     {
-		public string[] enemies; // 敵一覧
+		public EnemyItem[] enemies; // 敵一覧
     }
 
     /// <summary>
