@@ -3,7 +3,7 @@
 //====================
 
 class BattleBeginSend {
-
+    guid: string; // ステージのguid
 
 	// params -> BattleBeginSend
 	static Parse(params : any): BattleBeginSend {
@@ -12,6 +12,8 @@ class BattleBeginSend {
 }
 
 class BattleBeginReceive {
+    guid: string; // id
+    name: string; // グループ名
     enemies: EnemyItem[]; // 敵一覧
 	
 	// BattleBeginReceive -> string

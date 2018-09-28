@@ -30,5 +30,15 @@ namespace Entities {
             this.enemies.push(e);
             this.ranges.push(l);
         }
+
+        // グループ名
+        get name(): string {
+            return this.bucket.first.get("グループ名");
+        }
+
+        // ドロップ
+        get drop(): Identify {
+            return Identify.Parse(this.bucket.first.get("ドロップ"));
+        }
     }
 }

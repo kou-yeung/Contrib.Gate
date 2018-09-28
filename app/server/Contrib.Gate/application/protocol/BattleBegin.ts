@@ -6,7 +6,7 @@ function BattleBegin(params, context, done) {
     let admin = GetAdmin(context);
     GetUser(context, (user) => {
         new Entities.StageInfo(user).refresh(stageInfo => {
-            if (!stageInfo.vaild) {
+            if (!stageInfo.vaild || stageInfo.guid != s.guid) {
                 done(ApiError.Create(ErrorCode.Common, "無効なダンジョン").Pack());
                 return;
             }
@@ -17,6 +17,8 @@ function BattleBegin(params, context, done) {
                 new Entities.EnemyGroud(admin, groudId).refresh(enemyGroud => {
                     // 返信
                     let r = new BattleBeginReceive();
+                    r.name = enemyGroud.name;
+                    r.guid = GUID.Gen();
                     r.enemies = [];
                     for (var i = 0; i < enemyGroud.enemies.length; i++) {
                         let enemy = enemyGroud.enemies[i];
@@ -26,8 +28,16 @@ function BattleBegin(params, context, done) {
                         item.level = Random.NextInteger(range.start, range.end + 1);
                         r.enemies.push(item);
                     }
-                    done(r.Pack());
+                    // バトル用情報を保持する
+                    new Entities.BattleInfo(user).refresh(battleInfo => {
+                        battleInfo.guid = r.guid;
+                        battleInfo.exp = 100; /// TODO : 経験値計算
+                        battleInfo.drop = enemyGroud.drop;
 
+                        battleInfo.bucket.save(() => {
+                            done(r.Pack()); // 返信する
+                        });
+                    });
                 });
             });
         });

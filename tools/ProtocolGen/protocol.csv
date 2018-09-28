@@ -103,4 +103,7 @@ down,HatchItem[],items,孵化情報一覧
 
 // バトル開始
 protocol,BattleBegin,
+up,string,guid,ステージのguid
+down,string,guid,id
+down,string,name,グループ名
 down,EnemyItem[],enemies,敵一覧

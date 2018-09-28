@@ -164,7 +164,7 @@ public class InGame : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Alpha1) && getEnemy == false)
         {
             getEnemy = true;
-            Protocol.Send(new BattleBeginSend(), (r) =>
+            Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
             {
                 getEnemy = false;
             }, (error) =>

@@ -11,11 +11,13 @@ namespace Network
     /// </summary>
     public class BattleBeginSend
     {
-
+		public string guid; // ステージのguid
     }
 
     public class BattleBeginReceive
     {
+		public string guid; // id
+		public string name; // グループ名
 		public EnemyItem[] enemies; // 敵一覧
     }
 

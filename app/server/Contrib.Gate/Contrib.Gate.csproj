@@ -84,6 +84,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="application\entities\Ads.ts" />
+    <TypeScriptCompile Include="application\entities\BattleInfo.ts" />
     <TypeScriptCompile Include="application\entities\Config.ts" />
     <TypeScriptCompile Include="application\entities\Dungeon.ts" />
     <TypeScriptCompile Include="application\entities\Egg.ts" />
