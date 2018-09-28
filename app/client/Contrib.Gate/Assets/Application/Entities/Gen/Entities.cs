@@ -39,6 +39,9 @@ namespace Entities
 		Dungeon,// ダンジョン
 		Room,// 部屋設定
 		Stage,// ステージ
+		Enemy,// 敵
+		EnemyGroup,// 敵グループ
+		Drop,// ドロップ
 	}
 	
     /// <summary>

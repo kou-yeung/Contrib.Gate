@@ -155,9 +155,24 @@ public class InGame : MonoBehaviour
     }
 
     // Update is called once per frame
+
+    bool getEnemy = false;
     void Update()
     {
         player.Move(joystick.Position);
+
+        if (Input.GetKeyUp(KeyCode.Alpha1) && getEnemy == false)
+        {
+            getEnemy = true;
+            Protocol.Send(new BattleBeginSend(), (r) =>
+            {
+                getEnemy = false;
+            }, (error) =>
+            {
+                getEnemy = false;
+                return false;
+            });
+        }
     }
 
     GameObject GetChip(Tile tile)

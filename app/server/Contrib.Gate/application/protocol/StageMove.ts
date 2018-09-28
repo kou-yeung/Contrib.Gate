@@ -13,7 +13,7 @@ function StageMove(params, context, done) {
                 return;
             }
             // ステージ消失
-            if (stageInfo.lossTime < Util.Time.ServerTime.current) {
+            if (!stageInfo.vaild) {
                 done(ApiError.Create(ErrorCode.StageLoss).Pack());
                 return;
             }

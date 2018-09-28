@@ -87,6 +87,7 @@
     <TypeScriptCompile Include="application\entities\Config.ts" />
     <TypeScriptCompile Include="application\entities\Dungeon.ts" />
     <TypeScriptCompile Include="application\entities\Egg.ts" />
+    <TypeScriptCompile Include="application\entities\EnemyGroup.ts" />
     <TypeScriptCompile Include="application\entities\Familiar.ts" />
     <TypeScriptCompile Include="application\entities\Hatch.ts" />
     <TypeScriptCompile Include="application\entities\Identify.ts" />
@@ -94,12 +95,14 @@
     <TypeScriptCompile Include="application\entities\Level.ts" />
     <TypeScriptCompile Include="application\entities\Pet.ts" />
     <TypeScriptCompile Include="application\entities\Player.ts" />
+    <TypeScriptCompile Include="application\entities\Range.ts" />
     <TypeScriptCompile Include="application\entities\Recipe.ts" />
     <TypeScriptCompile Include="application\entities\Stage.ts" />
     <TypeScriptCompile Include="application\entities\StageInfo.ts" />
     <TypeScriptCompile Include="application\entities\Vending.ts" />
     <TypeScriptCompile Include="application\protocol\AdsBegin.ts" />
     <TypeScriptCompile Include="application\protocol\AdsEnd.ts" />
+    <TypeScriptCompile Include="application\protocol\BattleBegin.ts" />
     <TypeScriptCompile Include="application\protocol\Cheat.ts" />
     <TypeScriptCompile Include="application\protocol\CreateUser.ts" />
     <TypeScriptCompile Include="application\protocol\EggList.ts" />
@@ -122,6 +125,7 @@
     <TypeScriptCompile Include="domain\util\Random.ts" />
     <TypeScriptCompile Include="gen\AdsBegin.ts" />
     <TypeScriptCompile Include="gen\AdsEnd.ts" />
+    <TypeScriptCompile Include="gen\BattleBegin.ts" />
     <TypeScriptCompile Include="gen\Cheat.ts" />
     <TypeScriptCompile Include="gen\CreateUser.ts" />
     <TypeScriptCompile Include="gen\EggList.ts" />

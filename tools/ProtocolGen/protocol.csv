@@ -101,3 +101,6 @@ down,EggItem,deleteEgg,孵化したタマゴ
 protocol,HatchList,
 down,HatchItem[],items,孵化情報一覧
 
+// バトル開始
+protocol,BattleBegin,
+down,string[],enemies,敵一覧

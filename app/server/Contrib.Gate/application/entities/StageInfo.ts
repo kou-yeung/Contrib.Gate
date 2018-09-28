@@ -45,5 +45,10 @@ namespace Entities {
         set lossTime(lossTime: number) {
             this.bucket.first.set("lossTime", lossTime);
         }
+
+        // 有効性をチェック
+        get vaild(): boolean {
+            return this.lossTime >= Util.Time.ServerTime.current;
+        }
     }
 }
