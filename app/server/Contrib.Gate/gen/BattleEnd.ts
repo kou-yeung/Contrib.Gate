@@ -15,6 +15,7 @@ class BattleEndReceive {
     coin: number; // お金
     rewards: number[]; // 報酬一覧
     exps: ExpItem[]; // 経験値
+    debug: string;
 	
 	// BattleEndReceive -> string
 	Pack(): string {

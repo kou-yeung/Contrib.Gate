@@ -19,6 +19,7 @@ namespace Network
 		public int coin; // お金
 		public uint[] rewards; // 報酬一覧
 		public ExpItem[] exps; // 経験値
+		public string debug;
     }
 
     /// <summary>

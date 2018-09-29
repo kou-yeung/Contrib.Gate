@@ -115,3 +115,4 @@ up,string,guid,バトルID
 down,int,coin,お金
 down,uint[],rewards,報酬一覧
 down,ExpItem[],exps,経験値
+down,string,debug,

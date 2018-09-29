@@ -166,7 +166,14 @@ public class InGame : MonoBehaviour
             getEnemy = true;
             Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
             {
-                getEnemy = false;
+                Protocol.Send(new BattleEndSend { guid = r.guid }, (end =>
+                {
+                    getEnemy = false;
+                }), (error) =>
+                {
+                    getEnemy = false;
+                    return false;
+                });
             }, (error) =>
             {
                 getEnemy = false;
