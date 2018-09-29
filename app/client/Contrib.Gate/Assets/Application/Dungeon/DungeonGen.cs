@@ -303,23 +303,24 @@ namespace Dungeon
                 foreach (var add in additional)
                 {
                     int x, y;
-                    RandomPosition(res, Tile.All, random, out x, out y);
+                    RandomPosition(rooms, res, random, out x, out y);
                     res[x, y] = add;
                 }
             }
             return res;
         }
 
-        static void RandomPosition(Tile[,] tiles, Tile findType, System.Random random, out int x, out int y)
+        static void RandomPosition(List<Room> rooms, Tile[,] tiles, System.Random random, out int x, out int y)
         {
-            var width = tiles.GetLength(0);
-            var height = tiles.GetLength(1);
+            var room = rooms[random.Next(rooms.Count)];
+            var rect = room.Area;
+            rect.size -= Vector2Int.one * 2;
 
-            while(true)
+            while (true)
             {
-                x = random.Next(0, width);
-                y = random.Next(0, height);
-                if (tiles[x, y] == findType) break;
+                x = random.Next(rect.xMin, rect.xMax);
+                y = random.Next(rect.yMin, rect.yMax);
+                if (tiles[x, y] == Tile.All) break;
             }
         }
         /// <summary>
