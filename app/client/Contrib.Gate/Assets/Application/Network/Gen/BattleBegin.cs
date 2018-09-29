@@ -16,7 +16,7 @@ namespace Network
 
     public class BattleBeginReceive
     {
-		public string guid; // id
+		public string guid; // バトルID
 		public string name; // グループ名
 		public EnemyItem[] enemies; // 敵一覧
     }

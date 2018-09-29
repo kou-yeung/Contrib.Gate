@@ -12,6 +12,7 @@ namespace Network
     public class StageBeginSend
     {
 		public uint stageId; // ステージID
+		public string[] pets; // ステージに行くペットID
     }
 
     public class StageBeginReceive

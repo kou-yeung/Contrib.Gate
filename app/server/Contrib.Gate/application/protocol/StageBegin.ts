@@ -11,6 +11,13 @@ function StageBegin(params, context, done) {
         done(r.Pack());
         return;
     }
+    // ペット情報のチェック
+    if (s.pets.length <= 0 || s.pets.length > Const.MaxPetInUnit) {
+        let r = ApiError.Create(ErrorCode.StageInvalid);
+        done(r.Pack());
+        return;
+    }
+
     let admin = GetAdmin(context);
     new Entities.Stage(admin, stageId).refresh(stage => {
 
@@ -28,6 +35,7 @@ function StageBegin(params, context, done) {
                 stageInfo.guid = GUID.Gen();                        // IDを振る
                 stageInfo.lossTime = StageHelper.StageLossTime();   // 消失時間を設定
                 stageInfo.seed = StageHelper.StageSeed(stageInfo.dungeon);    // ダンジョンIDのシード値取得
+                stageInfo.pets = s.pets;                            // ペットID
 
                 stageInfo.bucket.save(() => {
                     // 返信

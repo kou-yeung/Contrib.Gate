@@ -40,5 +40,14 @@ namespace Entities {
         get drop(): Identify {
             return Identify.Parse(this.bucket.first.get("ドロップ"));
         }
+
+        // 経験値
+        get exp(): number {
+            return this.bucket.first.get("経験値");
+        }
+        // お金
+        get coin(): number {
+            return this.bucket.first.get("お金");
+        }
     }
 }

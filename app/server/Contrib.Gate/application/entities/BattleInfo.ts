@@ -16,19 +16,32 @@ namespace Entities {
         set guid(guid: string) {
             this.bucket.first.set("guid", guid);
         }
-        // 勝利した場合の獲得経験値
-        get exp(): number {
-            return this.bucket.first.get("exp");
-        }
-        set exp(exp: number) {
-            this.bucket.first.set("exp", exp);
-        }
         // ドロップテーブル
         get drop(): Identify {
             return Identify.Parse(this.bucket.first.get("drop"));
         }
         set drop(drop: Identify) {
             this.bucket.first.set("drop", drop.toString());
+        }
+        // 獲得お金
+        get coin(): number {
+            return this.bucket.first.get("coin");
+        }
+        set coin(coin: number) {
+            this.bucket.first.set("coin", coin);
+        }
+        // ダンジョンにいるペットたち
+        get pets(): string[] {
+            return this.bucket.first.get("pets");
+        }
+        set pets(pets: string[]) {
+            this.bucket.first.set("pets", pets);
+        }
+        get exps(): ExpItem[] {
+            return this.bucket.first.get("exps") as ExpItem[];
+        }
+        set exps(items: ExpItem[]) {
+            this.bucket.first.set("exps", items);
         }
     }
 }

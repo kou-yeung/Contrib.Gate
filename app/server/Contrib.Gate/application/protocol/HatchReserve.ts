@@ -16,7 +16,7 @@ function HatchReserve(params, context, done) {
             }
 
             new Entities.Hatch(user).refresh(hatchs => {
-                if (hatchs.bucket.results.length >= 3) {
+                if (hatchs.bucket.results.length >= Const.MaxHatch) {
                     // 同時に孵化できるのは3つまでです
                     done(ApiError.Create(ErrorCode.HatchMax).Pack());
                     return;

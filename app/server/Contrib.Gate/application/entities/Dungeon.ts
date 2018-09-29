@@ -41,12 +41,8 @@ namespace Entities {
         }
 
         get randomGroud(): Identify {
-            let random = Random.NextInteger(0, this.weightTotal);
-            for (var i = 0; i < this.weight.length; i++) {
-                random -= this.weight[i];
-                if (random < 0) return this.groud[i];
-            }
-            return this.groud[this.groud.length - 1];   // エラー対策として、末尾の返す
+            let index = Random.Weight(this.weight, this.weightTotal);
+            return this.groud[index];
         }
     }
 }

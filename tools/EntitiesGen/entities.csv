@@ -48,6 +48,12 @@ HatchMax,,孵化最大数に達した
 Common,9998,一般エラー(一時対応時使用します)
 Network,9999,ネットワークエラー
 
+// 定数
+enum,Const,
+MaxHatch,3,同時最大孵化数
+MaxPetInUnit,3,ユニットに配置最大ペット数
+
+
 // 移動先
 enum,Move,
 None,,なし
@@ -117,7 +123,8 @@ class,PetItem,
 string,uniqid,識別ID
 uint,id,使い魔ID
 long,createTime,生成時間
-int,exp,経験値(レベルはRuntimeで計算します)
+int,level,レベル
+int,exp,経験値
 int,powerupCount,餌付け回数(最大回数は レベル - 1)
 int[],param,餌付けによる増加パラメータ(Param)
 
@@ -131,3 +138,9 @@ long,timeRequired,秒数
 class,EnemyItem,
 uint,id,敵のID
 int,level,レベル
+
+// sv->cl 経験値獲得データ1個
+class,ExpItem,
+string,uniqid,識別ID
+int,exp,更新後所持経験値
+int,add,増加した経験値

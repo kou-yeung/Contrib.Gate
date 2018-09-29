@@ -30,6 +30,8 @@ function Hatch(params, context, done) {
                     item.id = egg.result.idWithType;
                     item.uniqid = guid;
                     item.createTime = Util.Time.ServerTime.current;
+                    item.level = 1; // レベル1
+                    item.exp = 0;
                     item.param = [];
                     for (var i = 0; i < Param.Count; i++) item.param.push(0);
 

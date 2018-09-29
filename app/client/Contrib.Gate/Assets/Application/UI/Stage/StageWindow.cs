@@ -5,6 +5,7 @@ using Xyz.AnzFactory.UI;
 using Entities;
 using Network;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace UI
 {
@@ -35,7 +36,11 @@ namespace UI
         {
             var item = listItem.GetComponent<StageItem>();
             var stage = item.stage;
-            Protocol.Send(new StageBeginSend { stageId = stage.Identify }, (r) =>
+            /// HACK とりあえず先頭3つを送る
+
+            var pats = Entity.Instance.Pets.items.Take(3).Select(v => v.uniqid).ToArray();
+
+            Protocol.Send(new StageBeginSend { stageId = stage.Identify, pets = pats }, (r) =>
             {
                 // ステージ情報を保存してシーンを変更する
                 Entity.Instance.UpdateStageInfo(r.stageInfo);

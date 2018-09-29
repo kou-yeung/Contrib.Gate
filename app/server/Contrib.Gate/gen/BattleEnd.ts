@@ -2,21 +2,21 @@
 // ProtocolGen から自動生成されます。直接編集しないでください
 //====================
 
-class BattleBeginSend {
-    guid: string; // ステージのguid
+class BattleEndSend {
+    guid: string; // バトルID
 
-	// params -> BattleBeginSend
-	static Parse(params : any): BattleBeginSend {
-		return JSON.parse(params.data[0]) as BattleBeginSend;
+	// params -> BattleEndSend
+	static Parse(params : any): BattleEndSend {
+		return JSON.parse(params.data[0]) as BattleEndSend;
 	}
 }
 
-class BattleBeginReceive {
-    guid: string; // バトルID
-    name: string; // グループ名
-    enemies: EnemyItem[]; // 敵一覧
+class BattleEndReceive {
+    coin: number; // お金
+    rewards: number[]; // 報酬一覧
+    exps: ExpItem[]; // 経験値
 	
-	// BattleBeginReceive -> string
+	// BattleEndReceive -> string
 	Pack(): string {
 		return JSON.stringify(this);
     }
@@ -25,14 +25,14 @@ class BattleBeginReceive {
 /*
 // 以下プロトコルを実装する
 // MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
-function BattleBegin(params, context, done) {
+function BattleEnd(params, context, done) {
 
     // 受信データをパースする
-    let s = BattleBeginSend.Parse(params);
+    let s = BattleEndSend.Parse(params);
 
     GetUser(context, (user) => {
 		// 返信
-	    let r = new BattleBeginReceive();
+	    let r = new BattleEndReceive();
 
 		// TODO : 返信パラメータを設定する
 

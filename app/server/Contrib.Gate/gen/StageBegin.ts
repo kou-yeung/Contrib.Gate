@@ -4,6 +4,7 @@
 
 class StageBeginSend {
     stageId: number; // ステージID
+    pets: string[]; // ステージに行くペットID
 
 	// params -> StageBeginSend
 	static Parse(params : any): StageBeginSend {

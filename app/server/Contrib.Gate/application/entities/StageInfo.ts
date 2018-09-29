@@ -50,5 +50,13 @@ namespace Entities {
         get vaild(): boolean {
             return this.lossTime >= Util.Time.ServerTime.current;
         }
+
+        // ダンジョンにいるペットたち
+        get pets(): string[] {
+            return this.bucket.first.get("pets");
+        }
+        set pets(pets: string[]) {
+            this.bucket.first.set("pets", pets);
+        }
     }
 }

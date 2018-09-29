@@ -71,6 +71,7 @@ down,InventoryItem[],items,所持アイテム一覧
 // ステージ開始
 protocol,StageBegin
 up,uint,stageId,ステージID
+up,string[],pets,ステージに行くペットID
 down,StageInfo,stageInfo,ステージ情報
 
 // ステージ移動
@@ -104,6 +105,13 @@ down,HatchItem[],items,孵化情報一覧
 // バトル開始
 protocol,BattleBegin,
 up,string,guid,ステージのguid
-down,string,guid,id
+down,string,guid,バトルID
 down,string,name,グループ名
 down,EnemyItem[],enemies,敵一覧
+
+// バトル終了
+protocol,BattleEnd,
+up,string,guid,バトルID
+down,int,coin,お金
+down,uint[],rewards,報酬一覧
+down,ExpItem[],exps,経験値

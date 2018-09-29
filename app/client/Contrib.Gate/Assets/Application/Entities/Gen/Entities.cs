@@ -64,6 +64,15 @@ namespace Entities
 	}
 	
     /// <summary>
+    /// Const
+    /// </summary>
+	public enum Const
+	{
+		MaxHatch=3,// 同時最大孵化数
+		MaxPetInUnit=3,// ユニットに配置最大ペット数
+	}
+	
+    /// <summary>
     /// Move
     /// </summary>
 	public enum Move
@@ -162,7 +171,8 @@ namespace Entities
 		public string uniqid;// 識別ID
 		public uint id;// 使い魔ID
 		public long createTime;// 生成時間
-		public int exp;// 経験値(レベルはRuntimeで計算します)
+		public int level;// レベル
+		public int exp;// 経験値
 		public int powerupCount;// 餌付け回数(最大回数は レベル - 1)
 		public int[] param;// 餌付けによる増加パラメータ(Param)
 	}
@@ -186,6 +196,17 @@ namespace Entities
 	{
 		public uint id;// 敵のID
 		public int level;// レベル
+	}
+	
+    /// <summary>
+    /// ExpItem
+    /// </summary>
+    [Serializable]
+	public partial class ExpItem
+	{
+		public string uniqid;// 識別ID
+		public int exp;// 更新後所持経験値
+		public int add;// 増加した経験値
 	}
 	
 }

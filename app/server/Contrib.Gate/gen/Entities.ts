@@ -47,6 +47,12 @@ enum ErrorCode {
 	Network=9999,// ネットワークエラー
 }
 
+// Const
+enum Const {
+	MaxHatch=3,// 同時最大孵化数
+	MaxPetInUnit=3,// ユニットに配置最大ペット数
+}
+
 // Move
 enum Move {
 	None,// なし
@@ -127,7 +133,8 @@ class PetItem {
 	uniqid: string;// 識別ID
 	id: number;// 使い魔ID
 	createTime: number;// 生成時間
-	exp: number;// 経験値(レベルはRuntimeで計算します)
+	level: number;// レベル
+	exp: number;// 経験値
 	powerupCount: number;// 餌付け回数(最大回数は レベル - 1)
 	param: number[];// 餌付けによる増加パラメータ(Param)
 }
@@ -147,4 +154,13 @@ class HatchItem {
 class EnemyItem {
 	id: number;// 敵のID
 	level: number;// レベル
+}
+
+/// <summary>
+/// ExpItem
+/// </summary>
+class ExpItem {
+	uniqid: string;// 識別ID
+	exp: number;// 更新後所持経験値
+	add: number;// 増加した経験値
 }
