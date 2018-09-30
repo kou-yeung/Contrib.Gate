@@ -16,12 +16,16 @@ namespace UI
         public void Setup(Entities.EggItem item)
         {
             this.egg = item;
-            var rarity = "";
-            for (int i = 0; i < this.egg.rarity; i++)
+            if (item.judgment)
             {
-                rarity += "★";
+                var rarity = "";
+                for (int i = 0; i < this.egg.rarity; i++) rarity += "★";
+                this.rarity.text = rarity;
             }
-            this.rarity.text = rarity;
+            else
+            {
+                this.rarity.text = "？";
+            }
 
             // 予約中 の場合[予約中]ラベルを表示する
             var data = Entity.Instance.Hatchs.items.Find(v => v.uniqid == item.uniqid);
