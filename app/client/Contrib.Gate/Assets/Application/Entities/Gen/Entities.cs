@@ -157,9 +157,10 @@ namespace Entities
 	public partial class EggItem
 	{
 		public string uniqid;// 識別ID
-		public Race race;// 種族
-		public int rarity;// レアリティ
+		public bool judgment;// 鑑定済？
 		public long createTime;// 生成時間
+		public Race race;// 種族(鑑定したらわかる)
+		public int rarity;// レアリティ(鑑定したらわかる)
 	}
 	
     /// <summary>

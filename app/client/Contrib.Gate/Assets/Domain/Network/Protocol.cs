@@ -19,6 +19,9 @@ namespace Network
         {
             if (res == ErrorCode.None)
             {
+#if UNITY_EDITOR
+                Debug.Log(str);
+#endif
                 cb(JsonUtility.FromJson<T>(str));
             }
             else

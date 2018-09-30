@@ -2,7 +2,7 @@
 function FinishPrologue(params, context, done) {
 
     GetUser(context, (user) => {
-        new Entities.Player(user).bucket.refresh(player => {
+        new Entities.Player(user).refresh(player => {
             player.userCreateStep = UserCreateStep.Created;
             player.bucket.save(player => {
                 // 返信

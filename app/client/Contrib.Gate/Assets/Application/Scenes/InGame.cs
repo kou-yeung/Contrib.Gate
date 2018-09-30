@@ -168,7 +168,15 @@ public class InGame : MonoBehaviour
             {
                 Protocol.Send(new BattleEndSend { guid = r.guid }, (end =>
                 {
-                    getEnemy = false;
+                    Protocol.Send(new BattleRewardSend { guid = end.guid }, rewards =>
+                    {
+                        getEnemy = false;
+                    }, error =>
+                    {
+                        getEnemy = false;
+                        return false;
+                    });
+
                 }), (error) =>
                 {
                     getEnemy = false;

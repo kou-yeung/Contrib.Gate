@@ -38,10 +38,18 @@ namespace Entities {
             this.bucket.first.set("pets", pets);
         }
         get exps(): ExpItem[] {
-            return this.bucket.first.get("exps") as ExpItem[];
+            return this.bucket.first.get("exps");
         }
         set exps(items: ExpItem[]) {
             this.bucket.first.set("exps", items);
+        }
+
+        // 報酬一覧
+        get rewards(): number[] {
+            return this.bucket.first.get("rewards");
+        }
+        set rewards(rewards: number[]) {
+            this.bucket.first.set("rewards", rewards);
         }
     }
 }

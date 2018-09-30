@@ -7,6 +7,10 @@ namespace Entities {
         constructor(admin: KiiAppAdminContext) {
             this.bucket = new Bucket(this, admin, "config");
         }
+        refresh(done: (config: Config) => void) {
+            this.bucket.refresh(done);
+        }
+
         set crypt(timestamp: number) {
             this.cryptKeys = [];
             // 末尾 3 桁を取得する

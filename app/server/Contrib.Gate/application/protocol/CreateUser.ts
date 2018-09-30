@@ -4,7 +4,7 @@ function CreateUser(params, context, done) {
     let s = CreateUserSend.Parse(params);
 
     GetUser(context, user => {
-        new Entities.Player(user).bucket.refresh(player => {
+        new Entities.Player(user).refresh(player => {
 
             user.update({}, {
                 success: function () {

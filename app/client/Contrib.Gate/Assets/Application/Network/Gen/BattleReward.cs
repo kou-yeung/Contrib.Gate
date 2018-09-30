@@ -7,18 +7,17 @@ using Entities;
 namespace Network
 {
     /// <summary>
-    /// BattleEnd
+    /// BattleReward
     /// </summary>
-    public class BattleEndSend
+    public class BattleRewardSend
     {
 		public string guid; // バトルID
     }
 
-    public class BattleEndReceive
+    public class BattleRewardReceive
     {
-		public string guid; // 報酬ID
-		public int coin; // お金
-		public ExpItem[] exps; // 経験値
+		public EggItem[] eggs; // タマゴ
+		public InventoryItem[] items; // 追加したアイテム
 		public string debug;
     }
 
@@ -27,9 +26,9 @@ namespace Network
     /// </summary>
     public static partial class Protocol
     {
-        public static void Send(BattleEndSend obj, Action<BattleEndReceive> cb, Func<ErrorCode, bool> error = null)
+        public static void Send(BattleRewardSend obj, Action<BattleRewardReceive> cb, Func<ErrorCode, bool> error = null)
         {
-            new Communication("BattleEnd").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
+            new Communication("BattleReward").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
         }
     }
 }

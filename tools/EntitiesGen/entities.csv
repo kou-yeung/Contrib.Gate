@@ -114,9 +114,10 @@ Move,move,移動方向
 // sv->cl タマゴデータ1個分
 class,EggItem,
 string,uniqid,識別ID
-Race,race,種族
-int,rarity,レアリティ
+bool,judgment,鑑定済？
 long,createTime,生成時間
+Race,race,種族(鑑定したらわかる)
+int,rarity,レアリティ(鑑定したらわかる)
 
 // sv->cl ペットデータ１個分
 class,PetItem,

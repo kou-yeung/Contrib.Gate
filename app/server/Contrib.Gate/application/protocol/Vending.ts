@@ -15,7 +15,7 @@
         GetUser(context, (user) => {
 
             // TODO : vending.level で自販機レベルチェック
-            new Entities.Player(user).bucket.refresh(player =>
+            new Entities.Player(user).refresh(player =>
             {
                 if (player.coin < vending.price) {
                     // コインが足りない

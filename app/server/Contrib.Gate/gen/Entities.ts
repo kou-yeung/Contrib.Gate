@@ -121,9 +121,10 @@ class StageInfo {
 /// </summary>
 class EggItem {
 	uniqid: string;// 識別ID
-	race: Race;// 種族
-	rarity: number;// レアリティ
+	judgment: boolean;// 鑑定済？
 	createTime: number;// 生成時間
+	race: Race;// 種族(鑑定したらわかる)
+	rarity: number;// レアリティ(鑑定したらわかる)
 }
 
 /// <summary>

@@ -4,10 +4,10 @@ function Login(params, context, done) {
     let s = LoginSend.Parse(params);
 
     let admin = GetAdmin(context);
-    new Entities.Config(admin).bucket.refresh(config => {
+    new Entities.Config(admin).refresh(config => {
         // context -> user
         GetUser(context, user => {
-            new Entities.Player(user).bucket.refresh(player => {
+            new Entities.Player(user).refresh(player => {
                 // 返信
                 let r = new LoginReceive();
                 r.userState = player.userState;

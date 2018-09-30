@@ -8,6 +8,10 @@ namespace Entities {
             this.bucket = new Bucket(this, user, "player");
         }
 
+        refresh(done: (player: Player) => void) {
+            this.bucket.refresh(done);
+        }
+
         get userCreateStep(): UserCreateStep {
             return this.bucket.first.get("UserCreateStep", UserCreateStep.EnterName);
         };

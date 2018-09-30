@@ -9,7 +9,7 @@
 
     // コイン増加
     function addcoin(user: KiiUser) {
-        new Entities.Player(user).bucket.refresh(player => {
+        new Entities.Player(user).refresh(player => {
             player.coin += parseInt(s.param[0]);
             player.bucket.save(() => {
                 var r = new CheatReceive();
@@ -22,23 +22,28 @@
     // タマゴ追加
     function addegg(user: KiiUser) {
         let id = Entities.Identify.Parse(s.param[0]);
+        let judgment = s.param[1].toLowerCase() == "true";
+
         // ID が違う
         if (id.Type != IDType.Familiar) {
             done(ApiError.Create(ErrorCode.Common, "id.Type != IDType.Familiar").Pack())
             return;
         }
-        new Entities.Familiar(admin, id).refresh(familiar => {
+        new Entities.Familiar(admin).refresh([id], familiar => {
             let guid = GUID.Gen();  // 新たなGUIDを生成する
             new Entities.Egg(user, guid).refresh(egg => {
                 let item = new EggItem();
-                item.race = familiar.race;
-                item.rarity = familiar.rarity;
+                if (judgment) {
+                    item.race = familiar.race;
+                    item.rarity = familiar.rarity;
+                }
                 item.createTime = Util.Time.ServerTime.current;
                 item.uniqid = guid;
+                item.judgment = judgment;
 
                 egg.uniqid = guid;
-                egg.item = item;
                 egg.result = id;
+                egg.item = item;
                 egg.bucket.save(() => {
                     var r = new CheatReceive();
                     r.egg = item;
@@ -56,6 +61,7 @@
             done(ApiError.Create(ErrorCode.Common, "id.Type != IDType.Familiar").Pack());
             return;
         }
+
         lv = Math.max(lv, 1);
         new Entities.Level(admin).refresh(level => {
             let guid = GUID.Gen();

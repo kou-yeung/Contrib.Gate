@@ -1,4 +1,6 @@
 ﻿// バトル終了
+// お金や経験値のみ与える
+// 報酬は BattleReward を呼び出して取得：理由はステップ数を分ける
 function BattleEnd(params, context, done) {
 
     // 受信データをパースする
@@ -18,24 +20,26 @@ function BattleEnd(params, context, done) {
                     done(ApiError.Create(ErrorCode.Common, "バトルIDが違います").Pack());
                     return;
                 }
-
-                new Entities.Drop(admin, battleInfo.drop).refresh(drop => {
-                    new Entities.Inventory(user).refresh(inventory => {
-                        // 返信
-                        let r = new BattleEndReceive();
-
-                        r.coin = battleInfo.coin;   // 獲得お金
-                        // 報酬抽選
-                        let rewards = drop.draw();
-                        r.rewards = [];
-                        for (var i = 0; i < rewards.length; i++) {
-                            let id = rewards[i];
-                            r.rewards.push(rewards[i].idWithType);
-                        }
-                        // 経験値を付与する
-                        let exps = battleInfo.exps;
-                        r.exps = exps;
+                new Entities.Player(user).refresh(player => {
+                    new Entities.Drop(admin, battleInfo.drop).refresh(drop => {
                         new Entities.Pets(user).refresh(battleInfo.pets, pets => {
+                            // 返信
+                            let r = new BattleEndReceive();
+
+                            r.coin = battleInfo.coin;   // 獲得お金
+                            player.coin += r.coin;
+
+                            // 経験値を付与する
+                            let exps = battleInfo.exps;
+                            r.exps = exps;
+
+                            // ドロップ抽選
+                            let drawResult = drop.draw();
+                            let rewards: number[] = [];
+                            for (var i = 0; i < drawResult.length; i++) {
+                                rewards.push(drawResult[i].idWithType);
+                            }
+                            // ペットに経験値を与える
                             let results = pets.bucket.results;
                             for (var i = 0; i < results.length; i++) {
                                 let item = JSON.parse(results[i].get("item")) as PetItem;
@@ -48,10 +52,14 @@ function BattleEnd(params, context, done) {
                                     }
                                 }
                             }
-                            battleInfo.guid = "";
+
+                            r.guid = battleInfo.guid = GUID.Gen();
+                            battleInfo.rewards = rewards;
                             battleInfo.bucket.save(() => {
-                                pets.bucket.save(() => {
-                                    done(r.Pack());
+                                player.bucket.save(() => {
+                                    pets.bucket.save(() => {
+                                        done(r.Pack());
+                                    });
                                 });
                             });
                         });
@@ -60,4 +68,8 @@ function BattleEnd(params, context, done) {
             });
         });
     });
+}
+
+function InsertEggs(eggs: Entities.Identify[]) {
+
 }

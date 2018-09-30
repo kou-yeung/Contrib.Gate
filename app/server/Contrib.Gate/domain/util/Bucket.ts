@@ -2,9 +2,11 @@
 // このクラスはメンバで持ちます
 class Result/*<T>*/ {
     private obj: KiiObject;
+    private keys: string[];
 
     constructor(obj: KiiObject) {
         this.obj = obj;
+        this.keys = this.obj.getKeys();
     }
 
     save(done: (result: Result) => void): void {
@@ -12,6 +14,7 @@ class Result/*<T>*/ {
         self.obj.save({
             success: function (theSavedObject: KiiObject) {
                 self.obj = theSavedObject; // 最新のほうを使う!!
+                self.keys = self.keys;     // キー一覧更新
                 done(self);
             },
             failure: function (theObject, error) {
@@ -29,10 +32,10 @@ class Result/*<T>*/ {
         this.obj.set<T>(key, value);
     }
     has(key: string): boolean {
-        return this.allkey.indexOf(key) != -1;
+        return this.keys.indexOf(key) != -1;
     }
     get allkey(): string[] {
-        return this.obj.getKeys();
+        return this.keys;
     }
 
     delete(done: (result: Result) => void): void {
