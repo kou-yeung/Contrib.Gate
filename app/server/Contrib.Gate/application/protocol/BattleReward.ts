@@ -70,8 +70,6 @@ function InsertEgg(user: KiiUser, eggs: Entities.Identify[], result: EggItem[], 
     let guid = GUID.Gen();  // 新たなGUIDを生成する
     new Entities.Egg(user, guid).refresh(egg => {
         let item = new EggItem();
-        //item.race = info.get("種族");
-        //item.rarity = info.get("レアリティ");
         item.createTime = Util.Time.ServerTime.current;
         item.uniqid = guid;
         item.judgment = false;

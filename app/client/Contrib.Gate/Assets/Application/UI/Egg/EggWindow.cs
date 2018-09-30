@@ -35,8 +35,31 @@ namespace UI
         {
             var egg = listItem.GetComponent<EggItem>().egg;
 
-            var hatch = Entity.Instance.Hatchs.items.Find(v => v.uniqid == egg.uniqid);
+            if (egg.judgment)
+            {
+                // 鑑定
+                Hatch(egg);
+            } else
+            {
+                DialogWindow.OpenYesNo("確認", $"タマゴを鑑定します", () =>
+                {
+                    // 未鑑定
+                    Protocol.Send(new JudgmentSend { guid = egg.uniqid }, (JudgmentReceive r) =>
+                    {
+                        Entity.Instance.Eggs.Modify(r.egg);
+                        cell.ReloadData();
+                    });
+                });
+            }
+        }
 
+        /// <summary>
+        /// 孵化関連
+        /// </summary>
+        /// <param name="egg"></param>
+        void Hatch(Entities.EggItem egg)
+        {
+            var hatch = Entity.Instance.Hatchs.items.Find(v => v.uniqid == egg.uniqid);
             if (hatch != null)
             {
                 var remain = (hatch.startTime + hatch.timeRequired) - Util.Time.ServerTime.CurrentUnixTime;

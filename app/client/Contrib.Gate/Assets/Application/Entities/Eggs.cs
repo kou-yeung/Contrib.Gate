@@ -1,6 +1,7 @@
 ﻿///==============================
 /// 未孵化のタマゴ一覧
 ///==============================
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,17 @@ namespace Entities
         }
 
         /// <summary>
+        /// 変更する
+        /// </summary>
+        public void Modify(EggItem[] eggs)
+        {
+            foreach (var egg in eggs)
+            {
+                Modify(egg);
+            }
+        }
+
+        /// <summary>
         /// 削除する
         /// </summary>
         /// <param name="egg"></param>
@@ -35,6 +47,7 @@ namespace Entities
             var index = items.FindIndex(v => v.uniqid == egg.uniqid);
             if (index != -1) items.RemoveAt(index);
         }
+
     }
 }
 

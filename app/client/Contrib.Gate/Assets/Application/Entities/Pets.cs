@@ -2,6 +2,7 @@
 /// ペット一覧
 ///==============================
 using System.Collections.Generic;
+using Network;
 
 namespace Entities
 {
@@ -23,7 +24,18 @@ namespace Entities
             if (index != -1) items[index] = pet;
             else items.Add(pet);
         }
-
+        /// <summary>
+        /// 経験値を更新する
+        /// </summary>
+        public void Modify(ExpItem[] items)
+        {
+            foreach (var item in items)
+            {
+                var index = this.items.FindIndex(v => v.uniqid == item.uniqid);
+                if (index == -1) continue;
+                this.items[index].exp = item.exp;
+            }
+        }
     }
 }
 

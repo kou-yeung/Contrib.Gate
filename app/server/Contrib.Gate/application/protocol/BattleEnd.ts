@@ -69,7 +69,3 @@ function BattleEnd(params, context, done) {
         });
     });
 }
-
-function InsertEggs(eggs: Entities.Identify[]) {
-
-}

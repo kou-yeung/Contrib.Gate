@@ -28,8 +28,8 @@ namespace Entities {
         }
 
         private push(reward: string, weight: string) {
-            let r = Identify.Parse(this.bucket.first.get(reward));
-            let w: number = this.bucket.first.get(weight);
+            let r = Identify.Parse(this.bucket.first.get(reward, ""));
+            let w: number = this.bucket.first.get(weight, 0);
             // MEMO : ハズレが設定できるため isEmpty はチェックしない
             if (w <= 0) return;
             this.rewards.push(r);

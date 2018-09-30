@@ -166,10 +166,15 @@ public class InGame : MonoBehaviour
             getEnemy = true;
             Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
             {
-                Protocol.Send(new BattleEndSend { guid = r.guid }, (end =>
+                Protocol.Send(new BattleEndSend { guid = r.guid }, end =>
                 {
-                    Protocol.Send(new BattleRewardSend { guid = end.guid }, rewards =>
+                    Entity.Instance.UserState.AddCoin(end.coin);
+                    Entity.Instance.Pets.Modify(end.exps);
+
+                    Protocol.Send(new BattleRewardSend { guid = end.guid }, (BattleRewardReceive rewards) =>
                     {
+                        Entity.Instance.Inventory.Add(rewards.items);
+                        Entity.Instance.Eggs.Modify(rewards.eggs);
                         getEnemy = false;
                     }, error =>
                     {
@@ -177,7 +182,7 @@ public class InGame : MonoBehaviour
                         return false;
                     });
 
-                }), (error) =>
+                }, (error) =>
                 {
                     getEnemy = false;
                     return false;

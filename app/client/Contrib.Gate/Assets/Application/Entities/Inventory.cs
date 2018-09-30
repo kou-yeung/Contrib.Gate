@@ -28,5 +28,13 @@ namespace Entities
             }
             items.Add(new InventoryItem { identify = identify, num = add });
         }
+
+        public void Add(InventoryItem[] items)
+        {
+            foreach (var item in items)
+            {
+                Add(item.identify, item.num);
+            }
+        }
     }
 }
