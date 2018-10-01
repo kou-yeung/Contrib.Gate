@@ -161,6 +161,7 @@ namespace Entities
 		public long createTime;// 生成時間
 		public Race race;// 種族(鑑定したらわかる)
 		public int rarity;// レアリティ(鑑定したらわかる)
+		public uint stage;// 入手ステージID
 	}
 	
     /// <summary>

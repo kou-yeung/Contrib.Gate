@@ -18,6 +18,8 @@ namespace Network
     [Serializable]
     class KiiCloudError
     {
+        public const string STEP_COUNT_EXCEEDED = @"STEP_COUNT_EXCEEDED";
+
         [Serializable]
         public class Details
         {
@@ -82,14 +84,14 @@ namespace Network
             }
             else
             {
-                if (retry > 0)
+                var error = JsonUtility.FromJson<KiiCloudError>(request.downloadHandler.text);
+                Debug.Log(JsonUtility.ToJson(error, true));
+                if (retry > 0 && error.errorCode != KiiCloudError.STEP_COUNT_EXCEEDED)
                 {
                     yield return InternalSend(method, json, cb, retry - 1);
                 }
                 else
                 {
-                    var error = JsonUtility.FromJson<KiiCloudError>(request.downloadHandler.text);
-                    Debug.Log(JsonUtility.ToJson(error, true));
                     if (cb != null) cb(ErrorCode.Network, request.error);
                 }
             }

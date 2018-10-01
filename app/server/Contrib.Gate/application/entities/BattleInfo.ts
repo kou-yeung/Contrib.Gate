@@ -16,6 +16,15 @@ namespace Entities {
         set guid(guid: string) {
             this.bucket.first.set("guid", guid);
         }
+
+        // ステージ
+        get stage(): Identify {
+            return Identify.Parse(this.bucket.first.get("stage"));
+        }
+        set stage(stage: Identify) {
+            this.bucket.first.set("stage", stage.toString());
+        }
+
         // ドロップテーブル
         get drop(): Identify {
             return Identify.Parse(this.bucket.first.get("drop"));

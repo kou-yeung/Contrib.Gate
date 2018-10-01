@@ -22,6 +22,7 @@ function BattleReward(params, context, done) {
                 r.eggs = [];
                 r.items = [];
 
+                let stage = battleInfo.stage.idWithType;
                 let rewards = battleInfo.rewards;
                 let eggs: Entities.Identify[] = [];
 
@@ -48,7 +49,7 @@ function BattleReward(params, context, done) {
                 battleInfo.guid = "";   // IDをリセットします
                 battleInfo.bucket.save(() => {
                     // 未鑑定タマゴとして追加する
-                    InsertEgg(user, eggs, r.eggs, () => {
+                    InsertEgg(stage, user, eggs, r.eggs, () => {
                         inventory.bucket.save(() => {
                             done(r.Pack());
                         });
@@ -60,7 +61,7 @@ function BattleReward(params, context, done) {
 }
 
 // タマゴの追加：再帰
-function InsertEgg(user: KiiUser, eggs: Entities.Identify[], result: EggItem[], done) {
+function InsertEgg(stage: number, user: KiiUser, eggs: Entities.Identify[], result: EggItem[], done) {
     // 再帰終了
     if (eggs.length <= 0) {
         done();
@@ -74,13 +75,13 @@ function InsertEgg(user: KiiUser, eggs: Entities.Identify[], result: EggItem[], 
         item.createTime = Util.Time.ServerTime.current;
         item.uniqid = guid;
         item.judgment = false;
-
+        item.stage = stage;
         egg.uniqid = guid;
         egg.item = item;
         egg.result = id;
         egg.bucket.save(() => {
             result.push(item);
-            InsertEgg(user, eggs, result, done);  // 次のタマゴを追加する
+            InsertEgg(stage, user, eggs, result, done);  // 次のタマゴを追加する
         });
     });
 }

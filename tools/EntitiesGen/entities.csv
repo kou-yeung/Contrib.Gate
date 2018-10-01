@@ -118,6 +118,7 @@ bool,judgment,鑑定済？
 long,createTime,生成時間
 Race,race,種族(鑑定したらわかる)
 int,rarity,レアリティ(鑑定したらわかる)
+uint,stage,入手ステージID
 
 // sv->cl ペットデータ１個分
 class,PetItem,
