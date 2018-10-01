@@ -114,6 +114,11 @@ class Bucket<T> {
             }
         });
     }
+    // refresh を飛ばして直接生成します
+    create(done: (t: T) => void): void {
+        this.results.push(new Result(this.bucketWithName().createObject()));
+        done(this.t);
+    }
 
     get first(): Result {
         return this.results[0];
@@ -130,5 +135,4 @@ class Bucket<T> {
             });
         }
     };
-
 }

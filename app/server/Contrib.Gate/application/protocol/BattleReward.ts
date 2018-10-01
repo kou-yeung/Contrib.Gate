@@ -70,7 +70,7 @@ function InsertEgg(stage: number, user: KiiUser, eggs: Entities.Identify[], resu
 
     let id = eggs.shift();  // 先頭アイテムを取り出す
     let guid = GUID.Gen();  // 新たなGUIDを生成する
-    new Entities.Egg(user, guid).refresh(egg => {
+    new Entities.Egg(user).bucket.create(egg => {
         let item = new EggItem();
         item.createTime = Util.Time.ServerTime.current;
         item.uniqid = guid;
