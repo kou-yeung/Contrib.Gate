@@ -9,6 +9,7 @@ using System.Linq;
 using System;
 using UI;
 using Util;
+using Event;
 
 public class InGame : MonoBehaviour
 {
@@ -154,42 +155,31 @@ public class InGame : MonoBehaviour
         });
     }
 
-    // Update is called once per frame
-
-    bool getEnemy = false;
+    void OnSubscribe(string name, object o)
+    {
+        switch (name)
+        {
+            case BattleWindow.CloseEvent:
+                joystick.enabled = true;
+                Observer.Instance.Unsubscribe(BattleWindow.CloseEvent, OnSubscribe);
+                break;
+        }
+    }
     void Update()
     {
         player.Move(joystick.Position);
 
-        if (Input.GetKeyUp(KeyCode.Alpha1) && getEnemy == false)
+        if (Input.GetKeyUp(KeyCode.Alpha1) && joystick.enabled)
         {
-            getEnemy = true;
             Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
             {
-                Protocol.Send(new BattleEndSend { guid = r.guid }, end =>
-                {
-                    Entity.Instance.UserState.AddCoin(end.coin);
-                    Entity.Instance.Pets.Modify(end.exps);
-
-                    Protocol.Send(new BattleRewardSend { guid = end.guid }, (BattleRewardReceive rewards) =>
-                    {
-                        Entity.Instance.Inventory.Add(rewards.items);
-                        Entity.Instance.Eggs.Modify(rewards.eggs);
-                        getEnemy = false;
-                    }, error =>
-                    {
-                        getEnemy = false;
-                        return false;
-                    });
-
-                }, (error) =>
-                {
-                    getEnemy = false;
-                    return false;
-                });
+                joystick.enabled = false;
+                Window.Open<BattleWindow>(r);
+                Observer.Instance.Subscribe(BattleWindow.CloseEvent, OnSubscribe);
             }, (error) =>
             {
-                getEnemy = false;
+                // エラー処理
+                joystick.enabled = true;
                 return false;
             });
         }
