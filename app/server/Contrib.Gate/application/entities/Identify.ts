@@ -23,9 +23,10 @@ namespace Entities {
             return `${IDType[this.Type]}_${str.slice(-6, -3)}_${str.slice(-3)}`;
         }
         static Parse(str: string): Identify {
+
             let m = str.match(/(\w+?)_(\d+)_(\d+)/);
             if (m) {
-                return new Identify(IDType[m[1]], parseInt(m[2] + m[3]));
+                return new Identify(parseInt(m[2] + m[3]), IDType[m[1]]);
             } else {
                 return new Identify(0, IDType.Unknown);
             }
