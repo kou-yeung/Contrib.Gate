@@ -9,7 +9,6 @@ function BattleReward(params, context, done) {
         return;
     }
 
-    let admin = GetAdmin(context);
     GetUser(context, (user) => {
         new Entities.BattleInfo(user).refresh(battleInfo => {
             // バトルID検証
@@ -17,7 +16,6 @@ function BattleReward(params, context, done) {
                 done(ApiError.Create(ErrorCode.Common, "バトル報酬IDが違います").Pack());
                 return;
             }
-
             new Entities.Inventory(user).refresh(inventory => {
                 // 返信
                 let r = new BattleRewardReceive();
@@ -47,10 +45,13 @@ function BattleReward(params, context, done) {
                     }
                 }
 
-                // 未鑑定タマゴとして追加する
-                InsertEgg(user, eggs, r.eggs, () => {
-                    inventory.bucket.save(() => {
-                        done(r.Pack());
+                battleInfo.guid = "";   // IDをリセットします
+                battleInfo.bucket.save(() => {
+                    // 未鑑定タマゴとして追加する
+                    InsertEgg(user, eggs, r.eggs, () => {
+                        inventory.bucket.save(() => {
+                            done(r.Pack());
+                        });
                     });
                 });
             });
