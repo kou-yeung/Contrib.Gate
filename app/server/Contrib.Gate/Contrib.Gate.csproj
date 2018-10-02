@@ -102,6 +102,7 @@
     <TypeScriptCompile Include="application\entities\Recipe.ts" />
     <TypeScriptCompile Include="application\entities\Stage.ts" />
     <TypeScriptCompile Include="application\entities\StageInfo.ts" />
+    <TypeScriptCompile Include="application\entities\Units.ts" />
     <TypeScriptCompile Include="application\entities\Vending.ts" />
     <TypeScriptCompile Include="application\protocol\AdsBegin.ts" />
     <TypeScriptCompile Include="application\protocol\AdsEnd.ts" />

@@ -51,6 +51,8 @@ enum ErrorCode {
 enum Const {
 	MaxHatch=3,// 同時最大孵化数
 	MaxPetInUnit=3,// ユニットに配置最大ペット数
+	MaxUnit=5,// ユニット最大数
+	FreeUnit=1,// 無料ユニット数(残りは広告をみて開放する)
 }
 
 // Move
@@ -165,4 +167,13 @@ class ExpItem {
 	uniqid: string;// 識別ID
 	exp: number;// 更新後所持経験値
 	add: number;// 増加した経験値
+}
+
+/// <summary>
+/// UnitItem
+/// </summary>
+class UnitItem {
+	uniqids: string[];// 識別ID一覧
+	expirationDate: number;// 有効期間 [無制限(-1) 未開放(0) それ以外(サーバ時間)]
+	name: string;// ユニット名(ユーザのメモ入力領域)
 }

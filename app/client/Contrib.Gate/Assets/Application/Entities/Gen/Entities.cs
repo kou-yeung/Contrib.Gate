@@ -70,6 +70,8 @@ namespace Entities
 	{
 		MaxHatch=3,// 同時最大孵化数
 		MaxPetInUnit=3,// ユニットに配置最大ペット数
+		MaxUnit=5,// ユニット最大数
+		FreeUnit=1,// 無料ユニット数(残りは広告をみて開放する)
 	}
 	
     /// <summary>
@@ -209,6 +211,17 @@ namespace Entities
 		public string uniqid;// 識別ID
 		public int exp;// 更新後所持経験値
 		public int add;// 増加した経験値
+	}
+	
+    /// <summary>
+    /// UnitItem
+    /// </summary>
+    [Serializable]
+	public partial class UnitItem
+	{
+		public string[] uniqids;// 識別ID一覧
+		public long expirationDate;// 有効期間 [無制限(-1) 未開放(0) それ以外(サーバ時間)]
+		public string name;// ユニット名(ユーザのメモ入力領域)
 	}
 	
 }
