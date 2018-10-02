@@ -125,6 +125,7 @@ class EggItem {
 	createTime: number;// 生成時間
 	race: Race;// 種族(鑑定したらわかる)
 	rarity: number;// レアリティ(鑑定したらわかる)
+	stage: number;// 入手ステージID
 }
 
 /// <summary>

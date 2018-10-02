@@ -19,17 +19,14 @@ namespace Entities {
         }
 
         toString(): string {
-            let n1 = ('000' + Math.floor(this.Id / 1000)).slice(-3);
-            let n2 = ('000' + Math.floor(this.Id % 1000)).slice(-3);
-            return `${IDType[this.Type]}_${n1}_${n2}`;
+            let str = '000000' + this.Id;
+            return `${IDType[this.Type]}_${str.slice(-6, -3)}_${str.slice(-3)}`;
         }
         static Parse(str: string): Identify {
 
             let m = str.match(/(\w+?)_(\d+)_(\d+)/);
             if (m) {
-                let type = IDType[m[1]];
-                let id = parseInt(m[2] + m[3]);
-                return new Identify(id, type);
+                return new Identify(parseInt(m[2] + m[3]), IDType[m[1]]);
             } else {
                 return new Identify(0, IDType.Unknown);
             }

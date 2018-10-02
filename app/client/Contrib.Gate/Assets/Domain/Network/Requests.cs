@@ -18,6 +18,8 @@ namespace Network
     [Serializable]
     class KiiCloudError
     {
+        public const string STEP_COUNT_EXCEEDED = @"STEP_COUNT_EXCEEDED";
+
         [Serializable]
         public class Details
         {
@@ -54,7 +56,7 @@ namespace Network
             CoroutineRunner.Run(InternalSend(method, json, cb));
         }
 
-        IEnumerator InternalSend(string method, string json, Action<ErrorCode, string> cb)
+        IEnumerator InternalSend(string method, string json, Action<ErrorCode, string> cb, int retry = 2)
         {
             var url = string.Format("https://api-jp.kii.com/api/apps/{0}/server-code/versions/current/{1}", Kii.AppId, method);
             var request = new UnityWebRequest(url, "POST");
@@ -84,7 +86,14 @@ namespace Network
             {
                 var error = JsonUtility.FromJson<KiiCloudError>(request.downloadHandler.text);
                 Debug.Log(JsonUtility.ToJson(error, true));
-                if (cb != null) cb(ErrorCode.Network, request.error);
+                if (retry > 0 && error.errorCode != KiiCloudError.STEP_COUNT_EXCEEDED)
+                {
+                    yield return InternalSend(method, json, cb, retry - 1);
+                }
+                else
+                {
+                    if (cb != null) cb(ErrorCode.Network, request.error);
+                }
             }
         }
     }

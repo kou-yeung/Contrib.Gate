@@ -9,7 +9,6 @@ function BattleReward(params, context, done) {
         return;
     }
 
-    let admin = GetAdmin(context);
     GetUser(context, (user) => {
         new Entities.BattleInfo(user).refresh(battleInfo => {
             // バトルID検証
@@ -17,13 +16,13 @@ function BattleReward(params, context, done) {
                 done(ApiError.Create(ErrorCode.Common, "バトル報酬IDが違います").Pack());
                 return;
             }
-
             new Entities.Inventory(user).refresh(inventory => {
                 // 返信
                 let r = new BattleRewardReceive();
                 r.eggs = [];
                 r.items = [];
 
+                let stage = battleInfo.stage.idWithType;
                 let rewards = battleInfo.rewards;
                 let eggs: Entities.Identify[] = [];
 
@@ -49,10 +48,13 @@ function BattleReward(params, context, done) {
                     }
                 }
 
-                // 未鑑定タマゴとして追加する
-                InsertEgg(user, eggs, r.eggs, () => {
-                    inventory.bucket.save(() => {
-                        done(r.Pack());
+                battleInfo.guid = "";   // IDをリセットします
+                battleInfo.bucket.save(() => {
+                    // 未鑑定タマゴとして追加する
+                    InsertEgg(stage, user, eggs, r.eggs, () => {
+                        inventory.bucket.save(() => {
+                            done(r.Pack());
+                        });
                     });
                 });
             });
@@ -61,7 +63,7 @@ function BattleReward(params, context, done) {
 }
 
 // タマゴの追加：再帰
-function InsertEgg(user: KiiUser, eggs: Entities.Identify[], result: EggItem[], done) {
+function InsertEgg(stage: number, user: KiiUser, eggs: Entities.Identify[], result: EggItem[], done) {
     // 再帰終了
     if (eggs.length <= 0) {
         done();
@@ -70,18 +72,18 @@ function InsertEgg(user: KiiUser, eggs: Entities.Identify[], result: EggItem[], 
 
     let id = eggs.shift();  // 先頭アイテムを取り出す
     let guid = GUID.Gen();  // 新たなGUIDを生成する
-    new Entities.Egg(user, guid).refresh(egg => {
+    new Entities.Egg(user).bucket.create(egg => {
         let item = new EggItem();
         item.createTime = Util.Time.ServerTime.current;
         item.uniqid = guid;
         item.judgment = false;
-
+        item.stage = stage;
         egg.uniqid = guid;
         egg.item = item;
         egg.result = id;
         egg.bucket.save(() => {
             result.push(item);
-            InsertEgg(user, eggs, result, done);  // 次のタマゴを追加する
+            InsertEgg(stage, user, eggs, result, done);  // 次のタマゴを追加する
         });
     });
 }

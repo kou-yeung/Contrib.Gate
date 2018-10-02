@@ -2,19 +2,18 @@
 // このクラスはメンバで持ちます
 class Result/*<T>*/ {
     private obj: KiiObject;
-    private keys: string[];
+    private keys: string[] = null;
 
     constructor(obj: KiiObject) {
         this.obj = obj;
-        this.keys = this.obj.getKeys();
     }
 
     save(done: (result: Result) => void): void {
         let self = this;
         self.obj.save({
             success: function (theSavedObject: KiiObject) {
-                self.obj = theSavedObject; // 最新のほうを使う!!
-                self.keys = self.keys;     // キー一覧更新
+                self.obj = theSavedObject;  // 最新のほうを使う!!
+                self.keys = null;           // キー一覧クリア
                 done(self);
             },
             failure: function (theObject, error) {
@@ -32,9 +31,12 @@ class Result/*<T>*/ {
         this.obj.set<T>(key, value);
     }
     has(key: string): boolean {
-        return this.keys.indexOf(key) != -1;
+        return this.allkey.indexOf(key) != -1;
     }
     get allkey(): string[] {
+        if (this.keys == null) {
+            this.keys = this.obj.getKeys();
+        }
         return this.keys;
     }
 
@@ -112,6 +114,11 @@ class Bucket<T> {
             }
         });
     }
+    // refresh を飛ばして直接生成します
+    create(done: (t: T) => void): void {
+        this.results.push(new Result(this.bucketWithName().createObject()));
+        done(this.t);
+    }
 
     get first(): Result {
         return this.results[0];
@@ -128,5 +135,4 @@ class Bucket<T> {
             });
         }
     };
-
 }

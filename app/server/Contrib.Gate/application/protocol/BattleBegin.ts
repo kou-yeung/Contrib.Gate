@@ -52,6 +52,7 @@ function BattleBegin(params, context, done) {
                         // バトル用情報を保持する
                         new Entities.BattleInfo(user).refresh(battleInfo => {
                             battleInfo.guid = r.guid;
+                            battleInfo.stage = stageInfo.stage;
                             battleInfo.pets = stageInfo.pets;
                             battleInfo.coin = enemyGroud.coin;
                             battleInfo.drop = enemyGroud.drop;
