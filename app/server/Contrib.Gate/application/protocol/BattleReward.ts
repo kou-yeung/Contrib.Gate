@@ -26,8 +26,7 @@ function BattleReward(params, context, done) {
                 let rewards = battleInfo.rewards;
                 let eggs: Entities.Identify[] = [];
 
-                for (var i = 0; i < rewards.length; i++) {
-                    let reward = rewards[i];
+                rewards.forEach(reward => {
                     let id = new Entities.Identify(reward.idWithType);
                     switch (id.Type) {
                         case IDType.Material:
@@ -46,7 +45,7 @@ function BattleReward(params, context, done) {
                             done(ApiError.Create(ErrorCode.Common, "未対応報酬IDです!!!" + id.toString()).Pack());
                             return;
                     }
-                }
+                });
 
                 battleInfo.guid = "";   // IDをリセットします
                 battleInfo.bucket.save(() => {

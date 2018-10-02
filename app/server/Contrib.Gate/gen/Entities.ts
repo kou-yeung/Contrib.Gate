@@ -13,6 +13,7 @@ enum UserCreateStep {
 enum AdReward {
 	Unknown,// 不明
 	Hatch,// 孵化時間短縮
+	Unit,// ユニット解放
 }
 
 // IDType

@@ -8,7 +8,7 @@ function UnitList(params, context, done) {
         new Entities.Units(user).refresh(units => {
             // 返信
             let r = new UnitListReceive();
-            r.items = units.units;
+            r.items = units.items;
             done(r.Pack());
         });
     });

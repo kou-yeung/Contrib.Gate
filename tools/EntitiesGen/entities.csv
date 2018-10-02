@@ -17,6 +17,7 @@ Created,,作成済
 enum,AdReward,
 Unknown,,不明
 Hatch,,孵化時間短縮
+Unit,,ユニット解放
 
 // Id タイプ
 enum,IDType,
@@ -154,8 +155,3 @@ int,id,Unit番号
 string[],uniqids,識別ID一覧
 long,expirationDate,有効期間 [無制限(-1) 未開放(0) それ以外(サーバ時間)]
 string,name,ユニット名(ユーザのメモ入力領域)
-
-// ユニット一覧
-//class,Units,
-//UnitItem[],items,
-

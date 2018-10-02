@@ -34,18 +34,17 @@ function BattleEnd(params, context, done) {
                             r.exps = exps;
 
                             // ペットに経験値を与える
-                            let results = pets.bucket.results;
-                            for (var i = 0; i < results.length; i++) {
-                                let item = JSON.parse(results[i].get("item")) as PetItem;
-                                for (var j = 0; j < exps.length; j++) {
-                                    if (exps[j].uniqid == item.uniqid) {
-                                        item.exp = exps[j].exp;
+                            pets.bucket.results.forEach(result => {
+                                let item = JSON.parse(result.get("item")) as PetItem;
+                                for (var i = 0; i < exps.length; i++) {
+                                    if (exps[i].uniqid == item.uniqid) {
+                                        item.exp = exps[i].exp;
                                         item.level = level.level(item.exp, item.level);
-                                        results[i].set("item", JSON.stringify(item));
+                                        result.set("item", JSON.stringify(item));
                                         break;
                                     }
                                 }
-                            }
+                            });
 
                             r.guid = battleInfo.guid = GUID.Gen();
                             battleInfo.rewards = drop.draw();   // ドロップ抽選

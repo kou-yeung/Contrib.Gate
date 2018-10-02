@@ -37,9 +37,8 @@ function BattleBegin(params, context, done) {
                         // 経験値アイテムを作る
                         let exps: ExpItem[] = [];
                         let stageExp = enemyGroud.exp;
-                        let results = pets.bucket.results;
-                        for (var i = 0; i < results.length; i++) {
-                            let item = JSON.parse(results[i].get("item")) as PetItem;
+                        pets.bucket.results.forEach(result => {
+                            let item = JSON.parse(result.get("item")) as PetItem;
                             let diff = Math.abs(item.level - avgLevel);     // 平均レベルからの差を計算
                             let ratio = (Math.min(Math.max(diff, 1.7), 5) - 1.7) / (5 - 1.7) * (1.57079633);
                             let add = Math.ceil(Math.max(1, (1 - Math.sin(ratio)) * stageExp)); // 最低保証:1
@@ -48,7 +47,7 @@ function BattleBegin(params, context, done) {
                             expItem.exp = item.exp + add;
                             expItem.add = add;
                             exps.push(expItem);
-                        }
+                        });
                         // バトル用情報を保持する
                         new Entities.BattleInfo(user).refresh(battleInfo => {
                             battleInfo.guid = r.guid;

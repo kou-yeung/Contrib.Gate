@@ -23,10 +23,10 @@ namespace Entities {
 
         private init() {
             let results = this.bucket.results;
-            for (var i = 0; i < results.length; i++) {
-                let id = Identify.Parse(results[i].get("ID"));
-                this.map[id.idWithType] = results[i];
-            }
+            results.forEach(result => {
+                let id = Identify.Parse(result.get("ID"));
+                this.map[id.idWithType] = result;
+            });
         }
         // 種族
         get race(): Race {
