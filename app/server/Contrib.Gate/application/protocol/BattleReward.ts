@@ -28,14 +28,16 @@ function BattleReward(params, context, done) {
                 let eggs: Entities.Identify[] = [];
 
                 for (var i = 0; i < rewards.length; i++) {
-                    let id = new Entities.Identify(rewards[i]);
+                    let reward = rewards[i];
+                    let id = new Entities.Identify(reward.idWithType);
                     switch (id.Type) {
                         case IDType.Material:
                         case IDType.Item:
-                            inventory.add(id, 1);
+                            inventory.add(id, reward.num);
+                            // 返信アイテムに追加
                             let item = new InventoryItem();
-                            item.identify = rewards[i];
-                            item.num = 1;
+                            item.identify = reward.idWithType;
+                            item.num = reward.num;
                             r.items.push(item);
                             break;
                         case IDType.Familiar:

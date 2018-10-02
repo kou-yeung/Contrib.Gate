@@ -33,12 +33,6 @@ function BattleEnd(params, context, done) {
                             let exps = battleInfo.exps;
                             r.exps = exps;
 
-                            // ドロップ抽選
-                            let drawResult = drop.draw();
-                            let rewards: number[] = [];
-                            for (var i = 0; i < drawResult.length; i++) {
-                                rewards.push(drawResult[i].idWithType);
-                            }
                             // ペットに経験値を与える
                             let results = pets.bucket.results;
                             for (var i = 0; i < results.length; i++) {
@@ -54,7 +48,7 @@ function BattleEnd(params, context, done) {
                             }
 
                             r.guid = battleInfo.guid = GUID.Gen();
-                            battleInfo.rewards = rewards;
+                            battleInfo.rewards = drop.draw();   // ドロップ抽選
                             battleInfo.bucket.save(() => {
                                 player.bucket.save(() => {
                                     pets.bucket.save(() => {

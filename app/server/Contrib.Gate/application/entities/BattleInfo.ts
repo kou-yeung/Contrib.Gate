@@ -45,10 +45,10 @@ namespace Entities {
         }
 
         // 報酬一覧
-        get rewards(): number[] {
+        get rewards(): DropReward[] {
             return this.bucket.first.get("rewards");
         }
-        set rewards(rewards: number[]) {
+        set rewards(rewards: DropReward[]) {
             this.bucket.first.set("rewards", rewards);
         }
     }
