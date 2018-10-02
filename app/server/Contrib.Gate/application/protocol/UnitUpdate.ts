@@ -16,6 +16,14 @@ function UnitUpdate(params, context, done) {
 
     GetUser(context, (user) => {
         new Entities.Units(user).refresh(units => {
+            let old = units.items;
+            // チート防止？とりあえず時間の一致をチェックする:時間更新は広告のみなので！！
+            for (var i = 0; i < Const.MaxUnit; i++) {
+                if (old[i].expirationDate != s.items[i].expirationDate) {
+                    done(ApiError.Create(ErrorCode.Common, "ユニットの整合性があってません").Pack());
+                    return;
+                }
+            }
             units.items = s.items;
             units.bucket.save(() => {
                 // 返信
