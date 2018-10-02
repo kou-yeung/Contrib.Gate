@@ -125,6 +125,7 @@
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
     <TypeScriptCompile Include="application\protocol\StageBegin.ts" />
     <TypeScriptCompile Include="application\protocol\StageMove.ts" />
+    <TypeScriptCompile Include="application\protocol\UnitList.ts" />
     <TypeScriptCompile Include="application\protocol\Vending.ts" />
     <TypeScriptCompile Include="domain\network\ApiError.ts" />
     <TypeScriptCompile Include="domain\stage\StageHelper.ts" />
@@ -152,6 +153,7 @@
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
     <TypeScriptCompile Include="gen\StageBegin.ts" />
     <TypeScriptCompile Include="gen\StageMove.ts" />
+    <TypeScriptCompile Include="gen\UnitList.ts" />
     <TypeScriptCompile Include="gen\Vending.ts" />
     <TypeScriptCompile Include="infrastructure\GUID\GUID.ts" />
     <TypeScriptCompile Include="KiiCloud\Kii.d.ts" />

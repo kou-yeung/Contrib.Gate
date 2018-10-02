@@ -128,3 +128,8 @@ down,string,debug,
 protocol,Judgment
 up,string,guid,未鑑定タマゴID
 down,EggItem,egg,タマゴ
+
+// Unit一覧取得
+protocol,UnitList,
+down,UnitItem[],items,Unit情報一覧
+

@@ -48,6 +48,7 @@ namespace Entities
         public Eggs Eggs { get; private set; }
         public Pets Pets { get; private set; }
         public Hatchs Hatchs { get; private set; }
+        public Units Units { get; private set; }
 
         public void Load()
         {
@@ -145,6 +146,19 @@ namespace Entities
             });
             while (wait) yield return null;
         }
+        // ユニット一覧取得
+        public IEnumerator GetUnits(bool refresh = false)
+        {
+            if (!refresh && Units != null) yield break;
+            bool wait = true;
+            Protocol.Send(new UnitListSend(), (r) =>
+            {
+                Units = new Units(r.items);
+                wait = false;
+            });
+            while (wait) yield return null;
+        }
+
 
         public void UpdateUserState(UserState userState)
         {

@@ -18,6 +18,7 @@ public class Home : MonoBehaviour {
         yield return Entity.Instance.GetEggs();
         yield return Entity.Instance.GetPets();
         yield return Entity.Instance.GetHatchs();
+        yield return Entity.Instance.GetUnits();
         Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
         UpdateUserState();
         enabled = true;

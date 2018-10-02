@@ -173,6 +173,7 @@ class ExpItem {
 /// UnitItem
 /// </summary>
 class UnitItem {
+	id: number;// Unit番号
 	uniqids: string[];// 識別ID一覧
 	expirationDate: number;// 有効期間 [無制限(-1) 未開放(0) それ以外(サーバ時間)]
 	name: string;// ユニット名(ユーザのメモ入力領域)

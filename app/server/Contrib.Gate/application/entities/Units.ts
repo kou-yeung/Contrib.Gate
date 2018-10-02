@@ -24,6 +24,7 @@ namespace Entities {
             for (var i = 0; i < Const.MaxUnit; i++) {
                 let item = new UnitItem();
                 item.expirationDate = (i < Const.FreeUnit) ? -1 : 0;
+                item.id = i;
                 item.name = "";
                 item.uniqids = [];
                 for (var j = 0; j < Const.MaxPetInUnit; j++) {

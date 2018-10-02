@@ -219,6 +219,7 @@ namespace Entities
     [Serializable]
 	public partial class UnitItem
 	{
+		public int id;// Unit番号
 		public string[] uniqids;// 識別ID一覧
 		public long expirationDate;// 有効期間 [無制限(-1) 未開放(0) それ以外(サーバ時間)]
 		public string name;// ユニット名(ユーザのメモ入力領域)
