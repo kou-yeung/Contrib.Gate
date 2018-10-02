@@ -14,39 +14,65 @@
         let admin = GetAdmin(context);
         new Entities.Ads(admin, user).refresh(ads =>
         {
-            // 返信
-            if (ads.vaild(s.id))
-            {
-                ads.clear(() => {
-
-                    if (ads.reward == AdReward.Unknown) {
-                        done(ApiError.Create(ErrorCode.Common, "不明な報酬").Pack());
-                        return;
-                    } else if (ads.reward == AdReward.Hatch) {
-                        new Entities.Hatch(user, ads.param).refresh(hatch =>
-                        {
-                            let item = hatch.item;
-                            item.startTime -= 30 * 60;  // 開始時間を過去に!!(計算上はこっちのほうがしやすいです)
-                            hatch.item = item;
-                            hatch.bucket.save(() => {
-                                let r = new AdsEndReceive();
-                                r.item = item;
-                                done(r.Pack());
-                                return;
-                            });
-                        });
-                        return;
-                    } else {
-                        return;
-                    }
-                });
-            } else
-            {
-                ads.clear(() => {
-                    let r = ApiError.Create(ErrorCode.InvalidAdsCode);
-                    done(r.Pack());
-                });
+            // 有効性チェック
+            if (!ads.vaild(s.id)) {
+                done(ApiError.Create(ErrorCode.InvalidAdsCode).Pack());
+                return;
             }
+
+            // 返信
+            ads.clear(() => {
+                switch (ads.reward) {
+                    case AdReward.Hatch:
+                        HatchReward(user, ads, hatch => {
+                            let r = new AdsEndReceive();
+                            r.hatch = [hatch];
+                            done(r.Pack());
+                        });
+                        break;
+                    case AdReward.Unit:
+                        UnitReward(user, ads, unit => {
+                            let r = new AdsEndReceive();
+                            r.unit = [unit];
+                            done(r.Pack());
+                        });
+                        break;
+                    default:
+                        UnknownReward(user, ads, () => {
+                            done(new AdsEndReceive().Pack());
+                        });
+                        break;
+                }
+            });
+        });
+    });
+}
+
+function UnknownReward(user: KiiUser, ads: Entities.Ads, done: () => void) {
+    done();
+}
+// 孵化
+function HatchReward(user: KiiUser, ads: Entities.Ads, done: (hatch: HatchItem) => void) {
+    new Entities.Hatch(user, ads.param).refresh(hatch => {
+        let item = hatch.item;
+        item.startTime -= 30 * 60;  // 開始時間を過去に!!(計算上はこっちのほうがしやすいです)
+        hatch.item = item;
+        hatch.bucket.save(() => {
+            done(item);
+        });
+    });
+}
+
+// ユニット
+function UnitReward(user: KiiUser, ads: Entities.Ads, done: (unit: UnitItem) => void) {
+    new Entities.Units(user).refresh(units => {
+        let index = parseInt(ads.param);
+        let items = units.items;
+        let expiration = ((3600 * 24) * 30);
+        items[index].expirationDate = Util.Time.ServerTime.current + expiration;
+        units.items = items;    // 更新
+        units.bucket.save(() => {
+            done(items[index]);
         });
     });
 }

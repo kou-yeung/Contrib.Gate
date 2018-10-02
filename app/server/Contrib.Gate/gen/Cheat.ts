@@ -13,9 +13,9 @@ class CheatSend {
 }
 
 class CheatReceive {
-    userState: UserState;
-    egg: EggItem;
-    pet: PetItem;
+    userState: UserState[];
+    egg: EggItem[];
+    pet: PetItem[];
 	
 	// CheatReceive -> string
 	Pack(): string {

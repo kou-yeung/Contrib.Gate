@@ -16,7 +16,8 @@ namespace Network
 
     public class AdsEndReceive
     {
-		public HatchItem item; //  // まだ仮パラメータです
+		public HatchItem[] hatch; //  // 孵化アイテム
+		public UnitItem[] unit; // 	// ユニットアイテム
     }
 
     /// <summary>

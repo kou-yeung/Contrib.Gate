@@ -13,7 +13,7 @@
             player.coin += parseInt(s.param[0]);
             player.bucket.save(() => {
                 var r = new CheatReceive();
-                r.userState = player.userState;
+                r.userState = [player.userState];
                 done(r.Pack());
             });
         });
@@ -46,7 +46,7 @@
                 egg.item = item;
                 egg.bucket.save(() => {
                     var r = new CheatReceive();
-                    r.egg = item;
+                    r.egg = [item];
                     done(r.Pack());
                 });
             });
@@ -80,7 +80,7 @@
 
                 pet.bucket.save(() => {
                     var r = new CheatReceive();
-                    r.pet = item;
+                    r.pet = [item];
                     done(r.Pack());
                 });
             });

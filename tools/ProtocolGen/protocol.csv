@@ -20,9 +20,9 @@ down,string,message,
 protocol,Cheat,
 up,string,command,
 up,string[],param,
-down,UserState,userState,
-down,EggItem,egg,
-down,PetItem,pet,
+down,UserState[],userState,
+down,EggItem[],egg,
+down,PetItem[],pet,
 
 // ログイン処理
 protocol,Login,
@@ -49,7 +49,8 @@ down,string,id,
 // Ads終了する
 protocol,AdsEnd,
 up,string,id,
-down,HatchItem,item, // まだ仮パラメータです
+down,HatchItem[],hatch, // 孵化アイテム
+down,UnitItem[],unit,	// ユニットアイテム
 
 // 自動販売
 protocol,Vending,

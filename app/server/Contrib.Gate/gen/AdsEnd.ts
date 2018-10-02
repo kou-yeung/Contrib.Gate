@@ -12,7 +12,8 @@ class AdsEndSend {
 }
 
 class AdsEndReceive {
-    item: HatchItem; //  // まだ仮パラメータです
+    hatch: HatchItem[]; //  // 孵化アイテム
+    unit: UnitItem[]; // 	// ユニットアイテム
 	
 	// AdsEndReceive -> string
 	Pack(): string {

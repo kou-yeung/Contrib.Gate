@@ -25,6 +25,19 @@ namespace Entities
             else items.Add(pet);
         }
         /// <summary>
+        /// 変更する
+        /// </summary>
+        /// <param name="egg"></param>
+        public void Modify(PetItem[] pets)
+        {
+            if (pets == null) return;
+            foreach (var pet in pets)
+            {
+                Modify(pet);
+            }
+        }
+
+        /// <summary>
         /// 経験値を更新する
         /// </summary>
         public void Modify(ExpItem[] items)

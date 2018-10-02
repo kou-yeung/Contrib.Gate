@@ -32,6 +32,7 @@ namespace Entities
         /// </summary>
         public void Modify(EggItem[] eggs)
         {
+            if (eggs == null) return;
             foreach (var egg in eggs)
             {
                 Modify(egg);

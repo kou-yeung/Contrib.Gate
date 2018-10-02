@@ -81,18 +81,9 @@ namespace UI
                         send.param = Params.Where(p => p.gameObject.activeSelf).Select(p => p.input.text).ToArray();
                         Protocol.Send(send, (r) =>
                         {
-                            if (!string.IsNullOrEmpty(r.userState.playerName))
-                            {
-                                Entity.Instance.UpdateUserState(r.userState);
-                            }
-                            if (!string.IsNullOrEmpty(r.egg.uniqid))
-                            {
-                                Entity.Instance.Eggs.Modify(r.egg);
-                            }
-                            if (!string.IsNullOrEmpty(r.pet.uniqid))
-                            {
-                                Entity.Instance.Pets.Modify(r.pet);
-                            }
+                            Entity.Instance.UpdateUserState(r.userState);
+                            Entity.Instance.Eggs.Modify(r.egg);
+                            Entity.Instance.Pets.Modify(r.pet);
                         });
                     }
                     break;

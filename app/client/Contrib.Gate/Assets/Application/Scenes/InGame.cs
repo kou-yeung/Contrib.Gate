@@ -128,14 +128,11 @@ public class InGame : MonoBehaviour
         send.param = new[] { id.ToString() };
         Protocol.Send(send, (r) =>
         {
-            if (!string.IsNullOrEmpty(r.egg.uniqid))
+            Entity.Instance.Eggs.Modify(r.egg);
+            DialogWindow.OpenOk("おめでとう", $"{r.egg[0].race}のタマゴが獲得した", () =>
             {
-                Entity.Instance.Eggs.Modify(r.egg);
-                DialogWindow.OpenOk("おめでとう", $"{r.egg.race}のタマゴが獲得した", () =>
-                {
-                    SceneManager.LoadScene(SceneName.Home);
-                });
-            }
+                SceneManager.LoadScene(SceneName.Home);
+            });
         });
     }
 

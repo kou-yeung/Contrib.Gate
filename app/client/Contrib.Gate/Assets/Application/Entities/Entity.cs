@@ -165,6 +165,14 @@ namespace Entities
             this.UserState = userState;
             Observer.Instance.Notify(UserState.Update.ToString(), userState);
         }
+        public void UpdateUserState(UserState[] userState)
+        {
+            if (userState == null) return;
+            foreach (var s in userState)
+            {
+                UpdateUserState(s);
+            }
+        }
 
         /// <summary>
         /// ユーザが遊んでるステージの情報

@@ -67,9 +67,10 @@ namespace UI
         {
             if (result == ShowResult.Finished)
             {
-                Protocol.Send(new AdsEndSend { id = receive.id }, (end) =>
+                Protocol.Send(new AdsEndSend { id = receive.id }, (AdsEndReceive end) =>
                 {
-                    Entity.Instance.Hatchs.Modify(end.item);    // 結果を対応する
+                    Entity.Instance.Hatchs.Modify(end.hatch);
+                    Entity.Instance.Units.Modify(end.unit);
                     Close();
                 });
             }

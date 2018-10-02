@@ -23,6 +23,18 @@ namespace Entities
             if (index != -1) items[index] = hatch;
             else items.Add(hatch);
         }
+        /// <summary>
+        /// 変更する
+        /// </summary>
+        /// <param name="egg"></param>
+        public void Modify(HatchItem[] hatchs)
+        {
+            if (hatchs == null) return;
+            foreach (var hatch in hatchs)
+            {
+                Modify(hatch);
+            }
+        }
 
         /// <summary>
         /// 削除する
