@@ -39,11 +39,13 @@ public class InGame : MonoBehaviour
     public GameObject[] prefab;    // 一時対応、将来は見た目で変えられるようにします!!
     public GameObject playerPrefab;      // プレイヤープレハブ
     Player player;
+    int EncountRate;
 
     void Start()
     {
-        var tiles = new List<Tile>();// new Tile[] { Tile.Start, Tile.DownStairs };
+        var tiles = new List<Tile>();
         var dungeon = this.dungeon;
+        EncountRate = this.dungeon.EncountRate;
         // 上り
         if (dungeon.UpFloor == new Identify(IDType.Dungeon, 0))
         {
@@ -103,6 +105,8 @@ public class InGame : MonoBehaviour
                 }
             }
         }
+
+        Observer.Instance.Subscribe(Player.ChangeGridEvent, OnSubscribe);
     }
 
     bool flag = false;
@@ -152,6 +156,11 @@ public class InGame : MonoBehaviour
         });
     }
 
+    private void OnDestroy()
+    {
+        Observer.Instance.Unsubscribe(Player.ChangeGridEvent, OnSubscribe);
+    }
+
     void OnSubscribe(string name, object o)
     {
         switch (name)
@@ -160,28 +169,39 @@ public class InGame : MonoBehaviour
                 joystick.enabled = true;
                 Observer.Instance.Unsubscribe(BattleWindow.CloseEvent, OnSubscribe);
                 break;
+            case Player.ChangeGridEvent:
+                if (UnityEngine.Random.Range(0, 100) < EncountRate)
+                {
+                    Encount();
+                }
+                break;
         }
     }
     void Update()
     {
-        player.Move(joystick.Position);
+        if (!joystick.enabled) return;
 
-        if (Input.GetKeyUp(KeyCode.Alpha1) && joystick.enabled)
+        player.Move(joystick.Position);
+        if (Input.GetKeyUp(KeyCode.Alpha1))
         {
-            Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
-            {
-                joystick.enabled = false;
-                Window.Open<BattleWindow>(r);
-                Observer.Instance.Subscribe(BattleWindow.CloseEvent, OnSubscribe);
-            }, (error) =>
-            {
-                // エラー処理
-                joystick.enabled = true;
-                return false;
-            });
+            Encount();
         }
     }
 
+    void Encount()
+    {
+        joystick.enabled = false;
+        Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
+        {
+            Window.Open<BattleWindow>(r);
+            Observer.Instance.Subscribe(BattleWindow.CloseEvent, OnSubscribe);
+        }, (error) =>
+        {
+            // エラー処理
+            joystick.enabled = true;
+            return false;
+        });
+    }
     GameObject GetChip(Tile tile)
     {
         switch ((int)tile)

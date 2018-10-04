@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Util;
+using Event;
 
 public class Player : MonoBehaviour
 {
+    public const string ChangeGridEvent = "Player:ChangeGrid";
+
     public Action<string> onTriggerEnter;
     public SpriteRenderer sprite;
     public float walkSpeed = 0.1f;
@@ -16,6 +19,7 @@ public class Player : MonoBehaviour
     new Rigidbody2D rigidbody;
     Vector2 currentPos;
     int cellStartIndex = 0;
+    Vector2Int? currentGrid;
 
     void Start()
     {
@@ -60,6 +64,20 @@ public class Player : MonoBehaviour
         //Vector3 p = Camera.main.transform.position;
         //p.y = transform.position.y;
         //transform.LookAt(p);
+
+        if (currentGrid.HasValue)
+        {
+            var now = new Vector2Int((int)transform.localPosition.x, (int)transform.localPosition.y);
+            if (currentGrid != now)
+            {
+                Observer.Instance.Notify(ChangeGridEvent);
+            }
+            currentGrid = now;
+        }
+        else
+        {
+            currentGrid = new Vector2Int((int)transform.localPosition.x, (int)transform.localPosition.y);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)

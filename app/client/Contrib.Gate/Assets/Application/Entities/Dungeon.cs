@@ -11,6 +11,8 @@ namespace Entities
         public Identify UpFloor;
         public Identify DownFloor;
         public Identify Room;
+        public string AssetPath;
+        public int EncountRate;
     }
 
     public sealed class DungeonMap : ClassMap<Dungeon>
@@ -22,6 +24,8 @@ namespace Entities
             Map(x => x.UpFloor).Index(2);
             Map(x => x.DownFloor).Index(3);
             Map(x => x.Room).Index(4);
+            Map(x => x.AssetPath).Index(5);
+            Map(x => x.EncountRate).Index(6);
         }
     }
 
