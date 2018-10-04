@@ -36,9 +36,9 @@ namespace UI
         {
             var item = listItem.GetComponent<StageItem>();
             var stage = item.stage;
-            /// HACK とりあえず先頭3つを送る
-
-            var pats = Entity.Instance.Pets.items.Take(3).Select(v => v.uniqid).ToArray();
+            /// HACK とりあえずユニットを送る
+            /// 将来はユニット選択させる
+            var pats = Entity.Instance.Units.items[0].uniqids.ToArray();
 
             Protocol.Send(new StageBeginSend { stageId = stage.Identify, pets = pats }, (r) =>
             {

@@ -117,6 +117,7 @@ class StageInfo {
 	guid: string;// StageBegin時生成される値、フロア移動時のチェックに使用します
 	lossTime: number;// 消失時間
 	move: Move;// 移動方向
+	pets: string[];// ペット一覧
 }
 
 /// <summary>

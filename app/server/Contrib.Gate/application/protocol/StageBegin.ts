@@ -45,6 +45,7 @@ function StageBegin(params, context, done) {
                     r.stageInfo.guid = stageInfo.guid;
                     r.stageInfo.lossTime = stageInfo.lossTime;
                     r.stageInfo.seed = stageInfo.seed;
+                    r.stageInfo.pets = stageInfo.pets;
                     done(r.Pack());
                 });
             });

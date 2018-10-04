@@ -22,7 +22,10 @@
     // タマゴ追加
     function addegg(user: KiiUser) {
         let id = Entities.Identify.Parse(s.param[0]);
-        let judgment = s.param[1].toLowerCase() == "true";
+        let judgment = false;
+        if (s.param.length >= 2) {
+            s.param[1].toLowerCase() == "true";
+        }
 
         // ID が違う
         if (id.Type != IDType.Familiar) {

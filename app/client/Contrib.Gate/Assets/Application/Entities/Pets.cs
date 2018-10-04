@@ -49,6 +49,18 @@ namespace Entities
                 this.items[index].exp = item.exp;
             }
         }
+
+        /// <summary>
+        /// uniqid から検索します
+        /// </summary>
+        /// <param name="uniqid"></param>
+        /// <returns></returns>
+        public PetItem Find(string uniqid)
+        {
+            var index = this.items.FindIndex(v => v.uniqid == uniqid);
+            if (index == -1) return null;
+            return this.items[index];
+        }
     }
 }
 

@@ -16,7 +16,7 @@ namespace Network
 
     public class UnitUpdateReceive
     {
-
+		public UnitItem[] items; // Unit情報一覧
     }
 
     /// <summary>

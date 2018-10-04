@@ -28,6 +28,7 @@ function UnitUpdate(params, context, done) {
             units.bucket.save(() => {
                 // 返信
                 let r = new UnitUpdateReceive();
+                r.items = s.items;
                 done(r.Pack());
             });
         });

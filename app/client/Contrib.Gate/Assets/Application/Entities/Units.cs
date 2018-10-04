@@ -3,6 +3,9 @@
 ///==============================
 using System.Collections.Generic;
 using Event;
+using System.Linq;
+using System;
+using UnityEngine;
 
 namespace Entities
 {
@@ -36,6 +39,31 @@ namespace Entities
                 Modify(unit, false);
             }
             Observer.Instance.Notify(UpdateEvent);
+        }
+
+        /// <summary>
+        /// ユニットに配置されている
+        /// </summary>
+        /// <param name="uniqid"></param>
+        /// <returns></returns>
+        public bool Exists(string uniqid)
+        {
+            return items.Exists(item => Array.Exists(item.uniqids, v => v == uniqid));
+        }
+
+        /// <summary>
+        /// 情報複製:編集時のローカル情報に使用します
+        /// </summary>
+        /// <returns></returns>
+        public Units Clone()
+        {
+            var data = new UnitItem[items.Count];
+            for (int i = 0; i < items.Count; i++)
+            {
+                data[i] = JsonUtility.FromJson<UnitItem>(JsonUtility.ToJson(items[i]));
+            }
+            var res = new Units(data);
+            return res;
         }
     }
 }

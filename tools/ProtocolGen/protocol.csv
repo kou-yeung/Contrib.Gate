@@ -137,4 +137,4 @@ down,UnitItem[],items,Unit情報一覧
 // Unit一覧更新(ユニット画面閉じるときに呼び出す想定)
 protocol,UnitUpdate,
 up,UnitItem[],items,Unit情報一覧
-
+down,UnitItem[],items,Unit情報一覧

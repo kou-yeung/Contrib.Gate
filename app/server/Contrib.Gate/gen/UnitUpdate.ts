@@ -12,7 +12,7 @@ class UnitUpdateSend {
 }
 
 class UnitUpdateReceive {
-
+    items: UnitItem[]; // Unit情報一覧
 	
 	// UnitUpdateReceive -> string
 	Pack(): string {

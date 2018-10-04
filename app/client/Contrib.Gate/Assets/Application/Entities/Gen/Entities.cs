@@ -151,6 +151,7 @@ namespace Entities
 		public string guid;// StageBegin時生成される値、フロア移動時のチェックに使用します
 		public long lossTime;// 消失時間
 		public Move move;// 移動方向
+		public string[] pets;// ペット一覧
 	}
 	
     /// <summary>
