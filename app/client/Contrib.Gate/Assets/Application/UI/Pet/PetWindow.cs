@@ -7,6 +7,7 @@ using Entities;
 using Event;
 using System;
 using Network;
+using System.Linq;
 
 namespace UI
 {
@@ -79,9 +80,19 @@ namespace UI
                     var index = Array.IndexOf(modify.items[0].uniqids, uniqid);
                     if (index != -1)
                     {
-                        // 外す
-                        modify.items[0].uniqids[index] = "";
-                        modify.Modify(modify.items[0]);
+                        var count = modify.items[0].uniqids.Count(v => !string.IsNullOrEmpty(v));
+
+                        if (count > 1)
+                        {
+                            // 外す
+                            modify.items[0].uniqids[index] = "";
+                            modify.Modify(modify.items[0]);
+                        }
+                        else
+                        {
+                            // 1 体以下の場合、外せない!
+                            DialogWindow.OpenOk("確認", "最低１体をセットしなさい!!");
+                        }
                     }
                     else
                     {
