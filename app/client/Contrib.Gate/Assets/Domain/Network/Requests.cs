@@ -58,6 +58,10 @@ namespace Network
 
         IEnumerator InternalSend(string method, string json, Action<ErrorCode, string> cb, int retry = 2)
         {
+
+#if UNITY_EDITOR
+            Debug.Log($"method({method}) data({json})");
+#endif
             var url = string.Format("https://api-jp.kii.com/api/apps/{0}/server-code/versions/current/{1}", Kii.AppId, method);
             var request = new UnityWebRequest(url, "POST");
 
