@@ -5,14 +5,20 @@ using UnityEngine.UI;
 using Event;
 using Network;
 using Entities;
+using System.Linq;
 
 namespace UI
 {
     public class BattleWindow : Window
     {
         public const string CloseEvent = @"BattleWindow:Close";
-        public Button[] Enemies;
-        public Button[] Players;
+        public GameObject unitPrefab;
+        public GameObject enemiesArea;  // 敵配置エリア
+        public GameObject playersArea;  // プレイヤー配置エリア
+        //public Button[] Enemies;
+        //public Button[] Players;
+        //public Image[] cursors;
+
         BattleBeginReceive battleInfo;
         StageInfo stageInfo;
 
@@ -22,34 +28,21 @@ namespace UI
             stageInfo = Entity.Instance.StageInfo;
 
             // 敵配置
-            for (int i = 0; i < Enemies.Length; i++)
+            for (int i = 0; i < battleInfo.enemies.Length; i++)
             {
-                if (i < battleInfo.enemies.Length)
-                {
-                    Enemies[i].gameObject.SetActive(true);
-                    var enemy = battleInfo.enemies[i];
-                    var image = Enemies[i].GetComponent<Image>();
-
-                }
-                else
-                {
-                    Enemies[i].gameObject.SetActive(false);
-                }
+                var enemy = Instantiate(unitPrefab, enemiesArea.transform);
+                var unit = enemy.GetComponent<Unit>();
+                unit.Setup(battleInfo.enemies[i]);
             }
             // 自分のユニット配置
-            for (int i = 0; i < Players.Length; i++)
+            for (int i = 0; i < stageInfo.pets.Length; i++)
             {
-                if (!string.IsNullOrEmpty(stageInfo.pets[i]))
+                var item = Entity.Instance.Pets.Find(stageInfo.pets[i]);
+                if (item != null)
                 {
-                    Players[i].gameObject.SetActive(true);
-                    var image = Players[i].GetComponent<Image>();
-                    var pet = Entity.Instance.Pets.Find(stageInfo.pets[i]);
-                    image.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(pet.id).Id}/walk")[3];
-                }
-                else
-                {
-                    // 配置してない
-                    Players[i].gameObject.SetActive(false);
+                    var pet = Instantiate(unitPrefab, playersArea.transform);
+                    var unit = pet.GetComponent<Unit>();
+                    unit.Setup(item);
                 }
             }
 
@@ -62,18 +55,33 @@ namespace UI
             base.OnClose();
         }
 
-        public void OnDebugEnd()
+        protected override void OnButtonClick(Button btn)
+        {
+            switch(btn.name)
+            {
+                case "DebugEnd":
+                    BattleEnd();
+                    break;
+                default:
+                    base.OnButtonClick(btn);
+                    break;
+            }
+        }
+        public void BattleEnd()
         {
             Protocol.Send(new BattleEndSend { guid = battleInfo.guid }, battleEnd =>
             {
+                // コインと経験値入手
                 Entity.Instance.UserState.AddCoin(battleEnd.coin);
                 Entity.Instance.Pets.Modify(battleEnd.exps);
 
                 Protocol.Send(new BattleRewardSend { guid = battleEnd.guid }, battleReward =>
                 {
+                    // アイテムとタマゴ入手
                     Entity.Instance.Inventory.Add(battleReward.items);
                     Entity.Instance.Eggs.Modify(battleReward.eggs);
 
+                    // 結果を表示する
                     Open<BattleResultWindow>(battleEnd, battleReward);
                     Observer.Instance.Subscribe(BattleResultWindow.CloseEvent, OnSubscribe);
                 });

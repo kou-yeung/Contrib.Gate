@@ -38,6 +38,8 @@ public class InGame : MonoBehaviour
 
     public GameObject[] prefab;    // 一時対応、将来は見た目で変えられるようにします!!
     public GameObject playerPrefab;      // プレイヤープレハブ
+
+    Tile[,] map;
     Player player;
     int EncountRate;
 
@@ -66,7 +68,7 @@ public class InGame : MonoBehaviour
             tiles.Add(Tile.DownStairs);
         }
 
-        var map = DungeonGen.Gen(stageInfo.seed, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, tiles.ToArray());
+        map = DungeonGen.Gen(stageInfo.seed, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, tiles.ToArray());
         var width = map.GetLength(0);
         var height = map.GetLength(1);
         for (int x = 0; x < width; x++)
@@ -170,9 +172,14 @@ public class InGame : MonoBehaviour
                 Observer.Instance.Unsubscribe(BattleWindow.CloseEvent, OnSubscribe);
                 break;
             case Player.ChangeGridEvent:
-                if (UnityEngine.Random.Range(0, 100) < EncountRate)
+
+                var grid = (Vector2Int)o;
+                if(map[grid.x, grid.y] == Tile.All)
                 {
-                    Encount();
+                    if (UnityEngine.Random.Range(0, 100) < EncountRate)
+                    {
+                        Encount();
+                    }
                 }
                 break;
         }

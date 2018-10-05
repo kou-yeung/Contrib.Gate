@@ -70,9 +70,9 @@ public class Player : MonoBehaviour
             var now = new Vector2Int((int)transform.localPosition.x, (int)transform.localPosition.y);
             if (currentGrid != now)
             {
-                Observer.Instance.Notify(ChangeGridEvent);
+                currentGrid = now;
+                Observer.Instance.Notify(ChangeGridEvent, currentGrid);
             }
-            currentGrid = now;
         }
         else
         {
