@@ -15,9 +15,6 @@ namespace UI
         public GameObject unitPrefab;
         public GameObject enemiesArea;  // 敵配置エリア
         public GameObject playersArea;  // プレイヤー配置エリア
-        //public Button[] Enemies;
-        //public Button[] Players;
-        //public Image[] cursors;
 
         BattleBeginReceive battleInfo;
         StageInfo stageInfo;
@@ -31,6 +28,7 @@ namespace UI
             for (int i = 0; i < battleInfo.enemies.Length; i++)
             {
                 var enemy = Instantiate(unitPrefab, enemiesArea.transform);
+                enemy.name = enemy.name.Replace("(Clone)", "");
                 var unit = enemy.GetComponent<Unit>();
                 unit.Setup(battleInfo.enemies[i]);
             }
@@ -41,6 +39,7 @@ namespace UI
                 if (item != null)
                 {
                     var pet = Instantiate(unitPrefab, playersArea.transform);
+                    pet.name = pet.name.Replace("(Clone)", "");
                     var unit = pet.GetComponent<Unit>();
                     unit.Setup(item);
                 }
@@ -61,6 +60,9 @@ namespace UI
             {
                 case "DebugEnd":
                     BattleEnd();
+                    break;
+                case "Unit":
+                    btn.GetComponent<Unit>().Focus();
                     break;
                 default:
                     base.OnButtonClick(btn);
