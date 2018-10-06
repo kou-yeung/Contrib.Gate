@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using Util;
 using Event;
+using Entities;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -23,9 +25,11 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        var uniqid = Entity.Instance.StageInfo.pets.Where(v => !string.IsNullOrEmpty(v)).First();
+        var pat = Entity.Instance.Pets.Find(uniqid);
         rigidbody = GetComponent<Rigidbody2D>();
         currentPos = rigidbody.position;
-        sprites = Resources.LoadAll<Sprite>($"Familiar/{1001}/walk");
+        sprites = Resources.LoadAll<Sprite>($"Familiar/{new Identify(pat.id).Id}/walk");
     }
 
     public void Move(Vector2 move)
