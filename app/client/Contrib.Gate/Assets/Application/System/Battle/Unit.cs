@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Entities;
+using System;
 
 public class Unit : MonoBehaviour
 {
@@ -38,17 +39,14 @@ public class Unit : MonoBehaviour
         side = Side.Player;
     }
 
-    public void Focus()
+    public void Focus(Action cb = null)
     {
-        if (side == Side.Player)
+        LeanTween.moveLocalY(character.gameObject, 15, 0.1f).setLoopPingPong(1);
+        LeanTween.value(0f, 3f, 0.15f).setOnUpdate((float v) =>
         {
-            LeanTween.moveLocalY(character.gameObject, 15, 0.1f).setLoopPingPong(1);
-            LeanTween.value(0f, 3f, 0.15f).setOnUpdate((float v) =>
-            {
-                var index = new[] { 1, 7, 10, 4 };
-                var i = index[(int)v];
-                character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(id).Id}/walk")[i];
-            });
-        }
+            var index = side == Side.Player ? new[] { 1, 7, 10, 4 } : new[] { 10, 4, 1, 7 };
+            var i = index[(int)v];
+            character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(id).Id}/walk")[i];
+        }).setOnComplete(cb);
     }
 }

@@ -6,6 +6,7 @@ using Event;
 using Network;
 using Entities;
 using System.Linq;
+using Battle;
 
 namespace UI
 {
@@ -18,7 +19,8 @@ namespace UI
 
         BattleBeginReceive battleInfo;
         StageInfo stageInfo;
-
+        Combat combat = new Combat();
+        Command currentCommand;
         protected override void OnOpen(params object[] args)
         {
             battleInfo = args[0] as BattleBeginReceive;
@@ -31,6 +33,7 @@ namespace UI
                 enemy.name = enemy.name.Replace("(Clone)", "");
                 var unit = enemy.GetComponent<Unit>();
                 unit.Setup(battleInfo.enemies[i]);
+                combat.AddEnemy(unit);
             }
             // 自分のユニット配置
             for (int i = 0; i < stageInfo.pets.Length; i++)
@@ -42,15 +45,28 @@ namespace UI
                     pet.name = pet.name.Replace("(Clone)", "");
                     var unit = pet.GetComponent<Unit>();
                     unit.Setup(item);
+                    combat.AddPlayer(unit);
                 }
             }
 
+            Observer.Instance.Subscribe(Combat.StartEvent, OnSubscribe);
+            Observer.Instance.Subscribe(Combat.TurnEvent, OnSubscribe);
+            Observer.Instance.Subscribe(Combat.MoveEvent, OnSubscribe);
+            Observer.Instance.Subscribe(Combat.PlayEvent, OnSubscribe);
+            Observer.Instance.Subscribe(Combat.ResultEvent, OnSubscribe);
+
+            combat.Next();
             base.OnOpen(args);
         }
 
         protected override void OnClose()
         {
             Observer.Instance.Notify(CloseEvent);
+            Observer.Instance.Unsubscribe(Combat.StartEvent, OnSubscribe);
+            Observer.Instance.Unsubscribe(Combat.TurnEvent, OnSubscribe);
+            Observer.Instance.Unsubscribe(Combat.MoveEvent, OnSubscribe);
+            Observer.Instance.Unsubscribe(Combat.PlayEvent, OnSubscribe);
+            Observer.Instance.Unsubscribe(Combat.ResultEvent, OnSubscribe);
             base.OnClose();
         }
 
@@ -59,10 +75,17 @@ namespace UI
             switch(btn.name)
             {
                 case "DebugEnd":
-                    BattleEnd();
+
+                    //BattleEnd();
                     break;
                 case "Unit":
-                    btn.GetComponent<Unit>().Focus();
+                    var unit = btn.GetComponent<Unit>();
+                    if (unit.side == Unit.Side.Enemy)
+                    {
+                        currentCommand.target = unit;
+                        combat.AddPlayerCommand(currentCommand);
+                        combat.Next();
+                    }
                     break;
                 default:
                     base.OnButtonClick(btn);
@@ -97,6 +120,37 @@ namespace UI
                 case BattleResultWindow.CloseEvent:
                     Observer.Instance.Unsubscribe(BattleResultWindow.CloseEvent, OnSubscribe);
                     this.Close();
+                    break;
+                case Combat.StartEvent:
+                    DialogWindow.OpenOk("", "バトルスタート!!!", () =>
+                    {
+                        combat.Next();
+                    });
+                    break;
+                case Combat.TurnEvent:
+                    DialogWindow.OpenOk("", string.Format("ターン{0}", (int)o), () =>
+                    {
+                        combat.Next();
+                    });
+                    break;
+                case Combat.MoveEvent:
+                    var player = o as Unit;
+                    player.Focus();
+                    currentCommand = new Command();
+                    currentCommand.behavior = player;
+                    break;
+                case Combat.PlayEvent:
+                    var command = o as Command;
+                    command.behavior.Focus(() =>
+                    {
+                        command.target.Focus(() =>
+                        {
+                            combat.Next();
+                        });
+                    });
+                    break;
+                case Combat.ResultEvent:
+                    BattleEnd();
                     break;
             }
         }
