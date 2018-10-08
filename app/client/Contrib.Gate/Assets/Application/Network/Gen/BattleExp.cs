@@ -7,17 +7,17 @@ using Entities;
 namespace Network
 {
     /// <summary>
-    /// BattleEnd
+    /// BattleExp
     /// </summary>
-    public class BattleEndSend
+    public class BattleExpSend
     {
 		public string guid; // バトルID
     }
 
-    public class BattleEndReceive
+    public class BattleExpReceive
     {
-		public string guid; // 報酬ID
-		public int coin; // お金
+		public string guid; // バトルID
+		public ExpItem[] exps; // 経験値
 		public string debug;
     }
 
@@ -26,9 +26,9 @@ namespace Network
     /// </summary>
     public static partial class Protocol
     {
-        public static void Send(BattleEndSend obj, Action<BattleEndReceive> cb, Func<ErrorCode, bool> error = null)
+        public static void Send(BattleExpSend obj, Action<BattleExpReceive> cb, Func<ErrorCode, bool> error = null)
         {
-            new Communication("BattleEnd").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
+            new Communication("BattleExp").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Entities {
         }
         // ステージID
         get stage(): Identify {
-            return this.bucket.first.get("stage");
+            return Identify.Parse(this.bucket.first.get("stage"));
         }
         set stage(identify: Identify) {
             this.bucket.first.set("stage", identify.toString());

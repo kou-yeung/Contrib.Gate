@@ -40,7 +40,7 @@ namespace Entities {
             return Identify.Parse(this.bucket.first.get("下り階段"));
         }
 
-        get randomGroud(): Identify {
+        get randomGroup(): Identify {
             let index = Random.Weight(this.weight, this.weightTotal);
             return this.groud[index];
         }

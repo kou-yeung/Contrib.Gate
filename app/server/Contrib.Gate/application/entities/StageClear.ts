@@ -15,5 +15,23 @@ namespace Entities {
         set item(item: StageItem[]) {
             this.bucket.first.set("item", item);
         }
+
+        clear(stage: Identify): StageItem {
+            let id = stage.idWithType;
+            let item = this.item;
+            for (var i = 0; i < item.length; i++) {
+                if (item[i].id != id) continue;
+                item[i].clear = Util.Time.ServerTime.current;
+                this.item = item;
+                return item[i];
+            }
+            // ここまでくる場合新規追加
+            let data = new StageItem();
+            data.id = id;
+            data.clear = Util.Time.ServerTime.current;
+            item.push(data);
+            this.item = item;
+            return data;
+        }
     }
 }

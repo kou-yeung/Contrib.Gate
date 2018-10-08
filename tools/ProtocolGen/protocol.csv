@@ -80,6 +80,13 @@ protocol,StageMove
 up,StageInfo,stageInfo,ステージ情報
 down,StageInfo,stageInfo,ステージ情報
 
+// ステージ終了
+protocol,StageEnd
+up,StageInfo,stageInfo,ステージ情報
+down,StageItem,stage,ステージの更新情報
+down,EggItem[],eggs,タマゴ報酬
+down,string,message,
+
 // タマゴ一覧取得
 protocol,EggList,
 down,EggItem[],items,所持タマゴ一覧
@@ -115,6 +122,12 @@ protocol,BattleEnd,
 up,string,guid,バトルID
 down,string,guid,報酬ID
 down,int,coin,お金
+down,string,debug,
+
+// バトル経験値
+protocol,BattleExp,
+up,string,guid,バトルID
+down,string,guid,バトルID
 down,ExpItem[],exps,経験値
 down,string,debug,
 

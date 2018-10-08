@@ -98,17 +98,19 @@ namespace UI
             {
                 // コインと経験値入手
                 Entity.Instance.UserState.AddCoin(battleEnd.coin);
-                Entity.Instance.PetList.Modify(battleEnd.exps);
-
-                Protocol.Send(new BattleRewardSend { guid = battleEnd.guid }, battleReward =>
+                Protocol.Send(new BattleExpSend { guid = battleEnd.guid }, battleExp =>
                 {
-                    // アイテムとタマゴ入手
-                    Entity.Instance.Inventory.Add(battleReward.items);
-                    Entity.Instance.EggList.Modify(battleReward.eggs);
+                    Entity.Instance.PetList.Modify(battleExp.exps);
+                    Protocol.Send(new BattleRewardSend { guid = battleExp.guid }, battleReward =>
+                    {
+                        // アイテムとタマゴ入手
+                        Entity.Instance.Inventory.Add(battleReward.items);
+                        Entity.Instance.EggList.Modify(battleReward.eggs);
 
-                    // 結果を表示する
-                    Open<BattleResultWindow>(battleEnd, battleReward);
-                    Observer.Instance.Subscribe(BattleResultWindow.CloseEvent, OnSubscribe);
+                        // 結果を表示する
+                        Open<BattleResultWindow>(battleEnd, battleExp, battleReward);
+                        Observer.Instance.Subscribe(BattleResultWindow.CloseEvent, OnSubscribe);
+                    });
                 });
             });
         }

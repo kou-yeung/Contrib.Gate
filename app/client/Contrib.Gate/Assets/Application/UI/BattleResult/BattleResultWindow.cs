@@ -17,11 +17,12 @@ namespace UI
         protected override void OnOpen(params object[] args)
         {
             var battleEnd = args[0] as BattleEndReceive;
-            var battleReward = args[1] as BattleRewardReceive;
+            var battleExp = args[1] as BattleExpReceive;
+            var battleReward = args[2] as BattleRewardReceive;
 
             var sb = new StringBuilder();
             sb.AppendLine($"獲得コイン：{battleEnd.coin}");
-            foreach (var item in battleEnd.exps)
+            foreach (var item in battleExp.exps)
             {
                 var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == item.uniqid);
                 if (pet != null)

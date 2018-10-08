@@ -46,12 +46,29 @@ namespace Entities {
         set pets(pets: string[]) {
             this.bucket.first.set("pets", pets);
         }
-        get exps(): ExpItem[] {
-            return this.bucket.first.get("exps");
+
+        // 獲得経験値
+        get exp(): number {
+            return this.bucket.first.get("exp");
         }
-        set exps(items: ExpItem[]) {
-            this.bucket.first.set("exps", items);
+        set exp(exp: number) {
+            this.bucket.first.set("exp", exp);
         }
+
+        // 平均レベル
+        get level(): number {
+            return this.bucket.first.get("level");
+        }
+        set level(level: number) {
+            this.bucket.first.set("level", level);
+        }
+
+        //get exps(): ExpItem[] {
+        //    return this.bucket.first.get("exps");
+        //}
+        //set exps(items: ExpItem[]) {
+        //    this.bucket.first.set("exps", items);
+        //}
 
         // 報酬一覧
         get rewards(): DropReward[] {

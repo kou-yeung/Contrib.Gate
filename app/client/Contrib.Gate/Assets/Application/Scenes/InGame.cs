@@ -127,15 +127,12 @@ public class InGame : MonoBehaviour
     }
     void Goal()
     {
-        var send = new CheatSend();
-        send.command = "addegg";
-        var index = UnityEngine.Random.Range(0, Entity.Instance.Familiars.Length);
-        var id = Entity.Instance.Familiars[index].Identify;
-        send.param = new[] { id.ToString() };
-        Protocol.Send(send, (r) =>
+        var send = new StageEndSend();
+        send.stageInfo = Entity.Instance.StageInfo;
+        Protocol.Send(send, r =>
         {
-            Entity.Instance.EggList.Modify(r.egg);
-            DialogWindow.OpenOk("おめでとう", $"{r.egg[0].race}のタマゴが獲得した", () =>
+            Entity.Instance.StageList.Modify(r.stage);
+            DialogWindow.OpenOk("おめでとう", $"ステージクリアしました", () =>
             {
                 SceneManager.LoadScene(SceneName.Home);
             });
@@ -192,6 +189,11 @@ public class InGame : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             Encount();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            Goal();
         }
     }
 

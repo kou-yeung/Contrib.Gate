@@ -2,21 +2,21 @@
 // ProtocolGen から自動生成されます。直接編集しないでください
 //====================
 
-class BattleEndSend {
+class BattleExpSend {
     guid: string; // バトルID
 
-	// params -> BattleEndSend
-	static Parse(params : any): BattleEndSend {
-		return JSON.parse(params.data[0]) as BattleEndSend;
+	// params -> BattleExpSend
+	static Parse(params : any): BattleExpSend {
+		return JSON.parse(params.data[0]) as BattleExpSend;
 	}
 }
 
-class BattleEndReceive {
-    guid: string; // 報酬ID
-    coin: number; // お金
+class BattleExpReceive {
+    guid: string; // バトルID
+    exps: ExpItem[]; // 経験値
     debug: string;
 	
-	// BattleEndReceive -> string
+	// BattleExpReceive -> string
 	Pack(): string {
 		return JSON.stringify(this);
     }
@@ -25,14 +25,14 @@ class BattleEndReceive {
 /*
 // 以下プロトコルを実装する
 // MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
-function BattleEnd(params, context, done) {
+function BattleExp(params, context, done) {
 
     // 受信データをパースする
-    let s = BattleEndSend.Parse(params);
+    let s = BattleExpSend.Parse(params);
 
     GetUser(context, (user) => {
 		// 返信
-	    let r = new BattleEndReceive();
+	    let r = new BattleExpReceive();
 
 		// TODO : 返信パラメータを設定する
 

@@ -13,7 +13,7 @@ function BattleBegin(params, context, done) {
             // ダンジョン情報を取得する
             new Entities.Dungeon(admin, stageInfo.dungeon).refresh(dungeon => {
                 // 抽選 : 呼び出すたびにIDが変わるので保持して使用します
-                let groudId = dungeon.randomGroud;
+                let groudId = dungeon.randomGroup;
                 new Entities.EnemyGroud(admin, groudId).refresh(enemyGroud => {
                     // 返信
                     let r = new BattleBeginReceive();
@@ -32,33 +32,17 @@ function BattleBegin(params, context, done) {
                     }
                     avgLevel /= enemyGroud.enemies.length;
 
-                    new Entities.Pets(user).refresh(stageInfo.pets, pets => {
-
-                        // 経験値アイテムを作る
-                        let exps: ExpItem[] = [];
-                        let stageExp = enemyGroud.exp;
-                        pets.bucket.results.forEach(result => {
-                            let item = JSON.parse(result.get("item")) as PetItem;
-                            let diff = Math.abs(item.level - avgLevel);     // 平均レベルからの差を計算
-                            let ratio = (Math.min(Math.max(diff, 1.7), 5) - 1.7) / (5 - 1.7) * (1.57079633);
-                            let add = Math.ceil(Math.max(1, (1 - Math.sin(ratio)) * stageExp)); // 最低保証:1
-                            let expItem = new ExpItem();
-                            expItem.uniqid = item.uniqid;
-                            expItem.exp = item.exp + add;
-                            expItem.add = add;
-                            exps.push(expItem);
-                        });
-                        // バトル用情報を保持する
-                        new Entities.BattleInfo(user).refresh(battleInfo => {
-                            battleInfo.guid = r.guid;
-                            battleInfo.stage = stageInfo.stage;
-                            battleInfo.pets = stageInfo.pets;
-                            battleInfo.coin = enemyGroud.coin;
-                            battleInfo.drop = enemyGroud.drop;
-                            battleInfo.exps = exps;
-                            battleInfo.bucket.save(() => {
-                                done(r.Pack()); // 返信する
-                            });
+                    // バトル用情報を保持する
+                    new Entities.BattleInfo(user).refresh(battleInfo => {
+                        battleInfo.guid = r.guid;
+                        battleInfo.stage = stageInfo.stage;
+                        battleInfo.pets = stageInfo.pets;
+                        battleInfo.coin = enemyGroud.coin;
+                        battleInfo.drop = enemyGroud.drop;
+                        battleInfo.exp = enemyGroud.exp;
+                        battleInfo.level = avgLevel;
+                        battleInfo.bucket.save(() => {
+                            done(r.Pack()); // 返信する
                         });
                     });
                 });

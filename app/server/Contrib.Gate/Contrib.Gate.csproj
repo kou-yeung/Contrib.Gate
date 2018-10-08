@@ -109,6 +109,7 @@
     <TypeScriptCompile Include="application\protocol\AdsEnd.ts" />
     <TypeScriptCompile Include="application\protocol\BattleBegin.ts" />
     <TypeScriptCompile Include="application\protocol\BattleEnd.ts" />
+    <TypeScriptCompile Include="application\protocol\BattleExp.ts" />
     <TypeScriptCompile Include="application\protocol\BattleReward.ts" />
     <TypeScriptCompile Include="application\protocol\Cheat.ts" />
     <TypeScriptCompile Include="application\protocol\CreateUser.ts" />
@@ -125,6 +126,7 @@
     <TypeScriptCompile Include="application\protocol\Recipe.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
     <TypeScriptCompile Include="application\protocol\StageBegin.ts" />
+    <TypeScriptCompile Include="application\protocol\StageEnd.ts" />
     <TypeScriptCompile Include="application\protocol\StageList.ts" />
     <TypeScriptCompile Include="application\protocol\StageMove.ts" />
     <TypeScriptCompile Include="application\protocol\UnitList.ts" />
@@ -138,6 +140,7 @@
     <TypeScriptCompile Include="gen\AdsEnd.ts" />
     <TypeScriptCompile Include="gen\BattleBegin.ts" />
     <TypeScriptCompile Include="gen\BattleEnd.ts" />
+    <TypeScriptCompile Include="gen\BattleExp.ts" />
     <TypeScriptCompile Include="gen\BattleReward.ts" />
     <TypeScriptCompile Include="gen\Cheat.ts" />
     <TypeScriptCompile Include="gen\CreateUser.ts" />
@@ -155,6 +158,7 @@
     <TypeScriptCompile Include="gen\Recipe.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
     <TypeScriptCompile Include="gen\StageBegin.ts" />
+    <TypeScriptCompile Include="gen\StageEnd.ts" />
     <TypeScriptCompile Include="gen\StageList.ts" />
     <TypeScriptCompile Include="gen\StageMove.ts" />
     <TypeScriptCompile Include="gen\UnitList.ts" />
