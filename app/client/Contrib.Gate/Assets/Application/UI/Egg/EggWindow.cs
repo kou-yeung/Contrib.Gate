@@ -17,7 +17,7 @@ namespace UI
         public GameObject CellViewItem(int index, GameObject item)
         {
             if (item == null) item = Instantiate(eggItemprefab);
-            item.GetComponent<EggItem>().Setup(Entity.Instance.Eggs.items[index]);
+            item.GetComponent<EggItem>().Setup(Entity.Instance.EggList.items[index]);
             return item;
         }
 
@@ -28,7 +28,7 @@ namespace UI
 
         public int NumOfItems()
         {
-            return Entity.Instance.Eggs.items.Count;
+            return Entity.Instance.EggList.items.Count;
         }
 
         public void TapCellItem(int index, GameObject listItem)
@@ -46,7 +46,7 @@ namespace UI
                     // 未鑑定
                     Protocol.Send(new JudgmentSend { guid = egg.uniqid }, (JudgmentReceive r) =>
                     {
-                        Entity.Instance.Eggs.Modify(r.egg);
+                        Entity.Instance.EggList.Modify(r.egg);
                         cell.ReloadData();
                     });
                 });
@@ -59,7 +59,7 @@ namespace UI
         /// <param name="egg"></param>
         void Hatch(Entities.EggItem egg)
         {
-            var hatch = Entity.Instance.Hatchs.items.Find(v => v.uniqid == egg.uniqid);
+            var hatch = Entity.Instance.HatchList.items.Find(v => v.uniqid == egg.uniqid);
             if (hatch != null)
             {
                 var remain = (hatch.startTime + hatch.timeRequired) - Util.Time.ServerTime.CurrentUnixTime;
@@ -69,9 +69,9 @@ namespace UI
                     {
                         Protocol.Send(new HatchSend { uniqid = egg.uniqid }, (HatchReceive r) =>
                         {
-                            Entity.Instance.Pets.Modify(r.item);
-                            Entity.Instance.Eggs.Remove(r.deleteEgg);
-                            Entity.Instance.Hatchs.Remove(r.deleteEgg.uniqid);
+                            Entity.Instance.PetList.Modify(r.item);
+                            Entity.Instance.EggList.Remove(r.deleteEgg);
+                            Entity.Instance.HatchList.Remove(r.deleteEgg.uniqid);
                             cell.ReloadData();  // リスト更新
                         });
                     });
@@ -91,7 +91,7 @@ namespace UI
                 {
                     Protocol.Send(new HatchReserveSend { uniqid = egg.uniqid }, (r) =>
                     {
-                        Entity.Instance.Hatchs.Modify(r.item);
+                        Entity.Instance.HatchList.Modify(r.item);
                         cell.ReloadData();  // リスト更新
                     });
                 });

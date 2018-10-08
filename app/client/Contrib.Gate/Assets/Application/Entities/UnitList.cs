@@ -9,12 +9,12 @@ using UnityEngine;
 
 namespace Entities
 {
-    public class Units
+    public class UnitList
     {
         public const string UpdateEvent = @"Units:Update";
 
         public List<UnitItem> items { get; private set; }
-        public Units(UnitItem[] items)
+        public UnitList(UnitItem[] items)
         {
             this.items = new List<UnitItem>(items);
         }
@@ -55,14 +55,14 @@ namespace Entities
         /// 情報複製:編集時のローカル情報に使用します
         /// </summary>
         /// <returns></returns>
-        public Units Clone()
+        public UnitList Clone()
         {
             var data = new UnitItem[items.Count];
             for (int i = 0; i < items.Count; i++)
             {
                 data[i] = JsonUtility.FromJson<UnitItem>(JsonUtility.ToJson(items[i]));
             }
-            var res = new Units(data);
+            var res = new UnitList(data);
             return res;
         }
     }

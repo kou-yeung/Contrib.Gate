@@ -101,6 +101,7 @@
     <TypeScriptCompile Include="application\entities\Range.ts" />
     <TypeScriptCompile Include="application\entities\Recipe.ts" />
     <TypeScriptCompile Include="application\entities\Stage.ts" />
+    <TypeScriptCompile Include="application\entities\StageClear.ts" />
     <TypeScriptCompile Include="application\entities\StageInfo.ts" />
     <TypeScriptCompile Include="application\entities\Units.ts" />
     <TypeScriptCompile Include="application\entities\Vending.ts" />
@@ -124,6 +125,7 @@
     <TypeScriptCompile Include="application\protocol\Recipe.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
     <TypeScriptCompile Include="application\protocol\StageBegin.ts" />
+    <TypeScriptCompile Include="application\protocol\StageList.ts" />
     <TypeScriptCompile Include="application\protocol\StageMove.ts" />
     <TypeScriptCompile Include="application\protocol\UnitList.ts" />
     <TypeScriptCompile Include="application\protocol\UnitUpdate.ts" />
@@ -153,6 +155,7 @@
     <TypeScriptCompile Include="gen\Recipe.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
     <TypeScriptCompile Include="gen\StageBegin.ts" />
+    <TypeScriptCompile Include="gen\StageList.ts" />
     <TypeScriptCompile Include="gen\StageMove.ts" />
     <TypeScriptCompile Include="gen\UnitList.ts" />
     <TypeScriptCompile Include="gen\UnitUpdate.ts" />

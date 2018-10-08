@@ -18,12 +18,12 @@ namespace UI
         public Text unit;
 
         Entities.PetItem item;
-        Units modify;
+        UnitList modify;
 
         protected override void OnOpen(params object[] args)
         {
-            item = Entity.Instance.Pets.items.Find(v => v.uniqid == (string)args[0]);
-            if (args.Length >= 2) modify = args[1] as Units;
+            item = Entity.Instance.PetList.items.Find(v => v.uniqid == (string)args[0]);
+            if (args.Length >= 2) modify = args[1] as UnitList;
 
             for (int i = 0; i < (int)Param.Count; i++)
             {
@@ -45,7 +45,7 @@ namespace UI
                 unit.text = "ユニットにセットする";
             }
 
-            Observer.Instance.Subscribe(Units.UpdateEvent, OnSubscribe);
+            Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
             base.OnOpen(args);
         }
 
@@ -77,7 +77,7 @@ namespace UI
 
         protected override void OnClose()
         {
-            Observer.Instance.Unsubscribe(Units.UpdateEvent, OnSubscribe);
+            Observer.Instance.Unsubscribe(UnitList.UpdateEvent, OnSubscribe);
             Observer.Instance.Notify(CloseEvent);
             base.OnClose();
         }
@@ -85,7 +85,7 @@ namespace UI
         bool Exists()
         {
             if (modify != null) return modify.Exists(item.uniqid);
-            else return Entity.Instance.Units.Exists(item.uniqid);
+            else return Entity.Instance.UnitList.Exists(item.uniqid);
         }
     }
 }

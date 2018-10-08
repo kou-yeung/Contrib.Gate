@@ -180,3 +180,11 @@ class UnitItem {
 	expirationDate: number;// 有効期間 [無制限(-1) 未開放(0) それ以外(サーバ時間)]
 	name: string;// ユニット名(ユーザのメモ入力領域)
 }
+
+/// <summary>
+/// StageItem
+/// </summary>
+class StageItem {
+	id: number;// ステージID
+	clear: number;// 最後のクリアタイム
+}

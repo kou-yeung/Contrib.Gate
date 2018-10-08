@@ -7,16 +7,16 @@ using Entities;
 namespace Network
 {
     /// <summary>
-    /// CreateUser
+    /// StageList
     /// </summary>
-    public class CreateUserSend
+    public class StageListSend
     {
-		public string name;
+
     }
 
-    public class CreateUserReceive
+    public class StageListReceive
     {
-		public UserState userState;
+		public StageItem[] items; // ステージ情報一覧
     }
 
     /// <summary>
@@ -24,9 +24,9 @@ namespace Network
     /// </summary>
     public static partial class Protocol
     {
-        public static void Send(CreateUserSend obj, Action<CreateUserReceive> cb, Func<ErrorCode, bool> error = null)
+        public static void Send(StageListSend obj, Action<StageListReceive> cb, Func<ErrorCode, bool> error = null)
         {
-            new Communication("CreateUser").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
+            new Communication("StageList").Push(obj).Send((res, str) => OnReceive(res, str, cb, error));
         }
     }
 }

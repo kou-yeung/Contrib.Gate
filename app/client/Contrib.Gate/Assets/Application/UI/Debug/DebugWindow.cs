@@ -82,8 +82,8 @@ namespace UI
                         Protocol.Send(send, (r) =>
                         {
                             Entity.Instance.UpdateUserState(r.userState);
-                            Entity.Instance.Eggs.Modify(r.egg);
-                            Entity.Instance.Pets.Modify(r.pet);
+                            Entity.Instance.EggList.Modify(r.egg);
+                            Entity.Instance.PetList.Modify(r.pet);
                         });
                     }
                     break;

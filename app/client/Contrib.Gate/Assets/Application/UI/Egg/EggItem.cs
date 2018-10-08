@@ -28,7 +28,7 @@ namespace UI
             }
 
             // 予約中 の場合[予約中]ラベルを表示する
-            var data = Entity.Instance.Hatchs.items.Find(v => v.uniqid == item.uniqid);
+            var data = Entity.Instance.HatchList.items.Find(v => v.uniqid == item.uniqid);
             hatch.SetActive(data != null);
         }
     }

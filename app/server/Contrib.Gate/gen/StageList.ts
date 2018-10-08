@@ -2,19 +2,19 @@
 // ProtocolGen から自動生成されます。直接編集しないでください
 //====================
 
-class CreateUserSend {
-    name: string;
+class StageListSend {
 
-	// params -> CreateUserSend
-	static Parse(params : any): CreateUserSend {
-		return JSON.parse(params.data[0]) as CreateUserSend;
+
+	// params -> StageListSend
+	static Parse(params : any): StageListSend {
+		return JSON.parse(params.data[0]) as StageListSend;
 	}
 }
 
-class CreateUserReceive {
-    userState: UserState;
+class StageListReceive {
+    items: StageItem[]; // ステージ情報一覧
 	
-	// CreateUserReceive -> string
+	// StageListReceive -> string
 	Pack(): string {
 		return JSON.stringify(this);
     }
@@ -23,14 +23,14 @@ class CreateUserReceive {
 /*
 // 以下プロトコルを実装する
 // MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
-function CreateUser(params, context, done) {
+function StageList(params, context, done) {
 
     // 受信データをパースする
-    let s = CreateUserSend.Parse(params);
+    let s = StageListSend.Parse(params);
 
     GetUser(context, (user) => {
 		// 返信
-	    let r = new CreateUserReceive();
+	    let r = new StageListReceive();
 
 		// TODO : 返信パラメータを設定する
 

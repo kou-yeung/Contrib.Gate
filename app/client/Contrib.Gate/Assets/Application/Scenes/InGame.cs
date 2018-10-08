@@ -134,7 +134,7 @@ public class InGame : MonoBehaviour
         send.param = new[] { id.ToString() };
         Protocol.Send(send, (r) =>
         {
-            Entity.Instance.Eggs.Modify(r.egg);
+            Entity.Instance.EggList.Modify(r.egg);
             DialogWindow.OpenOk("おめでとう", $"{r.egg[0].race}のタマゴが獲得した", () =>
             {
                 SceneManager.LoadScene(SceneName.Home);

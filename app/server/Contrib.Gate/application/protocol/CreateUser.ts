@@ -14,7 +14,7 @@ function CreateUser(params, context, done) {
                     player.bucket.save(player => {
                         // 返信
                         let r = new CreateUserReceive();
-                        r.step = player.userCreateStep;
+                        r.userState = player.userState;
                         done(r.Pack());
                     });
                 },

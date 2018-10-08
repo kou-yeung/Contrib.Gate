@@ -23,7 +23,7 @@ namespace UI
             sb.AppendLine($"獲得コイン：{battleEnd.coin}");
             foreach (var item in battleEnd.exps)
             {
-                var pet = Entity.Instance.Pets.items.Find(v => v.uniqid == item.uniqid);
+                var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == item.uniqid);
                 if (pet != null)
                 {
                     sb.AppendLine($"{Entity.Name(pet.id)} +{item.add} exp");

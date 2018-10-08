@@ -17,12 +17,12 @@ namespace UI
         public GameObject petItemPrefab;
         public PetItem[] units;
 
-        Units modify;
+        UnitList modify;
 
         public GameObject CellViewItem(int index, GameObject item)
         {
             if (item == null) item = Instantiate(petItemPrefab);
-            item.GetComponent<PetItem>().Setup(Entity.Instance.Pets.items[index]);
+            item.GetComponent<PetItem>().Setup(Entity.Instance.PetList.items[index]);
             return item;
         }
 
@@ -33,7 +33,7 @@ namespace UI
 
         public int NumOfItems()
         {
-            return Entity.Instance.Pets.items.Count;
+            return Entity.Instance.PetList.items.Count;
         }
 
         public void TapCellItem(int index, GameObject listItem)
@@ -47,27 +47,27 @@ namespace UI
 
         protected override void OnStart()
         {
-            modify = Entity.Instance.Units.Clone();
+            modify = Entity.Instance.UnitList.Clone();
 
             cell.DataSource = this;
             cell.ActionDelegate = this;
             cell.ReloadData();
 
             SetupUnit();
-            Observer.Instance.Subscribe(Units.UpdateEvent, OnSubscribe);
+            Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
             base.OnStart();
         }
 
         private void OnDestroy()
         {
-            Observer.Instance.Unsubscribe(Units.UpdateEvent, OnSubscribe);
+            Observer.Instance.Unsubscribe(UnitList.UpdateEvent, OnSubscribe);
         }
 
         void OnSubscribe(string name, object o)
         {
             switch (name)
             {
-                case Units.UpdateEvent:
+                case UnitList.UpdateEvent:
                     SetupUnit();
                     break;
                 case PetDetailWindow.CloseEvent:
@@ -119,7 +119,7 @@ namespace UI
                 var item = modify.items[0];
                 for (int j = 0; j < item.uniqids.Length; j++)
                 {
-                    var pet = Entity.Instance.Pets.items.Find(v => v.uniqid == item.uniqids[j]);
+                    var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == item.uniqids[j]);
                     if (pet != null)
                     {
                         units[j].Setup(pet);
@@ -136,7 +136,7 @@ namespace UI
                 case "CloseButton":
                     Protocol.Send(new UnitUpdateSend { items = modify.items.ToArray() }, r =>
                     {
-                        Entity.Instance.Units.Modify(r.items);
+                        Entity.Instance.UnitList.Modify(r.items);
                         base.OnButtonClick(btn);
                     });
                     break;

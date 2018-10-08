@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         var uniqid = Entity.Instance.StageInfo.pets.Where(v => !string.IsNullOrEmpty(v)).First();
-        var pat = Entity.Instance.Pets.Find(uniqid);
+        var pat = Entity.Instance.PetList.Find(uniqid);
         rigidbody = GetComponent<Rigidbody2D>();
         currentPos = rigidbody.position;
         sprites = Resources.LoadAll<Sprite>($"Familiar/{new Identify(pat.id).Id}/walk");

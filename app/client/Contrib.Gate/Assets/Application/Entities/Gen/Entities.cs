@@ -227,4 +227,14 @@ namespace Entities
 		public string name;// ユニット名(ユーザのメモ入力領域)
 	}
 	
+    /// <summary>
+    /// StageItem
+    /// </summary>
+    [Serializable]
+	public partial class StageItem
+	{
+		public uint id;// ステージID
+		public long clear;// 最後のクリアタイム
+	}
+	
 }

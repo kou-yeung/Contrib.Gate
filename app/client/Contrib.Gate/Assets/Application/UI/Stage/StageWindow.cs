@@ -38,7 +38,7 @@ namespace UI
             var stage = item.stage;
             /// HACK とりあえずユニットを送る
             /// 将来はユニット選択させる
-            var pats = Entity.Instance.Units.items[0].uniqids.ToArray();
+            var pats = Entity.Instance.UnitList.items[0].uniqids.ToArray();
 
             Protocol.Send(new StageBeginSend { stageId = stage.Identify, pets = pats }, (r) =>
             {

@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Entities
 {
-    public class Eggs
+    public class EggList
     {
         public List<EggItem> items { get; private set; }
-        public Eggs(EggItem[] items)
+        public EggList(EggItem[] items)
         {
             this.items = new List<EggItem>(items);
         }

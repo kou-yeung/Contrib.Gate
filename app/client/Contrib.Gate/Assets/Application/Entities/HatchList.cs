@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace Entities
 {
-    public class Hatchs
+    public class HatchList
     {
         public List<HatchItem> items { get; private set; }
-        public Hatchs(HatchItem[] items)
+        public HatchList(HatchItem[] items)
         {
             this.items = new List<HatchItem>(items);
         }

@@ -15,10 +15,12 @@ public class Home : MonoBehaviour {
 	IEnumerator Start () {
         enabled = false;
         yield return Entity.Instance.GetInventory();
-        yield return Entity.Instance.GetEggs();
-        yield return Entity.Instance.GetPets();
-        yield return Entity.Instance.GetHatchs();
-        yield return Entity.Instance.GetUnits();
+        yield return Entity.Instance.GetEggList();
+        yield return Entity.Instance.GetPetList();
+        yield return Entity.Instance.GetHatchList();
+        yield return Entity.Instance.GetUnitList();
+        yield return Entity.Instance.GetStageList();
+
         Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
         UpdateUserState();
         enabled = true;

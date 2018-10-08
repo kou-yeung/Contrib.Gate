@@ -69,8 +69,8 @@ namespace UI
             {
                 Protocol.Send(new AdsEndSend { id = receive.id }, (AdsEndReceive end) =>
                 {
-                    Entity.Instance.Hatchs.Modify(end.hatch);
-                    Entity.Instance.Units.Modify(end.unit);
+                    Entity.Instance.HatchList.Modify(end.hatch);
+                    Entity.Instance.UnitList.Modify(end.unit);
                     Close();
                 });
             }

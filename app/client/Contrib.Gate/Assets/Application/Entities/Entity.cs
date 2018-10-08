@@ -45,10 +45,11 @@ namespace Entities
         public UserState UserState { get; private set; }
         public StringTable StringTable { get; private set; }
         public StageInfo StageInfo { get; private set; }
-        public Eggs Eggs { get; private set; }
-        public Pets Pets { get; private set; }
-        public Hatchs Hatchs { get; private set; }
-        public Units Units { get; private set; }
+        public EggList EggList { get; private set; }
+        public PetList PetList { get; private set; }
+        public HatchList HatchList { get; private set; }
+        public UnitList UnitList { get; private set; }
+        public StageList StageList { get; private set; }
 
         public void Load()
         {
@@ -110,55 +111,66 @@ namespace Entities
             while (wait) yield return null;
         }
         // タマゴ一覧取得
-        public IEnumerator GetEggs(bool refresh = false)
+        public IEnumerator GetEggList(bool refresh = false)
         {
-            if (!refresh && Eggs != null) yield break;
+            if (!refresh && EggList != null) yield break;
             bool wait = true;
             Protocol.Send(new EggListSend(), (r) =>
             {
-                Eggs = new Eggs(r.items);
+                EggList = new EggList(r.items);
                 wait = false;
             });
             while (wait) yield return null;
         }
         // ペット一覧取得
-        public IEnumerator GetPets(bool refresh = false)
+        public IEnumerator GetPetList(bool refresh = false)
         {
-            if (!refresh && Pets != null) yield break;
+            if (!refresh && PetList != null) yield break;
             bool wait = true;
             Protocol.Send(new PetListSend(), (r) =>
             {
-                Pets = new Pets(r.items);
+                PetList = new PetList(r.items);
                 wait = false;
             });
             while (wait) yield return null;
         }
 
         // 孵化一覧取得
-        public IEnumerator GetHatchs(bool refresh = false)
+        public IEnumerator GetHatchList(bool refresh = false)
         {
-            if (!refresh && Hatchs != null) yield break;
+            if (!refresh && HatchList != null) yield break;
             bool wait = true;
             Protocol.Send(new HatchListSend(), (r) =>
             {
-                Hatchs = new Hatchs(r.items);
+                HatchList = new HatchList(r.items);
                 wait = false;
             });
             while (wait) yield return null;
         }
         // ユニット一覧取得
-        public IEnumerator GetUnits(bool refresh = false)
+        public IEnumerator GetUnitList(bool refresh = false)
         {
-            if (!refresh && Units != null) yield break;
+            if (!refresh && UnitList != null) yield break;
             bool wait = true;
             Protocol.Send(new UnitListSend(), (r) =>
             {
-                Units = new Units(r.items);
+                UnitList = new UnitList(r.items);
                 wait = false;
             });
             while (wait) yield return null;
         }
-
+        // ステージ一覧取得
+        public IEnumerator GetStageList(bool refresh = false)
+        {
+            if (!refresh && StageList != null) yield break;
+            bool wait = true;
+            Protocol.Send(new StageListSend(), (r) =>
+            {
+                StageList = new StageList(r.items);
+                wait = false;
+            });
+            while (wait) yield return null;
+        }
 
         public void UpdateUserState(UserState userState)
         {

@@ -2,14 +2,13 @@
 /// ペット一覧
 ///==============================
 using System.Collections.Generic;
-using Network;
 
 namespace Entities
 {
-    public class Pets
+    public class PetList
     {
         public List<PetItem> items { get; private set; }
-        public Pets(PetItem[] items)
+        public PetList(PetItem[] items)
         {
             this.items = new List<PetItem>(items);
         }

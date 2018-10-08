@@ -38,7 +38,7 @@ namespace UI
             // 自分のユニット配置
             for (int i = 0; i < stageInfo.pets.Length; i++)
             {
-                var item = Entity.Instance.Pets.Find(stageInfo.pets[i]);
+                var item = Entity.Instance.PetList.Find(stageInfo.pets[i]);
                 if (item != null)
                 {
                     var pet = Instantiate(unitPrefab, playersArea.transform);
@@ -98,13 +98,13 @@ namespace UI
             {
                 // コインと経験値入手
                 Entity.Instance.UserState.AddCoin(battleEnd.coin);
-                Entity.Instance.Pets.Modify(battleEnd.exps);
+                Entity.Instance.PetList.Modify(battleEnd.exps);
 
                 Protocol.Send(new BattleRewardSend { guid = battleEnd.guid }, battleReward =>
                 {
                     // アイテムとタマゴ入手
                     Entity.Instance.Inventory.Add(battleReward.items);
-                    Entity.Instance.Eggs.Modify(battleReward.eggs);
+                    Entity.Instance.EggList.Modify(battleReward.eggs);
 
                     // 結果を表示する
                     Open<BattleResultWindow>(battleEnd, battleReward);
