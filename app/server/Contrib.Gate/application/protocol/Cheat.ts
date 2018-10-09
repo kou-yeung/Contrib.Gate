@@ -67,20 +67,8 @@
 
         lv = Math.max(lv, 1);
         new Entities.Level(admin).refresh(level => {
-            let guid = GUID.Gen();
-            new Entities.Pet(user, guid).refresh(pet => {
-
-                let item = new PetItem();
-                item.id = id.idWithType;
-                item.uniqid = guid;
-                item.createTime = Util.Time.ServerTime.current;
-                item.level = lv;
-                item.exp = level.exp(lv);
-                item.param = [];
-                for (var i = 0; i < Param.Count; i++) item.param.push(0);
-                pet.uniqid = guid;
-                pet.item = item;
-
+            new Entities.Pet(user).create(pet => {
+                let item = pet.gen(id, lv, level.exp(lv));
                 pet.bucket.save(() => {
                     var r = new CheatReceive();
                     r.pet = [item];

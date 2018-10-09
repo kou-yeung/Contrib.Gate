@@ -18,6 +18,9 @@ namespace Entities {
                 this.bucket.refresh(done, KiiQuery.queryWithClause(clause));
             }
         }
+        create(done: (pet: Pet) => void) {
+            this.bucket.create(done);
+        }
 
         // uniqid (実質guid)
         get uniqid(): string {
@@ -39,6 +42,21 @@ namespace Entities {
         }
         get valid(): boolean {
             return this.bucket.first.has("item");
+        }
+
+        gen(identify: Identify, level: number = 1, exp: number = 0): PetItem {
+
+            let item = new PetItem();
+            item.id = identify.idWithType;
+            item.uniqid = GUID.Gen();
+            item.createTime = Util.Time.ServerTime.current;
+            item.level = level;
+            item.exp = exp;
+            item.param = [];
+            for (var i = 0; i < Param.Count; i++) item.param.push(0);
+            this.item = item;
+            this.uniqid = item.uniqid;
+            return item;
         }
     }
 }

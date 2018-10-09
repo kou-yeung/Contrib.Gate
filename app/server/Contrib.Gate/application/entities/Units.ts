@@ -42,5 +42,16 @@ namespace Entities {
         set items(units: UnitItem[]) {
             this.bucket.first.set("items", units);
         }
+
+        // 指定ユニット番号にuniqidを追加します
+        push(index: number, uniqid: string) {
+            let items = this.items;
+            for (var i = 0; i < Const.MaxPetInUnit; i++) {
+                if (items[index].uniqids[i] != "") continue;
+                items[index].uniqids[i] = uniqid;
+                break;
+            }
+            this.items = items;
+        }
     }
 }
