@@ -42,6 +42,7 @@ public class InGame : MonoBehaviour
     Tile[,] map;
     Player player;
     int EncountRate;
+    bool showPeriodMessage; // "そろそろ終わるぞ"メッセージ
 
     void Start()
     {
@@ -195,6 +196,26 @@ public class InGame : MonoBehaviour
         {
             Goal();
         }
+
+        var remain = Entity.Instance.StageList.period - Util.Time.ServerTime.CurrentUnixTime;
+        if(remain <= 0)
+        {
+            joystick.enabled = false;
+            DialogWindow.OpenOk("確認", "ステージが消失しました", () =>
+            {
+                SceneManager.LoadScene(SceneName.Home);
+            });
+        }
+        else if (!showPeriodMessage && remain < 60*25)
+        {
+            showPeriodMessage = true;
+            joystick.enabled = false;
+            DialogWindow.OpenOk("確認", "ステージが消失しそうです", ()=>
+            {
+                joystick.enabled = true;
+            });
+        }
+
     }
 
     void Encount()
