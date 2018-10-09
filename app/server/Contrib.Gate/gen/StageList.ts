@@ -12,6 +12,7 @@ class StageListSend {
 }
 
 class StageListReceive {
+    period: number; // 期間
     items: StageItem[]; // ステージ情報一覧
 	
 	// StageListReceive -> string

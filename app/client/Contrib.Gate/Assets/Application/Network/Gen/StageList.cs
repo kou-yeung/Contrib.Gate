@@ -16,6 +16,7 @@ namespace Network
 
     public class StageListReceive
     {
+		public long period; // 期間
 		public StageItem[] items; // ステージ情報一覧
     }
 

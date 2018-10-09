@@ -162,11 +162,15 @@ namespace Entities
         // ステージ一覧取得
         public IEnumerator GetStageList(bool refresh = false)
         {
-            if (!refresh && StageList != null) yield break;
+            if (!refresh && StageList != null)
+            {
+                StageList.LocalUpdatePeriod();  // ローカル更新
+                yield break;
+            }
             bool wait = true;
             Protocol.Send(new StageListSend(), (r) =>
             {
-                StageList = new StageList(r.items);
+                StageList = new StageList(r.items, r.period);
                 wait = false;
             });
             while (wait) yield return null;

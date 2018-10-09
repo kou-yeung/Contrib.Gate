@@ -8,6 +8,7 @@ function StageList(params, context, done) {
         new Entities.StageClear(user).refresh(stageClear => {
             // 返信
             let r = new StageListReceive();
+            r.period = StageHelper.StageLossTime();
             r.items = stageClear.item;
             done(r.Pack());
         });

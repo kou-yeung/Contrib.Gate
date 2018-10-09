@@ -19,7 +19,6 @@ public class Home : MonoBehaviour {
         yield return Entity.Instance.GetPetList();
         yield return Entity.Instance.GetHatchList();
         yield return Entity.Instance.GetUnitList();
-        yield return Entity.Instance.GetStageList();
 
         Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
         UpdateUserState();
@@ -52,7 +51,10 @@ public class Home : MonoBehaviour {
 
     public void OnClickStage()
     {
-        Window.Open<StageWindow>();
+        Util.CoroutineRunner.Run(Entity.Instance.GetStageList(), ()=>
+        {
+            Window.Open<StageWindow>();
+        });
     }
     public void OnClickEgg()
     {

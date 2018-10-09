@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Xyz.AnzFactory.UI;
 using Entities;
 using Network;
@@ -13,6 +14,8 @@ namespace UI
     {
         public ANZListView list;
         public GameObject stageItemPrefab;
+        public Text stageRenew;
+        public Stage[] stages;  // 表示可能なステージ一覧
 
         public float HeightItem()
         {
@@ -22,14 +25,13 @@ namespace UI
         public GameObject ListViewItem(int index, GameObject item)
         {
             if (item == null) item = Instantiate(stageItemPrefab);
-            item.GetComponent<StageItem>().Setup(Entity.Instance.Stages[index]);
+            item.GetComponent<StageItem>().Setup(stages[index]);
             return item;
         }
 
         public int NumOfItems()
         {
-            /// MEMO : とりあえずすべてステージを表示する
-            return Entity.Instance.Stages.Length;
+            return stages.Length;
         }
 
         public void TapListItem(int index, GameObject listItem)
@@ -50,11 +52,24 @@ namespace UI
 
         protected override void OnStart()
         {
+            stages = Entity.Instance.Stages.Where(v => v.IsOpen()).ToArray();
             list.DataSource = this;
             list.ActionDelegate = this;
             list.ReloadData();
             base.OnStart();
         }
 
+
+        void Update()
+        {
+            if (Entity.Instance.StageList.LocalUpdatePeriod())
+            {
+                list.ReloadData();
+            }
+            var period = Util.Time.UnixTime.FromUnixTime(Entity.Instance.StageList.period);
+            var now = Util.Time.UnixTime.FromUnixTime(Util.Time.ServerTime.CurrentUnixTime);
+            var remain = period - now;
+            stageRenew.text = remain.ToString("hh\\:mm\\:ss");
+        }
     }
 }

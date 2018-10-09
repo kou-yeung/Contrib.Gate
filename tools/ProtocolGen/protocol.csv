@@ -154,4 +154,5 @@ down,UnitItem[],items,Unit情報一覧
 
 // ステージ一覧取得
 protocol,StageList,
+down,long,period,期間
 down,StageItem[],items,ステージ情報一覧
