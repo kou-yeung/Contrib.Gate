@@ -65,6 +65,21 @@ namespace Entities
             var res = new UnitList(data);
             return res;
         }
+
+        /// <summary>
+        /// 比較して、変更があれば(true)
+        /// </summary>
+        /// <param name="units"></param>
+        /// <returns></returns>
+        public bool IsModify(UnitList units)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].name != units.items[i].name) return true;
+                if (!items[i].uniqids.SequenceEqual(units.items[i].uniqids)) return true;
+            }
+            return false;
+        }
     }
 }
 

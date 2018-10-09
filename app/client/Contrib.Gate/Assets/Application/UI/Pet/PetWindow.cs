@@ -134,11 +134,18 @@ namespace UI
             switch (btn.name)
             {
                 case "CloseButton":
-                    Protocol.Send(new UnitUpdateSend { items = modify.items.ToArray() }, r =>
+                    if (Entity.Instance.UnitList.IsModify(modify))
                     {
-                        Entity.Instance.UnitList.Modify(r.items);
+                        Protocol.Send(new UnitUpdateSend { items = modify.items.ToArray() }, r =>
+                        {
+                            Entity.Instance.UnitList.Modify(r.items);
+                            base.OnButtonClick(btn);
+                        });
+                    }
+                    else
+                    {
                         base.OnButtonClick(btn);
-                    });
+                    }
                     break;
             }
         }
