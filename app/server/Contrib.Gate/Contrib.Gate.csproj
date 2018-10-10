@@ -94,6 +94,7 @@
     <TypeScriptCompile Include="application\entities\Hatch.ts" />
     <TypeScriptCompile Include="application\entities\Identify.ts" />
     <TypeScriptCompile Include="application\entities\Inventory.ts" />
+    <TypeScriptCompile Include="application\entities\Item.ts" />
     <TypeScriptCompile Include="application\entities\Level.ts" />
     <TypeScriptCompile Include="application\entities\Pet.ts" />
     <TypeScriptCompile Include="application\entities\Pets.ts" />
