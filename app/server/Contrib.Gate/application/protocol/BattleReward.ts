@@ -50,7 +50,7 @@ function BattleReward(params, context, done) {
                 battleInfo.guid = "";   // IDをリセットします
                 battleInfo.bucket.save(() => {
                     // 未鑑定タマゴとして追加する
-                    InsertEgg(stage, user, eggs, r.eggs, () => {
+                    InsertEggs(stage, user, eggs, r.eggs, () => {
                         inventory.bucket.save(() => {
                             done(r.Pack());
                         });
@@ -61,28 +61,3 @@ function BattleReward(params, context, done) {
     });
 }
 
-// タマゴの追加：再帰
-function InsertEgg(stage: number, user: KiiUser, eggs: Entities.Identify[], result: EggItem[], done) {
-    // 再帰終了
-    if (eggs.length <= 0) {
-        done();
-        return;
-    }
-
-    let id = eggs.shift();  // 先頭アイテムを取り出す
-    let guid = GUID.Gen();  // 新たなGUIDを生成する
-    new Entities.Egg(user).bucket.create(egg => {
-        let item = new EggItem();
-        item.createTime = Util.Time.ServerTime.current;
-        item.uniqid = guid;
-        item.judgment = false;
-        item.stage = stage;
-        egg.uniqid = guid;
-        egg.item = item;
-        egg.result = id;
-        egg.bucket.save(() => {
-            result.push(item);
-            InsertEgg(stage, user, eggs, result, done);  // 次のタマゴを追加する
-        });
-    });
-}

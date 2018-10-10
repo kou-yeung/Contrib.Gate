@@ -16,5 +16,9 @@
         get dungeon(): Identify {
             return Identify.Parse(this.bucket.first.get("Dungeon"));
         }
+
+        get drop(): Identify {
+            return Identify.Parse(this.bucket.first.get("クリア報酬"));
+        }
     }
 }

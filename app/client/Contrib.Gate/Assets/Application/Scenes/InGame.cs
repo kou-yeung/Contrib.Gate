@@ -133,10 +133,10 @@ public class InGame : MonoBehaviour
         Protocol.Send(send, r =>
         {
             Entity.Instance.StageList.Modify(r.stage);
-            DialogWindow.OpenOk("おめでとう", $"ステージクリアしました", () =>
-            {
-                SceneManager.LoadScene(SceneName.Home);
-            });
+            Entity.Instance.EggList.Modify(r.eggs);
+
+            Window.Open<BattleResultWindow>(r);
+            Observer.Instance.Subscribe(BattleResultWindow.CloseEvent, OnSubscribe);
         });
     }
 
@@ -179,6 +179,10 @@ public class InGame : MonoBehaviour
                         Encount();
                     }
                 }
+                break;
+            case BattleResultWindow.CloseEvent:
+                Observer.Instance.Unsubscribe(BattleResultWindow.CloseEvent, OnSubscribe);
+                SceneManager.LoadScene(SceneName.Home);
                 break;
         }
     }

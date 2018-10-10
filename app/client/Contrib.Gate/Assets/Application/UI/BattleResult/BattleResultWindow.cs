@@ -16,12 +16,39 @@ namespace UI
 
         protected override void OnOpen(params object[] args)
         {
-            var battleEnd = args[0] as BattleEndReceive;
-            var battleExp = args[1] as BattleExpReceive;
-            var battleReward = args[2] as BattleRewardReceive;
-
             var sb = new StringBuilder();
+
+            foreach (var arg in args)
+            {
+                BattleEnd(arg, sb);
+                BattleExp(arg, sb);
+                BattleReward(arg, sb);
+                StageEnd(arg, sb);
+            }
+            rewardText.text = sb.ToString();
+            base.OnOpen(args);
+        }
+
+        protected override void OnClose()
+        {
+            Observer.Instance.Notify(CloseEvent);
+            base.OnClose();
+        }
+
+        private void BattleEnd(object receive, StringBuilder sb)
+        {
+            if (receive == null) return;
+            var battleEnd = receive as BattleEndReceive;
+            if (battleEnd == null) return;
+
             sb.AppendLine($"獲得コイン：{battleEnd.coin}");
+        }
+
+        private void BattleExp(object receive, StringBuilder sb)
+        {
+            if (receive == null) return;
+            var battleExp = receive as BattleExpReceive;
+            if (battleExp == null) return;
             foreach (var item in battleExp.exps)
             {
                 var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == item.uniqid);
@@ -30,6 +57,13 @@ namespace UI
                     sb.AppendLine($"{Entity.Name(pet.id)} +{item.add} exp");
                 }
             }
+        }
+
+        private void BattleReward(object receive, StringBuilder sb)
+        {
+            if (receive == null) return;
+            var battleReward = receive as BattleRewardReceive;
+            if (battleReward == null) return;
 
             foreach (var item in battleReward.items)
             {
@@ -40,14 +74,18 @@ namespace UI
             {
                 sb.AppendLine($"タマゴ？ x{battleReward.eggs.Length}");
             }
-            rewardText.text = sb.ToString();
-            base.OnOpen(args);
         }
 
-        protected override void OnClose()
+        private void StageEnd(object receive, StringBuilder sb)
         {
-            Observer.Instance.Notify(CloseEvent);
-            base.OnClose();
+            if (receive == null) return;
+            var stageEnd = receive as StageEndReceive;
+            if (stageEnd == null) return;
+
+            if (stageEnd.eggs != null && stageEnd.eggs.Length > 0)
+            {
+                sb.AppendLine($"タマゴ？ x{stageEnd.eggs.Length}");
+            }
         }
     }
 }

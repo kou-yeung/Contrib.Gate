@@ -47,3 +47,30 @@ namespace Entities {
         }
     }
 }
+
+
+// タマゴの追加：再帰
+function InsertEggs(stage: number, user: KiiUser, eggs: Entities.Identify[], result: EggItem[], done) {
+    // 再帰終了
+    if (eggs.length <= 0) {
+        done();
+        return;
+    }
+
+    let id = eggs.shift();  // 先頭アイテムを取り出す
+    let guid = GUID.Gen();  // 新たなGUIDを生成する
+    new Entities.Egg(user).bucket.create(egg => {
+        let item = new EggItem();
+        item.createTime = Util.Time.ServerTime.current;
+        item.uniqid = guid;
+        item.judgment = false;
+        item.stage = stage;
+        egg.uniqid = guid;
+        egg.item = item;
+        egg.result = id;
+        egg.bucket.save(() => {
+            result.push(item);
+            InsertEggs(stage, user, eggs, result, done);  // 次のタマゴを追加する
+        });
+    });
+}
