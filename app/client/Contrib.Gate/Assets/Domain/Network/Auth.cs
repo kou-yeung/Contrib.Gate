@@ -84,13 +84,14 @@ namespace Network
                 }
             });
         }
+
 #if UNITY_EDITOR
         [MenuItem("Debug/Auth/Delete AccessToken")]
-        static void DeleteAccessToken()
+#endif
+        public static void DeleteAccessToken()
         {
             Auth.AccessToken = "";
         }
-#endif
     }
 }
 

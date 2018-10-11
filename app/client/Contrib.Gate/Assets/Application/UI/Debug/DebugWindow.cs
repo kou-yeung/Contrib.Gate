@@ -46,7 +46,8 @@ namespace UI
                 if (i < cheat.Params.Count)
                 {
                     Params[i].gameObject.SetActive(true);
-                    Params[i].name.text = cheat.Params[i];
+                    Params[i].name.text = cheat.Params[i].name;
+                    Params[i].input.text = cheat.Params[i].defaultValue;
                 }
                 else
                 {
@@ -76,15 +77,23 @@ namespace UI
                 case "Send":
                     {
                         if (current == null) return;
-                        var send = new CheatSend();
-                        send.command = current.Command;
-                        send.param = Params.Where(p => p.gameObject.activeSelf).Select(p => p.input.text).ToArray();
-                        Protocol.Send(send, (r) =>
+
+                        if (current.Exec == "サーバ")
                         {
-                            Entity.Instance.UpdateUserState(r.userState);
-                            Entity.Instance.EggList.Modify(r.egg);
-                            Entity.Instance.PetList.Modify(r.pet);
-                        });
+                            var send = new CheatSend();
+                            send.command = current.Command;
+                            send.param = Params.Where(p => p.gameObject.activeSelf).Select(p => p.input.text).ToArray();
+                            Protocol.Send(send, (r) =>
+                            {
+                                Entity.Instance.UpdateUserState(r.userState);
+                                Entity.Instance.EggList.Modify(r.egg);
+                                Entity.Instance.PetList.Modify(r.pet);
+                            });
+                        }
+                        else if(current.Exec == "ローカル")
+                        {
+                            ExecLocalCommand(current);
+                        }
                     }
                     break;
                 case "Switch":
@@ -98,6 +107,19 @@ namespace UI
                     break;
                 default:
                     base.OnButtonClick(btn);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// ローカルコマンドの実行
+        /// </summary>
+        void ExecLocalCommand(Cheat cheat)
+        {
+            switch (cheat.Command)
+            {
+                case "DeleteAccessToken":
+                    Network.Auth.DeleteAccessToken();
                     break;
             }
         }
