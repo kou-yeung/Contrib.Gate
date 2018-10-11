@@ -86,6 +86,11 @@ namespace UI
                         {
                             // 外す
                             modify.items[0].uniqids[index] = "";
+
+                            var v1 = modify.items[0].uniqids.Where(v => !string.IsNullOrEmpty(v));  // 空きではない
+                            var v2 = modify.items[0].uniqids.Where(v => string.IsNullOrEmpty(v));   // 空き
+                            modify.items[0].uniqids = v1.Concat(v2).ToArray();                      // 再連結 
+
                             modify.Modify(modify.items[0]);
                         }
                         else
