@@ -45,8 +45,8 @@ function Powerup(params, context, done) {
                         // 餌の回数を加算する : アイテム毎の回数 * アイテム数
                         r.pet.powerupCount = item.powerup * s.items[i].num;
                         // パラメータ増加
-                        item.param.forEach((param, i) => {
-                            r.pet.param[param] += item.value[i] * s.items[i].num;
+                        item.param.forEach((param, j) => {
+                            r.pet.param[param] += item.value[j] * s.items[j].num;
                         });
 
                         s.items[i].num = remain;    // 使いまわす!!
