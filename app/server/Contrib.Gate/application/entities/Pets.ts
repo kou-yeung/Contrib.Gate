@@ -1,4 +1,4 @@
-﻿// ペットデータ(ユーザ所持使い魔)
+﻿// ペットデータ(ユーザ所持使い魔:複数取得時)
 namespace Entities {
     export class Pets {
         bucket: Bucket<Pets>;

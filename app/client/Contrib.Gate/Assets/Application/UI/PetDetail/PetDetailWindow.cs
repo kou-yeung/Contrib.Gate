@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Entities;
 using Event;
+using Network;
 
 namespace UI
 {
@@ -68,6 +69,17 @@ namespace UI
             {
                 case "Unit":
                     Observer.Instance.Notify(ModifyEvent, item.uniqid);
+                    break;
+                case "Powerup":
+                    var send = new PowerupSend();
+                    send.uniqid = item.uniqid;
+                    send.items = new Entities.InventoryItem[]
+                    {
+                        new Entities.InventoryItem{ identify = new Identify(IDType.Item,1001).idWithType, num = 1 },
+                    };
+                    Protocol.Send(send, r => {
+                        
+                    });
                     break;
                 default:
                     base.OnButtonClick(btn);

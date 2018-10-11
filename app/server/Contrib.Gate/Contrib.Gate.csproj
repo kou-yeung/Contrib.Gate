@@ -124,6 +124,7 @@
     <TypeScriptCompile Include="application\protocol\Login.ts" />
     <TypeScriptCompile Include="application\protocol\PetList.ts" />
     <TypeScriptCompile Include="application\protocol\Ping.ts" />
+    <TypeScriptCompile Include="application\protocol\Powerup.ts" />
     <TypeScriptCompile Include="application\protocol\Recipe.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
     <TypeScriptCompile Include="application\protocol\StageBegin.ts" />
@@ -156,6 +157,7 @@
     <TypeScriptCompile Include="gen\Login.ts" />
     <TypeScriptCompile Include="gen\PetList.ts" />
     <TypeScriptCompile Include="gen\Ping.ts" />
+    <TypeScriptCompile Include="gen\Powerup.ts" />
     <TypeScriptCompile Include="gen\Recipe.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
     <TypeScriptCompile Include="gen\StageBegin.ts" />

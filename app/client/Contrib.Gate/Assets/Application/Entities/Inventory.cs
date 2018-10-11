@@ -24,9 +24,12 @@ namespace Entities
             if (item != null)
             {
                 item.num += add;
-                return;
+            } else
+            {
+                items.Add(new InventoryItem { identify = identify, num = add });
             }
-            items.Add(new InventoryItem { identify = identify, num = add });
+            // 0 以下のアイテムを非表示する
+            items.RemoveAll(v => v.num <= 0);
         }
 
         public void Add(InventoryItem[] items)
