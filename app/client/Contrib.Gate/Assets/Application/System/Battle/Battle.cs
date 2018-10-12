@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Event;
+using Entities;
+using System.Linq;
 
 namespace Battle
 {
@@ -20,8 +22,54 @@ namespace Battle
     /// </summary>
     public class Command
     {
-        public Unit behavior;    // 誰が
-        public Unit target;      // 誰に
+        public Unit behavior;       // 誰が
+        public Unit target;         // 誰に
+        public Identify action;     // 何を
+    }
+
+    /// <summary>
+    /// バトル中のパラメータ
+    /// </summary>
+    public class Params
+    {
+        public Buff[] buffs;        // バフ効果一覧
+        int[] param = new int[(int)Param.Count]; // 基礎パラメータ
+
+        public Params(EnemyItem item)
+        {
+            for (int i = 0; i < (int)Param.Count; i++)
+            {
+                param[i] = item.GetParam((Param)i);
+            }
+        }
+        public Params(PetItem item)
+        {
+            for (int i = 0; i < (int)Param.Count; i++)
+            {
+                param[i] = item.GetParam((Param)i);
+            }
+        }
+        public int this[Param param]
+        {
+            get
+            {
+                /// TODO : バフ効果を足す
+                return this.param[(int)param];
+            }
+            set
+            {
+                this.param[(int)param] = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// バフ効果
+    /// </summary>
+    public class Buff
+    {
+        public Identify skii;   // どのスキルによるバフか
+        public int remain;      // 残りターン数
     }
 
     /// <summary>
@@ -92,15 +140,23 @@ namespace Battle
                         }
                         else
                         {
-                            if (trun <= 3)
+                            if (Enemies.All(v => v.IsDead))
                             {
-                                phase = Phase.Turn;
-                                Observer.Instance.Notify(TurnEvent, trun++);
+                                // 敵がすべて死亡
+                                phase = Phase.Result;
+                                Observer.Instance.Notify(ResultEvent, "WIN");
+                            }
+                            else if (Players.All(v => v.IsDead))
+                            {
+                                // 味方がすべて死亡
+                                phase = Phase.Result;
+                                Observer.Instance.Notify(ResultEvent, "LOSE");
                             }
                             else
                             {
-                                phase = Phase.Result;
-                                Observer.Instance.Notify(ResultEvent);
+                                // 継続
+                                phase = Phase.Turn;
+                                Observer.Instance.Notify(TurnEvent, trun++);
                             }
                         }
                     }

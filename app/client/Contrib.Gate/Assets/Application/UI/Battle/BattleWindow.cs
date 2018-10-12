@@ -16,11 +16,21 @@ namespace UI
         public GameObject unitPrefab;
         public GameObject enemiesArea;  // 敵配置エリア
         public GameObject playersArea;  // プレイヤー配置エリア
+        public Toggle normal;
+        public Toggle skill;
+        public ToggleGroup actionGroup;
 
         BattleBeginReceive battleInfo;
         StageInfo stageInfo;
         Combat combat = new Combat();
         Command currentCommand;
+
+        public enum ActionType
+        {
+            Normal,
+            Skill,
+        }
+
         protected override void OnOpen(params object[] args)
         {
             battleInfo = args[0] as BattleBeginReceive;
@@ -48,6 +58,10 @@ namespace UI
                     combat.AddPlayer(unit);
                 }
             }
+            // 強制更新
+            //enemiesArea.GetComponent<RectTransform>().ForceUpdateRectTransforms();
+            //playersArea.GetComponent<RectTransform>().ForceUpdateRectTransforms();
+            //playersArea.GetComponent<RectTransform>().ForceUpdateRectTransforms();
 
             Observer.Instance.Subscribe(Combat.StartEvent, OnSubscribe);
             Observer.Instance.Subscribe(Combat.TurnEvent, OnSubscribe);
@@ -83,6 +97,17 @@ namespace UI
                     if (unit.side == Unit.Side.Enemy)
                     {
                         currentCommand.target = unit;
+
+                        if (actionGroup.ActiveToggles().Contains(normal))
+                        {
+                            // 通常攻撃
+                            currentCommand.action = Identify.Empty;
+                        }
+                        else
+                        {
+                            // スキル
+                            currentCommand.action = new Identify(currentCommand.behavior.PetItem.skill);
+                        }
                         combat.AddPlayerCommand(currentCommand);
                         combat.Next();
                     }
@@ -130,6 +155,9 @@ namespace UI
                     });
                     break;
                 case Combat.TurnEvent:
+                    // 配置済なのでレイアウト無効
+                    enemiesArea.GetComponent<LayoutGroup>().enabled = false;
+                    playersArea.GetComponent<LayoutGroup>().enabled = false;
                     DialogWindow.OpenOk("", string.Format("ターン{0}", (int)o), () =>
                     {
                         combat.Next();
@@ -140,6 +168,10 @@ namespace UI
                     player.Focus();
                     currentCommand = new Command();
                     currentCommand.behavior = player;
+                    // 行動選択
+                    normal.isOn = true;
+                    skill.gameObject.SetActive(player.PetItem.skill != 0);
+                    skill.interactable = true;  /// TODO : MPが足りなかったら暗転対応
                     break;
                 case Combat.PlayEvent:
                     var command = o as Command;
@@ -147,6 +179,7 @@ namespace UI
                     {
                         command.target.Focus(() =>
                         {
+                            command.target.Damage(10);
                             combat.Next();
                         });
                     });

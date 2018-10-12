@@ -43,6 +43,7 @@ namespace Entities
 		Enemy,// 敵
 		EnemyGroup,// 敵グループ
 		Drop,// ドロップ
+		Skill,// スキル
 	}
 	
     /// <summary>
@@ -181,6 +182,7 @@ namespace Entities
 		public int exp;// 経験値
 		public int powerupCount;// 餌付け回数(最大回数は レベル - 1)
 		public int[] param;// 餌付けによる増加パラメータ(Param)
+		public uint skill;// スキル
 	}
 	
     /// <summary>

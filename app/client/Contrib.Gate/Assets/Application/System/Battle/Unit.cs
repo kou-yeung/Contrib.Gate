@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Entities;
 using System;
+using Battle;
+using Event;
 
 public class Unit : MonoBehaviour
 {
@@ -17,7 +19,17 @@ public class Unit : MonoBehaviour
     public Image cursor;
     public Slider hp;
     public Side side { get; private set; }
+
     Identify id;
+
+    object item;
+    public EnemyItem EnemyItem { get { return item as EnemyItem; } }
+    public PetItem PetItem { get { return item as PetItem; } }
+    public Params Params { get; private set; }
+
+    public int MaxHP { get; private set; }
+    public int MaxMP { get; private set; }
+    public bool IsDead { get { return Params[Param.HP] <= 0; } }
 
     public void Setup(Identify id)
     {
@@ -27,6 +39,11 @@ public class Unit : MonoBehaviour
 
     public void Setup(EnemyItem item)
     {
+        this.item = item;
+        this.Params = new Params(item);
+        MaxHP = this.Params[Param.HP];
+        MaxMP = this.Params[Param.MP];
+
         Setup(item.id);
         character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(item.id).Id}/walk")[7];
         side = Side.Enemy;
@@ -34,6 +51,11 @@ public class Unit : MonoBehaviour
 
     public void Setup(PetItem item)
     {
+        this.item = item;
+        this.Params = new Params(item);
+        MaxHP = this.Params[Param.HP];
+        MaxMP = this.Params[Param.MP];
+
         Setup(item.id);
         character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(item.id).Id}/walk")[4];
         side = Side.Player;
@@ -48,5 +70,17 @@ public class Unit : MonoBehaviour
             var i = index[(int)v];
             character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(id).Id}/walk")[i];
         }).setOnComplete(cb);
+    }
+
+    /// <summary>
+    /// ダメージを受けた
+    /// </summary>
+    /// <param name="damage"></param>
+    public void Damage(int damage)
+    {
+        Params[Param.HP] -= damage;
+        hp.value = (float)Params[Param.HP] / (float)MaxHP;
+
+        if (IsDead) this.gameObject.SetActive(false);   /// TODO : 演出追加!!現在はとりあえず消す
     }
 }
