@@ -13,7 +13,7 @@
             let keys = obj.allkey;
 
             for (var i = 0; i < keys.length; i++) {
-                let num = obj.get(keys[i], 0);
+                let num: number = obj.get(keys[i]);
                 if (num <= 0) continue;
                 let item = new InventoryItem();
                 item.identify = Entities.Identify.Parse(keys[i]).idWithType;
