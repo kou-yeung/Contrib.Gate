@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Event;
 using Network;
 using Entities;
@@ -117,7 +118,7 @@ namespace UI
                     break;
             }
         }
-        public void BattleEnd()
+        public void BattleWin()
         {
             Protocol.Send(new BattleEndSend { guid = battleInfo.guid }, battleEnd =>
             {
@@ -138,6 +139,10 @@ namespace UI
                     });
                 });
             });
+        }
+        public void BattleLose()
+        {
+            SceneManager.LoadScene(SceneName.Home);
         }
 
         void OnSubscribe(string name, object o)
@@ -185,7 +190,15 @@ namespace UI
                     });
                     break;
                 case Combat.ResultEvent:
-                    BattleEnd();
+                    switch ((string)o)
+                    {
+                        case "WIN":
+                            BattleWin();
+                            break;
+                        default:
+                            BattleLose();
+                            break;
+                    }
                     break;
             }
         }

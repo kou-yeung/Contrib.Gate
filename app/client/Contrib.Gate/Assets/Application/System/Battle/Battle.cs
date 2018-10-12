@@ -133,28 +133,28 @@ namespace Battle
                     break;
                 case Phase.Play:
                     {
-                        var command = PopCommand();
-                        if (command != null)
+                        if (Enemies.All(v => v.IsDead))
                         {
-                            Observer.Instance.Notify(PlayEvent, command);
+                            // 敵がすべて死亡
+                            phase = Phase.Result;
+                            Observer.Instance.Notify(ResultEvent, "WIN");
                         }
-                        else
+                        else if (Players.All(v => v.IsDead))
                         {
-                            if (Enemies.All(v => v.IsDead))
+                            // 味方がすべて死亡
+                            phase = Phase.Result;
+                            Observer.Instance.Notify(ResultEvent, "LOSE");
+                        } else
+                        {
+                            var command = PopCommand();
+                            if (command != null)
                             {
-                                // 敵がすべて死亡
-                                phase = Phase.Result;
-                                Observer.Instance.Notify(ResultEvent, "WIN");
-                            }
-                            else if (Players.All(v => v.IsDead))
-                            {
-                                // 味方がすべて死亡
-                                phase = Phase.Result;
-                                Observer.Instance.Notify(ResultEvent, "LOSE");
+                                // 次の行動
+                                Observer.Instance.Notify(PlayEvent, command);
                             }
                             else
                             {
-                                // 継続
+                                // 次のターン
                                 phase = Phase.Turn;
                                 Observer.Instance.Notify(TurnEvent, trun++);
                             }
