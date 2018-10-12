@@ -30,6 +30,7 @@ enum IDType {
 	Enemy,// 敵
 	EnemyGroup,// 敵グループ
 	Drop,// ドロップ
+	Skill,// スキル
 }
 
 // ErrorCode
@@ -143,6 +144,7 @@ class PetItem {
 	exp: number;// 経験値
 	powerupCount: number;// 餌付け回数(最大回数は レベル - 1)
 	param: number[];// 餌付けによる増加パラメータ(Param)
+	skill: number;// スキル
 }
 
 /// <summary>

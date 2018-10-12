@@ -33,6 +33,7 @@ Stage,,ステージ
 Enemy,,敵
 EnemyGroup,,敵グループ
 Drop,,ドロップ
+Skill,,スキル
 
 // ErrorCode
 enum,ErrorCode,
@@ -132,6 +133,7 @@ int,level,レベル
 int,exp,経験値
 int,powerupCount,餌付け回数(最大回数は レベル - 1)
 int[],param,餌付けによる増加パラメータ(Param)
+uint,skill,スキル
 
 // sv->cl 孵化予約データ1個分
 class,HatchItem,
