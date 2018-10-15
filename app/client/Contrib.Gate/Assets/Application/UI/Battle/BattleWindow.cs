@@ -189,18 +189,24 @@ namespace UI
                             {
                                 var script = new Script();  // 将来はキャッシュします
 
+                                // タイプを登録する
                                 UserData.RegisterType<Unit>();
                                 UserData.RegisterType<Battle.Params>();
                                 UserData.RegisterType<Param>();
 
+                                // グローバル変数に設定
                                 script.Globals["Param"] = UserData.CreateStatic<Param>();
+
+                                // スクリプトをロード
                                 script.DoString(Resources.Load<TextAsset>("Skill/Normal").text);
 
+                                // 実行する
                                 var res = script.Call(script.Globals["Exec"], command.behavior, command.target);
-                                var pa = command.behavior.Params[Param.PhysicalAttack];
-                                var pd = command.target.Params[Param.PhysicalDefense];
-                                Debug.Log(string.Format("Normal {0} = {1} - ({2} * 0.75)",res.Number, pa, pd));
                                 command.target.Damage((int)res.Number);
+
+                                //var pa = command.behavior.Params[Param.PhysicalAttack];
+                                //var pd = command.target.Params[Param.PhysicalDefense];
+                                //Debug.Log(string.Format("Normal {0} = {1} - ({2} * 0.75)",res.Number, pa, pd));
                             }
                             else
                             {
