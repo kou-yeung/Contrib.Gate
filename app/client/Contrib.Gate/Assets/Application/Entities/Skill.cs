@@ -33,6 +33,6 @@ namespace Entities
             Map(x => x.Script).Index(index++);
             Map(x => x.ActionEffect).Index(index++);
             Map(x => x.ReceiveEffect).Index(index++);
+        }
     }
-}
 }

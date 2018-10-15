@@ -1,0 +1,4 @@
+function Exec(behavior, target, coefficient)
+	return math.max(behavior.Params[Param.MagicAttack] * coefficient, 1)
+end
+
