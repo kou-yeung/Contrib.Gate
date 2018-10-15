@@ -127,6 +127,7 @@
     <TypeScriptCompile Include="application\protocol\Powerup.ts" />
     <TypeScriptCompile Include="application\protocol\Recipe.ts" />
     <TypeScriptCompile Include="application\protocol\ServerDebug.ts" />
+    <TypeScriptCompile Include="application\protocol\SkillLearn.ts" />
     <TypeScriptCompile Include="application\protocol\StageBegin.ts" />
     <TypeScriptCompile Include="application\protocol\StageEnd.ts" />
     <TypeScriptCompile Include="application\protocol\StageList.ts" />
@@ -160,6 +161,7 @@
     <TypeScriptCompile Include="gen\Powerup.ts" />
     <TypeScriptCompile Include="gen\Recipe.ts" />
     <TypeScriptCompile Include="gen\ServerDebug.ts" />
+    <TypeScriptCompile Include="gen\SkillLearn.ts" />
     <TypeScriptCompile Include="gen\StageBegin.ts" />
     <TypeScriptCompile Include="gen\StageEnd.ts" />
     <TypeScriptCompile Include="gen\StageList.ts" />

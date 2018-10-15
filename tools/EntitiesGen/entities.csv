@@ -88,6 +88,19 @@ Agility,,素早さ
 Luck,,運
 Count,,数
 
+// スキル種類
+enum,SkillType,
+Physical,,物理
+Magic,,魔法
+Buff,,バフ
+Debuff,,デバフ
+
+// スキル使用対象
+enum,SkiiTarget,
+Self,,自分
+Friend,,味方
+Rival,,相手
+
 ///========================================
 /// 以下 class
 ///========================================

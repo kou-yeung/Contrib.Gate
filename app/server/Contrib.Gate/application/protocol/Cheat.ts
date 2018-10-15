@@ -78,11 +78,41 @@
         });
     }
 
+
+    // アイテム追加
+    function additem(user: KiiUser) {
+        let id = Entities.Identify.Parse(s.param[0]);
+        let num = parseInt(s.param[1].length <= 0 ? "1" : s.param[1]);
+
+        switch (id.Type) {
+            case IDType.Material:
+            case IDType.Item:
+            case IDType.Skill:
+                break;
+            default:
+                done(ApiError.Create(ErrorCode.Common, "追加できないIDTypeです").Pack());
+                return;
+        }
+
+        new Entities.Inventory(user).refresh(inventory => {
+            var remain = inventory.add(id, num);
+
+            inventory.bucket.save(() => {
+                let item = new InventoryItem();
+                item.identify = id.idWithType;
+                item.num = remain;
+                var r = new CheatReceive();
+                r.items = [item];
+                done(r.Pack());
+            });
+        });
+    }
     GetUser(context, (user) => {
         switch (s.command) {
             case "addcoin": addcoin(user); break;
             case "addegg": addegg(user); break;
             case "addfamiliar": addfamiliar(user); break;
+            case "additem": additem(user); break;
         }
     }, false);
 

@@ -88,6 +88,7 @@ namespace UI
                                 Entity.Instance.UpdateUserState(r.userState);
                                 Entity.Instance.EggList.Modify(r.egg);
                                 Entity.Instance.PetList.Modify(r.pet);
+                                Entity.Instance.Inventory.Modify(r.items);
                             });
                         }
                         else if(current.Exec == "ローカル")

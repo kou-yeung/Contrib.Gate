@@ -20,6 +20,8 @@ namespace CsvHelper
             configuration.TypeConverterCache.AddConverter<Identify>(new IdentifyTypeConverter());
             configuration.TypeConverterCache.AddConverter<Race>(new EnumTypeConverter<Race>());
             configuration.TypeConverterCache.AddConverter<Vector2Int>(new Vector2IntTypeConverter());
+            configuration.TypeConverterCache.AddConverter<SkillType>(new EnumTypeConverter<SkillType>());
+            configuration.TypeConverterCache.AddConverter<SkiiTarget>(new EnumTypeConverter<SkiiTarget>());
         }
 
         static void RegisterClassMap()
@@ -36,6 +38,7 @@ namespace CsvHelper
             configuration.RegisterClassMap<StageMap>();
             configuration.RegisterClassMap<LevelMap>();
             configuration.RegisterClassMap<EnemyMap>();
+            configuration.RegisterClassMap<SkillMap>();
         }
     }
 }

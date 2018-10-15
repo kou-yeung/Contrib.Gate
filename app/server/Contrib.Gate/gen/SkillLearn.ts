@@ -2,23 +2,21 @@
 // ProtocolGen から自動生成されます。直接編集しないでください
 //====================
 
-class CheatSend {
-    command: string;
-    param: string[];
+class SkillLearnSend {
+    uniqid: string; // ペットUniqid
+    skill: number; // スキルID
 
-	// params -> CheatSend
-	static Parse(params : any): CheatSend {
-		return JSON.parse(params.data[0]) as CheatSend;
+	// params -> SkillLearnSend
+	static Parse(params : any): SkillLearnSend {
+		return JSON.parse(params.data[0]) as SkillLearnSend;
 	}
 }
 
-class CheatReceive {
-    userState: UserState[];
-    egg: EggItem[];
-    pet: PetItem[];
-    items: InventoryItem[];
+class SkillLearnReceive {
+    item: InventoryItem; // 使用したアイテム(スキルID)
+    pet: PetItem; // 更新したペット情報
 	
-	// CheatReceive -> string
+	// SkillLearnReceive -> string
 	Pack(): string {
 		return JSON.stringify(this);
     }
@@ -27,14 +25,14 @@ class CheatReceive {
 /*
 // 以下プロトコルを実装する
 // MEMO : 直接にここに実装してしまうと、自動生成時に上書きされてしまいますのでご注意を!!!
-function Cheat(params, context, done) {
+function SkillLearn(params, context, done) {
 
     // 受信データをパースする
-    let s = CheatSend.Parse(params);
+    let s = SkillLearnSend.Parse(params);
 
     GetUser(context, (user) => {
 		// 返信
-	    let r = new CheatReceive();
+	    let r = new SkillLearnReceive();
 
 		// TODO : 返信パラメータを設定する
 

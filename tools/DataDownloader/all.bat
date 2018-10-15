@@ -14,3 +14,4 @@ CALL level.bat
 CALL enemy_groud.bat
 CALL enemy.bat
 CALL drop.bat
+CALL skill.bat

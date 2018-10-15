@@ -18,6 +18,11 @@ namespace Entities
             return items.Find(item => item.identify == identify);
         }
 
+        /// <summary>
+        /// 増減
+        /// </summary>
+        /// <param name="identify"></param>
+        /// <param name="add"></param>
         public void Add(Identify identify, int add)
         {
             var item = items.Find(i => i.identify == identify);
@@ -32,11 +37,40 @@ namespace Entities
             items.RemoveAll(v => v.num <= 0);
         }
 
+        /// <summary>
+        /// 増減
+        /// </summary>
+        /// <param name="items"></param>
         public void Add(InventoryItem[] items)
         {
             foreach (var item in items)
             {
                 Add(item.identify, item.num);
+            }
+        }
+
+        /// <summary>
+        /// 変更する
+        /// </summary>
+        /// <param name="egg"></param>
+        public void Modify(InventoryItem item)
+        {
+            var index = items.FindIndex(i => i.identify == item.identify);
+            if (index != -1) items[index] = item;
+            else items.Add(item);
+
+            // 0 以下のアイテムを非表示する
+            items.RemoveAll(v => v.num <= 0);
+        }
+        /// <summary>
+        /// 変更する
+        /// </summary>
+        /// <param name="egg"></param>
+        public void Modify(InventoryItem[] items)
+        {
+            foreach (var item in items)
+            {
+                Modify(item);
             }
         }
     }

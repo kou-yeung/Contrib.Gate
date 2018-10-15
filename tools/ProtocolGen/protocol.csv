@@ -23,6 +23,7 @@ up,string[],param,
 down,UserState[],userState,
 down,EggItem[],egg,
 down,PetItem[],pet,
+down,InventoryItem[],items,
 
 // ログイン処理
 protocol,Login,
@@ -164,3 +165,9 @@ up,InventoryItem[],items,使用予定アイテム一覧
 down,InventoryItem[],items,使用したアイテム一覧
 down,PetItem,pet,更新したペット情報
 
+// スキル学習
+protocol,SkillLearn
+up,string,uniqid,ペットUniqid
+up,uint,skill,スキルID
+down,InventoryItem,item,使用したアイテム(スキルID)
+down,PetItem,pet,更新したペット情報

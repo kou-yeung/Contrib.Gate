@@ -39,6 +39,7 @@ namespace Entities
         public Stage[] Stages { get; private set; }
         public Enemy[] Enemies { get; private set; }
         public LevelTable LevelTable { get; private set; }
+        public Skill[] Skills { get; private set; }
 
         // 受信データなど、サーバ側キャッシュしたデータ（ローカル更新による疑似的同期を行う
         public Inventory Inventory { get; private set; }
@@ -62,6 +63,7 @@ namespace Entities
             Rooms = Parse<Room>("Entities/room");
             Stages = Parse<Stage>("Entities/stage");
             Enemies = Parse<Enemy>("Entities/enemy");
+            Skills = Parse<Skill>("Entities/skill");
 
             var levels = Parse<Level>("Entities/level");
             if (levels != null) LevelTable = new LevelTable(levels);
@@ -80,6 +82,8 @@ namespace Entities
                     return Array.Find(Instance.Familiars, (v) => v.Identify == identify).Name;
                 case IDType.Item:
                     return Array.Find(Instance.Items, (v) => v.Identify == identify).Name;
+                case IDType.Skill:
+                    return Array.Find(Instance.Skills, (v) => v.Identify == identify).Name;
             }
             return "";
         }

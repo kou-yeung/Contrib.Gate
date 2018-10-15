@@ -119,6 +119,27 @@ namespace Entities
 		Count,// 数
 	}
 	
+    /// <summary>
+    /// SkillType
+    /// </summary>
+	public enum SkillType
+	{
+		Physical,// 物理
+		Magic,// 魔法
+		Buff,// バフ
+		Debuff,// デバフ
+	}
+	
+    /// <summary>
+    /// SkiiTarget
+    /// </summary>
+	public enum SkiiTarget
+	{
+		Self,// 自分
+		Friend,// 味方
+		Rival,// 相手
+	}
+	
 	
     /// <summary>
     /// InventoryItem

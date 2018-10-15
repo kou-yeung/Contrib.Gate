@@ -71,15 +71,30 @@ namespace UI
                     Observer.Instance.Notify(ModifyEvent, item.uniqid);
                     break;
                 case "Powerup":
-                    var send = new PowerupSend();
-                    send.uniqid = item.uniqid;
-                    send.items = new Entities.InventoryItem[]
                     {
-                        new Entities.InventoryItem{ identify = new Identify(IDType.Item,1001).idWithType, num = 1 },
-                    };
-                    Protocol.Send(send, r => {
-                        
-                    });
+                        var send = new PowerupSend();
+                        send.uniqid = item.uniqid;
+                        send.items = new Entities.InventoryItem[]
+                        {
+                        new Entities.InventoryItem{ identify = new Identify(IDType.Item,1001), num = 1 },
+                        };
+                        Protocol.Send(send, r => {
+                            Entity.Instance.Inventory.Modify(r.items);
+                            Entity.Instance.PetList.Modify(r.pet);
+                        });
+                    }
+                    break;
+                case "Skill":
+                    {
+                        var send = new SkillLearnSend();
+                        send.uniqid = item.uniqid;
+                        send.skill = new Identify(IDType.Skill, 1001);
+                        Protocol.Send(send, r =>
+                        {
+                            Entity.Instance.Inventory.Modify(r.item);
+                            Entity.Instance.PetList.Modify(r.pet);
+                        });
+                    }
                     break;
                 default:
                     base.OnButtonClick(btn);

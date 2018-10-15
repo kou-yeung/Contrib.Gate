@@ -21,6 +21,11 @@ function Powerup(params, context, done) {
         GetUser(context, (user) => {
             new Entities.Pet(user, s.uniqid).refresh(pet => {
 
+                if (!pet.valid) {
+                    done(ApiError.Create(ErrorCode.Common, "ペットが無効").Pack());
+                    return;
+                }
+
                 // 返信
                 let r = new PowerupReceive();
                 r.items = [];

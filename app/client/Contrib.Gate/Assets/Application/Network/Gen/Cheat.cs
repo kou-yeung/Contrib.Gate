@@ -20,6 +20,7 @@ namespace Network
 		public UserState[] userState;
 		public EggItem[] egg;
 		public PetItem[] pet;
+		public InventoryItem[] items;
     }
 
     /// <summary>
