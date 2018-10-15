@@ -8,6 +8,7 @@ using Network;
 using Entities;
 using System.Linq;
 using Battle;
+using MoonSharp.Interpreter;
 
 namespace UI
 {
@@ -184,7 +185,27 @@ namespace UI
                     {
                         command.target.Focus(() =>
                         {
-                            command.target.Damage(10);
+                            if (command.action == Identify.Empty)
+                            {
+                                var script = new Script();  // 将来はキャッシュします
+
+                                UserData.RegisterType<Unit>();
+                                UserData.RegisterType<Battle.Params>();
+                                UserData.RegisterType<Param>();
+
+                                script.Globals["Param"] = UserData.CreateStatic<Param>();
+                                script.DoString(Resources.Load<TextAsset>("Skill/Normal").text);
+
+                                var res = script.Call(script.Globals["Exec"], command.behavior, command.target);
+                                var pa = command.behavior.Params[Param.PhysicalAttack];
+                                var pd = command.target.Params[Param.PhysicalDefense];
+                                Debug.Log(string.Format("Normal {0} = {1} - ({2} * 0.75)",res.Number, pa, pd));
+                                command.target.Damage((int)res.Number);
+                            }
+                            else
+                            {
+                                command.target.Damage(10);
+                            }
                             combat.Next();
                         });
                     });

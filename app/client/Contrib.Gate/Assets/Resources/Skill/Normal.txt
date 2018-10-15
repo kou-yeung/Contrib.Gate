@@ -1,0 +1,4 @@
+function Exec(behavior, target)
+	return math.max(behavior.Params[Param.PhysicalAttack] - (target.Params[Param.PhysicalDefense] * 0.75), 1)
+end
+
