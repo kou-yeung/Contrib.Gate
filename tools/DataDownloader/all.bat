@@ -11,7 +11,7 @@ CALL room.bat
 CALL stage.bat
 CALL familiar.bat
 CALL level.bat
-CALL enemy_groud.bat
+CALL enemy_group.bat
 CALL enemy.bat
 CALL drop.bat
 CALL skill.bat
