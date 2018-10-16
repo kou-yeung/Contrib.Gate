@@ -5,6 +5,7 @@ using Entities;
 using UnityEngine.UI;
 using Event;
 using UI;
+using Effect;
 
 public class Home : MonoBehaviour {
 
@@ -23,6 +24,9 @@ public class Home : MonoBehaviour {
         Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
         UpdateUserState();
         enabled = true;
+
+        /// 試しにエフェクトを再生する
+        EffectManager.Instance.Play("Particle01", Vector3.zero, () => Debug.Log("エフェクト再生完了"));
     }
 
     private void OnDestroy()
