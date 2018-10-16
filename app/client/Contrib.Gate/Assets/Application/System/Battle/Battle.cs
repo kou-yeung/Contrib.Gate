@@ -4,6 +4,7 @@ using UnityEngine;
 using Event;
 using Entities;
 using System.Linq;
+using Util;
 
 namespace Battle
 {
@@ -118,12 +119,29 @@ namespace Battle
                     break;
                 case Phase.Move:
                     {
-                        if (commands.Count < Players.Count)
+                        if (commands.Count < Players.Where(v => !v.IsDead).Count())
                         {
                             Observer.Instance.Notify(MoveEvent, NextPlayerUnit());
                         }
                         else
                         {
+                            // 敵行動を追加する
+                            foreach (var enemy in Enemies)
+                            {
+                                if (enemy.IsDead) continue;
+                                var cmd = new Command();
+                                cmd.behavior = enemy;
+                                cmd.target = Players.Where(v => !v.IsDead).Shuffle().First();   // 将来はAIスクリプトから選択する
+                                cmd.action = Identify.Empty;
+                                AddCommand(cmd);
+                            }
+
+                            // コマンドを行動者の素早さでソードする
+                            commands.Sort((a, b) =>
+                            {
+                                return b.behavior.Params[Param.Agility].CompareTo(a.behavior.Params[Param.Agility]);
+                            });
+
                             // 行動すべて選択したため、フェーズ移行
                             phase = Phase.Play;
                             var command = PopCommand();
@@ -168,14 +186,14 @@ namespace Battle
         /// プレイヤーのコマンド追加
         /// </summary>
         /// <param name="command"></param>
-        public void AddPlayerCommand(Command command)
+        public void AddCommand(Command command)
         {
             commands.Add(command);
         }
 
         Unit NextPlayerUnit()
         {
-            return Players[commands.Count];
+            return Players.Where(v=>!v.IsDead).ElementAt(commands.Count);
         }
 
         Command PopCommand()

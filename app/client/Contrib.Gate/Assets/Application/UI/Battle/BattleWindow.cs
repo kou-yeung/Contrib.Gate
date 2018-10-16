@@ -60,10 +60,6 @@ namespace UI
                     combat.AddPlayer(unit);
                 }
             }
-            // 強制更新
-            //enemiesArea.GetComponent<RectTransform>().ForceUpdateRectTransforms();
-            //playersArea.GetComponent<RectTransform>().ForceUpdateRectTransforms();
-            //playersArea.GetComponent<RectTransform>().ForceUpdateRectTransforms();
 
             Observer.Instance.Subscribe(Combat.StartEvent, OnSubscribe);
             Observer.Instance.Subscribe(Combat.TurnEvent, OnSubscribe);
@@ -110,7 +106,7 @@ namespace UI
                             // スキル
                             currentCommand.action = new Identify(currentCommand.behavior.PetItem.skill);
                         }
-                        combat.AddPlayerCommand(currentCommand);
+                        combat.AddCommand(currentCommand);
                         combat.Next();
                     }
                     break;
@@ -143,6 +139,7 @@ namespace UI
         }
         public void BattleLose()
         {
+            Close();
             SceneManager.LoadScene(SceneName.Home);
         }
 
@@ -181,22 +178,32 @@ namespace UI
                     break;
                 case Combat.PlayEvent:
                     var command = o as Command;
-                    command.behavior.Focus(() =>
+
+                    if (command.behavior.IsDead || command.target.IsDead)
                     {
-                        command.target.Focus(() =>
+                        // どちらが死亡したので飛ばす(将来は対象死亡した場合、ランダムで決めるとかにする
+                        combat.Next();
+                    }
+                    else
+                    {
+                        // 行動再生
+                        command.behavior.Focus(() =>
                         {
-                            if (command.action == Identify.Empty)
+                            command.target.Focus(() =>
                             {
-                                command.target.Damage(SkillLogic.Exec(command.behavior, command.target));
-                            }
-                            else
-                            {
-                                var skill = Array.Find(Entity.Instance.Skills, v => v.Identify == command.action);
-                                command.target.Damage(SkillLogic.Exec(command.behavior, command.target, skill));
-                            }
-                            combat.Next();
+                                if (command.action == Identify.Empty)
+                                {
+                                    command.target.Damage(SkillLogic.Exec(command.behavior, command.target));
+                                }
+                                else
+                                {
+                                    var skill = Array.Find(Entity.Instance.Skills, v => v.Identify == command.action);
+                                    command.target.Damage(SkillLogic.Exec(command.behavior, command.target, skill));
+                                }
+                                combat.Next();
+                            });
                         });
-                    });
+                    }
                     break;
                 case Combat.ResultEvent:
                     switch ((string)o)
