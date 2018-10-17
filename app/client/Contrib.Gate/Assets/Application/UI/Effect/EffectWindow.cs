@@ -18,10 +18,11 @@ namespace UI
             }
         }
 
-        public void Play()
+        public void Play(string fn, Vector3 screenPos)
         {
             var root = monitor.MonitorRoot;
-            EffectManager.Instance.Play("Particle01", root.transform.position);
+            var location = monitor.Camera.ScreenToWorldPoint(screenPos);
+            EffectManager.Instance.Play(fn, location);
         }
     }
 }

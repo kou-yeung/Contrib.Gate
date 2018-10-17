@@ -27,8 +27,7 @@ public class Home : MonoBehaviour {
 
         /// 試しにエフェクトを再生する
         //EffectManager.Instance.Play("Particle01", Vector3.zero, () => Debug.Log("エフェクト再生完了"));
-
-        EffectWindow.Instance.Play();
+        EffectWindow.Instance.Play("Particle01", Vector3.zero);
     }
 
     private void OnDestroy()
