@@ -8,13 +8,14 @@ namespace UI
     public class EffectWindow : Window
     {
         public Monitor monitor;
-        static public EffectWindow Instance { get; private set; }
-
-        protected override void OnStart()
+        static EffectWindow instance;
+        static public EffectWindow Instance
         {
-            Instance = this;
-            GameObject.DontDestroyOnLoad(this.gameObject);
-            base.OnStart();
+            get
+            {
+                if (instance == null) instance = Open<EffectWindow>();
+                return instance;
+            }
         }
 
         public void Play()

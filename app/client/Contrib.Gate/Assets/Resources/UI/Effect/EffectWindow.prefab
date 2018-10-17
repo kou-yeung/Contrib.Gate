@@ -79,7 +79,7 @@ MonoBehaviour:
     fieldOfView: 60
     orthographicSize: 5
     clearFlags: 2
-    backgroundColor: {r: 1, g: 1, b: 1, a: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114460820664054574
 MonoBehaviour:
   m_ObjectHideFlags: 1

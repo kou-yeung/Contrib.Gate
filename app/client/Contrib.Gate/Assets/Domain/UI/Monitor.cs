@@ -32,11 +32,7 @@ namespace UI
         {
             get
             {
-                if (_MonitorRoot == null)
-                {
-                    OnDestroy();
-                    CreateMonitorObject();
-                }
+                if (_MonitorRoot == null) CreateMonitorObject();
                 return _MonitorRoot;
             }
         }
@@ -45,7 +41,7 @@ namespace UI
         RenderTexture renderTexture;
         int key = -1;
 
-        private void Update()
+        private void Start()
         {
             if (renderTexture != null) return;
 
