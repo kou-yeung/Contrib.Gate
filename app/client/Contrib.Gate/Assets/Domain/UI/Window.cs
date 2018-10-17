@@ -11,6 +11,7 @@ namespace UI
         {
             Normal = 1000,
             Dialog = 2000,
+            Effect = 3000,
             Debug = 9000,
             Advertisement = 9100,
         }

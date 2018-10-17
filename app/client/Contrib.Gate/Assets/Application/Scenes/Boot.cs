@@ -16,6 +16,7 @@ public class Boot : MonoBehaviour
     IEnumerator Start()
     {
         Window.Open<DebugWindow>();
+        Window.Open<EffectWindow>();
 
         Entity.Instance.Load();
 

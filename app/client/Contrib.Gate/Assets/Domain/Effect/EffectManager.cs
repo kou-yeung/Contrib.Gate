@@ -39,7 +39,7 @@ namespace Effect
         /// <returns></returns>
         public EffekseerHandle Play(string fn, Vector3 location, Action ended = null)
         {
-            var handle = EffekseerSystem.PlayEffect(fn, Vector3.zero);
+            var handle = EffekseerSystem.PlayEffect(fn, location);
             handles.Add(new Handle { handle = handle, ended = ended });
             return handle;
         }
