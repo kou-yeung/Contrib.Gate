@@ -37,21 +37,25 @@ public class Home : MonoBehaviour {
 
     public void OnClickVending()
     {
+        if (!enabled) return;
         Window.Open<VendingWindow>();
     }
 
     public void OnClickBake()
     {
+        if (!enabled) return;
         Window.Open<BakeWindow>();
     }
 
     public void OnClickInventory()
     {
+        if (!enabled) return;
         Window.Open<InventoryWindow>();
     }
 
     public void OnClickStage()
     {
+        if (!enabled) return;
         Util.CoroutineRunner.Run(Entity.Instance.GetStageList(), ()=>
         {
             Window.Open<StageWindow>();
@@ -59,10 +63,12 @@ public class Home : MonoBehaviour {
     }
     public void OnClickEgg()
     {
+        if (!enabled) return;
         Window.Open<EggWindow>();
     }
     public void OnClickPet()
     {
+        if (!enabled) return;
         Window.Open<PetWindow>();
     }
 
