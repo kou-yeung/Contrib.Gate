@@ -83,4 +83,17 @@ public class Unit : MonoBehaviour
 
         if (IsDead) this.gameObject.SetActive(false);   /// TODO : 演出追加!!現在はとりあえず消す
     }
+
+    public bool Selectable
+    {
+        get
+        {
+            return cursor.gameObject.activeSelf;
+        }
+        set
+        {
+            cursor.gameObject.SetActive(value);
+            GetComponent<Button>().interactable = value;
+        }
+    }
 }

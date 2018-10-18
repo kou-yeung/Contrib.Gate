@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Effect;
+using System;
 
 namespace UI
 {
@@ -18,11 +19,11 @@ namespace UI
             }
         }
 
-        public void Play(string fn, Vector3 screenPos)
+        public EffekseerHandle Play(string fn, Vector3 screenPos, Action ended = null)
         {
             var root = monitor.MonitorRoot;
             var location = monitor.Camera.ScreenToWorldPoint(screenPos);
-            EffectManager.Instance.Play(fn, location);
+            return EffectManager.Instance.Play(fn, location + Vector3.forward * 100, ended);
         }
     }
 }

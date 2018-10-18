@@ -9,6 +9,7 @@ using Entities;
 using System.Linq;
 using Battle;
 using System;
+using Util;
 
 namespace UI
 {
@@ -26,6 +27,8 @@ namespace UI
         StageInfo stageInfo;
         Combat combat = new Combat();
         Command currentCommand;
+
+        List<Unit> units = new List<Unit>();
 
         public enum ActionType
         {
@@ -46,6 +49,7 @@ namespace UI
                 var unit = enemy.GetComponent<Unit>();
                 unit.Setup(battleInfo.enemies[i]);
                 combat.AddEnemy(unit);
+                units.Add(unit);
             }
             // 自分のユニット配置
             for (int i = 0; i < stageInfo.pets.Length; i++)
@@ -58,6 +62,7 @@ namespace UI
                     var unit = pet.GetComponent<Unit>();
                     unit.Setup(item);
                     combat.AddPlayer(unit);
+                    units.Add(unit);
                 }
             }
 
@@ -92,7 +97,7 @@ namespace UI
                     break;
                 case "Unit":
                     var unit = btn.GetComponent<Unit>();
-                    if (unit.side == Unit.Side.Enemy)
+                    if (unit.Selectable)
                     {
                         currentCommand.target = unit;
 
@@ -143,6 +148,57 @@ namespace UI
             SceneManager.LoadScene(SceneName.Home);
         }
 
+        public static Rect RectTransformToScreenSpace(RectTransform transform)
+        {
+            Vector2 size = Vector2.Scale(transform.rect.size, transform.lossyScale);
+            return new Rect((Vector2)transform.position - (size * 0.5f), size);
+        }
+
+        void UpdateSelectable(Unit behavior, Identify skill)
+        {
+            var s = Array.Find(Entity.Instance.Skills, v => v.Identify == skill);
+
+            if (s == null)
+            {
+                // 味方すべて選択不可、敵すべて選択可能
+                units.ForEach(unit => unit.Selectable = unit.side == Unit.Side.Enemy);
+            }
+            else
+            {
+                switch (s.Target)
+                {
+                    case SkiiTarget.Self:
+                        units.ForEach(unit => unit.Selectable = unit == behavior);
+                        break;
+                    case SkiiTarget.Friend:
+                        units.ForEach(unit => unit.Selectable = unit.side == behavior.side);
+                        break;
+                    case SkiiTarget.Rival:
+                        units.ForEach(unit => unit.Selectable = unit.side != behavior.side);
+                        break;
+                }
+            }
+        }
+
+        void ClearSelectable()
+        {
+            units.ForEach(unit => unit.Selectable = false);
+        }
+
+        public void OnToggleChange(Toggle toggle)
+        {
+            if (!toggle.isOn) return;
+
+            if (toggle == normal)
+            {
+                UpdateSelectable(currentCommand.behavior, Identify.Empty);
+            }
+            else
+            {
+                UpdateSelectable(currentCommand.behavior, currentCommand.behavior.PetItem.skill);
+            }
+        }
+
         void OnSubscribe(string name, object o)
         {
             switch (name)
@@ -161,10 +217,11 @@ namespace UI
                     // 配置済なのでレイアウト無効
                     enemiesArea.GetComponent<LayoutGroup>().enabled = false;
                     playersArea.GetComponent<LayoutGroup>().enabled = false;
-                    DialogWindow.OpenOk("", string.Format("ターン{0}", (int)o), () =>
-                    {
-                        combat.Next();
-                    });
+                    actionGroup.gameObject.SetActive(true);
+                    combat.Next();
+                    //DialogWindow.OpenOk("", string.Format("ターン{0}", (int)o), () =>
+                    //{
+                    //});
                     break;
                 case Combat.MoveEvent:
                     var player = o as Unit;
@@ -175,21 +232,35 @@ namespace UI
                     normal.isOn = true;
                     skill.gameObject.SetActive(player.PetItem.skill != 0);
                     skill.interactable = true;  /// TODO : MPが足りなかったら暗転対応
+
+                    UpdateSelectable(player, Identify.Empty);
+
                     break;
                 case Combat.PlayEvent:
+                    actionGroup.gameObject.SetActive(false);
+                    ClearSelectable();
                     var command = o as Command;
 
-                    if (command.behavior.IsDead || command.target.IsDead)
+                    if (command.behavior.IsDead)
                     {
-                        // どちらが死亡したので飛ばす(将来は対象死亡した場合、ランダムで決めるとかにする
+                        // 行動する側が既に死亡した
                         combat.Next();
                     }
                     else
                     {
+                        // 対象が死亡した
+                        if (command.target.IsDead)
+                        {
+                            // 同じサイト＆生きているのをランダム決める
+                            command.target = units.Where(unit => unit.side == command.target.side && !unit.IsDead).Shuffle().First();
+                        }
+
                         // 行動再生
                         command.behavior.Focus(() =>
                         {
-                            command.target.Focus(() =>
+                            var skill = Array.Find(Entity.Instance.Skills, v => v.Identify == command.action);
+                            var rect = RectTransformToScreenSpace(command.target.GetComponent<RectTransform>());
+                            var handle = EffectWindow.Instance.Play("Simple_GeneratingPosition1", rect.center, ()=>
                             {
                                 if (command.action == Identify.Empty)
                                 {
@@ -197,11 +268,24 @@ namespace UI
                                 }
                                 else
                                 {
-                                    var skill = Array.Find(Entity.Instance.Skills, v => v.Identify == command.action);
-                                    command.target.Damage(SkillLogic.Exec(command.behavior, command.target, skill));
+                                    switch (skill.Type)
+                                    {
+                                        case SkillType.Physical:
+                                        case SkillType.Magic:
+                                            command.target.Damage(SkillLogic.Exec(command.behavior, command.target, skill));
+                                            break;
+                                        case SkillType.Buff:
+                                        case SkillType.Debuff:
+                                            var buff = new Buff();
+                                            buff.remain = skill.Turn;
+                                            buff.skii = command.action;
+                                            command.target.Params.buffs.Add(buff);
+                                            break;
+                                    }
                                 }
                                 combat.Next();
                             });
+                            handle.SetScale(Vector3.one * .2f);
                         });
                     }
                     break;

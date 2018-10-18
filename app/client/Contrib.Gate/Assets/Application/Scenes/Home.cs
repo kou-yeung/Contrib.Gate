@@ -24,10 +24,6 @@ public class Home : MonoBehaviour {
         Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
         UpdateUserState();
         enabled = true;
-
-        /// 試しにエフェクトを再生する
-        //EffectManager.Instance.Play("Particle01", Vector3.zero, () => Debug.Log("エフェクト再生完了"));
-        EffectWindow.Instance.Play("Particle01", Vector3.zero);
     }
 
     private void OnDestroy()

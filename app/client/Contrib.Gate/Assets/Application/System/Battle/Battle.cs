@@ -33,8 +33,8 @@ namespace Battle
     /// </summary>
     public class Params
     {
-        public Buff[] buffs;        // バフ効果一覧
-        int[] param = new int[(int)Param.Count]; // 基礎パラメータ
+        public List<Buff> buffs = new List<Buff>();        // バフ効果一覧
+        int[] param = new int[(int)Param.Count];           // 基礎パラメータ
 
         public Params(EnemyItem item)
         {

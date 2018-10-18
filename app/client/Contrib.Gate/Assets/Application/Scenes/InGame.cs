@@ -167,6 +167,7 @@ public class InGame : MonoBehaviour
         {
             case BattleWindow.CloseEvent:
                 joystick.enabled = true;
+                player.gameObject.SetActive(true);
                 Observer.Instance.Unsubscribe(BattleWindow.CloseEvent, OnSubscribe);
                 break;
             case Player.ChangeGridEvent:
@@ -229,6 +230,7 @@ public class InGame : MonoBehaviour
         {
             Window.Open<BattleWindow>(r);
             Observer.Instance.Subscribe(BattleWindow.CloseEvent, OnSubscribe);
+            player.gameObject.SetActive(false);
         }, (error) =>
         {
             // エラー処理
