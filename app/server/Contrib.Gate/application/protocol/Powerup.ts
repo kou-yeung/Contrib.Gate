@@ -48,7 +48,7 @@ function Powerup(params, context, done) {
                         // 指定IDのアイテム情報を取得する
                         let item = items.find(s.items[i].identify);
                         // 餌の回数を加算する : アイテム毎の回数 * アイテム数
-                        r.pet.powerupCount = item.powerup * s.items[i].num;
+                        r.pet.powerupCount += item.powerup * s.items[i].num;
                         // パラメータ増加
                         item.param.forEach((param, j) => {
                             r.pet.param[param] += item.value[j] * s.items[j].num;

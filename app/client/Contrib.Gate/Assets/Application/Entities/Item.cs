@@ -17,6 +17,7 @@ namespace Entities
         public string Name;             // 名前
         public int Rarity;              // レアリティ
         public string Image;            // 画像ID
+        public int PowerupCost;         // 餌増加
         public List<Effect> Effects;    // 効果
         public string Desc;             // 説明文
     }
@@ -29,12 +30,13 @@ namespace Entities
             Map(x => x.Name).Index(1);
             Map(x => x.Rarity).Index(2);
             Map(x => x.Image).Index(3);
+            Map(x => x.PowerupCost).Index(4);
             Map(x => x.Effects).ConvertUsing(row =>
             {
                 var res = new List<Item.Effect>();
                 for (int i = 0; i < 4; i += 2)
                 {
-                    var offset = 4 + i;
+                    var offset = 5 + i;
                     string param; int value;
                     if (!row.TryGetField(offset++, out param)) continue;
                     if (!row.TryGetField(offset++, out value)) continue;

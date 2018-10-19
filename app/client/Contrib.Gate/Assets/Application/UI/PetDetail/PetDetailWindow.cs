@@ -18,14 +18,21 @@ namespace UI
         public Text level;
         public Text unit;
 
-        Entities.PetItem item;
+        string uniqid;
         UnitList modify;
 
         protected override void OnOpen(params object[] args)
         {
-            item = Entity.Instance.PetList.items.Find(v => v.uniqid == (string)args[0]);
+            uniqid = args[0] as string;
             if (args.Length >= 2) modify = args[1] as UnitList;
+            Setup();
+            Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
+            base.OnOpen(args);
+        }
 
+        void Setup()
+        {
+            var item = Entity.Instance.PetList.items.Find(v => v.uniqid == uniqid);
             for (int i = 0; i < (int)Param.Count; i++)
             {
                 if ((Param)i == Param.Luck) continue;
@@ -37,29 +44,19 @@ namespace UI
             level.text = $"Lv.{item.Level.ToString()}";
 
             // ユニットにセットしている？
-            if (Exists())
-            {
-                unit.text = "ユニットから外す";
-            }
-            else
-            {
-                unit.text = "ユニットにセットする";
-            }
-
-            Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
-            base.OnOpen(args);
+            unit.text = Exists() ? "ユニットから外す" : "ユニットにセットする";
         }
 
         void OnSubscribe(string name, object o)
         {
-            // ユニットにセットしている？
-            if (Exists())
+            switch (name)
             {
-                unit.text = "ユニットから外す";
-            }
-            else
-            {
-                unit.text = "ユニットにセットする";
+                case UnitList.UpdateEvent:
+                    Setup();
+                    break;
+                case PowerupWindow.CloseEvent:
+                    Setup();
+                    break;
             }
         }
 
@@ -68,26 +65,18 @@ namespace UI
             switch (btn.name)
             {
                 case "Unit":
-                    Observer.Instance.Notify(ModifyEvent, item.uniqid);
+                    Observer.Instance.Notify(ModifyEvent, uniqid);
                     break;
                 case "Powerup":
                     {
-                        var send = new PowerupSend();
-                        send.uniqid = item.uniqid;
-                        send.items = new Entities.InventoryItem[]
-                        {
-                        new Entities.InventoryItem{ identify = new Identify(IDType.Item,1001), num = 1 },
-                        };
-                        Protocol.Send(send, r => {
-                            Entity.Instance.Inventory.Modify(r.items);
-                            Entity.Instance.PetList.Modify(r.pet);
-                        });
+                        Open<PowerupWindow>(uniqid);
+                        Observer.Instance.Subscribe(PowerupWindow.CloseEvent, OnSubscribe);
                     }
                     break;
                 case "Skill":
                     {
                         var send = new SkillLearnSend();
-                        send.uniqid = item.uniqid;
+                        send.uniqid = uniqid;
                         send.skill = new Identify(IDType.Skill, 1001);
                         Protocol.Send(send, r =>
                         {
@@ -111,8 +100,8 @@ namespace UI
 
         bool Exists()
         {
-            if (modify != null) return modify.Exists(item.uniqid);
-            else return Entity.Instance.UnitList.Exists(item.uniqid);
+            if (modify != null) return modify.Exists(uniqid);
+            else return Entity.Instance.UnitList.Exists(uniqid);
         }
     }
 }
