@@ -112,13 +112,10 @@ public class InGame : MonoBehaviour
         Observer.Instance.Subscribe(Player.ChangeGridEvent, OnSubscribe);
     }
 
-    bool flag = false;
-
     void onTriggerEnter(string s)
     {
-        if (flag) return;
-        flag = true;
-
+        if (!joystick.enabled) return;
+        joystick.enabled = false;
         switch (EnumExtension<Tile>.Parse(s))
         {
             case Tile.Goal: Goal(); break;
