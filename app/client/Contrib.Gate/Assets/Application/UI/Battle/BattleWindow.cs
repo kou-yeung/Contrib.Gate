@@ -285,7 +285,6 @@ namespace UI
                                 }
                                 combat.Next();
                             });
-                            handle.SetScale(Vector3.one * .2f);
                         });
                     }
                     break;

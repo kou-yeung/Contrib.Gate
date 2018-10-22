@@ -99,7 +99,7 @@ namespace UI
 
     public class MonitorSetting
     {
-        public static Vector3 MonitorPosition = new Vector3(10000, 10000, 0);
+        public static Vector3 MonitorPosition = new Vector3(1000, 1000, 0);
         public static Vector3 MonitorOffset = new Vector3(1500, 0, 0);
     }
 
