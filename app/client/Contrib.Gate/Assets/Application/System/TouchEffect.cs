@@ -16,15 +16,11 @@ public class TouchEffect : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             PlayTouchEffect(Input.mousePosition);
         }
-        if (Input.GetMouseButtonUp(0))
-        {
-            //EffectManager.Instance.Play("Simple_Ring_Shape2", Vector3.zero);
-        }
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
         {
             PlayTouchEffect(Input.touches[0].position);
         }
