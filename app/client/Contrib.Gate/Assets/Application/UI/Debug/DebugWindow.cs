@@ -16,6 +16,8 @@ namespace UI
         public DebugParam[] Params;
         public ANZListView list;
         public GameObject prefab;
+        public GameObject switchButton;
+
         Cheat current;
 
         public float HeightItem()
@@ -122,6 +124,14 @@ namespace UI
                 case "DeleteAccessToken":
                     Network.Auth.DeleteAccessToken();
                     break;
+            }
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                switchButton.SetActive(!switchButton.activeSelf);
             }
         }
     }

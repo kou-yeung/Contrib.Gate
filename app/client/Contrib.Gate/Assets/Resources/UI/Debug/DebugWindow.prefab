@@ -79,7 +79,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1230260098686990
 GameObject:
   m_ObjectHideFlags: 1
@@ -1697,6 +1697,7 @@ MonoBehaviour:
   - {fileID: 114474501826457238}
   list: {fileID: 114870999660276110}
   prefab: {fileID: 1223443277479010, guid: b0eeff571469be1418ea9cdf954e2318, type: 2}
+  switchButton: {fileID: 1181252811845850}
 --- !u!114 &114815744187554754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2581,7 +2582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -56.94, y: -28.849976}
+  m_AnchoredPosition: {x: -56.93994, y: -28.849976}
   m_SizeDelta: {x: 113.88, y: 57.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224263330088332600
