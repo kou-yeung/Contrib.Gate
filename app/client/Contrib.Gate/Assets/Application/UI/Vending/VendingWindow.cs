@@ -7,7 +7,7 @@ using Network;
 
 namespace UI
 {
-    public class VendingWindow : Window, ANZListView.IDataSource, ANZListView.IActionDelegate
+    public class VendingWindow : Window, ANZListView.IDataSource, ANZListView.IActionDelegate, ANZListView.IPressDelegate
     {
         public ANZListView list;
         public GameObject vendingItemPrefab;
@@ -34,6 +34,7 @@ namespace UI
         {
             list.DataSource = this;
             list.ActionDelegate = this;
+            list.PressDelegate = this;
             list.ReloadData();
             base.OnStart();
         }
@@ -59,6 +60,11 @@ namespace UI
                     });
                 });
 
+        }
+
+        public void PressCellItem(int index, GameObject listItem)
+        {
+            Debug.Log($"PressCellItem {index}");
         }
     }
 }

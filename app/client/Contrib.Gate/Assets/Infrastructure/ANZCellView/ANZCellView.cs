@@ -24,6 +24,10 @@ namespace Xyz.AnzFactory.UI
         {
             void TapCellItem(int index, GameObject listItem);
         }
+        public interface IPressDelegate
+        {
+            void PressCellItem(int index, GameObject listItem);
+        }
 
         #region "Fields"
         private ScrollRect scrollRect;
@@ -39,6 +43,7 @@ namespace Xyz.AnzFactory.UI
         public int ItemCount { get; private set; }
         public IDataSource DataSource { get; set; }
         public IActionDelegate ActionDelegate { get; set; }
+        public IPressDelegate PressDelegate { get; set; }
         #endregion
 
         #region "Events"
@@ -117,8 +122,24 @@ namespace Xyz.AnzFactory.UI
                     break;
                 }
             }
-
         }
+        public void PressItem(GameObject listItem)
+        {
+            if (this.PressDelegate == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < this.visibleItemDataList.Count; i++)
+            {
+                if (this.visibleItemDataList[i].Item == listItem)
+                {
+                    this.PressDelegate.PressCellItem(this.visibleItemDataList[i].Position, listItem);
+                    break;
+                }
+            }
+        }
+
         #endregion
 
         #region "Public Methods"
@@ -237,9 +258,17 @@ namespace Xyz.AnzFactory.UI
                 itemRectTransform.anchorMin = new Vector2(0, 0);
                 itemRectTransform.anchorMax = new Vector2(1, 1);
 
-                var clickHandler = item.GetComponent<ClickHandler>() ?? item.AddComponent<ClickHandler>();
-                clickHandler.callback = (gameObject) => {
-                    this.TapItem(gameObject);
+                var clickHandler = item.GetComponent<PointerHandler>() ?? item.AddComponent<PointerHandler>();
+                clickHandler.callback = (gameObject, e) => {
+                    switch (e)
+                    {
+                        case PointerHandler.Event.Click:
+                            this.TapItem(gameObject);
+                            break;
+                        case PointerHandler.Event.Press:
+                            this.PressItem(gameObject);
+                            break;
+                    }
                 };
             } else {
                 item = this.DataSource.CellViewItem(listItem.Position, listItem.Item);
@@ -327,14 +356,47 @@ namespace Xyz.AnzFactory.UI
         /// EventTriggerでやっちゃうとドラッグイベントも全部もっていっちゃって
         /// スクロールできなくなってしまうので、自分でやーる
         /// </summary>
-        private class ClickHandler: MonoBehaviour, IPointerClickHandler
+        private class PointerHandler : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler
         {
-            public System.Action<GameObject> callback;
+            public enum Event
+            {
+                Click,  // クリック
+                Press,  // 長押し
+            }
+            private static float PressTime = 0.5f;  // 長押し判定
+            public System.Action<GameObject, Event> callback;
+            bool blockOnce = false;
+            Coroutine coroutine;
+
             public void OnPointerClick(PointerEventData eventData)
             {
-                this.callback(this.gameObject);
+                if(!blockOnce) this.callback(gameObject, Event.Click);
+                blockOnce = false;
+            }
+
+            public void OnPointerDown(PointerEventData eventData)
+            {
+                coroutine = StartCoroutine(Press());
+            }
+
+            public void OnPointerUp(PointerEventData eventData)
+            {
+                if (coroutine != null) StopCoroutine(coroutine);
+                coroutine = null;
+            }
+            public void OnBeginDrag(PointerEventData eventData)
+            {
+                if (coroutine != null) StopCoroutine(coroutine);
+                coroutine = null;
+            }
+
+            IEnumerator Press()
+            {
+                yield return new WaitForSecondsRealtime(PressTime);
+                blockOnce = true;
+                this.callback(gameObject, Event.Press);
+                coroutine = null;
             }
         }
-
     }
 }

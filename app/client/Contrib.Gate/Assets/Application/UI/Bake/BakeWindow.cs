@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace UI
 {
-    public class BakeWindow : Window, ANZCellView.IDataSource, ANZCellView.IActionDelegate
+    public class BakeWindow : Window, ANZCellView.IDataSource, ANZCellView.IActionDelegate, ANZCellView.IPressDelegate
     {
         public ANZCellView cell;
         public GameObject bakeItemPrefab;
@@ -29,6 +29,11 @@ namespace UI
         public int NumOfItems()
         {
             return Entity.Instance.Recipes.Length;
+        }
+
+        public void PressCellItem(int index, GameObject listItem)
+        {
+            Debug.Log($"PressCellItem {index}");
         }
 
         public void TapCellItem(int index, GameObject listItem)
@@ -70,6 +75,7 @@ namespace UI
         {
             cell.DataSource = this;
             cell.ActionDelegate = this;
+            cell.PressDelegate = this;
             cell.ReloadData();
             base.OnStart();
         }
