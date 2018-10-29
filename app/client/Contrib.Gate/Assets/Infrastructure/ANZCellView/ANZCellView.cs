@@ -371,11 +371,11 @@ namespace Xyz.AnzFactory.UI
             public void OnPointerClick(PointerEventData eventData)
             {
                 if(!blockOnce) this.callback(gameObject, Event.Click);
-                blockOnce = false;
             }
 
             public void OnPointerDown(PointerEventData eventData)
             {
+                blockOnce = false;
                 coroutine = StartCoroutine(Press());
             }
 

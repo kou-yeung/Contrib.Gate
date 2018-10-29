@@ -62,9 +62,9 @@ namespace UI
 
         }
 
-        public void PressCellItem(int index, GameObject listItem)
+        public void PressListItem(int index, GameObject listItem)
         {
-            Debug.Log($"PressCellItem {index}");
+            Debug.Log($"PressListItem {index}");
         }
     }
 }

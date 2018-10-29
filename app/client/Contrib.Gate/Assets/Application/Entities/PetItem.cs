@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+
 namespace Entities
 {
     public partial class PetItem
@@ -39,6 +41,15 @@ namespace Entities
             res += Familiar.additionParam[(int)param] * (Level - 1);    // レベルアップによる増加パラメータ
             res += this.param[(int)param];                              // 餌付けによる増加パラメータ
             return res;
+        }
+
+        /// <summary>
+        /// 顔画像をロード
+        /// </summary>
+        /// <returns></returns>
+        public Sprite GetFaceImage()
+        {
+            return Resources.LoadAll<Sprite>($"Familiar/{Familiar.Image}/face")[0];
         }
     }
 }

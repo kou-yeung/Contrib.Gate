@@ -27,7 +27,7 @@ namespace Xyz.AnzFactory.UI
         }
         public interface IPressDelegate
         {
-            void PressCellItem(int index, GameObject listItem);
+            void PressListItem(int index, GameObject listItem);
         }
 
         #region "Fields"
@@ -142,7 +142,7 @@ namespace Xyz.AnzFactory.UI
             {
                 if (this.visibleItemDataList[i].Item == listItem)
                 {
-                    this.PressDelegate.PressCellItem(this.visibleItemDataList[i].Position, listItem);
+                    this.PressDelegate.PressListItem(this.visibleItemDataList[i].Position, listItem);
                     break;
                 }
             }
@@ -377,11 +377,11 @@ namespace Xyz.AnzFactory.UI
             public void OnPointerClick(PointerEventData eventData)
             {
                 if (!blockOnce) this.callback(gameObject, Event.Click);
-                blockOnce = false;
             }
 
             public void OnPointerDown(PointerEventData eventData)
             {
+                blockOnce = false;
                 coroutine = StartCoroutine(Press());
             }
 

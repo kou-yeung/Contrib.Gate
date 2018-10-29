@@ -11,32 +11,47 @@ using System.Linq;
 
 namespace UI
 {
-    public class PetWindow : Window, ANZCellView.IDataSource, ANZCellView.IActionDelegate
+    public class PetWindow : Window, ANZCellView.IActionDelegate, ANZCellView.IPressDelegate, ANZListView.IActionDelegate, ANZListView.IPressDelegate
     {
         public ANZCellView cell;
         public GameObject petItemPrefab;
-        public PetItem[] units;
+
+        public ANZListView list;
+        public GameObject petInfoItemPrefab;
+        //public PetItem[] units;
 
         UnitList modify;
-
-        public GameObject CellViewItem(int index, GameObject item)
+        //============================
+        // ペット一覧
+        //============================
+        class PetCell : ANZCellView.IDataSource
         {
-            if (item == null) item = Instantiate(petItemPrefab);
-            item.GetComponent<PetItem>().Setup(Entity.Instance.PetList.items[index]);
-            return item;
-        }
+            GameObject petItemPrefab;
+            public PetCell(GameObject petItemPrefab)
+            {
+                this.petItemPrefab = petItemPrefab;
+            }
 
-        public Vector2 ItemSize()
-        {
-            return petItemPrefab.GetComponent<RectTransform>().sizeDelta;
-        }
+            public GameObject CellViewItem(int index, GameObject item)
+            {
+                if (item == null) item = Instantiate(petItemPrefab);
+                item.GetComponent<PetItem>().Setup(Entity.Instance.PetList.items[index]);
+                return item;
+            }
+            public Vector2 ItemSize()
+            {
+                return petItemPrefab.GetComponent<RectTransform>().sizeDelta;
+            }
 
-        public int NumOfItems()
-        {
-            return Entity.Instance.PetList.items.Count;
+            public int NumOfItems()
+            {
+                return Entity.Instance.PetList.items.Count;
+            }
         }
-
         public void TapCellItem(int index, GameObject listItem)
+        {
+        }
+        public void PressCellItem(int index, GameObject listItem)
         {
             // 詳細表示
             var pet = listItem.GetComponent<PetItem>().pet;
@@ -44,14 +59,68 @@ namespace UI
             Observer.Instance.Subscribe(PetDetailWindow.ModifyEvent, OnSubscribe);
             Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
         }
+        //============================
+        // ユニット
+        //============================
+        class UnitView : ANZListView.IDataSource
+        {
+            GameObject petInfoItemPrefab;
+            public Func<UnitItem> GetCurrentUnit;
 
+            public UnitView(GameObject petInfoItemPrefab)
+            {
+                this.petInfoItemPrefab = petInfoItemPrefab;
+            }
+            public float HeightItem()
+            {
+                return petInfoItemPrefab.GetComponent<RectTransform>().sizeDelta.y;
+            }
+
+            public GameObject ListViewItem(int index, GameObject item)
+            {
+                if (item == null) item = Instantiate(petInfoItemPrefab);
+                var info = petInfoItemPrefab.GetComponent<PetInfo>();
+                var unit = GetCurrentUnit();
+                var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == unit.uniqids[index]);
+                info.Setup(pet);
+                return item;
+            }
+
+            public int NumOfItems()
+            {
+                return GetCurrentUnit().uniqids.Count(v => !string.IsNullOrEmpty(v));
+            }
+        }
+        public void TapListItem(int index, GameObject listItem)
+        {
+        }
+        public void PressListItem(int index, GameObject listItem)
+        {
+            // 詳細表示
+            var pet = listItem.GetComponent<PetInfo>().pet;
+            Window.Open<PetDetailWindow>(pet.uniqid, modify);
+            Observer.Instance.Subscribe(PetDetailWindow.ModifyEvent, OnSubscribe);
+            Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
+        }
+
+        //============================
+        // Window自身
+        //============================
         protected override void OnStart()
         {
             modify = Entity.Instance.UnitList.Clone();
 
-            cell.DataSource = this;
+            cell.DataSource = new PetCell(petItemPrefab);
             cell.ActionDelegate = this;
+            cell.PressDelegate = this;
             cell.ReloadData();
+
+            var view = new UnitView(petInfoItemPrefab);
+            list.DataSource = view;
+            list.ActionDelegate = this;
+            list.PressDelegate = this;
+            view.GetCurrentUnit = () => { return modify.items[0]; };
+            list.ReloadData();
 
             SetupUnit();
             Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
@@ -119,19 +188,8 @@ namespace UI
 
         private void SetupUnit()
         {
-            for (int i = 0; i < units.Length; i++)
-            {
-                var item = modify.items[0];
-                for (int j = 0; j < item.uniqids.Length; j++)
-                {
-                    var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == item.uniqids[j]);
-                    if (pet != null)
-                    {
-                        units[j].Setup(pet);
-                    }
-                    units[j].gameObject.SetActive(!string.IsNullOrEmpty(item.uniqids[j]));
-                }
-            }
+            cell.ReloadData();
+            list.ReloadData();
         }
 
         protected override void OnButtonClick(Button btn)
@@ -154,5 +212,6 @@ namespace UI
                     break;
             }
         }
+
     }
 }
