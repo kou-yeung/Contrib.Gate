@@ -79,10 +79,9 @@ namespace UI
             public GameObject ListViewItem(int index, GameObject item)
             {
                 if (item == null) item = Instantiate(petInfoItemPrefab);
-                var info = petInfoItemPrefab.GetComponent<PetInfo>();
                 var unit = GetCurrentUnit();
                 var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == unit.uniqids[index]);
-                info.Setup(pet);
+                item.GetComponent<PetInfo>().Setup(pet);
                 return item;
             }
 
@@ -113,14 +112,12 @@ namespace UI
             cell.DataSource = new PetCell(petItemPrefab);
             cell.ActionDelegate = this;
             cell.PressDelegate = this;
-            cell.ReloadData();
 
             var view = new UnitView(petInfoItemPrefab);
             list.DataSource = view;
             list.ActionDelegate = this;
             list.PressDelegate = this;
             view.GetCurrentUnit = () => { return modify.items[0]; };
-            list.ReloadData();
 
             SetupUnit();
             Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
