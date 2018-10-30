@@ -10,6 +10,8 @@ namespace UI
     {
         public Entities.PetItem pet;
         public Text[] param;
+        public Text level;
+        public Text powerup;
         public Image image;
 
         public void Setup(Entities.PetItem item)
@@ -19,10 +21,15 @@ namespace UI
             {
                 if (i == (int)Param.Luck) continue;
                 var value = item.GetParam((Param)i);
-                param[i].text = value.ToString();
-            }
 
+                var format = "{0}";
+                if ((Param)i == Param.HP) format = "HP.{0}";
+                else if ((Param)i == Param.MP) format = "MP.{0}";
+                param[i].text = string.Format(format, value.ToString());
+            }
             image.sprite = item.GetFaceImage();
+            level.text = $"Lv.{item.level}";
+            powerup.text = $"{item.powerupCount}/{item.level}";
         }
     }
 }

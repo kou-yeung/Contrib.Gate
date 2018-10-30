@@ -40,8 +40,8 @@ namespace UI
             }
             name.text = item.Familiar.Name;
             var id = new Entities.Identify(item.id);
-            face.sprite = Resources.LoadAll<Sprite>($"Familiar/{id.Id}/face")[0];
-            level.text = $"Lv.{item.Level.ToString()}";
+            face.sprite = Resources.Load<Sprite>($"Familiar/{id.Id}/base");
+            level.text = $"Lv.{item.level.ToString()}";
 
             // ユニットにセットしている？
             unit.text = Exists() ? "ユニットから外す" : "ユニットにセットする";

@@ -85,7 +85,7 @@ namespace UI
                 name.text = pet.Familiar.Name; // 名
                 var id = new Entities.Identify(pet.id);
                 face.sprite = Resources.LoadAll<Sprite>($"Familiar/{id.Id}/face")[0];
-                level.text = $"Lv.{pet.Level.ToString()}";
+                level.text = $"Lv.{pet.level.ToString()}";
             }
 
             // パラメータ設定

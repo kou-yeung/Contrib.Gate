@@ -21,13 +21,13 @@ namespace Entities
             }
         }
 
-        /// <summary>
-        /// レベル取得
-        /// </summary>
-        public int Level
-        {
-            get { return Entity.Instance.LevelTable.Level(this.exp); }
-        }
+        ///// <summary>
+        ///// レベル取得
+        ///// </summary>
+        //public int Level
+        //{
+        //    get { return Entity.Instance.LevelTable.Level(this.exp); }
+        //}
 
         /// <summary>
         /// 指定したパラメータの実際値を取得する
@@ -38,7 +38,7 @@ namespace Entities
         public int GetParam(Param param)
         {
             var res = Familiar.baseParam[(int)param];                   // 基礎パラメータ
-            res += Familiar.additionParam[(int)param] * (Level - 1);    // レベルアップによる増加パラメータ
+            res += Familiar.additionParam[(int)param] * (level - 1);    // レベルアップによる増加パラメータ
             res += this.param[(int)param];                              // 餌付けによる増加パラメータ
             return res;
         }
