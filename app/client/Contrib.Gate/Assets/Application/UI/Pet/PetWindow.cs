@@ -50,6 +50,8 @@ namespace UI
         }
         public void TapCellItem(int index, GameObject listItem)
         {
+            var item = listItem.GetComponent<PetItem>();
+            Modify(item.pet.uniqid);
         }
         public void PressCellItem(int index, GameObject listItem)
         {
@@ -92,6 +94,8 @@ namespace UI
         }
         public void TapListItem(int index, GameObject listItem)
         {
+            var item = listItem.GetComponent<PetInfo>();
+            Modify(item.pet.uniqid);
         }
         public void PressListItem(int index, GameObject listItem)
         {
@@ -129,6 +133,51 @@ namespace UI
             Observer.Instance.Unsubscribe(UnitList.UpdateEvent, OnSubscribe);
         }
 
+        /// <summary>
+        /// 指定IDが編集された
+        /// </summary>
+        /// <param name="uniqid"></param>
+        void Modify(string uniqid)
+        {
+            var index = Array.IndexOf(modify.items[0].uniqids, uniqid);
+            if (index != -1)
+            {
+                var count = modify.items[0].uniqids.Count(v => !string.IsNullOrEmpty(v));
+
+                if (count > 1)
+                {
+                    // 外す
+                    modify.items[0].uniqids[index] = "";
+
+                    var v1 = modify.items[0].uniqids.Where(v => !string.IsNullOrEmpty(v));  // 空きではない
+                    var v2 = modify.items[0].uniqids.Where(v => string.IsNullOrEmpty(v));   // 空き
+                    modify.items[0].uniqids = v1.Concat(v2).ToArray();                      // 再連結 
+
+                    modify.Modify(modify.items[0]);
+                }
+                else
+                {
+                    // 1 体以下の場合、外せない!
+                    DialogWindow.OpenOk("確認", "最低１体をセットしなさい!!");
+                }
+            }
+            else
+            {
+                var space = Array.IndexOf(modify.items[0].uniqids, "");
+                if (space == -1)
+                {
+                    // 空きがない
+                    DialogWindow.OpenOk("確認", "空き枠がありません");
+                }
+                else
+                {
+                    // セットする
+                    modify.items[0].uniqids[space] = uniqid;
+                    modify.Modify(modify.items[0]);
+                }
+            }
+        }
+
         void OnSubscribe(string name, object o)
         {
             switch (name)
@@ -141,44 +190,7 @@ namespace UI
                     Observer.Instance.Unsubscribe(PetDetailWindow.ModifyEvent, OnSubscribe);
                     break;
                 case PetDetailWindow.ModifyEvent:
-                    var uniqid = o as string;
-
-                    var index = Array.IndexOf(modify.items[0].uniqids, uniqid);
-                    if (index != -1)
-                    {
-                        var count = modify.items[0].uniqids.Count(v => !string.IsNullOrEmpty(v));
-
-                        if (count > 1)
-                        {
-                            // 外す
-                            modify.items[0].uniqids[index] = "";
-
-                            var v1 = modify.items[0].uniqids.Where(v => !string.IsNullOrEmpty(v));  // 空きではない
-                            var v2 = modify.items[0].uniqids.Where(v => string.IsNullOrEmpty(v));   // 空き
-                            modify.items[0].uniqids = v1.Concat(v2).ToArray();                      // 再連結 
-
-                            modify.Modify(modify.items[0]);
-                        }
-                        else
-                        {
-                            // 1 体以下の場合、外せない!
-                            DialogWindow.OpenOk("確認", "最低１体をセットしなさい!!");
-                        }
-                    }
-                    else
-                    {
-                        var space = Array.IndexOf(modify.items[0].uniqids, "");
-                        if (space == -1)
-                        {
-                            // 空きがない
-                            DialogWindow.OpenOk("確認", "空き枠がありません");
-                        } else
-                        {
-                            // セットする
-                            modify.items[0].uniqids[space] = uniqid;
-                            modify.Modify(modify.items[0]);
-                        }
-                    }
+                    Modify(o as string);
                     break;
             }
         }
