@@ -14,8 +14,20 @@ TextureImporter:
     21300018: $yuhinamv014_9
     21300020: $yuhinamv014_10
     21300022: $yuhinamv014_11
+    21300024: walk_0
+    21300026: walk_1
+    21300028: walk_2
+    21300030: walk_3
+    21300032: walk_4
+    21300034: walk_5
+    21300036: walk_6
+    21300038: walk_7
+    21300040: walk_8
+    21300042: walk_9
+    21300044: walk_10
+    21300046: walk_11
   externalObjects: {}
-  serializedVersion: 6
+  serializedVersion: 7
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -57,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 45
+  spritePixelsToUnits: 72
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -118,13 +130,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: $yuhinamv014_0
+      name: walk_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 135
-        width: 45
-        height: 45
+        y: 216
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,19 +144,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11980eb74f40ec249abea77d750e9fc2
+      spriteID: 7e739450d0b1dc249a9a70d3a86510ee
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv014_1
+      name: walk_1
       rect:
         serializedVersion: 2
-        x: 45
-        y: 135
-        width: 45
-        height: 45
+        x: 72
+        y: 216
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,19 +164,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 54e44d0afc88072419a92ab09127937f
+      spriteID: 31a852e0e96e06244b15ed4d3555c285
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv014_2
+      name: walk_2
       rect:
         serializedVersion: 2
-        x: 90
-        y: 135
-        width: 45
-        height: 45
+        x: 144
+        y: 216
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,79 +184,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1d62b4059912c74293062f3815e9f0f
+      spriteID: f60bf4172d46f0f4787575c045bbe690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv014_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 90
-        width: 45
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ede302cf78bb97a458b84140146f7f96
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: $yuhinamv014_4
-      rect:
-        serializedVersion: 2
-        x: 45
-        y: 90
-        width: 45
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3b81b1581aaea81419c141dad03f7d1f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: $yuhinamv014_5
-      rect:
-        serializedVersion: 2
-        x: 90
-        y: 90
-        width: 45
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 38c70135429b3a14e990d23e4b1b83af
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: $yuhinamv014_6
+      name: walk_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 45
-        width: 45
-        height: 45
+        y: 144
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -252,19 +204,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2b137ac65f57e941b2d9685f56c2b72
+      spriteID: ad12ea1dce9b6254cadc36756908e530
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv014_7
+      name: walk_4
       rect:
         serializedVersion: 2
-        x: 45
-        y: 45
-        width: 45
-        height: 45
+        x: 72
+        y: 144
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -272,19 +224,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f53a7ee6eb71e84eb6283cc71666aff
+      spriteID: 1197a36e884b40f4c81f900c2caea7da
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv014_8
+      name: walk_5
       rect:
         serializedVersion: 2
-        x: 90
-        y: 45
-        width: 45
-        height: 45
+        x: 144
+        y: 144
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,19 +244,79 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0862600a3a9f594f85c12d49e28ae46
+      spriteID: e07d041f47941e04b8f3c8e49deec7a3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv014_9
+      name: walk_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 72
+        width: 72
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c07609735ba81c842b30de04545e1ac6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walk_7
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 72
+        width: 72
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6aebb4173d166264a9be1c07545af4d2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walk_8
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 72
+        width: 72
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a438245c8bf4c8342b07b4ad7b0f9adf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walk_9
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 45
-        height: 45
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -312,19 +324,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac2b6f1e3a9b0934b909eea09250d3cc
+      spriteID: 2121eb07a4ca664479a1433c5197b4f2
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv014_10
+      name: walk_10
       rect:
         serializedVersion: 2
-        x: 45
+        x: 72
         y: 0
-        width: 45
-        height: 45
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -332,19 +344,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24218887e106e0a40af87232b8e0c13f
+      spriteID: 9984dce9ef3665c4e85f2bb70e773e4b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv014_11
+      name: walk_11
       rect:
         serializedVersion: 2
-        x: 90
+        x: 144
         y: 0
-        width: 45
-        height: 45
+        width: 72
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -352,7 +364,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd8a63df5297637428e3922502b4cc88
+      spriteID: e129302b2d6e8f04b83b76d237688305
       vertices: []
       indices: 
       edges: []
@@ -366,6 +378,8 @@ TextureImporter:
     edges: []
     weights: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
