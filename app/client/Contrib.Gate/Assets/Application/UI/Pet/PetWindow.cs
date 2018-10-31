@@ -57,8 +57,7 @@ namespace UI
         {
             // 詳細表示
             var pet = listItem.GetComponent<PetItem>().pet;
-            Window.Open<PetDetailWindow>(pet.uniqid, modify);
-            Observer.Instance.Subscribe(PetDetailWindow.ModifyEvent, OnSubscribe);
+            Window.Open<PetDetailWindow>(pet.uniqid);
             Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
         }
         //============================
@@ -101,8 +100,7 @@ namespace UI
         {
             // 詳細表示
             var pet = listItem.GetComponent<PetInfo>().pet;
-            Window.Open<PetDetailWindow>(pet.uniqid, modify);
-            Observer.Instance.Subscribe(PetDetailWindow.ModifyEvent, OnSubscribe);
+            Window.Open<PetDetailWindow>(pet.uniqid);
             Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
         }
 
@@ -187,11 +185,7 @@ namespace UI
                     break;
                 case PetDetailWindow.CloseEvent:
                     Observer.Instance.Unsubscribe(PetDetailWindow.CloseEvent, OnSubscribe);
-                    Observer.Instance.Unsubscribe(PetDetailWindow.ModifyEvent, OnSubscribe);
                     SetupUnit();
-                    break;
-                case PetDetailWindow.ModifyEvent:
-                    Modify(o as string);
                     break;
             }
         }

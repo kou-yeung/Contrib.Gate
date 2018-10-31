@@ -10,21 +10,18 @@ namespace UI
 {
     public class PetDetailWindow : Window
     {
-        public const string ModifyEvent = @"PetDetailWindow:Modify";
+        //public const string ModifyEvent = @"PetDetailWindow:Modify";
         public const string CloseEvent = @"PetDetailWindow:Close";
         public Text[] param;
         public Image face;
         public new Text name;
         public Text level;
-        public Text unit;
 
         string uniqid;
-        UnitList modify;
 
         protected override void OnOpen(params object[] args)
         {
             uniqid = args[0] as string;
-            if (args.Length >= 2) modify = args[1] as UnitList;
             Setup();
             Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
             base.OnOpen(args);
@@ -42,9 +39,6 @@ namespace UI
             var id = new Entities.Identify(item.id);
             face.sprite = Resources.Load<Sprite>($"Familiar/{id.Id}/base");
             level.text = $"Lv.{item.level.ToString()}";
-
-            // ユニットにセットしている？
-            unit.text = Exists() ? "ユニットから外す" : "ユニットにセットする";
         }
 
         void OnSubscribe(string name, object o)
@@ -64,9 +58,6 @@ namespace UI
         {
             switch (btn.name)
             {
-                case "Unit":
-                    Observer.Instance.Notify(ModifyEvent, uniqid);
-                    break;
                 case "Powerup":
                     {
                         Open<PowerupWindow>(uniqid);
@@ -96,12 +87,6 @@ namespace UI
             Observer.Instance.Unsubscribe(UnitList.UpdateEvent, OnSubscribe);
             Observer.Instance.Notify(CloseEvent);
             base.OnClose();
-        }
-
-        bool Exists()
-        {
-            if (modify != null) return modify.Exists(uniqid);
-            else return Entity.Instance.UnitList.Exists(uniqid);
         }
     }
 }

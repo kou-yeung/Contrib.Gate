@@ -73,6 +73,8 @@ namespace UI
                             Entity.Instance.EggList.Remove(r.deleteEgg);
                             Entity.Instance.HatchList.Remove(r.deleteEgg.uniqid);
                             cell.ReloadData();  // リスト更新
+
+                            Open<PetDetailWindow>(r.item.uniqid);
                         });
                     });
                 }

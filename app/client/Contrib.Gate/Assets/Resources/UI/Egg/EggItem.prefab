@@ -257,6 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: {fileID: 114731135446478874}
   hatch: {fileID: 1091711054215396}
+  hatchText: {fileID: 114661753404176428}
 --- !u!222 &222222503503602996
 CanvasRenderer:
   m_ObjectHideFlags: 1
