@@ -15,6 +15,7 @@ public class RotateText : UIBehaviour, IMeshModifier
     // XXX 別の設定ファイルなりcsvにまとめて最初に読み込んでしまうのが良さそう
     public List<char> nonrotatableCharacters;
 
+#if UNITY_EDITOR
     public new void OnValidate()
     {
         base.OnValidate();
@@ -26,6 +27,7 @@ public class RotateText : UIBehaviour, IMeshModifier
             graphics.SetVerticesDirty();
         }
     }
+#endif
 
     public void ModifyMesh(Mesh mesh) { }
     public void ModifyMesh(VertexHelper verts)
