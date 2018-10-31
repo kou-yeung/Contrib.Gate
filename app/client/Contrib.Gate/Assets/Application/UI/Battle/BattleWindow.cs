@@ -16,7 +16,9 @@ namespace UI
     public class BattleWindow : Window
     {
         public const string CloseEvent = @"BattleWindow:Close";
-        public GameObject unitPrefab;
+        public GameObject enemyUnitPrefab;
+        public GameObject playerUnitPrefab;
+
         public GameObject enemiesArea;  // 敵配置エリア
         public GameObject playersArea;  // プレイヤー配置エリア
         public Toggle normal;
@@ -44,7 +46,7 @@ namespace UI
             // 敵配置
             for (int i = 0; i < battleInfo.enemies.Length; i++)
             {
-                var enemy = Instantiate(unitPrefab, enemiesArea.transform);
+                var enemy = Instantiate(enemyUnitPrefab, enemiesArea.transform);
                 enemy.name = enemy.name.Replace("(Clone)", "");
                 var unit = enemy.GetComponent<Unit>();
                 unit.Setup(battleInfo.enemies[i]);
@@ -57,7 +59,7 @@ namespace UI
                 var item = Entity.Instance.PetList.Find(stageInfo.pets[i]);
                 if (item != null)
                 {
-                    var pet = Instantiate(unitPrefab, playersArea.transform);
+                    var pet = Instantiate(playerUnitPrefab, playersArea.transform);
                     pet.name = pet.name.Replace("(Clone)", "");
                     var unit = pet.GetComponent<Unit>();
                     unit.Setup(item);
@@ -95,7 +97,8 @@ namespace UI
 
                     //BattleEnd();
                     break;
-                case "Unit":
+                case "PlayerUnit":
+                case "EnemyUnit":
                     var unit = btn.GetComponent<Unit>();
                     if (unit.Selectable)
                     {

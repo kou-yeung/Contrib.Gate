@@ -45,7 +45,7 @@ public class Unit : MonoBehaviour
         MaxMP = this.Params[Param.MP];
 
         Setup(item.id);
-        character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(item.id).Id}/walk")[7];
+        character.sprite = Resources.Load<Sprite>($"Familiar/{ new Identify(item.id).Id}/base");
         side = Side.Enemy;
     }
 
@@ -57,19 +57,19 @@ public class Unit : MonoBehaviour
         MaxMP = this.Params[Param.MP];
 
         Setup(item.id);
-        character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(item.id).Id}/walk")[4];
+        character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(item.id).Id}/face")[0];
         side = Side.Player;
     }
 
     public void Focus(Action cb = null)
     {
-        LeanTween.moveLocalY(character.gameObject, 15, 0.1f).setLoopPingPong(1);
-        LeanTween.value(0f, 3f, 0.15f).setOnUpdate((float v) =>
-        {
-            var index = side == Side.Player ? new[] { 1, 7, 10, 4 } : new[] { 10, 4, 1, 7 };
-            var i = index[(int)v];
-            character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(id).Id}/walk")[i];
-        }).setOnComplete(cb);
+        LeanTween.moveLocalY(character.gameObject, 15, 0.1f).setLoopPingPong(1).setOnComplete(cb);
+        //LeanTween.value(0f, 3f, 0.15f).setOnUpdate((float v) =>
+        //{
+        //    var index = side == Side.Player ? new[] { 1, 7, 10, 4 } : new[] { 10, 4, 1, 7 };
+        //    var i = index[(int)v];
+        //    character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(id).Id}/walk")[i];
+        //}).setOnComplete(cb);
     }
 
     /// <summary>
