@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     }
 
     public Image character;
-    public Image cursor;
+    public CircleOutline outline;
     public Slider hp;
     public Side side { get; private set; }
 
@@ -31,10 +31,20 @@ public class Unit : MonoBehaviour
     public int MaxMP { get; private set; }
     public bool IsDead { get { return Params[Param.HP] <= 0; } }
 
+    int? outlineId;
+    private void Start()
+    {
+        outlineId = LeanTween.value(0f, 1f, 0.5f).setLoopPingPong().setOnUpdate( (float v) =>
+        {
+            var color = outline.EffectColor;
+            color.a = v;
+            outline.EffectColor = color;
+        }).id;
+    }
     public void Setup(Identify id)
     {
         this.id = id;
-        cursor.gameObject.SetActive(false);
+        outline.gameObject.SetActive(false);
     }
 
     public void Setup(EnemyItem item)
@@ -71,6 +81,10 @@ public class Unit : MonoBehaviour
         //    character.sprite = Resources.LoadAll<Sprite>($"Familiar/{ new Identify(id).Id}/walk")[i];
         //}).setOnComplete(cb);
     }
+    private void OnDestroy()
+    {
+        if(outlineId.HasValue) LeanTween.cancel(outlineId.Value);
+    }
 
     /// <summary>
     /// ダメージを受けた
@@ -88,11 +102,11 @@ public class Unit : MonoBehaviour
     {
         get
         {
-            return cursor.gameObject.activeSelf;
+            return outline.gameObject.activeSelf;
         }
         set
         {
-            cursor.gameObject.SetActive(value);
+            outline.gameObject.SetActive(value);
             GetComponent<Button>().interactable = value;
         }
     }
