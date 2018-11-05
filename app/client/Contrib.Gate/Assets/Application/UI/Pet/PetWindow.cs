@@ -11,14 +11,13 @@ using System.Linq;
 
 namespace UI
 {
-    public class PetWindow : Window, ANZCellView.IActionDelegate, ANZCellView.IPressDelegate, ANZListView.IActionDelegate, ANZListView.IPressDelegate
+    public class PetWindow : Window, ANZCellView.IActionDelegate, ANZCellView.IPressDelegate//, ANZListView.IActionDelegate, ANZListView.IPressDelegate
     {
-        public ANZCellView cell;
+        public ANZCellView petCell;
         public GameObject petItemPrefab;
 
-        public ANZListView list;
+        public ANZCellView unitCell;
         public GameObject petInfoItemPrefab;
-        //public PetItem[] units;
 
         UnitList modify;
         //============================
@@ -48,36 +47,29 @@ namespace UI
                 return Entity.Instance.PetList.items.Count;
             }
         }
-        public void TapCellItem(int index, GameObject listItem)
-        {
-            var item = listItem.GetComponent<PetItem>();
-            Modify(item.pet.uniqid);
-        }
-        public void PressCellItem(int index, GameObject listItem)
-        {
-            // 詳細表示
-            var pet = listItem.GetComponent<PetItem>().pet;
-            Window.Open<PetDetailWindow>(pet.uniqid);
-            Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
-        }
         //============================
         // ユニット
         //============================
-        class UnitView : ANZListView.IDataSource
+        class UnitCell : ANZCellView.IDataSource
         {
             GameObject petInfoItemPrefab;
             public Func<UnitItem> GetCurrentUnit;
 
-            public UnitView(GameObject petInfoItemPrefab)
+            public UnitCell(GameObject petInfoItemPrefab)
             {
                 this.petInfoItemPrefab = petInfoItemPrefab;
             }
-            public float HeightItem()
+            public Vector2 ItemSize()
             {
-                return petInfoItemPrefab.GetComponent<RectTransform>().sizeDelta.y;
+                return petInfoItemPrefab.GetComponent<RectTransform>().sizeDelta;
             }
 
-            public GameObject ListViewItem(int index, GameObject item)
+            public int NumOfItems()
+            {
+                return GetCurrentUnit().uniqids.Count(v => !string.IsNullOrEmpty(v));
+            }
+
+            public GameObject CellViewItem(int index, GameObject item)
             {
                 if (item == null) item = Instantiate(petInfoItemPrefab);
                 var unit = GetCurrentUnit();
@@ -85,40 +77,66 @@ namespace UI
                 item.GetComponent<PetInfo>().Setup(pet);
                 return item;
             }
-
-            public int NumOfItems()
-            {
-                return GetCurrentUnit().uniqids.Count(v => !string.IsNullOrEmpty(v));
-            }
         }
-        public void TapListItem(int index, GameObject listItem)
-        {
-            var item = listItem.GetComponent<PetInfo>();
-            Modify(item.pet.uniqid);
-        }
-        public void PressListItem(int index, GameObject listItem)
-        {
-            // 詳細表示
-            var pet = listItem.GetComponent<PetInfo>().pet;
-            Window.Open<PetDetailWindow>(pet.uniqid);
-            Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
-        }
+        //public void TapListItem(int index, GameObject listItem)
+        //{
+        //    var item = listItem.GetComponent<PetInfo>();
+        //    Modify(item.pet.uniqid);
+        //}
+        //public void PressListItem(int index, GameObject listItem)
+        //{
+        //    // 詳細表示
+        //    var pet = listItem.GetComponent<PetInfo>().pet;
+        //    Window.Open<PetDetailWindow>(pet.uniqid);
+        //    Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
+        //}
 
         //============================
         // Window自身
         //============================
+
+        public void TapCellItem(int index, GameObject listItem)
+        {
+            string uniq = "";
+
+            var item = listItem.GetComponent<PetItem>();
+            if (item != null) uniq = item.pet.uniqid;
+
+            var info = listItem.GetComponent<PetInfo>();
+            if (info != null) uniq = info.pet.uniqid;
+
+            if (!string.IsNullOrEmpty(uniq)) Modify(uniq);
+        }
+        public void PressCellItem(int index, GameObject listItem)
+        {
+            // 詳細表示
+            string uniq = "";
+
+            var item = listItem.GetComponent<PetItem>();
+            if (item != null) uniq = item.pet.uniqid;
+
+            var info = listItem.GetComponent<PetInfo>();
+            if (info != null) uniq = info.pet.uniqid;
+
+            if (!string.IsNullOrEmpty(uniq))
+            {
+                Open<PetDetailWindow>(uniq);
+                Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
+            }
+        }
+
         protected override void OnStart()
         {
             modify = Entity.Instance.UnitList.Clone();
 
-            cell.DataSource = new PetCell(petItemPrefab);
-            cell.ActionDelegate = this;
-            cell.PressDelegate = this;
+            petCell.DataSource = new PetCell(petItemPrefab);
+            petCell.ActionDelegate = this;
+            petCell.PressDelegate = this;
 
-            var view = new UnitView(petInfoItemPrefab);
-            list.DataSource = view;
-            list.ActionDelegate = this;
-            list.PressDelegate = this;
+            var view = new UnitCell(petInfoItemPrefab);
+            unitCell.DataSource = view;
+            unitCell.ActionDelegate = this;
+            unitCell.PressDelegate = this;
             view.GetCurrentUnit = () => { return modify.items[0]; };
 
             SetupUnit();
@@ -192,8 +210,8 @@ namespace UI
 
         private void SetupUnit()
         {
-            cell.ReloadData();
-            list.ReloadData();
+            petCell.ReloadData();
+            unitCell.ReloadData();
         }
 
         protected override void OnButtonClick(Button btn)

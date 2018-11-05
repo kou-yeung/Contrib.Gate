@@ -15,12 +15,9 @@ namespace UI
     public class PowerupWindow : Window, ANZCellView.IDataSource, ANZCellView.IActionDelegate
     {
         public const string CloseEvent = @"PowerupWindow:Close";
+        public const string PowerupEvent = @"PowerupWindow:Powerup";
 
-        public Text[] beforeParam;
         public Text[] afterParam;
-        public new Text name;
-        public Image face;
-        public Text level;
         public ANZCellView inventory;
         public GameObject prefab;
         public Text remain;
@@ -75,28 +72,20 @@ namespace UI
             base.OnOpen(args);
         }
 
-        void Setup(bool paramOnly = false)
+        void Setup()
         {
             var pet = Entity.Instance.PetList.Find(uniqid);
             remain.text = ((pet.level - pet.powerupCount)- needPowerCount).ToString();
-
-            if (!paramOnly)
-            {
-                name.text = pet.Familiar.Name; // 名
-                var id = new Entities.Identify(pet.id);
-                face.sprite = Resources.LoadAll<Sprite>($"Familiar/{id.Id}/face")[0];
-                level.text = $"Lv.{pet.level.ToString()}";
-            }
 
             // パラメータ設定
             for (int i = 0; i < (int)Param.Count; i++)
             {
                 if ((Param)i == Param.Luck) continue;
                 var value = pet.GetParam((Param)i);
-                beforeParam[i].text = value.ToString();
-                afterParam[i].text = (value + Grow((Param)i)).ToString();
+                var grow = value + Grow((Param)i);
+                afterParam[i].text = grow.ToString();
 
-                afterParam[i].color = (beforeParam[i].text != afterParam[i].text) ? Color.red : Color.white;
+                afterParam[i].color = (value != grow) ? Color.red : Color.white;
             }
         }
 
@@ -105,7 +94,7 @@ namespace UI
             // 所持アイテム一覧作成
             hasItems = Entity.Instance.Inventory.items.Where(v => new Identify(v.identify).Type == IDType.Item).ToList();
             inventory.ReloadData();
-            Setup(true);
+            Setup();
         }
         protected override void OnClose()
         {
@@ -127,6 +116,8 @@ namespace UI
                         Entity.Instance.PetList.Modify(r.pet);
                         useItems.Clear();
                         UpdateCell();
+
+                        Observer.Instance.Notify(PowerupEvent);
                     });
                     break;
             }

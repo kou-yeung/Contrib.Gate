@@ -51,6 +51,9 @@ namespace UI
                 case PowerupWindow.CloseEvent:
                     Setup();
                     break;
+                case PowerupWindow.PowerupEvent:
+                    Setup();
+                    break;
             }
         }
 
@@ -62,6 +65,7 @@ namespace UI
                     {
                         Open<PowerupWindow>(uniqid);
                         Observer.Instance.Subscribe(PowerupWindow.CloseEvent, OnSubscribe);
+                        Observer.Instance.Subscribe(PowerupWindow.PowerupEvent, OnSubscribe);
                     }
                     break;
                 case "Skill":
