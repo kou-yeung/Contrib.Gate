@@ -10,10 +10,12 @@ using System;
 using UI;
 using Util;
 using Event;
+using Cinemachine;
 
 public class InGame : MonoBehaviour
 {
     public Joystick joystick;
+    public CinemachineVirtualCamera cinemachineVirtualCamera;
 
     StageInfo stageInfo
     {
@@ -108,7 +110,7 @@ public class InGame : MonoBehaviour
                 }
             }
         }
-
+        cinemachineVirtualCamera.Follow = player.transform;
         Observer.Instance.Subscribe(Player.ChangeGridEvent, OnSubscribe);
     }
 
