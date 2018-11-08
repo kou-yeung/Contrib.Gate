@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 8aaaefbc2cfc37c4eb22e8e979096668
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: 07YasashisaAntique
+  fontNames:
+  - 07YasashisaAntique
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2cdade88748c0df4bb1a22ba726f7311, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
