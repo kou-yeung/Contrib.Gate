@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Entities;
 using UnityEngine.UI;
+using System;
 
 namespace UI
 {
     public class PetInfo : MonoBehaviour
     {
-        public Entities.PetItem pet;
+        public Entities.PetItem pet { get; private set; }
         public Text[] param;
-        public Text level;
         public Text powerup;
-        public Image image;
+        public PrefabLinker face;
 
         public void Setup(Entities.PetItem item)
         {
@@ -27,8 +27,9 @@ namespace UI
                 else if ((Param)i == Param.MP) format = "MP.{0}";
                 param[i].text = string.Format(format, value.ToString());
             }
-            image.sprite = item.GetFaceImage();
-            level.text = $"Lv.{item.level}";
+
+            face.GetComponentInChildren<FaceIcon>().Setup(item);
+            //level.text = $"Lv.{item.level}";
             powerup.text = $"{item.powerupCount}/{item.level}";
         }
     }

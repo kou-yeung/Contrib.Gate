@@ -26,15 +26,19 @@ namespace UI
         class PetCell : ANZCellView.IDataSource
         {
             GameObject petItemPrefab;
-            public PetCell(GameObject petItemPrefab)
+            UnitList modify;
+
+            public PetCell(GameObject petItemPrefab, UnitList modify)
             {
                 this.petItemPrefab = petItemPrefab;
+                this.modify = modify;
             }
 
             public GameObject CellViewItem(int index, GameObject item)
             {
                 if (item == null) item = Instantiate(petItemPrefab);
-                item.GetComponent<PetItem>().Setup(Entity.Instance.PetList.items[index]);
+                var data = Entity.Instance.PetList.items[index];
+                item.GetComponent<PetItem>().Setup(data, modify.Exists(data.uniqid));
                 return item;
             }
             public Vector2 ItemSize()
@@ -129,7 +133,7 @@ namespace UI
         {
             modify = Entity.Instance.UnitList.Clone();
 
-            petCell.DataSource = new PetCell(petItemPrefab);
+            petCell.DataSource = new PetCell(petItemPrefab, modify);
             petCell.ActionDelegate = this;
             petCell.PressDelegate = this;
 

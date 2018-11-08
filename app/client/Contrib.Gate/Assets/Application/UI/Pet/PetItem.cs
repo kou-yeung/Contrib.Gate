@@ -9,24 +9,15 @@ namespace UI
     public class PetItem : MonoBehaviour
     {
         public Entities.PetItem pet { get; private set; }
-        public Image icon;
-        public Text rarity;
-        public void Setup(Entities.PetItem item)
+        public PrefabLinker face;
+        public GameObject unit;
+
+        public void Setup(Entities.PetItem item, bool unit = false)
         {
             this.pet = item;
-            var rarity = "";
             var id = new Entities.Identify(item.id);
-            icon.sprite = Resources.LoadAll<Sprite>($"Familiar/{id.Id}/face")[0];
-
-            var familiar = Array.Find(Entities.Entity.Instance.Familiars, v => v.Identify == id);
-            if (familiar != null)
-            {
-                for (int i = 0; i < familiar.Rarity; i++)
-                {
-                    rarity += "★";
-                }
-                this.rarity.text = rarity;
-            }
+            face.GetComponentInChildren<FaceIcon>().Setup(item);
+            this.unit.SetActive(unit);
         }
     }
 }
