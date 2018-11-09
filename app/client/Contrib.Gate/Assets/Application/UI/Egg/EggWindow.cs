@@ -6,34 +6,80 @@ using Xyz.AnzFactory.UI;
 using Entities;
 using Network;
 using UnityEngine.Advertisements;
+using System.Linq;
 
 namespace UI
 {
-    public class EggWindow : Window, ANZCellView.IDataSource, ANZCellView.IActionDelegate
+    public class EggWindow : Window, ANZCellView.IActionDelegate
     {
-        public ANZCellView cell;
-        public GameObject eggItemprefab;
+        public ANZCellView eggCell;
+        public ANZCellView hatchCell;
+        public GameObject eggItemPrefab;
+        public GameObject hatchItemPrefab;
 
-        public GameObject CellViewItem(int index, GameObject item)
+
+        /// <summary>
+        /// タマゴ一覧
+        /// </summary>
+        class EggList : ANZCellView.IDataSource
         {
-            if (item == null) item = Instantiate(eggItemprefab);
-            item.GetComponent<EggItem>().Setup(Entity.Instance.EggList.items[index]);
-            return item;
+            public GameObject eggItemPrefab;
+            public EggList(GameObject eggItemPrefab)
+            {
+                this.eggItemPrefab = eggItemPrefab;
+            }
+            public GameObject CellViewItem(int index, GameObject item)
+            {
+                if (item == null) item = Instantiate(eggItemPrefab);
+                item.GetComponent<EggItem>().Setup(Entity.Instance.EggList.items[index]);
+                return item;
+            }
+
+            public Vector2 ItemSize()
+            {
+                return eggItemPrefab.GetComponent<RectTransform>().sizeDelta;
+            }
+
+            public int NumOfItems()
+            {
+                return Entity.Instance.EggList.items.Count;
+            }
         }
 
-        public Vector2 ItemSize()
+        /// <summary>
+        /// 孵化リスト
+        /// </summary>
+        class HatchList : ANZCellView.IDataSource
         {
-            return eggItemprefab.GetComponent<RectTransform>().sizeDelta;
-        }
+            public GameObject hatchItemPrefab;
+            public HatchList(GameObject hatchItemPrefab)
+            {
+                this.hatchItemPrefab = hatchItemPrefab;
+            }
 
-        public int NumOfItems()
-        {
-            return Entity.Instance.EggList.items.Count;
+            public GameObject CellViewItem(int index, GameObject item)
+            {
+                if (item == null) item = Instantiate(hatchItemPrefab);
+                var hatch = Entity.Instance.HatchList.items[index];
+                item.GetComponent<HatchItem>().Setup(hatch);
+                return item;
+            }
+
+            public Vector2 ItemSize()
+            {
+                return hatchItemPrefab.GetComponent<RectTransform>().sizeDelta;
+            }
+
+            public int NumOfItems()
+            {
+                return Entity.Instance.HatchList.items.Count;
+            }
         }
 
         public void TapCellItem(int index, GameObject listItem)
         {
-            var egg = listItem.GetComponent<EggItem>().egg;
+            Entities.EggItem egg = listItem.GetComponent<EggItem>()?.egg;
+            if(egg == null) egg = listItem.GetComponent<HatchItem>()?.egg;
 
             if (egg.judgment)
             {
@@ -47,7 +93,8 @@ namespace UI
                     Protocol.Send(new JudgmentSend { guid = egg.uniqid }, (JudgmentReceive r) =>
                     {
                         Entity.Instance.EggList.Modify(r.egg);
-                        cell.ReloadData();
+                        eggCell.ReloadData();
+                        hatchCell.ReloadData();
                     });
                 });
             }
@@ -72,7 +119,8 @@ namespace UI
                             Entity.Instance.PetList.Modify(r.item);
                             Entity.Instance.EggList.Remove(r.deleteEgg);
                             Entity.Instance.HatchList.Remove(r.deleteEgg.uniqid);
-                            cell.ReloadData();  // リスト更新
+                            eggCell.ReloadData();  // リスト更新
+                            hatchCell.ReloadData();
 
                             Open<PetDetailWindow>(r.item.uniqid);
                         });
@@ -83,7 +131,8 @@ namespace UI
                     DialogWindow.OpenYesNo("確認", $"孵化残り時間： {remain / 60}:{remain % 60}\n広告を観て 30分短縮しますか？", () =>
                     {
                         var window = Window.Open<AdvertisementWindow>(AdReward.Hatch, egg.uniqid);
-                        window.OnCloseEvent += cell.ReloadData;
+                        window.OnCloseEvent += eggCell.ReloadData;
+                        window.OnCloseEvent += hatchCell.ReloadData;
                     });
                 }
             }
@@ -94,7 +143,8 @@ namespace UI
                     Protocol.Send(new HatchReserveSend { uniqid = egg.uniqid }, (r) =>
                     {
                         Entity.Instance.HatchList.Modify(r.item);
-                        cell.ReloadData();  // リスト更新
+                        eggCell.ReloadData();  // リスト更新
+                        hatchCell.ReloadData();  // リスト更新
                     });
                 });
             }
@@ -102,9 +152,15 @@ namespace UI
 
         protected override void OnStart()
         {
-            cell.DataSource = this;
-            cell.ActionDelegate = this;
-            cell.ReloadData();
+            // 孵化一覧
+            hatchCell.DataSource = new HatchList(hatchItemPrefab);
+            hatchCell.ActionDelegate = this;
+            hatchCell.ReloadData();
+
+            // タマゴ一覧
+            eggCell.DataSource = new EggList(eggItemPrefab);
+            eggCell.ActionDelegate = this;
+            eggCell.ReloadData();
             base.OnStart();
         }
         // Update is called once per frame
