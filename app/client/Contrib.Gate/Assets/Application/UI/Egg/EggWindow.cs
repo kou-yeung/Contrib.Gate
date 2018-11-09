@@ -138,15 +138,24 @@ namespace UI
             }
             else
             {
-                DialogWindow.OpenYesNo("確認", $"{egg.race}のタマゴを孵化予約します", () =>
+
+                // 同時孵化最大数チェック
+                if (Entity.Instance.HatchList.items.Count < (int)Const.MaxHatch)
                 {
-                    Protocol.Send(new HatchReserveSend { uniqid = egg.uniqid }, (r) =>
+                    DialogWindow.OpenYesNo("確認", $"{egg.race}のタマゴを孵化予約します", () =>
                     {
-                        Entity.Instance.HatchList.Modify(r.item);
-                        eggCell.ReloadData();  // リスト更新
-                        hatchCell.ReloadData();  // リスト更新
+                        Protocol.Send(new HatchReserveSend { uniqid = egg.uniqid }, (r) =>
+                        {
+                            Entity.Instance.HatchList.Modify(r.item);
+                            eggCell.ReloadData();  // リスト更新
+                            hatchCell.ReloadData();  // リスト更新
+                        });
                     });
-                });
+                }
+                else
+                {
+                    DialogWindow.OpenOk("確認", "これ以上の予約ができません");
+                }
             }
         }
 
