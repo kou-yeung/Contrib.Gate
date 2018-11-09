@@ -9,6 +9,7 @@ namespace Test
     public class dungeon : MonoBehaviour
     {
         public GameObject[] chip;
+        public Vector2 GridSize = Vector2.one;
 
         void Start()
         {
@@ -26,7 +27,7 @@ namespace Test
                     if (prefab != null)
                     {
                         var go = Instantiate(prefab, this.transform);
-                        go.transform.localPosition = new Vector3(x, 0, -y);
+                        go.transform.localPosition = new Vector3(x * GridSize.x, -8, -y * GridSize.y);
                     }
                 }
             }
