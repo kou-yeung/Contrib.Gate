@@ -82,18 +82,6 @@ namespace UI
                 return item;
             }
         }
-        //public void TapListItem(int index, GameObject listItem)
-        //{
-        //    var item = listItem.GetComponent<PetInfo>();
-        //    Modify(item.pet.uniqid);
-        //}
-        //public void PressListItem(int index, GameObject listItem)
-        //{
-        //    // 詳細表示
-        //    var pet = listItem.GetComponent<PetInfo>().pet;
-        //    Window.Open<PetDetailWindow>(pet.uniqid);
-        //    Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
-        //}
 
         //============================
         // Window自身
@@ -101,26 +89,15 @@ namespace UI
 
         public void TapCellItem(int index, GameObject listItem)
         {
-            string uniq = "";
-
-            var item = listItem.GetComponent<PetItem>();
-            if (item != null) uniq = item.pet.uniqid;
-
-            var info = listItem.GetComponent<PetInfo>();
-            if (info != null) uniq = info.pet.uniqid;
-
+            var uniq = listItem.GetComponent<PetItem>()?.pet.uniqid;
+            if (string.IsNullOrEmpty(uniq)) uniq = listItem.GetComponent<PetInfo>()?.pet.uniqid;
             if (!string.IsNullOrEmpty(uniq)) Modify(uniq);
         }
         public void PressCellItem(int index, GameObject listItem)
         {
             // 詳細表示
-            string uniq = "";
-
-            var item = listItem.GetComponent<PetItem>();
-            if (item != null) uniq = item.pet.uniqid;
-
-            var info = listItem.GetComponent<PetInfo>();
-            if (info != null) uniq = info.pet.uniqid;
+            var uniq = listItem.GetComponent<PetItem>()?.pet.uniqid;
+            if (string.IsNullOrEmpty(uniq)) uniq = listItem.GetComponent<PetInfo>()?.pet.uniqid;
 
             if (!string.IsNullOrEmpty(uniq))
             {
@@ -166,14 +143,18 @@ namespace UI
 
                 if (count > 1)
                 {
-                    // 外す
-                    modify.items[0].uniqids[index] = "";
+                    // ユニットから外す確認
+                    DialogWindow.OpenYesNo("確認", "ユニットから外しますか", () =>
+                    {
+                        // 外す
+                        modify.items[0].uniqids[index] = "";
 
-                    var v1 = modify.items[0].uniqids.Where(v => !string.IsNullOrEmpty(v));  // 空きではない
-                    var v2 = modify.items[0].uniqids.Where(v => string.IsNullOrEmpty(v));   // 空き
-                    modify.items[0].uniqids = v1.Concat(v2).ToArray();                      // 再連結 
+                        var v1 = modify.items[0].uniqids.Where(v => !string.IsNullOrEmpty(v));  // 空きではない
+                        var v2 = modify.items[0].uniqids.Where(v => string.IsNullOrEmpty(v));   // 空き
+                        modify.items[0].uniqids = v1.Concat(v2).ToArray();                      // 再連結 
 
-                    modify.Modify(modify.items[0]);
+                        modify.Modify(modify.items[0]);
+                    });
                 }
                 else
                 {
