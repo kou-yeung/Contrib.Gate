@@ -19,8 +19,8 @@ namespace Entities {
         private init() {
             this.push("敵１", "レベル範囲１");
             this.push("敵２", "レベル範囲２");
-            this.push("敵３", "レベル範囲３");
-            this.push("敵４", "レベル範囲４");
+            //this.push("敵３", "レベル範囲３");
+            //this.push("敵４", "レベル範囲４");
         }
 
         private push(enemy: string, level: string) {
