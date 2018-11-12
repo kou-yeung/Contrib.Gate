@@ -16,6 +16,7 @@ public class InGame : MonoBehaviour
 {
     public Joystick joystick;
     public CinemachineVirtualCamera cinemachineVirtualCamera;
+    public Vector2 GridSize = Vector2.one;
 
     StageInfo stageInfo
     {
@@ -82,13 +83,13 @@ public class InGame : MonoBehaviour
                 if (prefab != null)
                 {
                     var go = Instantiate(prefab, this.transform);
-                    go.transform.localPosition = new Vector3(x, y, 0);
+                    go.transform.localPosition = new Vector3(x * GridSize.x, 0, y * GridSize.y);
                 }
 
                 if (map[x, y] == Tile.Start && stageInfo.move == Move.None)
                 {
                     var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(x, y, 0);
+                    go.transform.localPosition = new Vector3(x * GridSize.x, playerPrefab.transform.localPosition.y, y * GridSize.y);
                     player = go.GetComponent<Player>();
                     player.onTriggerEnter = onTriggerEnter;
                 }
@@ -104,7 +105,7 @@ public class InGame : MonoBehaviour
 
                     // 上り階段 && 下ってきた場合、あるいは逆の場合プレイヤーを置きます。
                     var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(x, y, 0) + offset;
+                    go.transform.localPosition = new Vector3(x * GridSize.x, 0, y * GridSize.y) + offset;
                     player = go.GetComponent<Player>();
                     player.onTriggerEnter = onTriggerEnter;
                 }
