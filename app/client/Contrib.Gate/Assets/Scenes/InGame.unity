@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 500
+    OrthographicSize: 350
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -732,15 +732,15 @@ MonoBehaviour:
   cinemachineVirtualCamera: {fileID: 28578894}
   GridSize: {x: 32, y: 32}
   prefab:
-  - {fileID: 100000, guid: 38879423247f3064580ed87a675fa4fc, type: 3}
-  - {fileID: 100000, guid: 810eb57790a7f8546b5338e974c57609, type: 3}
-  - {fileID: 100000, guid: 57de96a1aa2ebdd47b4a68f6c3dd019a, type: 3}
-  - {fileID: 100000, guid: 69745a47624a2744887a1e022805281c, type: 3}
-  - {fileID: 100000, guid: cf9c359f3ce155645ad87a01e52a73ab, type: 3}
-  - {fileID: 100000, guid: 85d0ab609cd65a94085ce3bd4c11dbcf, type: 3}
-  - {fileID: 100000, guid: 1f833f3b56815a94ea50581ecb4a57cf, type: 3}
-  - {fileID: 100000, guid: 52ca60d10fd7fc343b4b649e85036b2b, type: 3}
-  - {fileID: 100000, guid: 17b4082bdf2f3dc43ac4f6b2eeec9e7d, type: 3}
+  - {fileID: 1147915679038610, guid: ab7ee8fd3b04356458f48ecabfad205e, type: 2}
+  - {fileID: 1774977218771068, guid: 362223a0428bd674bbb0a31fac5f8089, type: 2}
+  - {fileID: 1622064594706390, guid: 75a37b81564590349971dfd5e93fcdfa, type: 2}
+  - {fileID: 1818807438855244, guid: 929334f9f11509747a5935e8171ff422, type: 2}
+  - {fileID: 1557660526105164, guid: 8cd102b7ad500d0438cf60db6116892a, type: 2}
+  - {fileID: 1159200100126966, guid: 2c4dd09601d4d41419c2adba7a48fe7f, type: 2}
+  - {fileID: 1627088320610206, guid: 03f619d21fdf9d24dae5937b18e21a4e, type: 2}
+  - {fileID: 1976371913348416, guid: 3204f8c4e28cafa41adce9187dcc3957, type: 2}
+  - {fileID: 1282232305221662, guid: ef4f0875d0deff74ba848070ab1d758d, type: 2}
   - {fileID: 100000, guid: eb440a2c87207e44c98210381ee3467d, type: 3}
   - {fileID: 100000, guid: b91cbcf8e822fa14eb539dd99c0675dd, type: 3}
   - {fileID: 100000, guid: 7b4bea7a6a50dfb46ae9f56fb2aacd7f, type: 3}
@@ -967,7 +967,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 500
+  orthographic size: 350
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
