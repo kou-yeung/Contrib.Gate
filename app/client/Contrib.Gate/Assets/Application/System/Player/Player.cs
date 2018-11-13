@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     Vector3 move;
     Sprite[] sprites;
     float celloffset;
-    new Rigidbody2D rigidbody;
+    new Rigidbody rigidbody;
     Vector2 currentPos;
     int cellStartIndex = 0;
     Vector2Int? currentGrid;
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
         var uniqid = Entity.Instance.StageInfo.pets.Where(v => !string.IsNullOrEmpty(v)).First();
         var pat = Entity.Instance.PetList.Find(uniqid);
-        rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody = GetComponent<Rigidbody>();
         currentPos = rigidbody.position;
         sprites = Resources.LoadAll<Sprite>($"Familiar/{new Identify(pat.id).Id}/walk");
     }
@@ -35,14 +35,15 @@ public class Player : MonoBehaviour
     public void Move(Vector2 move)
     {
         if (move == Vector2.zero) return;
-        this.move = new Vector3(move.x, move.y, 0) * walkSpeed;
-        if (Mathf.Abs(move.y) >= Mathf.Abs(move.x))
+        move = move.Rotate(45);
+        this.move = new Vector3(move.x, 0, move.y) * walkSpeed;
+        if (Mathf.Abs(move.x) >= Mathf.Abs(move.y))
         {
-            cellStartIndex = (move.y > 0) ? 9 : 0;
+            cellStartIndex = (move.x >= 0) ? 6 : 3;
         }
         else
         {
-            cellStartIndex = (move.x >= 0) ? 6 : 3;
+            cellStartIndex = (move.y > 0) ? 9 : 0;
         }
     }
     // Update is called once per frame
@@ -50,24 +51,14 @@ public class Player : MonoBehaviour
     {
         rigidbody.velocity = (move);
 
-        celloffset += (currentPos - rigidbody.position).sqrMagnitude * cellSpeed;
+        celloffset += rigidbody.velocity.magnitude * cellSpeed;
         currentPos = rigidbody.position;
 
 
         sprite.sprite = sprites[cellStartIndex + ((int)celloffset) % 3];
         move *= 0.75f;
         if (Mathf.Abs(move.x) < 0.01) move.x = 0;
-        if (Mathf.Abs(move.y) < 0.01) move.y = 0;
-
-        // カメラはプレイヤーに
-        var pos = Camera.main.transform.position;
-        pos.x = transform.localPosition.x;
-        pos.y = transform.localPosition.y;
-        Camera.main.transform.position = pos;
-        //// プレイやはカメラに
-        //Vector3 p = Camera.main.transform.position;
-        //p.y = transform.position.y;
-        //transform.LookAt(p);
+        if (Mathf.Abs(move.z) < 0.01) move.z = 0;
 
         if (currentGrid.HasValue)
         {
@@ -84,18 +75,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter(Collider other)
     {
         var e = other.gameObject.GetComponent<MapchipEvent>();
         if (e == null) return;
         onTriggerEnter(EnumExtension<Dungeon.Tile>.ToString(e.tile));
     }
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (onTriggerEnter != null)
-    //    {
-    //        onTriggerEnter();
-    //    }
-    //}
 }
+

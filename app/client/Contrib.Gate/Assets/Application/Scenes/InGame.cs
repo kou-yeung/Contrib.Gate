@@ -83,13 +83,13 @@ public class InGame : MonoBehaviour
                 if (prefab != null)
                 {
                     var go = Instantiate(prefab, this.transform);
-                    go.transform.localPosition = new Vector3(x * GridSize.x, 0, y * GridSize.y);
+                    go.transform.localPosition = new Vector3(x * GridSize.x, 0, -y * GridSize.y);
                 }
 
                 if (map[x, y] == Tile.Start && stageInfo.move == Move.None)
                 {
                     var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(x * GridSize.x, playerPrefab.transform.localPosition.y, y * GridSize.y);
+                    go.transform.localPosition = new Vector3(x * GridSize.x, playerPrefab.transform.localPosition.y, -y * GridSize.y);
                     player = go.GetComponent<Player>();
                     player.onTriggerEnter = onTriggerEnter;
                 }
@@ -105,7 +105,7 @@ public class InGame : MonoBehaviour
 
                     // 上り階段 && 下ってきた場合、あるいは逆の場合プレイヤーを置きます。
                     var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(x * GridSize.x, 0, y * GridSize.y) + offset;
+                    go.transform.localPosition = new Vector3(x * GridSize.x, 0, -y * GridSize.y) + offset;
                     player = go.GetComponent<Player>();
                     player.onTriggerEnter = onTriggerEnter;
                 }
@@ -173,7 +173,10 @@ public class InGame : MonoBehaviour
             case Player.ChangeGridEvent:
 
                 var grid = (Vector2Int)o;
-                if(map[grid.x, grid.y] == Tile.All)
+                grid.x /= (int)GridSize.x;
+                grid.y /= (int)GridSize.y;
+
+                if (map[grid.x, grid.y] == Tile.All)
                 {
                     if (UnityEngine.Random.Range(0, 100) < EncountRate)
                     {
@@ -240,27 +243,36 @@ public class InGame : MonoBehaviour
     }
     GameObject GetChip(Tile tile)
     {
+        // 0 1 2
+        // 3 4 5
+        // 6 7 8
         switch ((int)tile)
         {
-            case (int)Tile.All:
-            case (int)Tile.Start:
-                return prefab[0];
+            // 0 1 2 
             case (int)(Tile.UP | Tile.Left):
+                return prefab[0];
+            case (int)(Tile.UP | Tile.Left | Tile.Right):
                 return prefab[1];
             case (int)(Tile.UP | Tile.Right):
                 return prefab[2];
-            case (int)(Tile.UP | Tile.Left | Tile.Right):
-                return prefab[3];
-            case (int)(Tile.Right | Tile.UP | Tile.Down):
-                return prefab[4];
+
+            // 3 4 5 
             case (int)(Tile.Left | Tile.UP | Tile.Down):
+                return prefab[3];
+            case (int)(Tile.All):
+                return prefab[4];
+            case (int)(Tile.Right | Tile.UP | Tile.Down):
                 return prefab[5];
+
+            // 6 7 8 
             case (int)(Tile.Down | Tile.Left):
                 return prefab[6];
-            case (int)(Tile.Down | Tile.Right):
-                return prefab[7];
             case (int)(Tile.Down | Tile.Left | Tile.Right):
+                return prefab[7];
+            case (int)(Tile.Down | Tile.Right):
                 return prefab[8];
+
+            // 角
             case (int)(Tile.LeftUpCorner):
                 return prefab[9];
             case (int)(Tile.RightUpCorner):
@@ -269,13 +281,52 @@ public class InGame : MonoBehaviour
                 return prefab[11];
             case (int)(Tile.RightDownCorner):
                 return prefab[12];
+
+            // 階段
             case (int)(Tile.UpStairs):
                 return prefab[13];
             case (int)(Tile.DownStairs):
                 return prefab[14];
-            case (int)(Tile.Goal):
+
+            // 開始
+            case (int)(Tile.Start):
                 return prefab[15];
-            case (int)(Tile.None):
+                //case (int)(Tile.UP | Tile.Left):
+                //    return prefab[0];
+                //case (int)Tile.All:
+                //case (int)Tile.Start:
+                //    return prefab[0];
+                //case (int)(Tile.UP | Tile.Left):
+                //    return prefab[1];
+                //case (int)(Tile.UP | Tile.Right):
+                //    return prefab[2];
+                //case (int)(Tile.UP | Tile.Left | Tile.Right):
+                //    return prefab[3];
+                //case (int)(Tile.Right | Tile.UP | Tile.Down):
+                //    return prefab[4];
+                //case (int)(Tile.Left | Tile.UP | Tile.Down):
+                //    return prefab[5];
+                //case (int)(Tile.Down | Tile.Left):
+                //    return prefab[6];
+                //case (int)(Tile.Down | Tile.Right):
+                //    return prefab[7];
+                //case (int)(Tile.Down | Tile.Left | Tile.Right):
+                //    return prefab[8];
+                //case (int)(Tile.LeftUpCorner):
+                //    return prefab[9];
+                //case (int)(Tile.RightUpCorner):
+                //    return prefab[10];
+                //case (int)(Tile.LeftDownCorner):
+                //    return prefab[11];
+                //case (int)(Tile.RightDownCorner):
+                //    return prefab[12];
+                //case (int)(Tile.UpStairs):
+                //    return prefab[13];
+                //case (int)(Tile.DownStairs):
+                //    return prefab[14];
+                //case (int)(Tile.Goal):
+                //    return prefab[15];
+                //case (int)(Tile.None):
                 return null;
             default:
                 {
