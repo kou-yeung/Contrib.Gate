@@ -361,6 +361,7 @@ namespace Dungeon
         {
             for (int i = 0; i < tryCount; i++)
             {
+                if (passages.Count <= 0) break;
                 var index = random.Next(passages.Count);
                 var passage = passages[index];
                 passages.RemoveAt(index);
@@ -383,6 +384,7 @@ namespace Dungeon
         {
             for (int i = 0; i < tryCount; i++)
             {
+                if (passages.Count <= 0) break;
                 var index = random.Next(passages.Count);
                 var passage = passages[index];
                 if (passage.Merge(random))
