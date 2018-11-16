@@ -84,6 +84,7 @@ public class InGame : MonoBehaviour
                 {
                     var go = Instantiate(prefab, this.transform);
                     go.transform.localPosition = new Vector3(x * GridSize.x, 0, -y * GridSize.y);
+                    go.name += $"({x},{y})";
                 }
 
                 if (map[x, y] == Tile.Start && stageInfo.move == Move.None)
