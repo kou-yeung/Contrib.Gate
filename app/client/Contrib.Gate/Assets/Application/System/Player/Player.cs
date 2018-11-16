@@ -37,13 +37,30 @@ public class Player : MonoBehaviour
         if (move == Vector2.zero) return;
         move = move.Rotate(45);
         this.move = new Vector3(move.x, 0, move.y) * walkSpeed;
-        if (Mathf.Abs(move.x) >= Mathf.Abs(move.y))
+
+
+        var normalized = new Vector2(this.move.x, this.move.z).Rotate(-45).normalized;
+        var rot = (Mathf.Atan2(normalized.x, normalized.y) * Mathf.Rad2Deg) + 180;
+
+        if (rot >= 75 && rot <= 105)
         {
-            cellStartIndex = (move.x >= 0) ? 6 : 3;
+            // 左
+            cellStartIndex = 3;
+        }
+        else if (rot >= 105 && rot <= 255)
+        {
+            // 上
+            cellStartIndex = 9;
+        }
+        else if (rot >= 255 && rot <= 285)
+        {
+            // 右
+            cellStartIndex = 6;
         }
         else
         {
-            cellStartIndex = (move.y > 0) ? 9 : 0;
+            // 下
+            cellStartIndex = 0;
         }
     }
     // Update is called once per frame
