@@ -36,8 +36,7 @@ namespace UI
                 param[i].text = item.GetParam((Param)i).ToString();
             }
             name.text = item.Familiar.Name;
-            var id = new Entities.Identify(item.id);
-            face.sprite = Resources.Load<Sprite>($"Familiar/{id.Id}/base");
+            face.sprite = Resources.Load<Sprite>($"Familiar/{item.Familiar.Image}/base");
             level.text = $"Lv.{item.level.ToString()}";
         }
 

@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
         var pat = Entity.Instance.PetList.Find(uniqid);
         rigidbody = GetComponent<Rigidbody>();
         currentPos = rigidbody.position;
-        sprites = Resources.LoadAll<Sprite>($"Familiar/{new Identify(pat.id).Id}/walk");
+        sprites = Resources.LoadAll<Sprite>($"Familiar/{pat.Familiar.Image}/walk");
     }
 
     public void Move(Vector2 move)
