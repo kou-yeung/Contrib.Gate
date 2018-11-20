@@ -34,6 +34,7 @@ namespace Dungeon
         Treasure = 1 << 10, // 宝箱？[仕様未定]
         Start = 1 << 11,    // スタート
         Goal = 1 << 12,    // ゴール
+        Encount = 1 << 12,    // エンカウント
     }
 
     class Passage

@@ -11,6 +11,7 @@ using UI;
 using Util;
 using Event;
 using Cinemachine;
+using SettlersEngine;
 
 public class InGame : MonoBehaviour
 {
@@ -43,9 +44,25 @@ public class InGame : MonoBehaviour
     public GameObject playerPrefab;      // プレイヤープレハブ
 
     Tile[,] map;
+    PathNode[,] pathnode;
+
     Player player;
     int EncountRate;
     bool showPeriodMessage; // "そろそろ終わるぞ"メッセージ
+
+    public class PathNode : IPathNode<object>
+    {
+        public int x { get; set; }
+        public int y { get; set; }
+        public Tile tile { get; set; }
+        public bool IsWalkable(object inContext)
+        {
+            return tile == Tile.All;
+        }
+    }
+
+    SpatialAStar<PathNode, object> aStar;
+    Coroutine playerMove;
 
     void Start()
     {
@@ -75,10 +92,15 @@ public class InGame : MonoBehaviour
         map = DungeonGen.Gen(stageInfo.seed, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, tiles.ToArray());
         var width = map.GetLength(0);
         var height = map.GetLength(1);
+
+        pathnode = new PathNode[width, height];
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
+                pathnode[x, y] = new PathNode { x = x, y = y, tile = map[x, y] };
+
                 var prefab = GetChip(map[x, y]);
                 if (prefab != null)
                 {
@@ -114,6 +136,9 @@ public class InGame : MonoBehaviour
         }
         cinemachineVirtualCamera.Follow = player.transform;
         Observer.Instance.Subscribe(Player.ChangeGridEvent, OnSubscribe);
+        Observer.Instance.Subscribe(MapchipEvent.MoveEvent, OnSubscribe);
+
+        aStar = new SpatialAStar<PathNode, object>(pathnode);
     }
 
     void onTriggerEnter(string s)
@@ -160,6 +185,7 @@ public class InGame : MonoBehaviour
     private void OnDestroy()
     {
         Observer.Instance.Unsubscribe(Player.ChangeGridEvent, OnSubscribe);
+        Observer.Instance.Unsubscribe(MapchipEvent.MoveEvent, OnSubscribe);
     }
 
     void OnSubscribe(string name, object o)
@@ -189,7 +215,45 @@ public class InGame : MonoBehaviour
                 Observer.Instance.Unsubscribe(BattleResultWindow.CloseEvent, OnSubscribe);
                 SceneManager.LoadScene(SceneName.Home);
                 break;
+            case MapchipEvent.MoveEvent:
+                var pos = player.transform.localPosition;
+                var start = Vector2Int.CeilToInt(new Vector2(pos.x / GridSize.x, -pos.z / GridSize.y));
+                var end = (Vector2Int)o;
+
+                //Debug.Log($"start:{start.x},{start.y}");
+                //Debug.Log($"end:{end.x},{end.y}");
+
+                var nodes = aStar.Search(start, end, null);
+                if (playerMove != null) StopCoroutine(playerMove);
+                playerMove = StartCoroutine(PlayerMove(nodes.ToList()));
+                //foreach (var node in nodes)
+                //{
+                //    nodes.ToList()
+                //    Debug.Log($"{node.x},{node.y}");
+                //}
+                break;
         }
+    }
+
+    IEnumerator PlayerMove(List<PathNode> nodes)
+    {
+        //nodes.RemoveAt(0);
+        var y = player.transform.localPosition.y;
+
+        for (int i = 1; i < nodes.Count; i++)
+        {
+            var node = nodes[i];
+
+            var from = player.transform.localPosition;
+            var to = new Vector3(node.x * GridSize.x, y, -node.y * GridSize.y);
+            var time = ((from - to).magnitude / GridSize.x) * .3f;
+
+            var move = LeanTween.moveLocal(player.gameObject, to, time);
+            while (LeanTween.isTweening(move.uniqueId)/* || LeanTween.isTweening(jump.uniqueId)*/) yield return null;
+            /// エンカウント判定？
+        }
+
+        playerMove = null;
     }
     void Update()
     {
