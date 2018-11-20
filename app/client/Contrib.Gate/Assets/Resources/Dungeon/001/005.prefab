@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4767243688020256}
   - component: {fileID: 114882448362797448}
   - component: {fileID: 65066638856366860}
+  - component: {fileID: 114756442922975468}
   m_Layer: 0
   m_Name: 005
   m_TagString: Untagged
@@ -126,6 +127,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 32, y: 8, z: 32}
   m_Center: {x: 0, y: 4, z: 0}
+--- !u!114 &114756442922975468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1557660526105164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02b0fb86207c5142ae1cf5fe7676a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: 15
 --- !u!114 &114882448362797448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,7 +154,18 @@ MonoBehaviour:
   - eventID: 4
     callback:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 114756442922975468}
+          m_MethodName: Move
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
