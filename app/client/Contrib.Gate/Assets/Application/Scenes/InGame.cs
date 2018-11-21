@@ -15,7 +15,6 @@ using SettlersEngine;
 
 public class InGame : MonoBehaviour
 {
-    public Joystick joystick;
     public CinemachineVirtualCamera cinemachineVirtualCamera;
     public Vector2 GridSize = Vector2.one;
 
@@ -49,15 +48,18 @@ public class InGame : MonoBehaviour
     Player player;
     int EncountRate;
     bool showPeriodMessage; // "そろそろ終わるぞ"メッセージ
+    bool blockEvent = false;
 
     public class PathNode : IPathNode<object>
     {
-        public int x { get; set; }
-        public int y { get; set; }
+        static Tile[] walkable = new[] { Tile.All, Tile.Start, Tile.Goal, Tile.UpStairs, Tile.DownStairs };
+
+        public Vector2 pos { get; set; }
         public Tile tile { get; set; }
+
         public bool IsWalkable(object inContext)
         {
-            return tile == Tile.All;
+            return walkable.Contains(tile);
         }
     }
 
@@ -99,7 +101,7 @@ public class InGame : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                pathnode[x, y] = new PathNode { x = x, y = y, tile = map[x, y] };
+                pathnode[x, y] = new PathNode { pos = new Vector2Int(x, y), tile = map[x, y] };
 
                 var prefab = GetChip(map[x, y]);
                 if (prefab != null)
@@ -114,7 +116,6 @@ public class InGame : MonoBehaviour
                     var go = Instantiate(playerPrefab, this.transform);
                     go.transform.localPosition = new Vector3(x * GridSize.x, playerPrefab.transform.localPosition.y, -y * GridSize.y);
                     player = go.GetComponent<Player>();
-                    player.onTriggerEnter = onTriggerEnter;
                 }
 
                 if ( (map[x, y] == Tile.UpStairs && stageInfo.move == Move.Down) ||
@@ -130,28 +131,15 @@ public class InGame : MonoBehaviour
                     var go = Instantiate(playerPrefab, this.transform);
                     go.transform.localPosition = new Vector3(offset.x * GridSize.x, playerPrefab.transform.localPosition.y, -offset.y * GridSize.y);
                     player = go.GetComponent<Player>();
-                    player.onTriggerEnter = onTriggerEnter;
                 }
             }
         }
         cinemachineVirtualCamera.Follow = player.transform;
-        Observer.Instance.Subscribe(Player.ChangeGridEvent, OnSubscribe);
         Observer.Instance.Subscribe(MapchipEvent.MoveEvent, OnSubscribe);
 
         aStar = new SpatialAStar<PathNode, object>(pathnode);
     }
 
-    void onTriggerEnter(string s)
-    {
-        if (!joystick.enabled) return;
-        joystick.enabled = false;
-        switch (EnumExtension<Tile>.Parse(s))
-        {
-            case Tile.Goal: Goal(); break;
-            case Tile.UpStairs: Stairs(Move.Up); break;
-            case Tile.DownStairs: Stairs(Move.Down); break;
-        }
-    }
     void Goal()
     {
         var send = new StageEndSend();
@@ -184,7 +172,6 @@ public class InGame : MonoBehaviour
 
     private void OnDestroy()
     {
-        Observer.Instance.Unsubscribe(Player.ChangeGridEvent, OnSubscribe);
         Observer.Instance.Unsubscribe(MapchipEvent.MoveEvent, OnSubscribe);
     }
 
@@ -193,23 +180,8 @@ public class InGame : MonoBehaviour
         switch (name)
         {
             case BattleWindow.CloseEvent:
-                joystick.enabled = true;
                 player.gameObject.SetActive(true);
                 Observer.Instance.Unsubscribe(BattleWindow.CloseEvent, OnSubscribe);
-                break;
-            case Player.ChangeGridEvent:
-
-                var grid = (Vector2Int)o;
-                grid.x /= (int)GridSize.x;
-                grid.y /= (int)GridSize.y;
-
-                if (map[grid.x, grid.y] == Tile.All)
-                {
-                    if (UnityEngine.Random.Range(0, 100) < EncountRate)
-                    {
-                        Encount();
-                    }
-                }
                 break;
             case BattleResultWindow.CloseEvent:
                 Observer.Instance.Unsubscribe(BattleResultWindow.CloseEvent, OnSubscribe);
@@ -220,24 +192,39 @@ public class InGame : MonoBehaviour
                 var start = Vector2Int.CeilToInt(new Vector2(pos.x / GridSize.x, -pos.z / GridSize.y));
                 var end = (Vector2Int)o;
 
-                //Debug.Log($"start:{start.x},{start.y}");
-                //Debug.Log($"end:{end.x},{end.y}");
-
                 var nodes = aStar.Search(start, end, null);
                 if (playerMove != null) StopCoroutine(playerMove);
                 playerMove = StartCoroutine(PlayerMove(nodes.ToList()));
-                //foreach (var node in nodes)
-                //{
-                //    nodes.ToList()
-                //    Debug.Log($"{node.x},{node.y}");
-                //}
                 break;
+        }
+    }
+
+    /// <summary>
+    /// イベント発生したら true を返す。
+    /// </summary>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    bool OnChangeGrid(PathNode node)
+    {
+        switch (node.tile)
+        {
+            case Tile.Goal: Goal(); return true;
+            case Tile.UpStairs: Stairs(Move.Up); return true;
+            case Tile.DownStairs: Stairs(Move.Down); return true;
+            case Tile.All:
+                if (UnityEngine.Random.Range(0, 100) < EncountRate)
+                {
+                    Encount();
+                    return true;
+                }
+                else return false;
+            default:
+                return false;
         }
     }
 
     IEnumerator PlayerMove(List<PathNode> nodes)
     {
-        //nodes.RemoveAt(0);
         var y = player.transform.localPosition.y;
 
         for (int i = 1; i < nodes.Count; i++)
@@ -245,55 +232,48 @@ public class InGame : MonoBehaviour
             var node = nodes[i];
 
             var from = player.transform.localPosition;
-            var to = new Vector3(node.x * GridSize.x, y, -node.y * GridSize.y);
+            var to = new Vector3(node.pos.x * GridSize.x, y, -node.pos.y * GridSize.y);
             var time = ((from - to).magnitude / GridSize.x) * .3f;
 
             var move = LeanTween.moveLocal(player.gameObject, to, time);
-            while (LeanTween.isTweening(move.uniqueId)/* || LeanTween.isTweening(jump.uniqueId)*/) yield return null;
-            /// エンカウント判定？
+            player.Move((nodes[i].pos - nodes[i-1].pos).normalized, time);
+            while (LeanTween.isTweening(move.uniqueId)) yield return null;
+
+            // EVENT判定
+            if (OnChangeGrid(node)) break;
         }
 
         playerMove = null;
     }
     void Update()
     {
-        if (!joystick.enabled) return;
-
-        player.Move(joystick.Position);
-        if (Input.GetKeyUp(KeyCode.Alpha1))
-        {
-            Encount();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Alpha1))
-        {
-            Goal();
-        }
+        //if (Input.GetKeyUp(KeyCode.Alpha1))
+        //{
+        //    Encount();
+        //}
+        //if (Input.GetKeyUp(KeyCode.Alpha1))
+        //{
+        //    Goal();
+        //}
 
         var remain = Entity.Instance.StageList.period - Util.Time.ServerTime.CurrentUnixTime;
         if(remain <= 0)
         {
-            joystick.enabled = false;
             DialogWindow.OpenOk("確認", "ステージが消失しました", () =>
             {
                 SceneManager.LoadScene(SceneName.Home);
             });
         }
-        else if (!showPeriodMessage && remain < 60*25)
+        else if (!showPeriodMessage && remain < 60*10)
         {
             showPeriodMessage = true;
-            joystick.enabled = false;
-            DialogWindow.OpenOk("確認", "ステージが消失しそうです", ()=>
-            {
-                joystick.enabled = true;
-            });
+            DialogWindow.OpenOk("確認", "ステージが消失しそうです");
         }
 
     }
 
     void Encount()
     {
-        joystick.enabled = false;
         Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
         {
             Window.Open<BattleWindow>(r);
@@ -302,7 +282,6 @@ public class InGame : MonoBehaviour
         }, (error) =>
         {
             // エラー処理
-            joystick.enabled = true;
             return false;
         });
     }
