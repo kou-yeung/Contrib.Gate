@@ -49,6 +49,7 @@ public class InGame : MonoBehaviour
     int EncountRate;
     bool showPeriodMessage; // "そろそろ終わるぞ"メッセージ
     bool blockEvent = false;
+    Vector2Int? reserveMove;
 
     public class PathNode : IPathNode<object>
     {
@@ -188,13 +189,19 @@ public class InGame : MonoBehaviour
                 SceneManager.LoadScene(SceneName.Home);
                 break;
             case MapchipEvent.MoveEvent:
-                var pos = player.transform.localPosition;
-                var start = Vector2Int.CeilToInt(new Vector2(pos.x / GridSize.x, -pos.z / GridSize.y));
-                var end = (Vector2Int)o;
 
-                var nodes = aStar.Search(start, end, null);
-                if (playerMove != null) StopCoroutine(playerMove);
-                playerMove = StartCoroutine(PlayerMove(nodes.ToList()));
+                if (playerMove == null)
+                {
+                    var end = (Vector2Int)o;
+                    var pos = player.transform.localPosition;
+                    var start = Vector2Int.CeilToInt(new Vector2(pos.x / GridSize.x, -pos.z / GridSize.y));
+                    var nodes = aStar.Search(start, end, null);
+                    playerMove = StartCoroutine(PlayerMove(nodes.ToList()));
+                }
+                else
+                {
+                    reserveMove = (Vector2Int)o;
+                }
                 break;
         }
     }
@@ -241,8 +248,16 @@ public class InGame : MonoBehaviour
 
             // EVENT判定
             if (OnChangeGrid(node)) break;
+            if (reserveMove.HasValue)
+            {
+                StopCoroutine(playerMove);
+                playerMove = null;
+                var end = reserveMove.Value;
+                reserveMove = null;
+                Observer.Instance.Notify(MapchipEvent.MoveEvent, end);
+                yield break;
+            }
         }
-
         playerMove = null;
     }
     void Update()
