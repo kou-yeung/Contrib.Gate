@@ -39,40 +39,89 @@ public class InGame : MonoBehaviour
         }
     }
 
-    public GameObject[] prefab;    // 一時対応、将来は見た目で変えられるようにします!!
-    public GameObject playerPrefab;      // プレイヤープレハブ
+    public GameObject[] prefab;         // 一時対応、将来は見た目で変えられるようにします!!
+    public GameObject playerPrefab;     // プレイヤープレハブ
 
     Tile[,] map;
-    PathNode[,] pathnode;
-
-    Player player;
+    List<Player> players = new List<Player>();
     int EncountRate;
     bool showPeriodMessage; // "そろそろ終わるぞ"メッセージ
     bool blockEvent = false;
     Vector2Int? reserveMove;
 
-    public class PathNode : IPathNode<object>
-    {
-        static Tile[] walkable = new[] { Tile.All, Tile.Start, Tile.Goal, Tile.UpStairs, Tile.DownStairs };
-
-        public Vector2 pos { get; set; }
-        public Tile tile { get; set; }
-
-        public bool IsWalkable(object inContext)
-        {
-            return walkable.Contains(tile);
-        }
-    }
-
-    SpatialAStar<PathNode, object> aStar;
+    AStar aStar;
     Coroutine playerMove;
 
     void Start()
     {
-        var tiles = new List<Tile>();
         var dungeon = this.dungeon;
         EncountRate = this.dungeon.EncountRate;
+
+        map = DungeonGen.Gen(stageInfo.seed, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, GetAdditionalTile(dungeon));
+        var width = map.GetLength(0);
+        var height = map.GetLength(1);
+
+        Vector2Int? playerGrid = null;
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                var prefab = GetChip(map[x, y]);
+                if (prefab != null)
+                {
+                    var go = Instantiate(prefab, this.transform);
+                    go.transform.localPosition = Grid2WorldPosition(new Vector2Int(x, y), GridSize, Vector3.zero);
+                    go.name += $"({x},{y})";
+                }
+
+                if (map[x, y] == Tile.Start && stageInfo.move == Move.None)
+                {
+                    playerGrid = new Vector2Int(x, y);
+                }
+                if ( (map[x, y] == Tile.UpStairs && stageInfo.move == Move.Down) ||
+                     (map[x, y] == Tile.DownStairs && stageInfo.move == Move.Up))
+                {
+                    var pos = new Vector2Int(x, y);
+                    if (x - 1 >= 0 && map[x - 1, y] == Tile.All) pos.x -= 1;
+                    else if (x + 1 < width && map[x + 1, y] == Tile.All) pos.x += 1;
+                    else if (y - 1 >= 0 && map[y - 1, y] == Tile.All) pos.y -= 1;
+                    else if (y + 1 < height && map[y + 1, y] == Tile.All) pos.y += 1;
+                    playerGrid = pos;
+                }
+            }
+        }
+
+        if (playerGrid.HasValue)
+        {
+            var position = Grid2WorldPosition(playerGrid.Value, GridSize, new Vector3(0, playerPrefab.transform.localPosition.y, 0));
+
+            foreach (var uniq in Entity.Instance.StageInfo.pets)
+            {
+                var go = Instantiate(playerPrefab, this.transform);
+                go.transform.localPosition = position;
+                var player = go.GetComponent<Player>();
+                player.Setup(uniq);
+                players.Add(player);
+            }
+        }
+
+        cinemachineVirtualCamera.Follow = players.First().transform;
+        Observer.Instance.Subscribe(MapchipEvent.MoveEvent, OnSubscribe);
+
+        // 経路探索用 A* 生成
+        aStar = new AStar(map);
+    }
+
+    /// <summary>
+    /// ダンジョン情報から特別のタイル一覧を生成する
+    /// </summary>
+    /// <param name="dungeon"></param>
+    /// <returns></returns>
+    Tile[] GetAdditionalTile(Entities.Dungeon dungeon)
+    {
         // 上り
+        var tiles = new List<Tile>();
         if (dungeon.UpFloor == new Identify(IDType.Dungeon, 0))
         {
             tiles.Add(Tile.Start);  // なければ開始マスを決める
@@ -91,56 +140,12 @@ public class InGame : MonoBehaviour
         {
             tiles.Add(Tile.DownStairs);
         }
-
-        map = DungeonGen.Gen(stageInfo.seed, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, tiles.ToArray());
-        var width = map.GetLength(0);
-        var height = map.GetLength(1);
-
-        pathnode = new PathNode[width, height];
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                pathnode[x, y] = new PathNode { pos = new Vector2Int(x, y), tile = map[x, y] };
-
-                var prefab = GetChip(map[x, y]);
-                if (prefab != null)
-                {
-                    var go = Instantiate(prefab, this.transform);
-                    go.transform.localPosition = new Vector3(x * GridSize.x, 0, -y * GridSize.y);
-                    go.name += $"({x},{y})";
-                }
-
-                if (map[x, y] == Tile.Start && stageInfo.move == Move.None)
-                {
-                    var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(x * GridSize.x, playerPrefab.transform.localPosition.y, -y * GridSize.y);
-                    player = go.GetComponent<Player>();
-                }
-
-                if ( (map[x, y] == Tile.UpStairs && stageInfo.move == Move.Down) ||
-                     (map[x, y] == Tile.DownStairs && stageInfo.move == Move.Up))
-                {
-                    var offset = new Vector2(x, y);
-                    if (x - 1 >= 0 && map[x - 1, y] == Tile.All) offset.x -= 1;
-                    else if (x + 1 < width && map[x + 1, y] == Tile.All) offset.x += 1;
-                    else if (y - 1 >= 0 && map[y - 1, y] == Tile.All) offset.y -= 1;
-                    else if (y + 1 < height && map[y + 1, y] == Tile.All) offset.y += 1;
-
-                    // 上り階段 && 下ってきた場合、あるいは逆の場合プレイヤーを置きます。
-                    var go = Instantiate(playerPrefab, this.transform);
-                    go.transform.localPosition = new Vector3(offset.x * GridSize.x, playerPrefab.transform.localPosition.y, -offset.y * GridSize.y);
-                    player = go.GetComponent<Player>();
-                }
-            }
-        }
-        cinemachineVirtualCamera.Follow = player.transform;
-        Observer.Instance.Subscribe(MapchipEvent.MoveEvent, OnSubscribe);
-
-        aStar = new SpatialAStar<PathNode, object>(pathnode);
+        return tiles.ToArray();
     }
 
+    /// <summary>
+    /// ゴールにたどり着いた
+    /// </summary>
     void Goal()
     {
         var send = new StageEndSend();
@@ -181,7 +186,10 @@ public class InGame : MonoBehaviour
         switch (name)
         {
             case BattleWindow.CloseEvent:
-                player.gameObject.SetActive(true);
+                foreach (var player in players)
+                {
+                    player.gameObject.SetActive(true);
+                }
                 Observer.Instance.Unsubscribe(BattleWindow.CloseEvent, OnSubscribe);
                 break;
             case BattleResultWindow.CloseEvent:
@@ -193,10 +201,9 @@ public class InGame : MonoBehaviour
                 if (playerMove == null)
                 {
                     var end = (Vector2Int)o;
-                    var pos = player.transform.localPosition;
+                    var pos = players.First().transform.localPosition;
                     var start = Vector2Int.CeilToInt(new Vector2(pos.x / GridSize.x, -pos.z / GridSize.y));
-                    var nodes = aStar.Search(start, end, null);
-                    playerMove = StartCoroutine(PlayerMove(nodes.ToList()));
+                    playerMove = StartCoroutine(PlayerMove(aStar.Search(start, end)));
                 }
                 else
                 {
@@ -232,18 +239,31 @@ public class InGame : MonoBehaviour
 
     IEnumerator PlayerMove(List<PathNode> nodes)
     {
-        var y = player.transform.localPosition.y;
+        var first = players.First();
+        var offset = new Vector3(0, first.transform.localPosition.y,0);
 
         for (int i = 1; i < nodes.Count; i++)
         {
             var node = nodes[i];
 
-            var from = player.transform.localPosition;
-            var to = new Vector3(node.pos.x * GridSize.x, y, -node.pos.y * GridSize.y);
-            var time = ((from - to).magnitude / GridSize.x) * .3f;
+            var from = first.transform.localPosition;
+            var to = Grid2WorldPosition(Vector2Int.CeilToInt(node.pos), GridSize, offset);
+            var time = ((from - to).normalized.magnitude) * .2f;
 
-            var move = LeanTween.moveLocal(player.gameObject, to, time);
-            player.Move((nodes[i].pos - nodes[i-1].pos).normalized, time);
+            var move = LeanTween.moveLocal(first.gameObject, to, time);
+            first.Move((nodes[i].pos - nodes[i-1].pos).normalized, time);
+
+            // 追尾するキャラの移動
+            for (int j = 1; j < players.Count; j++)
+            {
+                from = players[j].transform.localPosition;
+                to = players[j - 1].transform.localPosition;
+                time = ((from - to).normalized.magnitude) * .2f;
+
+                LeanTween.moveLocal(players[j].gameObject, to, time);
+                players[j].Move(((Vector2)(WorldPosition2Grid(to, GridSize) - WorldPosition2Grid(from, GridSize))).normalized, time);
+            }
+
             while (LeanTween.isTweening(move.uniqueId)) yield return null;
 
             // EVENT判定
@@ -293,7 +313,11 @@ public class InGame : MonoBehaviour
         {
             Window.Open<BattleWindow>(r);
             Observer.Instance.Subscribe(BattleWindow.CloseEvent, OnSubscribe);
-            player.gameObject.SetActive(false);
+
+            foreach (var player in players)
+            {
+                player.gameObject.SetActive(false);
+            }
         }, (error) =>
         {
             // エラー処理
@@ -359,5 +383,28 @@ public class InGame : MonoBehaviour
                     return null;
                 }
         }
+    }
+
+    /// <summary>
+    /// Grid情報からワールド座標に変換
+    /// </summary>
+    /// <param name="grid"></param>
+    /// <param name="size"></param>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    static Vector3 Grid2WorldPosition(Vector2Int grid, Vector2 size, Vector3 offset)
+    {
+        return new Vector3(grid.x * size.x, 0, -grid.y * size.y) + offset;
+    }
+
+    /// <summary>
+    /// ワールド座標からGrid座標に変換
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    static Vector2Int WorldPosition2Grid(Vector3 position, Vector2 size)
+    {
+        return Vector2Int.CeilToInt(new Vector2(position.x / size.x, -position.z / size.y));
     }
 }
