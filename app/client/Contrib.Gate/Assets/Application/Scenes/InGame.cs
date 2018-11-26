@@ -15,7 +15,6 @@ using SettlersEngine;
 
 public class InGame : MonoBehaviour
 {
-
     /// <summary>
     /// 動作
     /// </summary>
@@ -49,7 +48,6 @@ public class InGame : MonoBehaviour
         }
     }
 
-    public GameObject[] prefab;         // 一時対応、将来は見た目で変えられるようにします!!
     public GameObject playerPrefab;     // プレイヤープレハブ
 
     Tile[,] map;
@@ -68,6 +66,8 @@ public class InGame : MonoBehaviour
         var dungeon = this.dungeon;
         EncountRate = this.dungeon.EncountRate;
 
+        var mapchip = Resources.Load<MapchipSet>($"Dungeon/{dungeon.AssetPath}");
+
         map = DungeonGen.Gen(stageInfo.seed, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, GetAdditionalTile(dungeon));
         var width = map.GetLength(0);
         var height = map.GetLength(1);
@@ -78,7 +78,7 @@ public class InGame : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                var prefab = GetChip(map[x, y]);
+                var prefab = mapchip.GetChip(map[x, y]);
                 if (prefab != null)
                 {
                     var go = Instantiate(prefab, this.transform);
@@ -339,66 +339,6 @@ public class InGame : MonoBehaviour
             // エラー処理
             return false;
         });
-    }
-    GameObject GetChip(Tile tile)
-    {
-        // 0 1 2
-        // 3 4 5
-        // 6 7 8
-        switch ((int)tile)
-        {
-            // 0 1 2 
-            case (int)(Tile.UP | Tile.Left):
-                return prefab[0];
-            case (int)(Tile.UP | Tile.Left | Tile.Right):
-                return prefab[1];
-            case (int)(Tile.UP | Tile.Right):
-                return prefab[2];
-
-            // 3 4 5 
-            case (int)(Tile.Left | Tile.UP | Tile.Down):
-                return prefab[3];
-            case (int)(Tile.All):
-                return prefab[4];
-            case (int)(Tile.Right | Tile.UP | Tile.Down):
-                return prefab[5];
-
-            // 6 7 8 
-            case (int)(Tile.Down | Tile.Left):
-                return prefab[6];
-            case (int)(Tile.Down | Tile.Left | Tile.Right):
-                return prefab[7];
-            case (int)(Tile.Down | Tile.Right):
-                return prefab[8];
-
-            // 角
-            case (int)(Tile.LeftUpCorner):
-                return prefab[9];
-            case (int)(Tile.RightUpCorner):
-                return prefab[10];
-            case (int)(Tile.LeftDownCorner):
-                return prefab[11];
-            case (int)(Tile.RightDownCorner):
-                return prefab[12];
-
-            // 階段
-            case (int)(Tile.UpStairs):
-                return prefab[13];
-            case (int)(Tile.DownStairs):
-                return prefab[14];
-
-            // 開始
-            case (int)(Tile.Start):
-                return prefab[15];
-
-            case (int)(Tile.Goal):
-                return prefab[16];
-            default:
-                {
-                    Debug.Log(tile);
-                    return null;
-                }
-        }
     }
 
     /// <summary>

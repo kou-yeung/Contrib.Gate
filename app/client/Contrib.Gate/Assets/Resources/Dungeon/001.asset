@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff5c60212779514fa1024ef8f39a5c1, type: 3}
+  m_Name: 001
+  m_EditorClassIdentifier: 
+  up_left:
+  - {fileID: 1147915679038610, guid: ab7ee8fd3b04356458f48ecabfad205e, type: 2}
+  up_left_right:
+  - {fileID: 1774977218771068, guid: 362223a0428bd674bbb0a31fac5f8089, type: 2}
+  up_right:
+  - {fileID: 1622064594706390, guid: 75a37b81564590349971dfd5e93fcdfa, type: 2}
+  left_up_down:
+  - {fileID: 1818807438855244, guid: 929334f9f11509747a5935e8171ff422, type: 2}
+  all:
+  - {fileID: 1557660526105164, guid: 8cd102b7ad500d0438cf60db6116892a, type: 2}
+  right_up_down:
+  - {fileID: 1159200100126966, guid: 2c4dd09601d4d41419c2adba7a48fe7f, type: 2}
+  down_left:
+  - {fileID: 1627088320610206, guid: 03f619d21fdf9d24dae5937b18e21a4e, type: 2}
+  down_left_right:
+  - {fileID: 1976371913348416, guid: 3204f8c4e28cafa41adce9187dcc3957, type: 2}
+  down_right:
+  - {fileID: 1282232305221662, guid: ef4f0875d0deff74ba848070ab1d758d, type: 2}
+  left_up_corner:
+  - {fileID: 1020986067050310, guid: 5287fc2b51d4845418cbfcfcac04951e, type: 2}
+  right_up_corner:
+  - {fileID: 1220026530795160, guid: 23f48df8ac4d24749a68f476e4311de2, type: 2}
+  left_down_corner:
+  - {fileID: 1329557984757408, guid: 5a6aed57b6ed59a44a6d5cc68d42c7d3, type: 2}
+  right_down_corner:
+  - {fileID: 1351843054898270, guid: 437bc4f12cf0d174e8123cb2f4b609e3, type: 2}
+  up_stairs:
+  - {fileID: 1041798908615388, guid: 8a24bff0da60f3140bf7ebe591a58b68, type: 2}
+  down_stairs:
+  - {fileID: 1315783562399538, guid: 79c76fce2f9637e47b7a0b07f125b714, type: 2}
+  start:
+  - {fileID: 1561294694677896, guid: d92b9c4b80002f04cac10dd7d0c5af79, type: 2}
+  goal:
+  - {fileID: 1007615847633964, guid: 40091ac5b3821ee40970415b04f096e8, type: 2}
