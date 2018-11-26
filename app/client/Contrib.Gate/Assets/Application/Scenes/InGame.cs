@@ -15,6 +15,16 @@ using SettlersEngine;
 
 public class InGame : MonoBehaviour
 {
+
+    /// <summary>
+    /// 動作
+    /// </summary>
+    enum State
+    {
+        Move,
+        Event,
+    }
+
     public CinemachineVirtualCamera cinemachineVirtualCamera;
     public Vector2 GridSize = Vector2.one;
 
@@ -51,6 +61,7 @@ public class InGame : MonoBehaviour
 
     AStar aStar;
     Coroutine playerMove;
+    State stage;
 
     void Start()
     {
@@ -190,6 +201,7 @@ public class InGame : MonoBehaviour
                 {
                     player.gameObject.SetActive(true);
                 }
+                stage = State.Move;
                 Observer.Instance.Unsubscribe(BattleWindow.CloseEvent, OnSubscribe);
                 break;
             case BattleResultWindow.CloseEvent:
@@ -197,7 +209,7 @@ public class InGame : MonoBehaviour
                 SceneManager.LoadScene(SceneName.Home);
                 break;
             case MapchipEvent.MoveEvent:
-
+                if (stage != State.Move) return;
                 if (playerMove == null)
                 {
                     var end = (Vector2Int)o;
@@ -218,7 +230,7 @@ public class InGame : MonoBehaviour
     /// </summary>
     /// <param name="node"></param>
     /// <returns></returns>
-    bool OnChangeGrid(PathNode node)
+    bool OnEventEvolution(PathNode node)
     {
         switch (node.tile)
         {
@@ -267,7 +279,11 @@ public class InGame : MonoBehaviour
             while (LeanTween.isTweening(move.uniqueId)) yield return null;
 
             // EVENT判定
-            if (OnChangeGrid(node)) break;
+            if (OnEventEvolution(node))
+            {
+                stage = State.Event;
+                break;
+            }
             if (reserveMove.HasValue)
             {
                 StopCoroutine(playerMove);
