@@ -12,6 +12,7 @@ using Util;
 using Event;
 using Cinemachine;
 using SettlersEngine;
+using UnityEngine.UI;
 
 public class InGame : MonoBehaviour
 {
@@ -25,36 +26,44 @@ public class InGame : MonoBehaviour
     }
 
     public CinemachineVirtualCamera cinemachineVirtualCamera;
-    public Vector2 GridSize = Vector2.one;
+    Vector2 GridSize = Vector2.one;
 
     StageInfo stageInfo
     {
         get { return Entity.Instance.StageInfo; }
     }
 
-    Entities.Dungeon dungeon
+    Entities.Dungeon dungeon;
+    Entities.Dungeon Dungeon
     {
         get
         {
-            return Array.Find(Entity.Instance.Dungeons, v => v.Identify == stageInfo.dungeonId);
+            if (dungeon == null)
+            {
+                dungeon = Array.Find(Entity.Instance.Dungeons, v => v.Identify == stageInfo.dungeonId);
+            }
+            return dungeon;
         }
     }
-    Entities.Room room
+    Entities.Room room;
+    Entities.Room Room
     {
         get
         {
-            var dungeon = this.dungeon;
-            return Array.Find(Entity.Instance.Rooms, v => v.Identify == dungeon.Room);
+            if (room == null)
+            {
+                room = Array.Find(Entity.Instance.Rooms, v => v.Identify == Dungeon.Room);
+            }
+            return room;
         }
     }
+    int EncountRate { get { return Dungeon.EncountRate; } }
 
     public GameObject playerPrefab;     // プレイヤープレハブ
-
-    Tile[,] map;
+    public Text periodMessage;
+    public Transform dungeonRoot;
     List<Player> players = new List<Player>();
-    int EncountRate;
-    bool showPeriodMessage; // "そろそろ終わるぞ"メッセージ
-    bool blockEvent = false;
+    Tile[,] map;
     Vector2Int? reserveMove;
 
     AStar aStar;
@@ -63,12 +72,9 @@ public class InGame : MonoBehaviour
 
     void Start()
     {
-        var dungeon = this.dungeon;
-        EncountRate = this.dungeon.EncountRate;
-
-        var mapchip = Resources.Load<MapchipSet>($"Dungeon/{dungeon.AssetPath}");
-
-        map = DungeonGen.Gen(stageInfo.seed, room.AreaSize, room.RoomNum, room.RoomMin, room.RoomMax, room.DeleteRoadTry, room.DeleteRoadTry, room.MergeRoomTry, GetAdditionalTile(dungeon));
+        var mapchip = Resources.Load<MapchipSet>($"Dungeon/{Dungeon.AssetPath}");
+        GridSize = mapchip.GridSize;
+        map = DungeonGen.Gen(stageInfo.seed, Room.AreaSize, Room.RoomNum, Room.RoomMin, Room.RoomMax, Room.DeleteRoadTry, Room.DeleteRoadTry, Room.MergeRoomTry, GetAdditionalTile(Dungeon));
         var width = map.GetLength(0);
         var height = map.GetLength(1);
 
@@ -81,7 +87,7 @@ public class InGame : MonoBehaviour
                 var prefab = mapchip.GetChip(map[x, y]);
                 if (prefab != null)
                 {
-                    var go = Instantiate(prefab, this.transform);
+                    var go = Instantiate(prefab, dungeonRoot);
                     go.transform.localPosition = Grid2WorldPosition(new Vector2Int(x, y), GridSize, Vector3.zero);
                     go.name += $"({x},{y})";
                 }
@@ -109,7 +115,7 @@ public class InGame : MonoBehaviour
 
             foreach (var uniq in Entity.Instance.StageInfo.pets)
             {
-                var go = Instantiate(playerPrefab, this.transform);
+                var go = Instantiate(playerPrefab, dungeonRoot);
                 go.transform.localPosition = position;
                 var player = go.GetComponent<Player>();
                 player.Setup(uniq);
@@ -298,6 +304,7 @@ public class InGame : MonoBehaviour
     }
     void Update()
     {
+        if (stage != State.Move) return;
         //if (Input.GetKeyUp(KeyCode.Alpha1))
         //{
         //    Encount();
@@ -310,17 +317,17 @@ public class InGame : MonoBehaviour
         var remain = Entity.Instance.StageList.period - Util.Time.ServerTime.CurrentUnixTime;
         if(remain <= 0)
         {
+            stage = State.Event;
             DialogWindow.OpenOk("確認", "ステージが消失しました", () =>
             {
                 SceneManager.LoadScene(SceneName.Home);
             });
         }
-        else if (!showPeriodMessage && remain < 60*10)
+        else if (!periodMessage.gameObject.activeSelf && remain < 60*10)
         {
-            showPeriodMessage = true;
-            DialogWindow.OpenOk("確認", "ステージが消失しそうです");
+            periodMessage.gameObject.SetActive(true);
+            LeanTween.textColor(periodMessage.rectTransform, Color.white, 1f).setLoopPingPong(-1);
         }
-
     }
 
     void Encount()

@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff5c60212779514fa1024ef8f39a5c1, type: 3}
   m_Name: 001
   m_EditorClassIdentifier: 
+  gridsize: {x: 32, y: 32}
   up_left:
   - {fileID: 1147915679038610, guid: ab7ee8fd3b04356458f48ecabfad205e, type: 2}
   up_left_right:

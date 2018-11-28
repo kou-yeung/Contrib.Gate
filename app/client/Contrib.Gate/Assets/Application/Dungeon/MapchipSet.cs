@@ -10,6 +10,8 @@ namespace Dungeon
     [CreateAssetMenu(menuName = @"MapchipSet")]
     public class MapchipSet : ScriptableObject
     {
+        [SerializeField] Vector2Int gridsize;
+
         [SerializeField] GameObject[] up_left;
         [SerializeField] GameObject[] up_left_right;
         [SerializeField] GameObject[] up_right;
@@ -32,6 +34,8 @@ namespace Dungeon
 
         [SerializeField] GameObject[] start;
         [SerializeField] GameObject[] goal;
+
+        public Vector2Int GridSize { get { return gridsize; } }
 
         GameObject GetChipInternal(GameObject[] gameObjects, System.Random random)
         {
@@ -82,6 +86,7 @@ namespace Dungeon
     [CustomEditor(typeof(MapchipSet))]
     public class MapchipSetInspector : Editor
     {
+        SerializedProperty gridsize;
         List<ReorderableList> reorderableList = new List<ReorderableList>();
         Dictionary<string, string> nameset = new Dictionary<string, string>
         {
@@ -100,11 +105,15 @@ namespace Dungeon
             {
                 reorderableList.Add(CreateReorderableList(kv));
             }
+            gridsize = serializedObject.FindProperty("gridsize");
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+
+            gridsize.vector2IntValue = EditorGUILayout.Vector2IntField("グリッドサイズ", gridsize.vector2IntValue);
+
             foreach (var item in reorderableList)
             {
                 item.DoLayoutList();
