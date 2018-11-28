@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Network;
 using System.Text;
 using Entities;
-using Event;
+using EventSystem;
 
 namespace UI
 {

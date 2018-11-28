@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Dungeon;
-using Event;
+using EventSystem;
 using System.Text.RegularExpressions;
 
 public class MapchipEvent : MonoBehaviour

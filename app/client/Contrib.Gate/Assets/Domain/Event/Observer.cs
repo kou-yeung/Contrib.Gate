@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace Event
+namespace EventSystem
 {
     public class Observer : MonoBehaviour
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System;
 using Network;
 using Security;
-using Event;
+using EventSystem;
 
 namespace Entities
 {

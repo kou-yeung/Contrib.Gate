@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Entities;
-using Event;
+using EventSystem;
 using Network;
 
 namespace UI
