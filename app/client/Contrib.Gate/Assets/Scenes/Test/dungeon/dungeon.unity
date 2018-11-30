@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -202,23 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e362a9eb267e0418b06dec5e217f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chip:
-  - {fileID: 100000, guid: 38879423247f3064580ed87a675fa4fc, type: 3}
-  - {fileID: 100000, guid: 810eb57790a7f8546b5338e974c57609, type: 3}
-  - {fileID: 100000, guid: 57de96a1aa2ebdd47b4a68f6c3dd019a, type: 3}
-  - {fileID: 100000, guid: 69745a47624a2744887a1e022805281c, type: 3}
-  - {fileID: 100000, guid: cf9c359f3ce155645ad87a01e52a73ab, type: 3}
-  - {fileID: 100000, guid: 85d0ab609cd65a94085ce3bd4c11dbcf, type: 3}
-  - {fileID: 100000, guid: 1f833f3b56815a94ea50581ecb4a57cf, type: 3}
-  - {fileID: 100000, guid: 52ca60d10fd7fc343b4b649e85036b2b, type: 3}
-  - {fileID: 100000, guid: 17b4082bdf2f3dc43ac4f6b2eeec9e7d, type: 3}
-  - {fileID: 100000, guid: eb440a2c87207e44c98210381ee3467d, type: 3}
-  - {fileID: 100000, guid: b91cbcf8e822fa14eb539dd99c0675dd, type: 3}
-  - {fileID: 100000, guid: 7b4bea7a6a50dfb46ae9f56fb2aacd7f, type: 3}
-  - {fileID: 100000, guid: 4d56e86ee472e0742ba0db38b91cd75d, type: 3}
-  - {fileID: 100000, guid: 31ba273661e0b0647937e907818909ce, type: 3}
-  - {fileID: 100000, guid: 908d56bef6295744ca0f75acebe7ab25, type: 3}
-  GridSize: {x: 32, y: 32}
+  assetName: 002
 --- !u!4 &443927656
 Transform:
   m_ObjectHideFlags: 0
@@ -324,7 +308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1022056856
 Light:
   m_ObjectHideFlags: 0
