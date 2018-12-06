@@ -84,10 +84,10 @@ public class InGame : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                var prefab = mapchip.GetChip(map[x, y]);
-                if (prefab != null)
+                var info = mapchip.GetChip(map[x, y]);
+                if (info != null)
                 {
-                    var go = Instantiate(prefab, dungeonRoot);
+                    var go = Instantiate(info.prefab, Vector3.zero, info.Quaternion, dungeonRoot);
                     go.transform.localPosition = Grid2WorldPosition(new Vector2Int(x, y), GridSize, Vector3.zero);
                     go.name += $"({x},{y})";
                 }

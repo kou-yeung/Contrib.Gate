@@ -7,43 +7,73 @@ using UnityEditorInternal;
 #endif
 namespace Dungeon
 {
+    [System.Serializable]
+    public class MapchipInfo
+    {
+        public enum Rotate
+        {
+            Rot_0,
+            Rot_90,
+            Rot_180,
+            Rot_270,
+        }
+        [SerializeField]
+        public GameObject prefab;
+        [SerializeField]
+        public Rotate rotate;
+        public Quaternion Quaternion
+        {
+            get
+            {
+                switch (rotate)
+                {
+                    default:
+                    case Rotate.Rot_0: return Quaternion.Euler(0, 0, 0);
+                    case Rotate.Rot_90: return Quaternion.Euler(0, 90, 0);
+                    case Rotate.Rot_180: return Quaternion.Euler(0, 180, 0);
+                    case Rotate.Rot_270: return Quaternion.Euler(0, 270, 0);
+                }
+            }
+        }
+    }
+
     [CreateAssetMenu(menuName = @"MapchipSet")]
     public class MapchipSet : ScriptableObject
     {
         [SerializeField] Vector2Int gridsize;
 
-        [SerializeField] GameObject[] up_left;
-        [SerializeField] GameObject[] up_left_right;
-        [SerializeField] GameObject[] up_right;
+        [SerializeField] MapchipInfo[] up_left;
+        [SerializeField] MapchipInfo[] up_left_right;
+        [SerializeField] MapchipInfo[] up_right;
 
-        [SerializeField] GameObject[] left_up_down;
-        [SerializeField] GameObject[] all;
-        [SerializeField] GameObject[] right_up_down;
+        [SerializeField] MapchipInfo[] left_up_down;
+        [SerializeField] MapchipInfo[] all;
+        [SerializeField] MapchipInfo[] right_up_down;
 
-        [SerializeField] GameObject[] down_left;
-        [SerializeField] GameObject[] down_left_right;
-        [SerializeField] GameObject[] down_right;
+        [SerializeField] MapchipInfo[] down_left;
+        [SerializeField] MapchipInfo[] down_left_right;
+        [SerializeField] MapchipInfo[] down_right;
 
-        [SerializeField] GameObject[] left_up_corner;
-        [SerializeField] GameObject[] right_up_corner;
-        [SerializeField] GameObject[] left_down_corner;
-        [SerializeField] GameObject[] right_down_corner;
+        [SerializeField] MapchipInfo[] left_up_corner;
+        [SerializeField] MapchipInfo[] right_up_corner;
+        [SerializeField] MapchipInfo[] left_down_corner;
+        [SerializeField] MapchipInfo[] right_down_corner;
 
-        [SerializeField] GameObject[] up_stairs;
-        [SerializeField] GameObject[] down_stairs;
+        [SerializeField] MapchipInfo[] up_stairs;
+        [SerializeField] MapchipInfo[] down_stairs;
 
-        [SerializeField] GameObject[] start;
-        [SerializeField] GameObject[] goal;
+        [SerializeField] MapchipInfo[] start;
+        [SerializeField] MapchipInfo[] goal;
 
         public Vector2Int GridSize { get { return gridsize; } }
 
-        GameObject GetChipInternal(GameObject[] gameObjects, System.Random random)
+        MapchipInfo GetChipInternal(MapchipInfo[] infos, System.Random random)
         {
-            if (random == null) return gameObjects[0];
-            return gameObjects[random.Next(gameObjects.Length)];
+            if (random == null) return infos[0];
+            return infos[random.Next(infos.Length)];
         }
 
-        public GameObject GetChip(Tile tile, System.Random random = null)
+        public MapchipInfo GetChip(Tile tile, System.Random random = null)
         {
             // 0 1 2
             // 3 4 5
@@ -133,8 +163,22 @@ namespace Dungeon
             // エレメント描画イベント
             res.drawElementCallback = (rect, index, active, focused) =>
             {
+                rect.x += 10;
+                rect.width -= 10;
                 var element = property.GetArrayElementAtIndex(index);
-                EditorGUI.PropertyField(rect, element);
+                EditorGUI.PropertyField(rect, element, true);
+            };
+
+            res.elementHeightCallback = (index) =>
+            {
+                if (res.serializedProperty.GetArrayElementAtIndex(index).isExpanded)
+                {
+                    return 18 * 3;
+                }
+                else
+                {
+                    return 16;
+                }
             };
             return res;
         }

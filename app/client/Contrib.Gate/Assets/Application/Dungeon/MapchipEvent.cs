@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Dungeon;
+using UnityEngine.EventSystems;
 using EventSystem;
 using System.Text.RegularExpressions;
 
+[RequireComponent(typeof(EventTrigger))]
 public class MapchipEvent : MonoBehaviour
 {
     public const string MoveEvent = @"MapchipEvent:Move";

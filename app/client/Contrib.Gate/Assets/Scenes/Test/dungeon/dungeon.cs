@@ -21,15 +21,16 @@ namespace Test
             var width = map.GetLength(0);
             var height = map.GetLength(1);
 
+            var random = new System.Random();
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    var prefab = mapchip.GetChip(map[x, y]);
-                    if (prefab != null)
+                    var info = mapchip.GetChip(map[x, y], random);
+                    if (info != null)
                     {
-                        var go = Instantiate(prefab, this.transform);
-                        go.transform.localPosition = new Vector3(x * GridSize.x, -8, -y * GridSize.y);
+                        var go = Instantiate(info.prefab, Vector3.zero, info.Quaternion, this.transform);
+                        go.transform.localPosition = new Vector3(x * GridSize.x, 0, -y * GridSize.y);
                     }
                 }
             }

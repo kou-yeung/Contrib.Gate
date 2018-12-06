@@ -19,6 +19,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4594627856582438}
+  - component: {fileID: 114331615630415104}
+  - component: {fileID: 114917810276671034}
+  - component: {fileID: 65477350384150144}
   m_Layer: 0
   m_Name: 016
   m_TagString: Untagged
@@ -112,3 +115,57 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1923575775899222}
   m_Mesh: {fileID: 4300000, guid: 16aa8558e74d9d74781395b7ac31a70f, type: 3}
+--- !u!65 &65477350384150144
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533010824440606}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 32, y: 8, z: 32}
+  m_Center: {x: 0, y: 4, z: 0}
+--- !u!114 &114331615630415104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533010824440606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114917810276671034}
+          m_MethodName: Move
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &114917810276671034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533010824440606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02b0fb86207c5142ae1cf5fe7676a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: 0
