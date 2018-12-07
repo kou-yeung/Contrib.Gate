@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridsize: {x: 32, y: 32}
   up_left:
-  - prefab: {fileID: 1922974264900902, guid: 37ce602d749dc2f43b8447adf3bdb7ff, type: 2}
+  - prefab: {fileID: 1857922553212336, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
     rotate: 0
   up_left_right:
   - prefab: {fileID: 1723410702586852, guid: 277bc721e1ee6344ea6667f2e2c6dec5, type: 2}
@@ -28,7 +28,7 @@ MonoBehaviour:
   - prefab: {fileID: 1443286706294236, guid: b810f1fe83bcb4943b661e8d8b3bef01, type: 2}
     rotate: 0
   - prefab: {fileID: 1292329411630338, guid: f054513bd49614941946a2142001f603, type: 2}
-    rotate: 0
+    rotate: 3
   right_up_down:
   - prefab: {fileID: 1698948618397348, guid: 75d5e6653c8c977438c5cbaf33ea299d, type: 2}
     rotate: 0
