@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff5c60212779514fa1024ef8f39a5c1, type: 3}
+  m_Name: MapchipSet
+  m_EditorClassIdentifier: 
+  gridsize: {x: 32, y: 32}
+  postProcessingProfile: {fileID: 11400000, guid: 83385a1bec710ed40a8172e20da02a80,
+    type: 2}
+  up_left:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  up_left_right:
+  - prefab: {fileID: 1012421214593952, guid: 25849ef5a5aae4b469218a24f25372f5, type: 2}
+    rotate: 0
+  - prefab: {fileID: 1012421214593952, guid: 25849ef5a5aae4b469218a24f25372f5, type: 2}
+    rotate: 2
+  up_right:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  left_up_down:
+  - prefab: {fileID: 1012421214593952, guid: 25849ef5a5aae4b469218a24f25372f5, type: 2}
+    rotate: 1
+  - prefab: {fileID: 1012421214593952, guid: 25849ef5a5aae4b469218a24f25372f5, type: 2}
+    rotate: 3
+  all:
+  - prefab: {fileID: 1747029002913618, guid: b810f1fe83bcb4943b661e8d8b3bef01, type: 2}
+    rotate: 0
+  - prefab: {fileID: 1969216449786052, guid: f054513bd49614941946a2142001f603, type: 2}
+    rotate: 0
+  right_up_down:
+  - prefab: {fileID: 1012421214593952, guid: 25849ef5a5aae4b469218a24f25372f5, type: 2}
+    rotate: 1
+  - prefab: {fileID: 1012421214593952, guid: 25849ef5a5aae4b469218a24f25372f5, type: 2}
+    rotate: 3
+  down_left:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  down_left_right:
+  - prefab: {fileID: 1012421214593952, guid: 25849ef5a5aae4b469218a24f25372f5, type: 2}
+    rotate: 0
+  - prefab: {fileID: 1012421214593952, guid: 25849ef5a5aae4b469218a24f25372f5, type: 2}
+    rotate: 2
+  down_right:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  left_up_corner:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  right_up_corner:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  left_down_corner:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  right_down_corner:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  up_stairs:
+  - prefab: {fileID: 1891941973991600, guid: 6e120812ea32dd04f8a32f46fe10a115, type: 2}
+    rotate: 2
+  down_stairs:
+  - prefab: {fileID: 1269728439401478, guid: b231109f66860ae4b8d464053666ac8d, type: 2}
+    rotate: 0
+  start:
+  - prefab: {fileID: 1747029002913618, guid: b810f1fe83bcb4943b661e8d8b3bef01, type: 2}
+    rotate: 0
+  - prefab: {fileID: 1969216449786052, guid: f054513bd49614941946a2142001f603, type: 2}
+    rotate: 0
+  goal:
+  - prefab: {fileID: 1891941973991600, guid: 6e120812ea32dd04f8a32f46fe10a115, type: 2}
+    rotate: 0

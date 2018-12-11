@@ -13,6 +13,7 @@ using EventSystem;
 using Cinemachine;
 using SettlersEngine;
 using UnityEngine.UI;
+using UnityEngine.PostProcessing;
 
 public class InGame : MonoBehaviour
 {
@@ -72,23 +73,28 @@ public class InGame : MonoBehaviour
 
     void Start()
     {
-        var mapchip = Resources.Load<MapchipSet>($"Dungeon/{Dungeon.AssetPath}");
+        var mapchip = Resources.Load<MapchipSet>($"Dungeon/{Dungeon.AssetPath}/MapchipSet");
         GridSize = mapchip.GridSize;
+        var postProcessing = Camera.main.GetComponent<PostProcessingBehaviour>();
+        if (postProcessing != null) postProcessing.profile = mapchip.PostProcessingProfile;
+
         map = DungeonGen.Gen(stageInfo.seed, Room.AreaSize, Room.RoomNum, Room.RoomMin, Room.RoomMax, Room.DeleteRoadTry, Room.DeleteRoadTry, Room.MergeRoomTry, GetAdditionalTile(Dungeon));
         var width = map.GetLength(0);
         var height = map.GetLength(1);
 
         Vector2Int? playerGrid = null;
+        var random = new System.Random(stageInfo.seed);
 
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                var info = mapchip.GetChip(map[x, y]);
+                var info = mapchip.GetChip(map[x, y], random);
                 if (info != null)
                 {
                     var go = Instantiate(info.prefab, Vector3.zero, info.Quaternion, dungeonRoot);
-                    go.transform.localPosition = Grid2WorldPosition(new Vector2Int(x, y), GridSize, Vector3.zero);
+                    go.transform.localRotation = info.Quaternion;
+                    go.transform.localPosition = Grid2WorldPosition(new Vector2Int(x, y), GridSize, info.prefab.transform.localPosition);
                     go.name += $"({x},{y})";
                 }
 

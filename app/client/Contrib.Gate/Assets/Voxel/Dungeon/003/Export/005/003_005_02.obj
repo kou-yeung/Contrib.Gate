@@ -1,5 +1,8 @@
 # MagicaVoxel @ Ephtracy
 
+# group
+g 003_005_02
+
 # material
 mtllib 003_005_02.mtl
 usemtl palette

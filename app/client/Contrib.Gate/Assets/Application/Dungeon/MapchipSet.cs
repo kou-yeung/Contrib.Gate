@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PostProcessing;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditorInternal;
@@ -41,6 +42,7 @@ namespace Dungeon
     public class MapchipSet : ScriptableObject
     {
         [SerializeField] Vector2Int gridsize;
+        [SerializeField] PostProcessingProfile postProcessingProfile;
 
         [SerializeField] MapchipInfo[] up_left;
         [SerializeField] MapchipInfo[] up_left_right;
@@ -66,6 +68,7 @@ namespace Dungeon
         [SerializeField] MapchipInfo[] goal;
 
         public Vector2Int GridSize { get { return gridsize; } }
+        public PostProcessingProfile PostProcessingProfile { get { return postProcessingProfile; } }
 
         MapchipInfo GetChipInternal(MapchipInfo[] infos, System.Random random)
         {
@@ -117,6 +120,7 @@ namespace Dungeon
     public class MapchipSetInspector : Editor
     {
         SerializedProperty gridsize;
+        SerializedProperty postProcessingProfile;
         List<ReorderableList> reorderableList = new List<ReorderableList>();
         Dictionary<string, string> nameset = new Dictionary<string, string>
         {
@@ -136,6 +140,7 @@ namespace Dungeon
                 reorderableList.Add(CreateReorderableList(kv));
             }
             gridsize = serializedObject.FindProperty("gridsize");
+            postProcessingProfile = serializedObject.FindProperty("postProcessingProfile");
         }
 
         public override void OnInspectorGUI()
@@ -143,6 +148,7 @@ namespace Dungeon
             serializedObject.Update();
 
             gridsize.vector2IntValue = EditorGUILayout.Vector2IntField("グリッドサイズ", gridsize.vector2IntValue);
+            postProcessingProfile.objectReferenceValue = EditorGUILayout.ObjectField("PostProcessingProfile", postProcessingProfile.objectReferenceValue,typeof(PostProcessingProfile), true);
 
             foreach (var item in reorderableList)
             {
