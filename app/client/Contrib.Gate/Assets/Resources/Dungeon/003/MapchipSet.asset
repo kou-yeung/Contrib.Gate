@@ -75,5 +75,5 @@ MonoBehaviour:
   - prefab: {fileID: 1969216449786052, guid: f054513bd49614941946a2142001f603, type: 2}
     rotate: 0
   goal:
-  - prefab: {fileID: 1891941973991600, guid: 6e120812ea32dd04f8a32f46fe10a115, type: 2}
-    rotate: 0
+  - prefab: {fileID: 1011637952126490, guid: 944ff0d92f9a7ac438559bb568749348, type: 2}
+    rotate: 2
