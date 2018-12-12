@@ -215,6 +215,7 @@ public class InGame : MonoBehaviour
                 }
                 stage = State.Move;
                 Observer.Instance.Unsubscribe(BattleWindow.CloseEvent, OnSubscribe);
+                ChromaticAberration(1f, 0f, 0.1f);
                 break;
             case BattleResultWindow.CloseEvent:
                 Observer.Instance.Unsubscribe(BattleResultWindow.CloseEvent, OnSubscribe);
@@ -338,6 +339,8 @@ public class InGame : MonoBehaviour
 
     void Encount()
     {
+        ChromaticAberration(0, 1f, 0.3f);
+
         Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
         {
             Window.Open<BattleWindow>(r);
@@ -351,6 +354,25 @@ public class InGame : MonoBehaviour
         {
             // エラー処理
             return false;
+        });
+    }
+
+
+    /// <summary>
+    /// 画面エフェクト：バトル出入り
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="to"></param>
+    /// <param name="time"></param>
+    void ChromaticAberration(float from, float to, float time)
+    {
+        var postProcessing = Camera.main.GetComponent<PostProcessingBehaviour>();
+        //postProcessing.profile.chromaticAberration.enabled = true;
+        LeanTween.value(from, to, time).setOnUpdate((float v) =>
+        {
+            var settings = postProcessing.profile.chromaticAberration.settings;
+            settings.intensity = v;
+            postProcessing.profile.chromaticAberration.settings = settings;
         });
     }
 

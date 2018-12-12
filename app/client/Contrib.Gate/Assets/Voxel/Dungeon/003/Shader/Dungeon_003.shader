@@ -1,7 +1,7 @@
 // Shader created with Shader Forge v1.38 
 // Shader Forge (c) Freya Holmer - http://www.acegikmo.com/shaderforge/
 // Note: Manually altering this data may prevent you from opening it in Shader Forge
-/*SF_DATA;ver:1.38;sub:START;pass:START;ps:flbk:,iptp:0,cusa:False,bamd:0,cgin:,lico:1,lgpr:1,limd:1,spmd:1,trmd:0,grmd:0,uamb:True,mssp:True,bkdf:False,hqlp:False,rprd:False,enco:False,rmgx:True,imps:True,rpth:0,vtps:0,hqsc:True,nrmq:1,nrsp:0,vomd:0,spxs:False,tesm:0,olmd:1,culm:0,bsrc:0,bdst:1,dpts:2,wrdp:True,dith:0,atcv:False,rfrpo:True,rfrpn:Refraction,coma:15,ufog:False,aust:True,igpj:False,qofs:0,qpre:1,rntp:1,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,stcl:False,atwp:False,stva:128,stmr:255,stmw:255,stcp:6,stps:0,stfa:0,stfz:0,ofsf:0,ofsu:0,f2p0:False,fnsp:False,fnfb:False,fsmp:False;n:type:ShaderForge.SFN_Final,id:3138,x:33429,y:32531,varname:node_3138,prsc:2|diff-333-OUT;n:type:ShaderForge.SFN_Tex2d,id:4588,x:32773,y:32538,ptovrint:False,ptlb:node_4588,ptin:_node_4588,varname:node_4588,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:5a39f7e9f88727c44b760d0c4ebbabc8,ntxv:0,isnm:False|UVIN-3647-UVOUT;n:type:ShaderForge.SFN_TexCoord,id:3647,x:32452,y:32606,varname:node_3647,prsc:2,uv:0,uaff:False;n:type:ShaderForge.SFN_Time,id:6026,x:32453,y:32929,varname:node_6026,prsc:2;n:type:ShaderForge.SFN_Sin,id:9383,x:32647,y:32942,varname:node_9383,prsc:2|IN-6026-T;n:type:ShaderForge.SFN_Tex2d,id:2569,x:32647,y:32754,ptovrint:False,ptlb:node_2569,ptin:_node_2569,varname:node_2569,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:130dc1d99fa9c254ca68a1432d898602,ntxv:0,isnm:False|UVIN-3647-UVOUT;n:type:ShaderForge.SFN_Multiply,id:2368,x:32880,y:32824,varname:node_2368,prsc:2|A-2569-RGB,B-9383-OUT;n:type:ShaderForge.SFN_Add,id:333,x:33110,y:32610,varname:node_333,prsc:2|A-4588-RGB,B-3272-OUT;n:type:ShaderForge.SFN_Clamp01,id:3272,x:33099,y:32824,varname:node_3272,prsc:2|IN-2368-OUT;proporder:4588-2569;pass:END;sub:END;*/
+/*SF_DATA;ver:1.38;sub:START;pass:START;ps:flbk:,iptp:0,cusa:False,bamd:0,cgin:,lico:1,lgpr:1,limd:1,spmd:1,trmd:0,grmd:0,uamb:True,mssp:True,bkdf:False,hqlp:False,rprd:False,enco:False,rmgx:True,imps:True,rpth:0,vtps:0,hqsc:True,nrmq:1,nrsp:0,vomd:0,spxs:False,tesm:0,olmd:1,culm:0,bsrc:0,bdst:1,dpts:2,wrdp:True,dith:0,atcv:False,rfrpo:True,rfrpn:Refraction,coma:15,ufog:False,aust:True,igpj:False,qofs:0,qpre:1,rntp:1,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,stcl:False,atwp:False,stva:128,stmr:255,stmw:255,stcp:6,stps:0,stfa:0,stfz:0,ofsf:0,ofsu:0,f2p0:False,fnsp:False,fnfb:False,fsmp:False;n:type:ShaderForge.SFN_Final,id:3138,x:33429,y:32531,varname:node_3138,prsc:2|diff-4588-RGB,emission-2368-OUT;n:type:ShaderForge.SFN_Tex2d,id:4588,x:32773,y:32538,ptovrint:False,ptlb:node_4588,ptin:_node_4588,varname:node_4588,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:5a39f7e9f88727c44b760d0c4ebbabc8,ntxv:0,isnm:False|UVIN-3647-UVOUT;n:type:ShaderForge.SFN_TexCoord,id:3647,x:32452,y:32606,varname:node_3647,prsc:2,uv:0,uaff:False;n:type:ShaderForge.SFN_Time,id:6026,x:32381,y:32937,varname:node_6026,prsc:2;n:type:ShaderForge.SFN_Sin,id:9383,x:32622,y:33026,varname:node_9383,prsc:2|IN-6026-T;n:type:ShaderForge.SFN_Tex2d,id:2569,x:32702,y:32746,ptovrint:False,ptlb:node_2569,ptin:_node_2569,varname:node_2569,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:130dc1d99fa9c254ca68a1432d898602,ntxv:0,isnm:False|UVIN-3647-UVOUT;n:type:ShaderForge.SFN_Multiply,id:2368,x:33069,y:32862,varname:node_2368,prsc:2|A-2569-RGB,B-1105-OUT,C-7557-OUT;n:type:ShaderForge.SFN_Vector1,id:1105,x:32686,y:32940,varname:node_1105,prsc:2,v1:1.5;n:type:ShaderForge.SFN_Clamp01,id:7557,x:32841,y:33026,varname:node_7557,prsc:2|IN-9383-OUT;proporder:4588-2569;pass:END;sub:END;*/
 
 Shader "Shader Forge/Dungeon_003" {
     Properties {
@@ -66,14 +66,15 @@ Shader "Shader Forge/Dungeon_003" {
                 float3 indirectDiffuse = float3(0,0,0);
                 indirectDiffuse += UNITY_LIGHTMODEL_AMBIENT.rgb; // Ambient Light
                 float4 _node_4588_var = tex2D(_node_4588,TRANSFORM_TEX(i.uv0, _node_4588));
+                float3 diffuseColor = _node_4588_var.rgb;
+                float3 diffuse = (directDiffuse + indirectDiffuse) * diffuseColor;
+////// Emissive:
                 float4 _node_2569_var = tex2D(_node_2569,TRANSFORM_TEX(i.uv0, _node_2569));
                 float4 node_6026 = _Time;
-                float node_9383 = sin(node_6026.g);
-                float3 node_2368 = (_node_2569_var.rgb*node_9383);
-                float3 diffuseColor = (_node_4588_var.rgb+saturate(node_2368));
-                float3 diffuse = (directDiffuse + indirectDiffuse) * diffuseColor;
+                float3 node_2368 = (_node_2569_var.rgb*1.5*saturate(sin(node_6026.g)));
+                float3 emissive = node_2368;
 /// Final Color:
-                float3 finalColor = diffuse;
+                float3 finalColor = diffuse + emissive;
                 return fixed4(finalColor,1);
             }
             ENDCG
@@ -131,11 +132,7 @@ Shader "Shader Forge/Dungeon_003" {
                 float NdotL = max(0.0,dot( normalDirection, lightDirection ));
                 float3 directDiffuse = max( 0.0, NdotL) * attenColor;
                 float4 _node_4588_var = tex2D(_node_4588,TRANSFORM_TEX(i.uv0, _node_4588));
-                float4 _node_2569_var = tex2D(_node_2569,TRANSFORM_TEX(i.uv0, _node_2569));
-                float4 node_6026 = _Time;
-                float node_9383 = sin(node_6026.g);
-                float3 node_2368 = (_node_2569_var.rgb*node_9383);
-                float3 diffuseColor = (_node_4588_var.rgb+saturate(node_2368));
+                float3 diffuseColor = _node_4588_var.rgb;
                 float3 diffuse = directDiffuse * diffuseColor;
 /// Final Color:
                 float3 finalColor = diffuse;
