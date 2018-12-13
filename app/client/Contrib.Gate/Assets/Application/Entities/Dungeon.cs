@@ -28,5 +28,4 @@ namespace Entities
             Map(x => x.EncountRate).Index(6);
         }
     }
-
 }

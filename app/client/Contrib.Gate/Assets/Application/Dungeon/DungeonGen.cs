@@ -34,6 +34,7 @@ namespace Dungeon
         Treasure = 1 << 10, // 宝箱？[仕様未定]
         Start = 1 << 11,    // スタート
         Goal = 1 << 12,    // ゴール
+        Obstacle = 1 << 13, // 障害物
     }
 
     class Passage
@@ -219,13 +220,13 @@ namespace Dungeon
             {
                 EditorUtility.DisplayProgressBar("生成中", $"{i}/{count}", i / (float)count);
                 var additional = new[] { Tile.UpStairs };//, Tile.DownStairs, Tile.Treasure, Tile.Treasure };
-                var res = Gen(i, new Vector2Int(30, 30), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(20, 20), 4, 4, 3, additional);
+                var res = Gen(i, new Vector2Int(30, 30), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(20, 20), 4, 4, 3, 5, additional);
                 Print(res, i.ToString());
             }
             EditorUtility.ClearProgressBar();
         }
 #endif
-        public static Tile[,] Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int roomSizeMax,int deleteRoomTryCount,int deleteRoadTryCount, int mergeRoomRoomTryCount,  Tile[] additional = null)
+        public static Tile[,] Gen(int seed, Vector2Int areaSize, Vector2Int grid, Vector2Int roomSizeMin, Vector2Int roomSizeMax,int deleteRoomTryCount,int deleteRoadTryCount, int mergeRoomRoomTryCount, int obstacleRate, Tile[] additional = null)
         {
             System.Random random = new System.Random(seed);
 
@@ -295,6 +296,7 @@ namespace Dungeon
                 }
             }
 
+            // 壁などの計算
             var res = CalcTile(flag);
 
             // 追加タイルの設定
@@ -307,7 +309,45 @@ namespace Dungeon
                     res[x, y] = add;
                 }
             }
+
+            // 障害物を設置する
+            RandomObstacle(res, random, obstacleRate);
+
             return res;
+        }
+
+        /// <summary>
+        /// ランダムで障害物を設置する
+        /// </summary>
+        /// <param name="tiles"></param>
+        /// <param name="rate"></param>
+        static void RandomObstacle(Tile[,] tiles, System.Random random, int rate)
+        {
+            var width = tiles.GetLength(0);
+            var height = tiles.GetLength(1);
+
+            for (int w = 1; w < width-1; w++)
+            {
+                for (int h = 1; h < height-1; h++)
+                {
+                    if (tiles[w, h] != Tile.All) continue;
+
+                    // 上下左右
+                    if (tiles[w, h - 1] != Tile.All) continue;
+                    if (tiles[w, h + 1] != Tile.All) continue;
+                    if (tiles[w - 1, h] != Tile.All) continue;
+                    if (tiles[w + 1, h] != Tile.All) continue;
+
+                    // 斜め
+                    if (tiles[w - 1, h - 1] != Tile.All) continue;
+                    if (tiles[w + 1, h - 1] != Tile.All) continue;
+                    if (tiles[w - 1, h + 1] != Tile.All) continue;
+                    if (tiles[w + 1, h + 1] != Tile.All) continue;
+
+                    if (rate < random.Next(100)) continue;
+                    tiles[w, h] = Tile.Obstacle;
+                }
+            }
         }
 
         static void RandomPosition(List<Room> rooms, Tile[,] tiles, System.Random random, out int x, out int y)

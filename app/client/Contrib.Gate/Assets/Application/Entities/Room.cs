@@ -15,6 +15,7 @@ namespace Entities
         public int DeleteRoomTry;   // 部屋削除最大試行回数
         public int DeleteRoadTry;   // 道削除最大試行回数
         public int MergeRoomTry;    // 部屋マージ最大試行回数
+        public int ObstacleRate;    // 障害物割合
     }
 
     public sealed class RoomMap : ClassMap<Room>
@@ -29,6 +30,7 @@ namespace Entities
             Map(x => x.DeleteRoomTry).Index(5);
             Map(x => x.DeleteRoadTry).Index(6);
             Map(x => x.MergeRoomTry).Index(7);
+            Map(x => x.ObstacleRate).Index(8);
         }
     }
 

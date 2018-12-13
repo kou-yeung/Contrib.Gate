@@ -78,7 +78,7 @@ public class InGame : MonoBehaviour
         var postProcessing = Camera.main.GetComponent<PostProcessingBehaviour>();
         if (postProcessing != null) postProcessing.profile = mapchip.PostProcessingProfile;
 
-        map = DungeonGen.Gen(stageInfo.seed, Room.AreaSize, Room.RoomNum, Room.RoomMin, Room.RoomMax, Room.DeleteRoadTry, Room.DeleteRoadTry, Room.MergeRoomTry, GetAdditionalTile(Dungeon));
+        map = DungeonGen.Gen(stageInfo.seed, Room.AreaSize, Room.RoomNum, Room.RoomMin, Room.RoomMax, Room.DeleteRoadTry, Room.DeleteRoadTry, Room.MergeRoomTry, Room.ObstacleRate, GetAdditionalTile(Dungeon));
         var width = map.GetLength(0);
         var height = map.GetLength(1);
 

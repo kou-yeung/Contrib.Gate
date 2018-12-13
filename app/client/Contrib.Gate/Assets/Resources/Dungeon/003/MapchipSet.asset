@@ -77,3 +77,12 @@ MonoBehaviour:
   goal:
   - prefab: {fileID: 1011637952126490, guid: 944ff0d92f9a7ac438559bb568749348, type: 2}
     rotate: 2
+  obstacle:
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 0
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 1
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 2
+  - prefab: {fileID: 1134705312853088, guid: dfd3d6c864df1fc4d8e82c8fe833f2ee, type: 2}
+    rotate: 3

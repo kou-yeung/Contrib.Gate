@@ -66,6 +66,8 @@ namespace Dungeon
 
         [SerializeField] MapchipInfo[] start;
         [SerializeField] MapchipInfo[] goal;
+        [SerializeField] MapchipInfo[] obstacle;
+        
 
         public Vector2Int GridSize { get { return gridsize; } }
         public PostProcessingProfile PostProcessingProfile { get { return postProcessingProfile; } }
@@ -103,9 +105,11 @@ namespace Dungeon
                 // 階段
                 case (int)(Tile.UpStairs):                      return GetChipInternal(up_stairs, random);
                 case (int)(Tile.DownStairs):                    return GetChipInternal(down_stairs, random);
-                // 開始
+                // 開始/終了
                 case (int)(Tile.Start):                         return GetChipInternal(start, random);
                 case (int)(Tile.Goal):                          return GetChipInternal(goal, random);
+                // 障害物
+                case (int)(Tile.Obstacle):                      return GetChipInternal(obstacle, random);
                 default:
                 {
                     if(tile != Tile.None) Debug.Log(tile);
@@ -130,6 +134,7 @@ namespace Dungeon
             { "left_up_corner", "左上角" }, { "right_up_corner", "右上角" }, { "left_down_corner", "左下角" }, { "right_down_corner", "右下角" },
             { "up_stairs", "上り階段" }, { "down_stairs", "下り階段" },
             { "start", "スタート" }, { "goal", "ゴール" },
+            { "obstacle", "障害物" },
         };
 
         private void OnEnable()
