@@ -11,7 +11,8 @@ namespace Test
     {
         Vector2 GridSize = Vector2.one;
         public string assetName = "001";
-        
+        public int obstacleRate = 5;
+
         void Start()
         {
             var mapchip = Resources.Load<MapchipSet>($"Dungeon/{assetName}/MapchipSet");
@@ -21,7 +22,7 @@ namespace Test
             if (postProcessing != null) postProcessing.profile = mapchip.PostProcessingProfile;
 
             var additional = new[] { Tile.UpStairs, Tile.DownStairs };
-            var map = DungeonGen.Gen(0, new Vector2Int(30, 30), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(20, 20), 2, 2, 1, 3, additional);
+            var map = DungeonGen.Gen(0, new Vector2Int(30, 30), new Vector2Int(3, 3), new Vector2Int(12, 12), new Vector2Int(20, 20), 2, 2, 1, obstacleRate, additional);
 
             var width = map.GetLength(0);
             var height = map.GetLength(1);

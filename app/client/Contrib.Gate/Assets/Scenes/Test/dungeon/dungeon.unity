@@ -113,6 +113,48 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &74131002
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4503843658834940, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4503843658834940, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4503843658834940, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4503843658834940, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4503843658834940, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4503843658834940, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4503843658834940, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4503843658834940, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 04935f283cfca1b4f8c1287502a98b0d, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &142338468
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e362a9eb267e0418b06dec5e217f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetName: 003
+  assetName: 002
+  obstacleRate: 50
 --- !u!4 &443927656
 Transform:
   m_ObjectHideFlags: 0
