@@ -11,6 +11,7 @@ public class Home : MonoBehaviour {
 
     public Text userName;
     public Text coin;
+    public Image image;
 
 	// Use this for initialization
 	IEnumerator Start () {
@@ -21,14 +22,28 @@ public class Home : MonoBehaviour {
         yield return Entity.Instance.GetHatchList();
         yield return Entity.Instance.GetUnitList();
 
-        Observer.Instance.Subscribe(UserState.Update, UpdateUserState);
+        Observer.Instance.Subscribe(UserState.Update, OnSubscribe);
+        Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
         UpdateUserState();
         enabled = true;
     }
 
+    void OnSubscribe(string e, object o)
+    {
+        switch (e)
+        {
+            case UserState.Update:
+                UpdateUserState();
+                break;
+            case UnitList.UpdateEvent:
+                UpdateUserState();
+                break;
+        }
+    }
     private void OnDestroy()
     {
-        Observer.Instance.Unsubscribe(UserState.Update, UpdateUserState);
+        Observer.Instance.Unsubscribe(UserState.Update, OnSubscribe);
+        Observer.Instance.Unsubscribe(UnitList.UpdateEvent, OnSubscribe);
     }
     // Update is called once per frame
     void Update () {
@@ -77,6 +92,12 @@ public class Home : MonoBehaviour {
         var state = Entity.Instance.UserState;
         coin.text = state.coin.ToString();
         userName.text = state.playerName;
+
+        // お気に入り？ユニットの最初のキャラを設定します
+        var uniqid = Entity.Instance.UnitList.items[0].uniqids[0];
+        var item = Entity.Instance.PetList.items.Find(v => v.uniqid == uniqid);
+        image.sprite = Resources.Load<Sprite>($"Familiar/{item.Familiar.Image}/base");
+        image.enabled = true;
     }
 }
 

@@ -7,7 +7,7 @@ namespace Entities
 {
     public partial class UserState
     {
-        public static readonly string Update = @"UserStat:Update";
+        public const string Update = @"UserStat:Update";
 
         public void AddCoin(int added)
         {
