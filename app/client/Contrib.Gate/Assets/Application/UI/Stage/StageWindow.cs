@@ -17,9 +17,9 @@ namespace UI
         public Text stageRenew;
         public Stage[] stages;  // 表示可能なステージ一覧
 
-        public float HeightItem()
+        public float ItemSize()
         {
-            return stageItemPrefab.GetComponent<RectTransform>().rect.height;
+            return stageItemPrefab.GetComponent<RectTransform>().rect.width;
         }
 
         public GameObject ListViewItem(int index, GameObject item)

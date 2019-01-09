@@ -20,7 +20,7 @@ namespace UI
 
         Cheat current;
 
-        public float HeightItem()
+        public float ItemSize()
         {
             return prefab.GetComponent<RectTransform>().sizeDelta.y;
         }

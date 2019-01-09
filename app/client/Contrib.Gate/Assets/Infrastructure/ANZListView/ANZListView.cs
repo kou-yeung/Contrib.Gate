@@ -17,7 +17,7 @@ namespace Xyz.AnzFactory.UI
         public interface IDataSource
         {
             int NumOfItems();
-            float HeightItem();
+            float ItemSize();
             GameObject ListViewItem(int index, GameObject item);
         }
 
@@ -32,18 +32,18 @@ namespace Xyz.AnzFactory.UI
 
         #region "Fields"
         private ScrollRect scrollRect;
-        private float rowHeight;
+        private float rowSize;
         private int itemCount;
         private int visibleItemCount;
         private List<ListItemData> itemDataList;
         private List<ListItemData> visibleItemDataList;
-        private float prevPositionY;
+        private float prevPosition;
         #endregion
 
         #region "Properties"
-        public float RowHeight
+        public float RowSize
         {
-            get { return this.rowHeight; }
+            get { return this.rowSize; }
         }
         public int ItemCount
         {
@@ -57,11 +57,11 @@ namespace Xyz.AnzFactory.UI
         #region "Events"
         private void Awake()
         {
-            this.rowHeight = 0;
+            this.rowSize = 0;
             this.itemCount = 0;
             this.visibleItemCount = 0;
             this.itemDataList = new List<ListItemData>();
-            this.prevPositionY = -100f;
+            this.prevPosition = -100f;
 
             this.Setup();
         }
@@ -70,9 +70,10 @@ namespace Xyz.AnzFactory.UI
         #region "Events"
         public void ChangedScrollPosition(Vector2 position)
         {
-            if (-100f >= this.prevPositionY) {
+            var current = this.scrollRect.vertical ? position.y : position.x;
+            if (-100f >= this.prevPosition) {
                 // なにもしない
-            } else if (this.prevPositionY > position.y) {
+            } else if (this.prevPosition > current) {
                 List<ListItemData> items = this.VisibleItems();
                 if (items.Count > 0) {
                     while (items[items.Count - 1].Position > this.visibleItemDataList[this.visibleItemDataList.Count - 1].Position) {
@@ -92,7 +93,7 @@ namespace Xyz.AnzFactory.UI
                         this.visibleItemDataList.Add(targetItem);
                     }
                 }
-            } else if (this.prevPositionY < position.y) {
+            } else if (this.prevPosition < current) {
                 List<ListItemData> items = this.VisibleItems();
                 if (items.Count > 0) {
                     while (this.visibleItemDataList[0].Position > items[0].Position) {
@@ -115,7 +116,7 @@ namespace Xyz.AnzFactory.UI
                     }
                 }
             }
-            this.prevPositionY = position.y;
+            this.prevPosition = current;
         }
 
         public void TapItem(GameObject listItem)
@@ -160,8 +161,8 @@ namespace Xyz.AnzFactory.UI
             yield return new WaitForEndOfFrame();
 
             this.itemCount = this.DataSource.NumOfItems();
-            this.rowHeight = this.DataSource.HeightItem();
-            this.visibleItemCount = Mathf.CeilToInt(this.scrollRect.viewport.rect.height / this.rowHeight) + 2;
+            this.rowSize = this.DataSource.ItemSize();
+            this.visibleItemCount = Mathf.CeilToInt(this.scrollRect.viewport.rect.height / this.rowSize) + 2;
 
             this.FillItems();
             this.visibleItemDataList = this.VisibleItems();
@@ -176,21 +177,40 @@ namespace Xyz.AnzFactory.UI
         {
             this.scrollRect = this.gameObject.GetComponent<ScrollRect>();
 
-            var verticalLayout = this.scrollRect.content.gameObject.GetComponent<VerticalLayoutGroup>();
-            if (verticalLayout == null) {
-                verticalLayout = this.scrollRect.content.gameObject.AddComponent<VerticalLayoutGroup>();
+            if (this.scrollRect.vertical)
+            {
+                var layout = this.scrollRect.content.gameObject.GetComponent<VerticalLayoutGroup>();
+                if (layout == null) layout = this.scrollRect.content.gameObject.AddComponent<VerticalLayoutGroup>();
+                layout.childForceExpandHeight = false;
+                layout.childForceExpandWidth = true;
+                layout.childControlHeight = true;
+                layout.childControlWidth = true;
             }
-            verticalLayout.childForceExpandHeight = false;
-            verticalLayout.childForceExpandWidth = true;
-            verticalLayout.childControlHeight = true;
-            verticalLayout.childControlWidth = true;
+            else
+            {
+                var layout = this.scrollRect.content.gameObject.GetComponent<HorizontalLayoutGroup>();
+                if (layout == null) layout = this.scrollRect.content.gameObject.AddComponent<HorizontalLayoutGroup>();
+                layout.childForceExpandHeight = true;
+                layout.childForceExpandWidth = false;
+                layout.childControlHeight = true;
+                layout.childControlWidth = true;
+            }
 
             var contentSizeFitter = this.scrollRect.content.gameObject.GetComponent<ContentSizeFitter>();
             if (contentSizeFitter == null) {
                 contentSizeFitter = this.scrollRect.content.gameObject.AddComponent<ContentSizeFitter>();
             }
-            contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+
+            if (this.scrollRect.vertical)
+            {
+                contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+                contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+            }
+            else
+            {
+                contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+                contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            }
 
             this.scrollRect.onValueChanged.RemoveListener(this.ChangedScrollPosition);
             this.scrollRect.onValueChanged.AddListener(this.ChangedScrollPosition);
@@ -232,10 +252,24 @@ namespace Xyz.AnzFactory.UI
         private List<ListItemData> VisibleItems()
         {
             int index = 0;
-            if (this.scrollRect.content.rect.height > this.scrollRect.viewport.rect.height) {
-                var length = (this.scrollRect.content.rect.size.y - this.scrollRect.viewport.rect.size.y);
-                var frameY = length - (length * this.scrollRect.verticalNormalizedPosition);
-                index = Mathf.FloorToInt(frameY / this.rowHeight);
+
+            if (this.scrollRect.vertical)
+            {
+                if (this.scrollRect.content.rect.height > this.scrollRect.viewport.rect.height)
+                {
+                    var length = (this.scrollRect.content.rect.size.y - this.scrollRect.viewport.rect.size.y);
+                    var frameY = length - (length * this.scrollRect.verticalNormalizedPosition);
+                    index = Mathf.FloorToInt(frameY / this.rowSize);
+                }
+            }
+            else
+            {
+                if (this.scrollRect.content.rect.width > this.scrollRect.viewport.rect.width)
+                {
+                    var length = (this.scrollRect.content.rect.size.x - this.scrollRect.viewport.rect.size.x);
+                    var frameX = length - (length * this.scrollRect.horizontalNormalizedPosition);
+                    index = Mathf.FloorToInt(frameX / this.rowSize);
+                }
             }
 
             index = Mathf.Max(index, 0);
@@ -288,7 +322,15 @@ namespace Xyz.AnzFactory.UI
             var itemContainer = new GameObject(name);
             var layoutElement = itemContainer.AddComponent<LayoutElement>();
             itemContainer.transform.SetParent(this.scrollRect.content.gameObject.transform, false);
-            layoutElement.preferredHeight = this.RowHeight;
+            if (this.scrollRect.vertical)
+            {
+                layoutElement.preferredHeight = this.RowSize;
+            }
+            else
+            {
+                layoutElement.preferredWidth = this.RowSize;
+            }
+
             return itemContainer;
         }
 
@@ -301,8 +343,16 @@ namespace Xyz.AnzFactory.UI
                 var newContainer = this.CreateContainer("ItemContainer");
                 listItemData = new ListItemData(position, newContainer);
             }
-            listItemData.Layout.preferredHeight = this.rowHeight;
-            listItemData.ContainerRectTransform.pivot = new Vector2(0, 1);
+            if (this.scrollRect.vertical)
+            {
+                listItemData.Layout.preferredHeight = this.rowSize;
+                listItemData.ContainerRectTransform.pivot = new Vector2(0, 1);
+            }
+            else
+            {
+                listItemData.Layout.preferredWidth = this.rowSize;
+                listItemData.ContainerRectTransform.pivot = new Vector2(0, 1);
+            }
             return listItemData;
         }
 

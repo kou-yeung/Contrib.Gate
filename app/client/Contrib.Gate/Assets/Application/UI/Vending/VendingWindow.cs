@@ -12,7 +12,7 @@ namespace UI
         public ANZListView list;
         public GameObject vendingItemPrefab;
 
-        public float HeightItem()
+        public float ItemSize()
         {
             return vendingItemPrefab.GetComponent<RectTransform>().rect.height;
         }

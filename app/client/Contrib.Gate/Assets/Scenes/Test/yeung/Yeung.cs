@@ -11,7 +11,7 @@ namespace Test
         public GameObject prefab;
         public ANZListView list;
 
-        public float HeightItem()
+        public float ItemSize()
         {
             return prefab.GetComponent<RectTransform>().rect.height;
         }
