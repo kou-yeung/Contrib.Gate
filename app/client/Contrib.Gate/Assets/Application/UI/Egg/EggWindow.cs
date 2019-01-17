@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace UI
 {
-    public class EggWindow : Window, ANZCellView.IActionDelegate
+    public class EggWindow : Window, ANZCellView.IActionDelegate, ANZCellView.IPressDelegate
     {
         public ANZCellView eggCell;
         public ANZCellView hatchCell;
@@ -100,6 +100,12 @@ namespace UI
             }
         }
 
+        public void PressCellItem(int index, GameObject listItem)
+        {
+            Entities.EggItem egg = listItem.GetComponent<EggItem>()?.egg;
+            DialogWindow.OpenOk("入手場所", Entity.Name(egg.stage));
+        }
+
         /// <summary>
         /// 孵化関連
         /// </summary>
@@ -169,6 +175,7 @@ namespace UI
             // タマゴ一覧
             eggCell.DataSource = new EggList(eggItemPrefab);
             eggCell.ActionDelegate = this;
+            eggCell.PressDelegate = this;
             eggCell.ReloadData();
             base.OnStart();
         }

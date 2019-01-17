@@ -12,32 +12,37 @@ namespace UI
         public Entities.HatchItem hatch { get; private set; }
         public Entities.EggItem egg { get; private set; }
         public Text rarity;
-        public GameObject hatchBG;
-        public Text hatchText;
+        public Slider timeGauge;
+        public Text timeRemain;
+        long current = 0;
 
         public void Setup(Entities.HatchItem item)
         {
             hatch = item;
             this.egg =  Entity.Instance.EggList.items.Find(v => v.uniqid == item.uniqid);
-            if (this.egg.judgment)
+            var rarity = "";
+            for (int i = 0; i < this.egg.rarity; i++) rarity += "★";
+            this.rarity.text = rarity;
+        }
+
+        public void Update()
+        {
+            if (current == ServerTime.CurrentUnixTime) return;
+            current = ServerTime.CurrentUnixTime;
+
+            timeGauge.value = Mathf.Min(1, (current - hatch.startTime) / (float)hatch.timeRequired);
+
+            var cur = UnixTime.FromUnixTime(current);
+            var end = UnixTime.FromUnixTime(hatch.timeRequired + hatch.startTime);
+            var remain = (end - cur);
+
+            if (cur < end)
             {
-                var rarity = "";
-                for (int i = 0; i < this.egg.rarity; i++) rarity += "★";
-                this.rarity.text = rarity;
+                timeRemain.text = remain.ToString(@"hh\:mm\:ss");
             }
             else
             {
-                this.rarity.text = "？";
-            }
-
-            // 予約中 の場合[予約中]ラベルを表示する
-            var data = Entity.Instance.HatchList.items.Find(v => v.uniqid == item.uniqid);
-            hatchBG.SetActive(data != null);
-
-            if (data != null)
-            {
-                var endtime = data.startTime + data.timeRequired;
-                hatchText.text = (endtime < ServerTime.CurrentUnixTime) ? "孵化完了" : "孵化中";
+                timeRemain.text = "完了";
             }
         }
     }
