@@ -70,15 +70,23 @@ namespace UI
 
             public int NumOfItems()
             {
-                return GetCurrentUnit().uniqids.Count(v => !string.IsNullOrEmpty(v));
+                return GetCurrentUnit().uniqids.Length;// Count(v => !string.IsNullOrEmpty(v));
             }
 
             public GameObject CellViewItem(int index, GameObject item)
             {
                 if (item == null) item = Instantiate(petInfoItemPrefab);
                 var unit = GetCurrentUnit();
-                var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == unit.uniqids[index]);
-                item.GetComponent<PetInfo>().Setup(pet);
+
+                if (string.IsNullOrEmpty(unit.uniqids[index]))
+                {
+                    item.GetComponent<PetInfo>().Setup(null);
+                }
+                else
+                {
+                    var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == unit.uniqids[index]);
+                    item.GetComponent<PetInfo>().Setup(pet);
+                }
                 return item;
             }
         }
@@ -90,14 +98,14 @@ namespace UI
         public void TapCellItem(int index, GameObject listItem)
         {
             var uniq = listItem.GetComponent<PetItem>()?.pet.uniqid;
-            if (string.IsNullOrEmpty(uniq)) uniq = listItem.GetComponent<PetInfo>()?.pet.uniqid;
+            if (string.IsNullOrEmpty(uniq)) uniq = listItem.GetComponent<PetInfo>()?.pet?.uniqid;
             if (!string.IsNullOrEmpty(uniq)) Modify(uniq);
         }
         public void PressCellItem(int index, GameObject listItem)
         {
             // 詳細表示
             var uniq = listItem.GetComponent<PetItem>()?.pet.uniqid;
-            if (string.IsNullOrEmpty(uniq)) uniq = listItem.GetComponent<PetInfo>()?.pet.uniqid;
+            if (string.IsNullOrEmpty(uniq)) uniq = listItem.GetComponent<PetInfo>()?.pet?.uniqid;
 
             if (!string.IsNullOrEmpty(uniq))
             {
@@ -149,9 +157,9 @@ namespace UI
                         // 外す
                         modify.items[0].uniqids[index] = "";
 
-                        var v1 = modify.items[0].uniqids.Where(v => !string.IsNullOrEmpty(v));  // 空きではない
-                        var v2 = modify.items[0].uniqids.Where(v => string.IsNullOrEmpty(v));   // 空き
-                        modify.items[0].uniqids = v1.Concat(v2).ToArray();                      // 再連結 
+                        //var v1 = modify.items[0].uniqids.Where(v => !string.IsNullOrEmpty(v));  // 空きではない
+                        //var v2 = modify.items[0].uniqids.Where(v => string.IsNullOrEmpty(v));   // 空き
+                        //modify.items[0].uniqids = v1.Concat(v2).ToArray();                      // 再連結 
 
                         modify.Modify(modify.items[0]);
                     });

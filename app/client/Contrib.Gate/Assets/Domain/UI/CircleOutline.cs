@@ -30,7 +30,7 @@ public class CircleOutline : BaseMeshEffect
     {
         material = new Material(Shader.Find("GUI/Text Shader"));
         image = GetComponent<Image>();
-        image.material = material;
+        if (image != null) image.material = material;
         base.Awake();
     }
 

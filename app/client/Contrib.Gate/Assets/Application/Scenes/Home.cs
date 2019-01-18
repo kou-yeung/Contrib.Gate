@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using EventSystem;
 using UI;
 using Effect;
+using System.Linq;
 
 public class Home : MonoBehaviour {
 
@@ -94,7 +95,7 @@ public class Home : MonoBehaviour {
         userName.text = state.playerName;
 
         // お気に入り？ユニットの最初のキャラを設定します
-        var uniqid = Entity.Instance.UnitList.items[0].uniqids[0];
+        var uniqid = Entity.Instance.UnitList.items[0].uniqids.First(v => !string.IsNullOrEmpty(v));
         var item = Entity.Instance.PetList.items.Find(v => v.uniqid == uniqid);
         image.sprite = Resources.Load<Sprite>($"Familiar/{item.Familiar.Image}/base");
         image.enabled = true;
