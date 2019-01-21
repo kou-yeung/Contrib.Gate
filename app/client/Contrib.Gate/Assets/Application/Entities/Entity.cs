@@ -72,6 +72,11 @@ namespace Entities
             StringTable = new StringTable(Parse<StringTableKV>("Entities/string_table", false));
         }
 
+        /// <summary>
+        /// 名前
+        /// </summary>
+        /// <param name="identify"></param>
+        /// <returns></returns>
         public static string Name(Identify identify)
         {
             switch (identify.Type)
@@ -86,6 +91,21 @@ namespace Entities
                     return Array.Find(Instance.Skills, (v) => v.Identify == identify).Name;
                 case IDType.Stage:
                     return Array.Find(Instance.Stages, (v) => v.Identify == identify).Name;
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 説明文
+        /// </summary>
+        /// <param name="identify"></param>
+        /// <returns></returns>
+        public static string Desc(Identify identify)
+        {
+            switch (identify.Type)
+            {
+                case IDType.Item:
+                    return Array.Find(Instance.Items, (v) => v.Identify == identify).Desc;
             }
             return "";
         }

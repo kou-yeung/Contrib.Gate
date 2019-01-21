@@ -1,4 +1,4 @@
 ID,Result,素材１,数１,素材２,数２,素材３,数３,素材４,数４,
 Recipe_001_001,Item_001_001,Material_001_001,5,Material_001_002,2,Material_001_003,3,,,
-Recipe_001_002,Item_001_003,Material_001_004,15,,,,,,,
+Recipe_001_002,Item_001_003,Material_001_001,15,,,,,,,
 Recipe_001_003,Item_001_002,Material_001_005,3,Item_001_003,1,Item_001_001,2,,,

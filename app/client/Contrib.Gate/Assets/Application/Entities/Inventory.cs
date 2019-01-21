@@ -18,6 +18,11 @@ namespace Entities
             return items.Find(item => item.identify == identify);
         }
 
+        public int Count(Identify identify)
+        {
+            var item = Find(identify);
+            return (item != null) ? item.num : 0;
+        }
         /// <summary>
         /// 増減
         /// </summary>
