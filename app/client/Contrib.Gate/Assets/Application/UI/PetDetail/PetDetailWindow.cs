@@ -16,7 +16,8 @@ namespace UI
         public Image face;
         public new Text name;
         public Text level;
-
+        public Text exp;
+        public Slider expGauge;
         string uniqid;
 
         protected override void OnOpen(params object[] args)
@@ -38,6 +39,14 @@ namespace UI
             name.text = item.Familiar.Name;
             face.sprite = Resources.Load<Sprite>($"Familiar/{item.Familiar.Image}/base");
             level.text = $"Lv.{item.level.ToString()}";
+
+            var start = (float)Entity.Instance.LevelTable.Exp(item.level);
+            var end = (float)Entity.Instance.LevelTable.Exp(item.level + 1);
+            //Entity.Instance.ex
+            //item.exp;
+            expGauge.value = (item.exp - start) / (end - start);
+            exp.text = $"{item.exp}/{end}";
+
         }
 
         void OnSubscribe(string name, object o)
