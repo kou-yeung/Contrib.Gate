@@ -13,13 +13,20 @@ namespace UI
 
         public Text paramType;
         public Text paramValue;
+        public InputField input;
         Param type;
 
-        public void Setup(Param type)
+        public void Setup(Param type, Entities.PetItem pet, int value)
         {
             this.type = type;
-            paramType.text = type.ToString();
-            paramValue.text = $"{200} ({5})";
+            paramType.text = Entity.Instance.StringTable.Get(type);
+
+            var powerup = pet.param[(int)type];
+            var totalParam = pet.GetParam(type);
+            paramValue.text = $"{totalParam + value} ({powerup + value})";
+            paramValue.color = (value != 0) ? Color.red : Color.black;
+
+            input.text = $"{value}";
         }
 
         public void OnClick(Button btn)
@@ -27,11 +34,9 @@ namespace UI
             switch (btn.name)
             {
                 case "Up":
-                    //Debug.Log($"{type} : Up");
                     Observer.Instance.Notify(PowerupChangeEvent, $"{type}:+");
                     break;
                 case "Down":
-                    //Debug.Log($"{type} : Down");
                     Observer.Instance.Notify(PowerupChangeEvent, $"{type}:-");
                     break;
             }
@@ -41,9 +46,7 @@ namespace UI
         {
             uint value;
             uint.TryParse(input.text, out value);
-            Debug.Log($"{type} : {value}");
             input.text = value.ToString();
-
             Observer.Instance.Notify(PowerupChangeEvent, $"{type}:{value}");
         }
     }

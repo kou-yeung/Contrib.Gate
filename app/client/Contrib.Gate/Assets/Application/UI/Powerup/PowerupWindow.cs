@@ -14,7 +14,7 @@ using Util;
 namespace UI
 {
 
-    public class PowerupWindow : Window, ANZListView.IDataSource, ANZListView.IActionDelegate
+    public class PowerupWindow : Window, ANZListView.IDataSource
     {
         public const string CloseEvent = @"PowerupWindow:Close";
         public const string PowerupEvent = @"PowerupWindow:Powerup";
@@ -24,56 +24,37 @@ namespace UI
         public GameObject prefab;
         public Text remainItem;
         public Text powerupCount;
+        public Button powerupBtn;
         string uniqid;
-        //int remain; // 残り強化回数
+        int hasItem; // 所持アイテム数
 
         //List<Entities.InventoryItem> hasItems = new List<Entities.InventoryItem>();  // 所持アイテム
         //List<Entities.InventoryItem> useItems = new List<Entities.InventoryItem>();  // 使用予定アイテム一覧
-
+        int[] addParam = Enumerable.Repeat(0, (int)Param.Count).ToArray();
         static readonly Param[] showParam = { Param.HP, Param.MP, Param.PhysicalAttack, Param.PhysicalDefense, Param.MagicAttack, Param.MagicDefense, Param.Agility };
 
-        /// <summary>
-        /// 使用予定アイテム一覧から、必要パワーアップ回数を計算する
-        /// </summary>
-        int needPowerCount
+        Entities.PetItem Pet
         {
-            get
-            {
-                var res = 0;
-                //foreach (var item in useItems)
-                //{
-                //    var info = Array.Find(Entity.Instance.Items, v => v.Identify == item.identify);
-                //    res += info.PowerupCost * item.num;
-                //}
-                return res;
-            }
+            get { return Entity.Instance.PetList.Find(uniqid); }
         }
 
         /// <summary>
-        /// 指定パラメータの増加予定量
+        /// 残りパワーアップ回数
         /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        int Grow(Param param)
+        int CanPowerupCount
         {
-            var res = 0;
-            //foreach (var item in useItems)
-            //{
-            //    var info = Array.Find(Entity.Instance.Items, v => v.Identify == item.identify);
-            //    res += info.Effects.Where(v => v.param == param).Sum(v => v.value * item.num);
-            //}
-            return res;
+            get
+            {
+                return Mathf.Min(Pet.level - Pet.powerupCount, hasItem);
+            }
         }
 
         protected override void OnOpen(params object[] args)
         {
             uniqid = args[0] as string;
-            Setup();
 
             paramList.DataSource = this;
-            paramList.ActionDelegate = this;
-            UpdateCell();
-
+            Setup();
 
             Observer.Instance.Subscribe(PowerupItem.PowerupChangeEvent, OnSubscribe);
 
@@ -93,16 +74,17 @@ namespace UI
                         switch (valueStr)
                         {
                             case "+":
-                                Debug.Log($"{type} +");
+                                if(addParam.Sum() < CanPowerupCount) addParam[(int)type]++;
                                 break;
                             case "-":
-                                Debug.Log($"{type} -");
+                                addParam[(int)type]--;
                                 break;
                             default:
-                                var value = uint.Parse(valueStr);
-                                Debug.Log($"{type} {value}");
+                                addParam[(int)type] = Mathf.Min(int.Parse(valueStr), CanPowerupCount - (addParam.Sum() - addParam[(int)type]));
                                 break;
                         }
+                        addParam[(int)type] = Mathf.Clamp(addParam[(int)type], 0, 99);
+                        Setup();
                     }
                     break;
             }
@@ -110,29 +92,17 @@ namespace UI
 
         void Setup()
         {
-            var pet = Entity.Instance.PetList.Find(uniqid);
-            remainItem.text = "999";// ((pet.level - pet.powerupCount)- needPowerCount).ToString();
-            powerupCount.text = $"{pet.powerupCount}/{pet.level}";
+            hasItem = Entity.Instance.Inventory.Count(new Identify(IDType.Material, 2001));
+            remainItem.text = $"{hasItem - addParam.Sum()}";
+            powerupCount.text = $"{Pet.powerupCount + addParam.Sum()}/{Pet.level}";
 
-            //// パラメータ設定
-            //for (int i = 0; i < (int)Param.Count; i++)
-            //{
-            //    if ((Param)i == Param.Luck) continue;
-            //    var value = pet.GetParam((Param)i);
-            //    var grow = value + Grow((Param)i);
-            //    afterParam[i].text = grow.ToString();
+            // 強化ボタンを有効にする
+            powerupBtn.interactable = addParam.Sum() != 0;
 
-            //    afterParam[i].color = (value != grow) ? Color.red : Color.white;
-            //}
-        }
-
-        void UpdateCell()
-        {
-            //// 所持アイテム一覧作成
-            //hasItems = Entity.Instance.Inventory.items.Where(v => new Identify(v.identify).Type == IDType.Item).ToList();
             paramList.ReloadData();
-            Setup();
         }
+
+
         protected override void OnClose()
         {
             Observer.Instance.Notify(CloseEvent);
@@ -142,42 +112,32 @@ namespace UI
 
         protected override void OnButtonClick(Button btn)
         {
-            //switch (btn.name)
-            //{
-            //    case "Powerup":
-            //        var send = new PowerupSend();
-            //        send.uniqid = uniqid;
-            //        send.items = useItems.ToArray();
-            //        Protocol.Send(send, r =>
-            //        {
-            //            Entity.Instance.Inventory.Modify(r.items);
-            //            Entity.Instance.PetList.Modify(r.pet);
-            //            useItems.Clear();
-            //            UpdateCell();
+            switch (btn.name)
+            {
+                case "Powerup":
+                    Debug.Log("強化ロジック対応しますね！！");
+                    //var send = new PowerupSend();
+                    //send.uniqid = uniqid;
+                    //send.items = useItems.ToArray();
+                    //Protocol.Send(send, r =>
+                    //{
+                    //    Entity.Instance.Inventory.Modify(r.items);
+                    //    Entity.Instance.PetList.Modify(r.pet);
+                    //    useItems.Clear();
+                    //    UpdateCell();
 
-            //            Observer.Instance.Notify(PowerupEvent);
-            //        });
-            //        break;
-            //}
-            base.OnButtonClick(btn);
+                    //    Observer.Instance.Notify(PowerupEvent);
+                    //});
+                    break;
+                default:
+                    base.OnButtonClick(btn);
+                    break;
+            }
         }
 
         public int NumOfItems()
         {
             return showParam.Length;
-        }
-
-        public void TapListItem(int index, GameObject listItem)
-        {
-            //var pet = Entity.Instance.PetList.Find(uniqid);
-            //var remain = (pet.level - pet.powerupCount);
-            //if (needPowerCount >= remain) return;
-            //if (hasItems[index].num <= 0) return;
-            //hasItems[index].num -= 1;
-            //var item = useItems.Find(v => v.identify == hasItems[index].identify);
-            //if (item != null) item.num++;
-            //else useItems.Add(new Entities.InventoryItem { identify = hasItems[index].identify, num = 1 });
-            //UpdateCell();
         }
 
         float ANZListView.IDataSource.ItemSize()
@@ -189,7 +149,7 @@ namespace UI
         {
             if (item == null) item = Instantiate(prefab);
             var param = showParam[index];
-            item.GetComponent<PowerupItem>().Setup(param);
+            item.GetComponent<PowerupItem>().Setup(param, Pet, addParam[(int)param]);
             return item;
         }
     }
