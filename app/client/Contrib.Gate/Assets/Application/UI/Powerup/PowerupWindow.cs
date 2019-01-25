@@ -19,7 +19,6 @@ namespace UI
         public const string CloseEvent = @"PowerupWindow:Close";
         public const string PowerupEvent = @"PowerupWindow:Powerup";
 
-        //public Text[] afterParam;
         public ANZListView paramList;
         public GameObject prefab;
         public Text remainItem;
@@ -28,8 +27,6 @@ namespace UI
         string uniqid;
         int hasItem; // 所持アイテム数
 
-        //List<Entities.InventoryItem> hasItems = new List<Entities.InventoryItem>();  // 所持アイテム
-        //List<Entities.InventoryItem> useItems = new List<Entities.InventoryItem>();  // 使用予定アイテム一覧
         int[] addParam = Enumerable.Repeat(0, (int)Param.Count).ToArray();
         static readonly Param[] showParam = { Param.HP, Param.MP, Param.PhysicalAttack, Param.PhysicalDefense, Param.MagicAttack, Param.MagicDefense, Param.Agility };
 
