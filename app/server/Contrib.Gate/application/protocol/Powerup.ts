@@ -3,65 +3,58 @@ function Powerup(params, context, done) {
 
     // 受信データをパースする
     let s = PowerupSend.Parse(params);
+    let powerupCount = 0;
+    s.param.forEach(num => powerupCount += num);
 
-    // ID一覧作成
-    let ids: Entities.Identify[] = [];
-    s.items.forEach(item => ids.push(new Entities.Identify(item.identify)));
+    var itemId = new Entities.Identify(2001, IDType.Material);
 
-    let admin = GetAdmin(context);
-    // アイテム情報取得
-    new Entities.Item(admin).refresh(ids, items => {
+    GetUser(context, user => {
+        // インベントリ一覧取得
+        new Entities.Inventory(user).refresh(inventory => {
 
-        // 餌の増加回数を計算する
-        let powerupCount = 0;
-        s.items.forEach(item => {
-            powerupCount += items.effects[item.identify].powerup * item.num;
-        });
+            // 所持アイテム数をチェックする
+            if (powerupCount > inventory.num(itemId)) {
+                done(ApiError.Create(ErrorCode.Common, "強化の魂が足りません").Pack());
+                return;
+            }
 
-        GetUser(context, (user) => {
+            // 強化対象ペットを取得する
             new Entities.Pet(user, s.uniqid).refresh(pet => {
 
-                if (!pet.valid) {
-                    done(ApiError.Create(ErrorCode.Common, "ペットが無効").Pack());
-                    return;
-                }
-
-                // 返信
+                // 返信データ
                 let r = new PowerupReceive();
                 r.items = [];
-
                 r.pet = pet.item;
-                if (r.pet.powerupCount == undefined || r.pet.powerupCount == null) r.pet.powerupCount = 0;  // 一時対応:古いデータにセットされてなかったため
+
+                // 一時対応:古いデータにセットされてなかったため
+                if (r.pet.powerupCount == undefined || r.pet.powerupCount == null) r.pet.powerupCount = 0;
                 let canPowerupCount = r.pet.level - r.pet.powerupCount;
+
                 // 回数チェック
                 if (canPowerupCount < powerupCount) {
                     done(ApiError.Create(ErrorCode.Common, "パワーアップできる回数が超えてました").Pack());
                     return;
                 }
-                new Entities.Inventory(user).refresh(inventory => {
-                    for (var i = 0; i < ids.length; i++) {
-                        let remain = inventory.add(ids[i], -s.items[i].num);
-                        if (remain < 0) {
-                            done(ApiError.Create(ErrorCode.Common, "消費アイテムが足りません").Pack());
-                            return;
-                        }
-                        // 指定IDのアイテム情報を取得する
-                        let item = items.find(s.items[i].identify);
-                        // 餌の回数を加算する : アイテム毎の回数 * アイテム数
-                        r.pet.powerupCount += item.powerup * s.items[i].num;
-                        // パラメータ増加
-                        item.param.forEach((param, j) => {
-                            r.pet.param[param] += item.value[j] * s.items[j].num;
-                        });
 
-                        s.items[i].num = remain;    // 使いまわす!!
-                        r.items.push(s.items[i]);   // 返信データに追加
-                    }
-                    pet.item = r.pet;   // 更新
-                    inventory.bucket.save(() => {
-                        pet.bucket.save(() => {
-                            done(r.Pack());
-                        });
+                // 回数更新
+                r.pet.powerupCount += powerupCount;
+                // パラメータ更新
+                for (var i = 0; i < s.param.length; i++) {
+                    r.pet.param[i] += s.param[i];
+                }
+                // アイテムを使用する
+                let remain = inventory.add(itemId, -powerupCount);
+
+                let item = new InventoryItem();
+                item.identify = itemId.idWithType;
+                item.num = remain;
+                r.items.push(item);
+                // 更新
+                pet.item = r.pet;
+
+                inventory.bucket.save(() => {
+                    pet.bucket.save(() => {
+                        done(r.Pack());
                     });
                 });
             });

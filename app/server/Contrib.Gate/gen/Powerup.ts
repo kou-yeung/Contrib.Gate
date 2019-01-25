@@ -4,7 +4,7 @@
 
 class PowerupSend {
     uniqid: string; // ペットUniqid
-    items: InventoryItem[]; // 使用予定アイテム一覧
+    param: number[]; // 増加したいパラメータ量
 
 	// params -> PowerupSend
 	static Parse(params : any): PowerupSend {

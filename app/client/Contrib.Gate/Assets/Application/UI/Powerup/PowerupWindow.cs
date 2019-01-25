@@ -115,19 +115,19 @@ namespace UI
             switch (btn.name)
             {
                 case "Powerup":
-                    Debug.Log("強化ロジック対応しますね！！");
-                    //var send = new PowerupSend();
-                    //send.uniqid = uniqid;
-                    //send.items = useItems.ToArray();
-                    //Protocol.Send(send, r =>
-                    //{
-                    //    Entity.Instance.Inventory.Modify(r.items);
-                    //    Entity.Instance.PetList.Modify(r.pet);
-                    //    useItems.Clear();
-                    //    UpdateCell();
+                    var send = new PowerupSend();
+                    send.uniqid = uniqid;
+                    send.param = addParam;
+                    Protocol.Send(send, r =>
+                    {
+                        Entity.Instance.Inventory.Modify(r.items);
+                        Entity.Instance.PetList.Modify(r.pet);
+                        // 増加予定をクリアする
+                        addParam = Enumerable.Repeat(0, addParam.Length).ToArray();
+                        Setup();
 
-                    //    Observer.Instance.Notify(PowerupEvent);
-                    //});
+                        Observer.Instance.Notify(PowerupEvent);
+                    });
                     break;
                 default:
                     base.OnButtonClick(btn);

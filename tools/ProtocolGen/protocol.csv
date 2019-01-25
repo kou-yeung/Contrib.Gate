@@ -161,7 +161,7 @@ down,StageItem[],items,ステージ情報一覧
 // ペットパワーアップ
 protocol,Powerup,
 up,string,uniqid,ペットUniqid
-up,InventoryItem[],items,使用予定アイテム一覧
+up,int[],param,増加したいパラメータ量
 down,InventoryItem[],items,使用したアイテム一覧
 down,PetItem,pet,更新したペット情報
 

@@ -12,7 +12,7 @@ namespace Network
     public class PowerupSend
     {
 		public string uniqid; // ペットUniqid
-		public InventoryItem[] items; // 使用予定アイテム一覧
+		public int[] param; // 増加したいパラメータ量
     }
 
     public class PowerupReceive
