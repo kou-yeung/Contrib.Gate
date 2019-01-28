@@ -78,14 +78,16 @@ namespace UI
                     break;
                 case "Skill":
                     {
-                        var send = new SkillLearnSend();
-                        send.uniqid = uniqid;
-                        send.skill = new Identify(IDType.Skill, 1001);
-                        Protocol.Send(send, r =>
-                        {
-                            Entity.Instance.Inventory.Modify(r.item);
-                            Entity.Instance.PetList.Modify(r.pet);
-                        });
+                        Debug.Log("スキル選択UIを開く");
+                        Open<SkillSelectWindow>(uniqid);
+                        //var send = new SkillLearnSend();
+                        //send.uniqid = uniqid;
+                        //send.skill = new Identify(IDType.Skill, 1001);
+                        //Protocol.Send(send, r =>
+                        //{
+                        //    Entity.Instance.Inventory.Modify(r.item);
+                        //    Entity.Instance.PetList.Modify(r.pet);
+                        //});
                     }
                     break;
                 default:
