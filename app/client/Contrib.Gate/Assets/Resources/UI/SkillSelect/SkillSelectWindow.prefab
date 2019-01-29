@@ -439,6 +439,7 @@ MonoBehaviour:
   layer: 1000
   prefab: {fileID: 1065754918539404, guid: 5c221e3a1858f28479649a0421d16ddd, type: 2}
   skills: {fileID: 114797264940544166}
+  selectBtn: {fileID: 114522730239355362}
 --- !u!114 &114176359276431110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -804,7 +805,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224136379928933742}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99928343
+  m_Size: 0.99975544
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1344,7 +1345,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.013786672}
+  m_AnchoredPosition: {x: 0, y: -0.000041547628}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224945124013591150

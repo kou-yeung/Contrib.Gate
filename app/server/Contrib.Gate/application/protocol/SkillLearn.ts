@@ -3,38 +3,53 @@ function SkillLearn(params, context, done) {
 
     // 受信データをパースする
     let s = SkillLearnSend.Parse(params);
-    let id = new Entities.Identify(s.skill);
+    let toId = new Entities.Identify(s.skill);
+    let isEmpty = Entities.Identify.isEmpty(toId);
+
     // IDの種類が正しいか？
-    if (id.Type != IDType.Skill) {
+    if (!isEmpty && toId.Type != IDType.Skill) {
         done(ApiError.Create(ErrorCode.Common, "スキルIDではありません").Pack());
         return;
     }
     GetUser(context, (user) => {
-        new Entities.Inventory(user).refresh(inventory => {
-            var remain = inventory.add(id, -1);
-            // 消費アイテムがない
-            if (remain < 0) {
-                done(ApiError.Create(ErrorCode.Common, "指定スキルが持っていない").Pack());
+        new Entities.Pet(user, s.uniqid).refresh(pet => {
+            if (!pet.valid) {
+                done(ApiError.Create(ErrorCode.Common, "指定ペットが持っていない").Pack());
                 return;
             }
-
-            new Entities.Pet(user, s.uniqid).refresh(pet => {
-                if (!pet.valid) {
-                    done(ApiError.Create(ErrorCode.Common, "指定ペットが持っていない").Pack());
-                    return;
-                }
+            new Entities.Inventory(user).refresh(inventory => {
 
                 // 返信
                 let r = new SkillLearnReceive();
+                r.items = [];
 
-                // 更新後のアイテム数
-                r.item = new InventoryItem();
-                r.item.identify = s.skill;
-                r.item.num = remain;
+                if (!isEmpty) {
+                    let remain = inventory.add(toId, -1);
+                    if (remain < 0) {
+                        done(ApiError.Create(ErrorCode.Common, "指定スキルが持っていない").Pack());
+                        return;
+                    }
+                    let item = new InventoryItem();
+                    item.identify = toId.idWithType;
+                    item.num = remain;
+                    r.items.push(item);
+                }
 
-                // ペット
                 r.pet = pet.item;
-                r.pet.skill = s.skill;
+                let fromId = new Entities.Identify(r.pet.skill);
+                // 既存スキルをインベントリへ
+                if (!Entities.Identify.isEmpty(fromId)) {
+                    let remain = inventory.add(fromId, 1);
+                    let item = new InventoryItem();
+                    item.identify = fromId.idWithType;
+                    item.num = remain;
+                    r.items.push(item);
+                }
+
+                // ペットの所持スキル更新
+                r.pet.skill = toId.idWithType;
+
+                // ペット更新
                 pet.item = r.pet;
 
                 // 保存

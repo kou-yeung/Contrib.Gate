@@ -169,5 +169,5 @@ down,PetItem,pet,更新したペット情報
 protocol,SkillLearn
 up,string,uniqid,ペットUniqid
 up,uint,skill,スキルID
-down,InventoryItem,item,使用したアイテム(スキルID)
+down,InventoryItem[],items,更新したアイテム一覧
 down,PetItem,pet,更新したペット情報

@@ -3,17 +3,24 @@ using Xyz.AnzFactory.UI;
 using Entities;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
+using Network;
+using EventSystem;
 
 namespace UI
 {
     public class SkillSelectWindow : Window, ANZCellView.IDataSource, ANZCellView.IActionDelegate
     {
+        public const string CloseEvent = @"SkillSelectWindow:Close";
+        public const string ChangeEvent = @"SkillSelectWindow:Change";
+        
         public GameObject prefab;
         public ANZCellView skills;
+        public Button selectBtn;
 
         string uniqid;
         List<Entities.InventoryItem> inventory = new List<Entities.InventoryItem>();
-        Identify currentIdentify = Identify.Empty;
+        int currentIndex = -1;
 
         protected override void OnOpen(params object[] args)
         {
@@ -27,13 +34,14 @@ namespace UI
             skills.ActionDelegate = this;
             skills.ReloadData();
 
+            selectBtn.interactable = false;
+
             base.OnOpen(args);
         }
         public GameObject CellViewItem(int index, GameObject item)
         {
             if (item == null) item = Instantiate(prefab);
-            bool selected = currentIdentify == inventory[index].identify;
-            item.GetComponent<SkillSelectItem>().Setup(inventory[index], selected);
+            item.GetComponent<SkillSelectItem>().Setup(inventory[index], currentIndex == index);
             return item;
         }
 
@@ -49,8 +57,37 @@ namespace UI
 
         public void TapCellItem(int index, GameObject listItem)
         {
-            currentIdentify = inventory[index].identify;
+            currentIndex = index;
+            selectBtn.interactable = true;
             skills.ReloadData();
+        }
+
+        protected override void OnClose()
+        {
+            Observer.Instance.Notify(CloseEvent);
+            base.OnClose();
+        }
+        protected override void OnButtonClick(Button btn)
+        {
+            switch (btn.name)
+            {
+                case "Select":
+                    var send = new SkillLearnSend();
+                    send.uniqid = uniqid;
+                    send.skill = inventory[currentIndex].identify;
+                    Protocol.Send(send, r =>
+                    {
+                        Entity.Instance.Inventory.Modify(r.items);
+                        Entity.Instance.PetList.Modify(r.pet);
+
+                        Observer.Instance.Notify(ChangeEvent);
+                        this.Close();
+                    });
+                    break;
+                default:
+                    base.OnButtonClick(btn);
+                    break;
+            }
         }
     }
 }

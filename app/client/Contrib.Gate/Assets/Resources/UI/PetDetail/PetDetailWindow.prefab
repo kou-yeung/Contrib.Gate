@@ -2185,6 +2185,7 @@ MonoBehaviour:
   name: {fileID: 114113671034541586}
   level: {fileID: 114893472425588082}
   exp: {fileID: 114907926627597650}
+  skill: {fileID: 114174977069469868}
   expGauge: {fileID: 114847362414267936}
 --- !u!222 &222005430464075868
 CanvasRenderer:

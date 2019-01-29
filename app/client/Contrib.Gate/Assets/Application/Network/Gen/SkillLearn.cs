@@ -17,7 +17,7 @@ namespace Network
 
     public class SkillLearnReceive
     {
-		public InventoryItem item; // 使用したアイテム(スキルID)
+		public InventoryItem[] items; // 更新したアイテム一覧
 		public PetItem pet; // 更新したペット情報
     }
 

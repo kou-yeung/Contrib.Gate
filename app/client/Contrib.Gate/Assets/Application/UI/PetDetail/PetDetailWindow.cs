@@ -17,6 +17,7 @@ namespace UI
         public new Text name;
         public Text level;
         public Text exp;
+        public Text skill;
         public Slider expGauge;
         string uniqid;
 
@@ -47,6 +48,7 @@ namespace UI
             expGauge.value = (item.exp - start) / (end - start);
             exp.text = $"{item.exp}/{end}";
 
+            skill.text = Entity.Name(item.skill);
         }
 
         void OnSubscribe(string name, object o)
@@ -60,6 +62,12 @@ namespace UI
                     Setup();
                     break;
                 case PowerupWindow.PowerupEvent:
+                    Setup();
+                    break;
+                case SkillSelectWindow.CloseEvent:
+                    Setup();
+                    break;
+                case SkillSelectWindow.ChangeEvent:
                     Setup();
                     break;
             }
@@ -80,14 +88,8 @@ namespace UI
                     {
                         Debug.Log("スキル選択UIを開く");
                         Open<SkillSelectWindow>(uniqid);
-                        //var send = new SkillLearnSend();
-                        //send.uniqid = uniqid;
-                        //send.skill = new Identify(IDType.Skill, 1001);
-                        //Protocol.Send(send, r =>
-                        //{
-                        //    Entity.Instance.Inventory.Modify(r.item);
-                        //    Entity.Instance.PetList.Modify(r.pet);
-                        //});
+                        Observer.Instance.Subscribe(SkillSelectWindow.CloseEvent, OnSubscribe);
+                        Observer.Instance.Subscribe(SkillSelectWindow.ChangeEvent, OnSubscribe);
                     }
                     break;
                 default:

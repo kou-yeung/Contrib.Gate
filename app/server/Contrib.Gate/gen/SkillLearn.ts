@@ -13,7 +13,7 @@ class SkillLearnSend {
 }
 
 class SkillLearnReceive {
-    item: InventoryItem; // 使用したアイテム(スキルID)
+    items: InventoryItem[]; // 更新したアイテム一覧
     pet: PetItem; // 更新したペット情報
 	
 	// SkillLearnReceive -> string

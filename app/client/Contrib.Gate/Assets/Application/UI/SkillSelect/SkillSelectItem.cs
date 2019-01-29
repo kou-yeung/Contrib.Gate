@@ -21,7 +21,7 @@ namespace UI
             }
             else
             {
-                desc.text = Entity.Name(item.identify);
+                desc.text = $"{Entity.Name(item.identify)}\n{item.num}";
             }
 
             GetComponentInChildren<Image>().color = selected ? Color.red : Color.white;
