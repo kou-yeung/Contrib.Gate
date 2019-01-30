@@ -2,6 +2,7 @@
 /// ペット一覧
 ///==============================
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Entities
 {
@@ -16,13 +17,24 @@ namespace Entities
         /// <summary>
         /// 変更する
         /// </summary>
-        /// <param name="egg"></param>
+        /// <param name="pet"></param>
         public void Modify(PetItem pet)
         {
             var index = items.FindIndex(v => v.uniqid == pet.uniqid);
             if (index != -1) items[index] = pet;
             else items.Add(pet);
         }
+
+        /// <summary>
+        /// 削除する
+        /// </summary>
+        /// <param name="pet"></param>
+        public void Remove(PetItem pet)
+        {
+            var index = items.FindIndex(v => v.uniqid == pet.uniqid);
+            if (index != -1) items.RemoveAt(index);
+        }
+
         /// <summary>
         /// 変更する
         /// </summary>

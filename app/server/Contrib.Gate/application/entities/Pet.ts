@@ -53,6 +53,7 @@ namespace Entities {
             item.level = level;
             item.exp = exp;
             item.powerupCount = 0;
+            item.skill = 0;
             item.param = [];
             for (var i = 0; i < Param.Count; i++) item.param.push(0);
             this.item = item;

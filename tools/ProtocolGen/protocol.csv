@@ -171,3 +171,8 @@ up,string,uniqid,ペットUniqid
 up,uint,skill,スキルID
 down,InventoryItem[],items,更新したアイテム一覧
 down,PetItem,pet,更新したペット情報
+
+// ペット削除
+protocol,PetDelete
+up,string,uniqid,ペットUniqid
+down,InventoryItem[],items,更新したアイテム一覧

@@ -109,8 +109,21 @@ namespace UI
 
             if (!string.IsNullOrEmpty(uniq))
             {
-                Open<PetDetailWindow>(uniq);
-                Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
+                if (Entity.Instance.UnitList.IsModify(modify))
+                {
+                    // ユニットが編集した場合、保存してから開く
+                    Protocol.Send(new UnitUpdateSend { items = modify.items.ToArray() }, r =>
+                    {
+                        Entity.Instance.UnitList.Modify(r.items);
+                        Open<PetDetailWindow>(uniq, !modify.Exists(uniq));
+                        Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
+                    });
+                }
+                else
+                {
+                    Open<PetDetailWindow>(uniq, !modify.Exists(uniq));
+                    Observer.Instance.Subscribe(PetDetailWindow.CloseEvent, OnSubscribe);
+                }
             }
         }
 
@@ -156,11 +169,6 @@ namespace UI
                     {
                         // 外す
                         modify.items[0].uniqids[index] = "";
-
-                        //var v1 = modify.items[0].uniqids.Where(v => !string.IsNullOrEmpty(v));  // 空きではない
-                        //var v2 = modify.items[0].uniqids.Where(v => string.IsNullOrEmpty(v));   // 空き
-                        //modify.items[0].uniqids = v1.Concat(v2).ToArray();                      // 再連結 
-
                         modify.Modify(modify.items[0]);
                     });
                 }

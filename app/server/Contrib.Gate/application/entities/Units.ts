@@ -53,5 +53,19 @@ namespace Entities {
             }
             this.items = items;
         }
+
+        // 指定 uniqid が配置されています
+        exists(uniqid: string): boolean {
+            let items = this.items;
+            for (var i = 0; i < Const.MaxUnit; i++) {
+
+                for (var j = 0; j < Const.MaxPetInUnit; j++) {
+                    if (items[i].uniqids[j] == uniqid) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

@@ -19,11 +19,16 @@ namespace UI
         public Text exp;
         public Text skill;
         public Slider expGauge;
+        public Button deleteBtn;
+
         string uniqid;
 
         protected override void OnOpen(params object[] args)
         {
             uniqid = args[0] as string;
+            var canDelete = args.Length >= 2 ? (bool)args[1] : true;
+            deleteBtn.gameObject.SetActive(canDelete);
+
             Setup();
             Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
             base.OnOpen(args);
@@ -43,12 +48,13 @@ namespace UI
 
             var start = (float)Entity.Instance.LevelTable.Exp(item.level);
             var end = (float)Entity.Instance.LevelTable.Exp(item.level + 1);
-            //Entity.Instance.ex
-            //item.exp;
             expGauge.value = (item.exp - start) / (end - start);
             exp.text = $"{item.exp}/{end}";
 
             skill.text = Entity.Name(item.skill);
+
+
+            // 編成中は削除ボタンを非表示する
         }
 
         void OnSubscribe(string name, object o)
@@ -90,6 +96,20 @@ namespace UI
                         Open<SkillSelectWindow>(uniqid);
                         Observer.Instance.Subscribe(SkillSelectWindow.CloseEvent, OnSubscribe);
                         Observer.Instance.Subscribe(SkillSelectWindow.ChangeEvent, OnSubscribe);
+                    }
+                    break;
+                case "Delete":
+                    {
+                        var item = Entity.Instance.PetList.items.Find(v => v.uniqid == uniqid);
+                        DialogWindow.OpenYesNo("確認", $"{Entity.Name(item.id)}削除してもよろしいでしょうか", () =>
+                        {
+                            Protocol.Send(new PetDeleteSend { uniqid = uniqid }, r =>
+                            {
+                                Entity.Instance.Inventory.Modify(r.items);
+                                Entity.Instance.PetList.Remove(item);
+                                this.Close();
+                            });
+                        });
                     }
                     break;
                 default:

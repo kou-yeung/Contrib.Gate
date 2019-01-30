@@ -24,17 +24,7 @@ function Hatch(params, context, done) {
             new Entities.Egg(user, s.uniqid).refresh(egg => {
 
                 new Entities.Pet(user).create(pet => {
-                    let item = new PetItem();
-                    item.id = egg.result.idWithType;
-                    item.uniqid = GUID.Gen();
-                    item.createTime = Util.Time.ServerTime.current;
-                    item.level = 1; // レベル1
-                    item.exp = 0;
-                    item.param = [];
-                    for (var i = 0; i < Param.Count; i++) item.param.push(0);
-
-                    pet.uniqid = item.uniqid;
-                    pet.item = item;
+                    let item = pet.gen(egg.result);
 
                     // 孵化情報削除
                     hatch.bucket.first.delete(() => {

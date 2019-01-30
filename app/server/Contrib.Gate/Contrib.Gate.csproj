@@ -122,6 +122,7 @@
     <TypeScriptCompile Include="application\protocol\Inventory.ts" />
     <TypeScriptCompile Include="application\protocol\Judgment.ts" />
     <TypeScriptCompile Include="application\protocol\Login.ts" />
+    <TypeScriptCompile Include="application\protocol\PetDelete.ts" />
     <TypeScriptCompile Include="application\protocol\PetList.ts" />
     <TypeScriptCompile Include="application\protocol\Ping.ts" />
     <TypeScriptCompile Include="application\protocol\Powerup.ts" />
@@ -156,6 +157,7 @@
     <TypeScriptCompile Include="gen\Inventory.ts" />
     <TypeScriptCompile Include="gen\Judgment.ts" />
     <TypeScriptCompile Include="gen\Login.ts" />
+    <TypeScriptCompile Include="gen\PetDelete.ts" />
     <TypeScriptCompile Include="gen\PetList.ts" />
     <TypeScriptCompile Include="gen\Ping.ts" />
     <TypeScriptCompile Include="gen\Powerup.ts" />
