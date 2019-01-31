@@ -42,6 +42,29 @@ namespace UI
             window.OnOk = OnOk;
         }
 
+        /// <summary>
+        /// 選択肢で開く
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="choice"></param>
+        /// <param name="OnChoice"></param>
+        public static void OpenChoice(string title, string message, string[] choice, Action<string> OnChoice)
+        {
+            var window = Open<DialogWindow>();
+            window.title.text = title;
+            window.message.text = message;
+            window.Ok.gameObject.SetActive(false);
+            window.No.gameObject.SetActive(true);
+            window.Yes.gameObject.SetActive(true);
+
+            window.Yes.GetComponentInChildren<Text>().text = choice[0];
+            window.OnYes = ()=> { OnChoice(choice[0]); };
+
+            window.No.GetComponentInChildren<Text>().text = choice[1];
+            window.OnNo = () => { OnChoice(choice[1]); };
+        }
+
         protected override void OnButtonClick(Button btn)
         {
             switch (btn.name)

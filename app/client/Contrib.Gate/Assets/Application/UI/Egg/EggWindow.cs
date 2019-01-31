@@ -103,7 +103,60 @@ namespace UI
         public void PressCellItem(int index, GameObject listItem)
         {
             Entities.EggItem egg = listItem.GetComponent<EggItem>()?.egg;
-            DialogWindow.OpenOk("入手場所", Entity.Name(egg.stage));
+            long? remain = null;
+            var hatch = Entity.Instance.HatchList.items.Find(v => v.uniqid == egg.uniqid);
+
+            if (hatch != null)
+            {
+                remain = (hatch.startTime + hatch.timeRequired) - Util.Time.ServerTime.CurrentUnixTime;
+            }
+
+            List<string> choice = new List<string> { "OK" };
+            if (!egg.judgment) choice.Add("鑑定");
+            else if(hatch == null && Entity.Instance.HatchList.items.Count < (int)Const.MaxHatch) choice.Add("孵化予約");
+            else if(remain.HasValue && remain <= 0) choice.Add("孵化");
+
+            if (choice.Count <= 1)
+            {
+                DialogWindow.OpenOk("入手場所", Entity.Name(egg.stage));
+            }
+            else
+            {
+                DialogWindow.OpenChoice("入手場所", Entity.Name(egg.stage), choice.ToArray(), (res) =>
+                {
+                    switch (res)
+                    {
+                        case "鑑定":
+                            Protocol.Send(new JudgmentSend { guid = egg.uniqid }, (JudgmentReceive r) =>
+                            {
+                                Entity.Instance.EggList.Modify(r.egg);
+                                eggCell.ReloadData();
+                                hatchCell.ReloadData();
+                            });
+                            break;
+                        case "孵化予約":
+                            Protocol.Send(new HatchReserveSend { uniqid = egg.uniqid }, (r) =>
+                            {
+                                Entity.Instance.HatchList.Modify(r.item);
+                                eggCell.ReloadData();  // リスト更新
+                                hatchCell.ReloadData();  // リスト更新
+                            });
+                            break;
+                        case "孵化":
+                            Protocol.Send(new HatchSend { uniqid = egg.uniqid }, (HatchReceive r) =>
+                            {
+                                Entity.Instance.PetList.Modify(r.item);
+                                Entity.Instance.EggList.Remove(r.deleteEgg);
+                                Entity.Instance.HatchList.Remove(r.deleteEgg.uniqid);
+                                eggCell.ReloadData();  // リスト更新
+                                hatchCell.ReloadData();
+
+                                Open<PetDetailWindow>(r.item.uniqid);
+                            });
+                            break;
+                    }
+                });
+            }
         }
 
         /// <summary>
