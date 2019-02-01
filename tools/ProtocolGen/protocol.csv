@@ -176,3 +176,7 @@ down,PetItem,pet,更新したペット情報
 protocol,PetDelete
 up,string,uniqid,ペットUniqid
 down,InventoryItem[],items,更新したアイテム一覧
+
+// 図鑑一覧
+protocol,BinderList,
+down,string[],ids,取得済ペットのID一覧

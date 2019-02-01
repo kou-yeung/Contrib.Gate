@@ -51,6 +51,7 @@ namespace Entities
         public HatchList HatchList { get; private set; }
         public UnitList UnitList { get; private set; }
         public StageList StageList { get; private set; }
+        public BinderList BinderList { get; private set; }
 
         public void Load()
         {
@@ -201,6 +202,19 @@ namespace Entities
             });
             while (wait) yield return null;
         }
+        // 図鑑一覧取得
+        public IEnumerator GetBinder(bool refresh = false)
+        {
+            if (!refresh && BinderList != null) yield break;
+            bool wait = true;
+            Protocol.Send(new BinderListSend(), (r) =>
+            {
+                BinderList = new BinderList(r.ids);
+                wait = false;
+            });
+            while (wait) yield return null;
+        }
+
 
         public void UpdateUserState(UserState userState)
         {

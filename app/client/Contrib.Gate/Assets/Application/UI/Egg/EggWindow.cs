@@ -145,6 +145,7 @@ namespace UI
                         case "孵化":
                             Protocol.Send(new HatchSend { uniqid = egg.uniqid }, (HatchReceive r) =>
                             {
+                                Entity.Instance.BinderList.Modify(r.item.id);
                                 Entity.Instance.PetList.Modify(r.item);
                                 Entity.Instance.EggList.Remove(r.deleteEgg);
                                 Entity.Instance.HatchList.Remove(r.deleteEgg.uniqid);
@@ -175,6 +176,7 @@ namespace UI
                     {
                         Protocol.Send(new HatchSend { uniqid = egg.uniqid }, (HatchReceive r) =>
                         {
+                            Entity.Instance.BinderList.Modify(r.item.id);
                             Entity.Instance.PetList.Modify(r.item);
                             Entity.Instance.EggList.Remove(r.deleteEgg);
                             Entity.Instance.HatchList.Remove(r.deleteEgg.uniqid);

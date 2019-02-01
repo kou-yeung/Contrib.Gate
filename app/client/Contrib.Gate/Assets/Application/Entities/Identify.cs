@@ -4,6 +4,8 @@
 /// (FF) type
 /// [FFFFFF] id
 ///==========================
+using System.Text.RegularExpressions;
+using Util;
 
 namespace Entities
 {
@@ -66,6 +68,22 @@ namespace Entities
         public static implicit operator Identify(uint idWithType)
         {
             return new Identify(idWithType);
+        }
+
+
+        /// <summary>
+        /// 文字列 -> Identify
+        /// </summary>
+        static readonly string pattern = @"(\w+?)_(\d+)_(\d+)";
+        static Regex regex = new Regex(pattern);
+        public static Identify Parse(string text)
+        {
+            var m = regex.Match(text);
+            if (m == Match.Empty) return new Identify(0);
+
+            var type = EnumExtension<IDType>.Parse(m.Groups[1].ToString());
+            var id = uint.Parse(m.Groups[2].ToString() + m.Groups[3].ToString());
+            return new Identify(type, id);
         }
     }
 }

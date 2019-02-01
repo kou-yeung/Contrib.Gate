@@ -22,6 +22,7 @@ public class Home : MonoBehaviour {
         yield return Entity.Instance.GetPetList();
         yield return Entity.Instance.GetHatchList();
         yield return Entity.Instance.GetUnitList();
+        yield return Entity.Instance.GetBinder();
 
         Observer.Instance.Subscribe(UserState.Update, OnSubscribe);
         Observer.Instance.Subscribe(UnitList.UpdateEvent, OnSubscribe);
