@@ -31,5 +31,18 @@ namespace Util
             }
             return default(T);
         }
+
+        /// <summary>
+        /// 走査
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="action"></param>
+        public static void ForEach(Action<T> action)
+        {
+            for (int i = 0; i < Values.Length; i++)
+            {
+                action(Values[i]);
+            }
+        }
     }
 }

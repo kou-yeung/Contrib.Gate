@@ -106,6 +106,14 @@ enum SkiiTarget {
 	Rival,// 相手
 }
 
+// Attribute
+enum Attribute {
+	Earth,// 土
+	Water,// 水
+	Fire,// 火
+	Wind,// 風
+}
+
 
 /// <summary>
 /// InventoryItem

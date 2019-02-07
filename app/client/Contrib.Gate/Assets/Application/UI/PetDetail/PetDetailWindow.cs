@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Entities;
 using EventSystem;
 using Network;
+using Util;
 
 namespace UI
 {
@@ -20,7 +21,7 @@ namespace UI
         public Text skill;
         public Slider expGauge;
         public Button deleteBtn;
-
+        public Slider[] Attribute;
         string uniqid;
 
         protected override void OnOpen(params object[] args)
@@ -53,8 +54,12 @@ namespace UI
 
             skill.text = Entity.Name(item.skill);
 
-
-            // 編成中は削除ボタンを非表示する
+            // 属性
+            EnumExtension<Attribute>.ForEach(v =>
+            {
+                var index = (int)v;
+                this.Attribute[index].value = item.Familiar.Attribute[index];
+            });
         }
 
         void OnSubscribe(string name, object o)

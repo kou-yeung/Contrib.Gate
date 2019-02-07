@@ -21,6 +21,7 @@ public static class SkillLogic
         UserData.RegisterType<Unit>();
         UserData.RegisterType<Battle.Params>();
         UserData.RegisterType<Param>();
+        UserData.RegisterType<Attribute>();
     }
 
     static Dictionary<string, ScriptData> scripts = new Dictionary<string, ScriptData>();

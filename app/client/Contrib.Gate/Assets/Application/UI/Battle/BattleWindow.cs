@@ -277,13 +277,13 @@ namespace UI
                                         case SkillType.Magic:
                                             command.target.Damage(SkillLogic.Exec(command.behavior, command.target, skill));
                                             break;
-                                        case SkillType.Buff:
-                                        case SkillType.Debuff:
-                                            var buff = new Buff();
-                                            buff.remain = skill.Turn;
-                                            buff.skii = command.action;
-                                            command.target.Params.buffs.Add(buff);
-                                            break;
+                                        //case SkillType.Buff:
+                                        //case SkillType.Debuff:
+                                        //    var buff = new Buff();
+                                        //    buff.remain = skill.Turn;
+                                        //    buff.skii = command.action;
+                                        //    command.target.Params.buffs.Add(buff);
+                                        //    break;
                                     }
                                 }
                                 combat.Next();
