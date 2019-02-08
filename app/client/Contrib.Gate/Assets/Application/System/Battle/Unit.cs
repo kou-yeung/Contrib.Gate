@@ -26,9 +26,12 @@ public class Unit : MonoBehaviour
     public EnemyItem EnemyItem { get { return item as EnemyItem; } }
     public PetItem PetItem { get { return item as PetItem; } }
     public Params Params { get; private set; }
+    public Race Race { get; private set; }
+    public int[] Attribute { get; private set; }
 
     public int MaxHP { get; private set; }
     public int MaxMP { get; private set; }
+    public int Level { get; private set; }
     public bool IsDead { get { return Params[Param.HP] <= 0; } }
 
     int? outlineId;
@@ -53,6 +56,9 @@ public class Unit : MonoBehaviour
         this.Params = new Params(item);
         MaxHP = this.Params[Param.HP];
         MaxMP = this.Params[Param.MP];
+        this.Race = item.Enemy.Race;
+        this.Attribute = new int[] { 0, 0, 0, 0 };
+        this.Level = item.Level;
 
         Setup(item.id);
         character.sprite = Resources.Load<Sprite>($"Familiar/{ item.Enemy.Image}/base");
@@ -65,6 +71,9 @@ public class Unit : MonoBehaviour
         this.Params = new Params(item);
         MaxHP = this.Params[Param.HP];
         MaxMP = this.Params[Param.MP];
+        this.Race = item.Familiar.Race;
+        this.Attribute = item.Familiar.Attribute;
+        this.Level = item.level;
 
         Setup(item.id);
         character.sprite = Resources.LoadAll<Sprite>($"Familiar/{item.Familiar.Image}/face")[0];

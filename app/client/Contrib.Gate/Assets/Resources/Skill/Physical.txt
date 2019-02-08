@@ -1,0 +1,48 @@
+function Exec(behavior, target, conflict)
+  local weapon = 1;
+  local skill = 1;
+
+  local rival = GetRival(behavior);
+  local race = GetConflict(conflict);
+  local base = (math.sqrt(behavior.Params[Param.PhysicalAttack]) * 3) / ((behavior.Params[Param.PhysicalAttack] + 3) * target.Params[Param.PhysicalDefense]);
+  local att = 1;
+  local rnd = (89 + math.random(21)) / 100.0;
+  local critical = target.Params[Param.PhysicalDefense]*0.5 *(behavior.Level / target.Level);
+
+  print("race: "..race);
+  print("base: "..base);
+  print("rnd: "..rnd);
+  print("critical: "..critical);
+  print("rival: "..rival);
+
+  local result = math.floor( race * rival * (base * att * rnd + critical) );
+  print("result: "..result);
+
+  -- return weapon * race * skill * rival * (base * att * rnd + critical);
+
+  return result;
+end
+
+
+function GetConflict(conflict)
+  if conflict == -4 then
+    return 0.6;
+  elseif conflict == -3 then
+    return 0.7;
+  elseif conflict == 2 then
+    return 1.2;
+  elseif conflict == 4 then
+    return 1.4;
+  else
+    return 1.0;
+  end
+end
+
+function GetRival(behavior)
+  if behavior.side == Side.Player then
+    return 1.25;
+  else
+    return 0.55;
+  end
+end
+
