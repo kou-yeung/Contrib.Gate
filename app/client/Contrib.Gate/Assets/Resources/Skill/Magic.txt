@@ -1,4 +1,10 @@
-function Exec(behavior, target, coefficient)
-	return math.max(behavior.Params[Param.MagicAttack] * coefficient, 1)
+function Exec(behavior, target, conflict, skill)
+  if skill != nil then
+    print("has skill");
+  else
+    print("skill is nil");
+  end
+  return 1;
+  -- return math.max(behavior.Params[Param.MagicAttack] * conflict, 1)
 end
 

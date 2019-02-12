@@ -112,6 +112,7 @@ enum Attribute {
 	Water,// 水
 	Fire,// 火
 	Wind,// 風
+	Count,// 数
 }
 
 

@@ -84,6 +84,20 @@ namespace Battle
     }
 
     /// <summary>
+    /// スキル
+    /// </summary>
+    public class Skill
+    {
+        Entities.Skill skill;
+        public Attributes Attributes { get; private set; }
+        public Skill(Entities.Skill skill)
+        {
+            this.skill = skill;
+            this.Attributes = new Attributes(skill.Attribute);
+        }
+    }
+
+    /// <summary>
     /// バフ効果
     /// </summary>
     public class Buff

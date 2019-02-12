@@ -1,11 +1,9 @@
-function Exec(behavior, target, conflict)
-  local weapon = 1;
-  local skill = 1;
+function Exec(behavior, target, conflict, skill)
 
   local rival = GetRival(behavior);
   local race = GetConflict(conflict);
   local base = (math.sqrt(behavior.Params[Param.PhysicalAttack]) * 3) / ((behavior.Params[Param.PhysicalAttack] + 3) * target.Params[Param.PhysicalDefense]);
-  local att = GetAtt(behavior, target);
+  local att = GetAtt(behavior, target, skill);
   local rnd = (89 + math.random(21)) / 100.0;
   local critical = target.Params[Param.PhysicalDefense]*0.5 *(behavior.Level / target.Level);
 
@@ -18,9 +16,6 @@ function Exec(behavior, target, conflict)
 
   local result = math.floor( race * rival * (base * att * rnd + critical) );
   print("result: "..result);
-
-  -- return weapon * race * skill * rival * (base * att * rnd + critical);
-
   return result;
 end
 
@@ -47,13 +42,13 @@ function GetRival(behavior)
   end
 end
 
-function GetAtt(behavior, target)
+function GetAtt(behavior, target, skill)
   local a1 = behavior.Attributes[Attribute.Earth] * target.Attributes[Attribute.Water];
   local a2 = behavior.Attributes[Attribute.Water] * target.Attributes[Attribute.Fire];
   local a3 = behavior.Attributes[Attribute.Fire] * target.Attributes[Attribute.Wind];
   local a4 = behavior.Attributes[Attribute.Wind] * target.Attributes[Attribute.Earth];
-  
   print("a1("..a1..") a2("..a2..") a3("..a3..") a4("..a4..")");
+  local a = a1 + a2 + a3 + a4;
 
   local b1 = behavior.Attributes[Attribute.Earth] * target.Attributes[Attribute.Wind];
   local b2 = behavior.Attributes[Attribute.Wind] * target.Attributes[Attribute.Fire];
@@ -61,6 +56,24 @@ function GetAtt(behavior, target)
   local b4 = behavior.Attributes[Attribute.Water] * target.Attributes[Attribute.Earth];
 
   print("b1("..b1..") b2("..b2..") b3("..b3..") b4("..b4..")");
+  local b = b1 + b2 + b3 + b4;
   
-  return 1 + 0.003 * ((a1 + a2 + a3 + a4) - (b1 + b2 + b3 + b4));
+  if skill != nil then
+    local c1 = skill.Attributes[Attribute.Earth] * target.Attributes[Attribute.Water];
+    local c2 = skill.Attributes[Attribute.Water] * target.Attributes[Attribute.Fire];
+    local c3 = skill.Attributes[Attribute.Fire] * target.Attributes[Attribute.Wind];
+    local c4 = skill.Attributes[Attribute.Wind] * target.Attributes[Attribute.Earth];
+
+    print("c1("..c1..") c2("..c2..") c3("..c3..") c4("..c4..")");
+	a = a + c1 + c2 + c3 + c4;
+
+    local d1 = skill.Attributes[Attribute.Earth] * target.Attributes[Attribute.Wind];
+    local d2 = skill.Attributes[Attribute.Wind] * target.Attributes[Attribute.Fire];
+    local d3 = skill.Attributes[Attribute.Fire] * target.Attributes[Attribute.Water];
+    local d4 = skill.Attributes[Attribute.Water] * target.Attributes[Attribute.Earth];
+
+    print("d1("..d1..") d2("..d2..") d3("..d3..") d4("..d4..")");
+	b = b + d1 + d2 + d3 + d4;
+  end
+  return 1 + 0.003 * (a - b);
 end

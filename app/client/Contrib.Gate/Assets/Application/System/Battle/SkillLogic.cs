@@ -19,6 +19,7 @@ public static class SkillLogic
     {
         // タイプを登録する
         UserData.RegisterType<Unit>();
+        UserData.RegisterType<Battle.Skill>();
         UserData.RegisterType<Battle.Params>();
         UserData.RegisterType<Battle.Attributes>();
         UserData.RegisterType<Param>();
@@ -32,14 +33,15 @@ public static class SkillLogic
     public static int Exec(Unit behavior, Unit target, Skill skill)
     {
         var data = GetScriptData(skill);
-        return (int)data.Script.Call(data.Func, behavior, target, ConflictTable[(int)behavior.Race, (int)target.Race]).Number;
+        var conflict = ConflictTable[(int)behavior.Race, (int)target.Race];
+        return (int)data.Script.Call(data.Func, behavior, target, conflict, new Battle.Skill(skill)).Number;
     }
 
     public static int Exec(Unit behavior, Unit target)
     {
         var data = GetScriptData("Physical");
         var conflict = ConflictTable[(int)behavior.Race, (int)target.Race];
-        return (int)data.Script.Call(data.Func, behavior, target, conflict).Number;
+        return (int)data.Script.Call(data.Func, behavior, target, conflict, null).Number;
     }
 
     static ScriptData GetScriptData(string fn)
