@@ -7,18 +7,32 @@ namespace Entities
 {
     public partial class EnemyItem
     {
-        private Enemy _enemy;
+        private Enemy enemy;
         public Enemy Enemy
         {
             get
             {
-                if (_enemy == null)
+                if (enemy == null)
                 {
-                    _enemy = Array.Find(Entity.Instance.Enemies, v => v.Identify == this.id);
+                    enemy = Array.Find(Entity.Instance.Enemies, v => v.Identify == this.id);
                 }
-                return _enemy;
+                return enemy;
             }
         }
+
+        private Familiar familiar;
+        public Familiar Familiar
+        {
+            get
+            {
+                if (familiar == null)
+                {
+                    familiar = Array.Find(Entity.Instance.Familiars, v => v.Identify == this.Enemy.FamiliarID);
+                }
+                return familiar;
+            }
+        }
+
         /// <summary>
         /// レベル取得
         /// </summary>
@@ -35,8 +49,8 @@ namespace Entities
         /// <returns></returns>
         public int GetParam(Param param)
         {
-            var res = Enemy.baseParam[(int)param];                   // 基礎パラメータ
-            res += Enemy.additionParam[(int)param] * (Level - 1);    // レベルアップによる増加パラメータ
+            var res = Familiar.baseParam[(int)param];                   // 基礎パラメータ
+            res += Familiar.additionParam[(int)param] * (Level - 1);    // レベルアップによる増加パラメータ
             return res;
         }
     }

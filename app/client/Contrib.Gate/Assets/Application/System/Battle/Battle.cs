@@ -65,6 +65,25 @@ namespace Battle
     }
 
     /// <summary>
+    /// 属性
+    /// </summary>
+    public class Attributes
+    {
+        int[] attribute;
+        public Attributes(int[] attribute)
+        {
+            this.attribute = attribute;
+        }
+        public int this[Attribute att]
+        {
+            get
+            {
+                return this.attribute[(int)att];
+            }
+        }
+    }
+
+    /// <summary>
     /// バフ効果
     /// </summary>
     public class Buff

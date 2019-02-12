@@ -27,7 +27,7 @@ public class Unit : MonoBehaviour
     public PetItem PetItem { get { return item as PetItem; } }
     public Params Params { get; private set; }
     public Race Race { get; private set; }
-    public int[] Attribute { get; private set; }
+    public Attributes Attributes { get; private set; }
 
     public int MaxHP { get; private set; }
     public int MaxMP { get; private set; }
@@ -56,12 +56,12 @@ public class Unit : MonoBehaviour
         this.Params = new Params(item);
         MaxHP = this.Params[Param.HP];
         MaxMP = this.Params[Param.MP];
-        this.Race = item.Enemy.Race;
-        this.Attribute = new int[] { 0, 0, 0, 0 };
+        this.Race = item.Familiar.Race;
+        this.Attributes = new Attributes(item.Familiar.Attribute);
         this.Level = item.Level;
 
         Setup(item.id);
-        character.sprite = Resources.Load<Sprite>($"Familiar/{ item.Enemy.Image}/base");
+        character.sprite = Resources.Load<Sprite>($"Familiar/{ item.Familiar.Image}/base");
         side = Side.Enemy;
     }
 
@@ -72,7 +72,7 @@ public class Unit : MonoBehaviour
         MaxHP = this.Params[Param.HP];
         MaxMP = this.Params[Param.MP];
         this.Race = item.Familiar.Race;
-        this.Attribute = item.Familiar.Attribute;
+        this.Attributes = new Attributes(item.Familiar.Attribute);
         this.Level = item.level;
 
         Setup(item.id);

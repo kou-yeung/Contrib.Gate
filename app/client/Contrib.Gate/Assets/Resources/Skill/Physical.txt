@@ -5,12 +5,13 @@ function Exec(behavior, target, conflict)
   local rival = GetRival(behavior);
   local race = GetConflict(conflict);
   local base = (math.sqrt(behavior.Params[Param.PhysicalAttack]) * 3) / ((behavior.Params[Param.PhysicalAttack] + 3) * target.Params[Param.PhysicalDefense]);
-  local att = 1;
+  local att = GetAtt(behavior, target);
   local rnd = (89 + math.random(21)) / 100.0;
   local critical = target.Params[Param.PhysicalDefense]*0.5 *(behavior.Level / target.Level);
 
   print("race: "..race);
   print("base: "..base);
+  print("att: "..att);
   print("rnd: "..rnd);
   print("critical: "..critical);
   print("rival: "..rival);
@@ -46,3 +47,20 @@ function GetRival(behavior)
   end
 end
 
+function GetAtt(behavior, target)
+  local a1 = behavior.Attributes[Attribute.Earth] * target.Attributes[Attribute.Water];
+  local a2 = behavior.Attributes[Attribute.Water] * target.Attributes[Attribute.Fire];
+  local a3 = behavior.Attributes[Attribute.Fire] * target.Attributes[Attribute.Wind];
+  local a4 = behavior.Attributes[Attribute.Wind] * target.Attributes[Attribute.Earth];
+  
+  print("a1("..a1..") a2("..a2..") a3("..a3..") a4("..a4..")");
+
+  local b1 = behavior.Attributes[Attribute.Earth] * target.Attributes[Attribute.Wind];
+  local b2 = behavior.Attributes[Attribute.Wind] * target.Attributes[Attribute.Fire];
+  local b3 = behavior.Attributes[Attribute.Fire] * target.Attributes[Attribute.Water];
+  local b4 = behavior.Attributes[Attribute.Water] * target.Attributes[Attribute.Earth];
+
+  print("b1("..b1..") b2("..b2..") b3("..b3..") b4("..b4..")");
+  
+  return 1 + 0.003 * ((a1 + a2 + a3 + a4) - (b1 + b2 + b3 + b4));
+end

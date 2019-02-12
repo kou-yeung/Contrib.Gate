@@ -20,6 +20,7 @@ public static class SkillLogic
         // タイプを登録する
         UserData.RegisterType<Unit>();
         UserData.RegisterType<Battle.Params>();
+        UserData.RegisterType<Battle.Attributes>();
         UserData.RegisterType<Param>();
         UserData.RegisterType<Attribute>();
         UserData.RegisterType<Race>();
