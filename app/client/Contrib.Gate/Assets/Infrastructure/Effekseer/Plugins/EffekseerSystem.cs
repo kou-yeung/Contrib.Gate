@@ -66,7 +66,7 @@ public class EffekseerSystem : MonoBehaviour
 	/// 歪みエフェクトを有効にする。
 	/// falseにすると描画処理が軽くなります。
 	/// </summary>
-	public bool enableDistortion	= true;
+	public bool enableDistortion	= false;
 
 	/// <summary xml:lang="en">
 	/// A CameraEvent to draw all effects.
