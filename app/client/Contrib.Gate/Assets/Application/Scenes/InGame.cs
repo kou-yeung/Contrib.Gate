@@ -157,7 +157,14 @@ public class InGame : MonoBehaviour
         // 下り
         if (dungeon.DownFloor == new Identify(IDType.Dungeon, 999999))
         {
-            tiles.Add(Tile.Goal);  // なければゴールマスを決める
+            if (!Entity.Instance.StageList.ClearThisPeriod(stageInfo.stageId))
+            {
+                tiles.Add(Tile.Goal);  // なければゴールマスを決める
+            }
+            else
+            {
+                tiles.Add(Tile.Obstacle);  // クリア済の場合障害物を置く
+            }
         }
         else
         {
@@ -339,7 +346,7 @@ public class InGame : MonoBehaviour
 
     void Encount()
     {
-        ChromaticAberration(0, 1f, 0.3f);
+        ChromaticAberration(0, .5f, 0.3f);
 
         Protocol.Send(new BattleBeginSend { guid = stageInfo.guid }, (r) =>
         {

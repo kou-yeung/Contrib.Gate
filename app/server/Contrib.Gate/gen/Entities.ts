@@ -137,6 +137,7 @@ class UserState {
 /// StageInfo
 /// </summary>
 class StageInfo {
+	stageId: number;// ステージID
 	dungeonId: number;// ダンジョンID
 	seed: number;// 乱数シード
 	guid: string;// StageBegin時生成される値、フロア移動時のチェックに使用します
@@ -195,6 +196,8 @@ class ExpItem {
 	uniqid: string;// 識別ID
 	exp: number;// 更新後所持経験値
 	add: number;// 増加した経験値
+	level: number;// レベル
+	levelup: boolean;// レベルアップ
 }
 
 /// <summary>

@@ -57,6 +57,7 @@ namespace UI
             // 属性
             EnumExtension<Attribute>.ForEach(v =>
             {
+                if (v == Entities.Attribute.Count) return;
                 var index = (int)v;
                 this.Attribute[index].value = item.Familiar.Attribute[index];
             });

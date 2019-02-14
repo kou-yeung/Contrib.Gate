@@ -25,7 +25,7 @@ Shader "Shader Forge/Dungeon_003" {
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
             #pragma multi_compile_fwdbase_fullshadows
-            #pragma only_renderers d3d9 d3d11 glcore gles 
+            #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal 
             #pragma target 3.0
             uniform float4 _LightColor0;
             uniform sampler2D _node_4588; uniform float4 _node_4588_ST;
@@ -71,8 +71,7 @@ Shader "Shader Forge/Dungeon_003" {
 ////// Emissive:
                 float4 _node_2569_var = tex2D(_node_2569,TRANSFORM_TEX(i.uv0, _node_2569));
                 float4 node_6026 = _Time;
-                float3 node_2368 = (_node_2569_var.rgb*1.5*saturate(sin(node_6026.g)));
-                float3 emissive = node_2368;
+                float3 emissive = (_node_2569_var.rgb*1.5*saturate(sin(node_6026.g)));
 /// Final Color:
                 float3 finalColor = diffuse + emissive;
                 return fixed4(finalColor,1);
@@ -93,7 +92,7 @@ Shader "Shader Forge/Dungeon_003" {
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
             #pragma multi_compile_fwdadd_fullshadows
-            #pragma only_renderers d3d9 d3d11 glcore gles 
+            #pragma only_renderers d3d9 d3d11 glcore gles gles3 metal 
             #pragma target 3.0
             uniform float4 _LightColor0;
             uniform sampler2D _node_4588; uniform float4 _node_4588_ST;

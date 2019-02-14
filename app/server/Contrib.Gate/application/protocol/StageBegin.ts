@@ -41,6 +41,7 @@ function StageBegin(params, context, done) {
                     // 返信
                     let r = new StageBeginReceive();
                     r.stageInfo = new StageInfo();
+                    r.stageInfo.stageId = stageInfo.stage.idWithType;
                     r.stageInfo.dungeonId = stageInfo.dungeon.idWithType;
                     r.stageInfo.guid = stageInfo.guid;
                     r.stageInfo.lossTime = stageInfo.lossTime;

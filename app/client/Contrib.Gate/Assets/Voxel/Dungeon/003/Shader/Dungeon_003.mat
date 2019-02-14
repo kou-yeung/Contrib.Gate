@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Dungeon_003
-  m_Shader: {fileID: 4800000, guid: 69f4ba93fd1ea0843aba9aa93bc8002e, type: 3}
+  m_Shader: {fileID: 4800000, guid: 39124a491d8ff3544a2316d947c88e5f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}

@@ -54,7 +54,14 @@ namespace UI
                 var pet = Entity.Instance.PetList.items.Find(v => v.uniqid == item.uniqid);
                 if (pet != null)
                 {
-                    sb.AppendLine($"{Entity.Name(pet.id)} +{item.add} exp");
+                    if (item.levelup)
+                    {
+                        sb.AppendLine($"{Entity.Name(pet.id)} +{item.add} exp [Level Up]");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"{Entity.Name(pet.id)} +{item.add} exp");
+                    }
                 }
             }
         }

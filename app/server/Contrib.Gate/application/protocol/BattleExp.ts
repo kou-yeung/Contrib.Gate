@@ -34,10 +34,12 @@ function BattleExp(params, context, done) {
                         expItem.uniqid = item.uniqid;
                         expItem.exp = item.exp + add;
                         expItem.add = add;
+                        expItem.level = level.level(expItem.exp, item.level);
+                        expItem.levelup = item.level != expItem.level;
 
                         // 実際に付与する
                         item.exp = expItem.exp;
-                        item.level = level.level(item.exp, item.level);
+                        item.level = expItem.level;
                         result.set("item", JSON.stringify(item));
 
                         // 返信データに追加

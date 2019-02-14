@@ -129,6 +129,7 @@ int,coin,
 
 // ステージ情報
 class,StageInfo,
+uint,stageId,ステージID
 uint,dungeonId,ダンジョンID
 int,seed,乱数シード
 string,guid,StageBegin時生成される値、フロア移動時のチェックに使用します
@@ -172,6 +173,8 @@ class,ExpItem,
 string,uniqid,識別ID
 int,exp,更新後所持経験値
 int,add,増加した経験値
+int,level,レベル
+bool,levelup,レベルアップ
 
 // ユニット
 class,UnitItem,

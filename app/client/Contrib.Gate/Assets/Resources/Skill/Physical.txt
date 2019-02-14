@@ -65,7 +65,7 @@ function GetAtt(behavior, target, skill)
     local c4 = skill.Attributes[Attribute.Wind] * target.Attributes[Attribute.Earth];
 
     print("c1("..c1..") c2("..c2..") c3("..c3..") c4("..c4..")");
-	a = a + c1 + c2 + c3 + c4;
+	a = a * (c1 + c2 + c3 + c4);
 
     local d1 = skill.Attributes[Attribute.Earth] * target.Attributes[Attribute.Wind];
     local d2 = skill.Attributes[Attribute.Wind] * target.Attributes[Attribute.Fire];

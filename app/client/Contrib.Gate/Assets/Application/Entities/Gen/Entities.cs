@@ -180,6 +180,7 @@ namespace Entities
     [Serializable]
 	public partial class StageInfo
 	{
+		public uint stageId;// ステージID
 		public uint dungeonId;// ダンジョンID
 		public int seed;// 乱数シード
 		public string guid;// StageBegin時生成される値、フロア移動時のチェックに使用します
@@ -248,6 +249,8 @@ namespace Entities
 		public string uniqid;// 識別ID
 		public int exp;// 更新後所持経験値
 		public int add;// 増加した経験値
+		public int level;// レベル
+		public bool levelup;// レベルアップ
 	}
 	
     /// <summary>

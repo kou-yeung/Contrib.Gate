@@ -58,6 +58,7 @@ namespace Entities
                 var index = this.items.FindIndex(v => v.uniqid == item.uniqid);
                 if (index == -1) continue;
                 this.items[index].exp = item.exp;
+                this.items[index].level = item.level;
             }
         }
 
