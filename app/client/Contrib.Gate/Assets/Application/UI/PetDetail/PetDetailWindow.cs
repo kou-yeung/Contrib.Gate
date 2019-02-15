@@ -71,12 +71,16 @@ namespace UI
                     Setup();
                     break;
                 case PowerupWindow.CloseEvent:
+                    Observer.Instance.Unsubscribe(PowerupWindow.CloseEvent, OnSubscribe);
+                    Observer.Instance.Unsubscribe(PowerupWindow.PowerupEvent, OnSubscribe);
                     Setup();
                     break;
                 case PowerupWindow.PowerupEvent:
                     Setup();
                     break;
                 case SkillSelectWindow.CloseEvent:
+                    Observer.Instance.Unsubscribe(SkillSelectWindow.CloseEvent, OnSubscribe);
+                    Observer.Instance.Unsubscribe(SkillSelectWindow.ChangeEvent, OnSubscribe);
                     Setup();
                     break;
                 case SkillSelectWindow.ChangeEvent:
