@@ -90,10 +90,13 @@ namespace Battle
     {
         Entities.Skill skill;
         public Attributes Attributes { get; private set; }
+        public int Level { get; private set; }
+
         public Skill(Entities.Skill skill)
         {
             this.skill = skill;
             this.Attributes = new Attributes(skill.Attribute);
+            this.Level = skill.Level;
         }
     }
 

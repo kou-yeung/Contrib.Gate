@@ -1,10 +1,78 @@
 function Exec(behavior, target, conflict, skill)
-  if skill != nil then
-    print("has skill");
-  else
-    print("skill is nil");
-  end
-  return 1;
+  local base = GetBase(skill);
+  local att = GetAtt(behavior, target);
+  local att_skill = GetAtt_Skill(skill,target);
+  local mnd = GetMND(behavior, target, skill);
+  local rnd = (89 + math.random(21)) / 100.0;
+
+  print("base : "..base);
+  print("att : "..att);
+  print("att_skill : "..att_skill)
+  print("mnd : "..mnd);
+  print("rnd : "..rnd);
+  local result = math.max(1, base * att * att_skill * mnd * rnd);
+  print("result : "..result);
+  return result;
   -- return math.max(behavior.Params[Param.MagicAttack] * conflict, 1)
+end
+
+function GetBase(skill)
+  local base = {83, 150, 210, 266, 323, 380, 437, 501, 568, 635};
+  return base[skill.Level];
+end
+
+function GetAtt(behavior, target)
+  local a1 = behavior.Attributes[Attribute.Earth] * target.Attributes[Attribute.Water];
+  local a2 = behavior.Attributes[Attribute.Water] * target.Attributes[Attribute.Fire];
+  local a3 = behavior.Attributes[Attribute.Fire] * target.Attributes[Attribute.Wind];
+  local a4 = behavior.Attributes[Attribute.Wind] * target.Attributes[Attribute.Earth];
+  local a = a1 + a2 + a3 + a4;
+
+  local b1 = behavior.Attributes[Attribute.Earth] * target.Attributes[Attribute.Wind];
+  local b2 = behavior.Attributes[Attribute.Wind] * target.Attributes[Attribute.Fire];
+  local b3 = behavior.Attributes[Attribute.Fire] * target.Attributes[Attribute.Water];
+  local b4 = behavior.Attributes[Attribute.Water] * target.Attributes[Attribute.Earth];
+  local b = b1 + b2 + b3 + b4;
+  
+  return 1 + 0.003 * (a - b);
+end
+
+function GetAtt_Skill(skill, target)
+  local a1 = skill.Attributes[Attribute.Earth] * target.Attributes[Attribute.Water];
+  local a2 = skill.Attributes[Attribute.Water] * target.Attributes[Attribute.Fire];
+  local a3 = skill.Attributes[Attribute.Fire] * target.Attributes[Attribute.Wind];
+  local a4 = skill.Attributes[Attribute.Wind] * target.Attributes[Attribute.Earth];
+  local a = a1 + a2 + a3 + a4;
+
+  local b1 = skill.Attributes[Attribute.Earth] * target.Attributes[Attribute.Wind];
+  local b2 = skill.Attributes[Attribute.Wind] * target.Attributes[Attribute.Fire];
+  local b3 = skill.Attributes[Attribute.Fire] * target.Attributes[Attribute.Water];
+  local b4 = skill.Attributes[Attribute.Water] * target.Attributes[Attribute.Earth];
+  local b = b1 + b2 + b3 + b4;
+  
+  return 1 + 0.0035 * (a - b);
+end
+
+function GetMND(behavior, target, skill)
+  local res = behavior.Params[Param.MagicAttack] / (103 + (20 * skill.Level));
+  local rate = behavior.Params[Param.MagicAttack]/target.Params[Param.MagicDefense];
+
+  if rate <= 0.7 then
+    return res * 0.09;
+  elseif rate <= 0.8 then
+    return res * 0.27;
+  elseif rate <= 0.9 then
+    return res * 0.36;
+  elseif rate <= 0.98 then
+    return res * 0.55;
+  elseif rate <= 1.05 then
+    return res * 0.63;
+  elseif rate <= 1.14 then
+    return res * 0.82;
+  elseif rate <= 1.2 then
+    return res * 0.9;
+  else
+    return res * 1;
+  end
 end
 

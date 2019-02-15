@@ -7,15 +7,15 @@ function Exec(behavior, target, conflict, skill)
   local rnd = (89 + math.random(21)) / 100.0;
   local critical = target.Params[Param.PhysicalDefense]*0.5 *(behavior.Level / target.Level);
 
-  print("race: "..race);
-  print("base: "..base);
-  print("att: "..att);
-  print("rnd: "..rnd);
-  print("critical: "..critical);
-  print("rival: "..rival);
+  -- print("race: "..race);
+  -- print("base: "..base);
+  -- print("att: "..att);
+  -- print("rnd: "..rnd);
+  -- print("critical: "..critical);
+  -- print("rival: "..rival);
 
   local result = math.floor( race * rival * (base * att * rnd + critical) );
-  print("result: "..result);
+  -- print("result: "..result);
   return result;
 end
 
@@ -47,7 +47,7 @@ function GetAtt(behavior, target, skill)
   local a2 = behavior.Attributes[Attribute.Water] * target.Attributes[Attribute.Fire];
   local a3 = behavior.Attributes[Attribute.Fire] * target.Attributes[Attribute.Wind];
   local a4 = behavior.Attributes[Attribute.Wind] * target.Attributes[Attribute.Earth];
-  print("a1("..a1..") a2("..a2..") a3("..a3..") a4("..a4..")");
+  -- print("a1("..a1..") a2("..a2..") a3("..a3..") a4("..a4..")");
   local a = a1 + a2 + a3 + a4;
 
   local b1 = behavior.Attributes[Attribute.Earth] * target.Attributes[Attribute.Wind];
@@ -55,7 +55,7 @@ function GetAtt(behavior, target, skill)
   local b3 = behavior.Attributes[Attribute.Fire] * target.Attributes[Attribute.Water];
   local b4 = behavior.Attributes[Attribute.Water] * target.Attributes[Attribute.Earth];
 
-  print("b1("..b1..") b2("..b2..") b3("..b3..") b4("..b4..")");
+  -- print("b1("..b1..") b2("..b2..") b3("..b3..") b4("..b4..")");
   local b = b1 + b2 + b3 + b4;
   
   if skill != nil then
@@ -64,7 +64,7 @@ function GetAtt(behavior, target, skill)
     local c3 = skill.Attributes[Attribute.Fire] * target.Attributes[Attribute.Wind];
     local c4 = skill.Attributes[Attribute.Wind] * target.Attributes[Attribute.Earth];
 
-    print("c1("..c1..") c2("..c2..") c3("..c3..") c4("..c4..")");
+    -- print("c1("..c1..") c2("..c2..") c3("..c3..") c4("..c4..")");
 	a = a * (c1 + c2 + c3 + c4);
 
     local d1 = skill.Attributes[Attribute.Earth] * target.Attributes[Attribute.Wind];
@@ -72,7 +72,7 @@ function GetAtt(behavior, target, skill)
     local d3 = skill.Attributes[Attribute.Fire] * target.Attributes[Attribute.Water];
     local d4 = skill.Attributes[Attribute.Water] * target.Attributes[Attribute.Earth];
 
-    print("d1("..d1..") d2("..d2..") d3("..d3..") d4("..d4..")");
+    -- print("d1("..d1..") d2("..d2..") d3("..d3..") d4("..d4..")");
 	b = b + d1 + d2 + d3 + d4;
   end
   return 1 + 0.003 * (a - b);
