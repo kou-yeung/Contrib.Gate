@@ -82,12 +82,20 @@ enum Race {
 enum Param {
 	HP,// 体力
 	MP,// 魔力
-	PhysicalAttack,// 物理攻撃
-	PhysicalDefense,// 物理防御
-	MagicAttack,// 魔法攻撃
-	MagicDefense,// 魔法防御
+	Attack,// 攻撃
+	Defense,// 防御
 	Agility,// 素早さ
-	Luck,// 運
+	Magic,// 魔力
+	Count,// 数
+}
+
+// Score
+enum Score {
+	Physical,// 体
+	Power,// 力
+	Strength,// 強
+	Agility,// 敏
+	Magic,// 魔
 	Count,// 数
 }
 

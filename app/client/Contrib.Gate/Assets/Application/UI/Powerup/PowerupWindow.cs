@@ -28,7 +28,6 @@ namespace UI
         int hasItem; // 所持アイテム数
 
         int[] addParam = Enumerable.Repeat(0, (int)Param.Count).ToArray();
-        static readonly Param[] showParam = { Param.HP, Param.MP, Param.PhysicalAttack, Param.PhysicalDefense, Param.MagicAttack, Param.MagicDefense, Param.Agility };
 
         Entities.PetItem Pet
         {
@@ -134,7 +133,7 @@ namespace UI
 
         public int NumOfItems()
         {
-            return showParam.Length;
+            return (int)Param.Count;
         }
 
         float ANZListView.IDataSource.ItemSize()
@@ -145,8 +144,7 @@ namespace UI
         public GameObject ListViewItem(int index, GameObject item)
         {
             if (item == null) item = Instantiate(prefab);
-            var param = showParam[index];
-            item.GetComponent<PowerupItem>().Setup(param, Pet, addParam[(int)param]);
+            item.GetComponent<PowerupItem>().Setup((Param)index, Pet, addParam[index]);
             return item;
         }
     }

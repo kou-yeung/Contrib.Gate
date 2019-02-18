@@ -17,7 +17,6 @@ namespace Battle
         Result, // 結果表示
     }
 
-
     /// <summary>
     /// コマンド
     /// </summary>

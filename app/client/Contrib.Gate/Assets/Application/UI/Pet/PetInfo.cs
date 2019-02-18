@@ -25,7 +25,6 @@ namespace UI
             {
                 for (int i = 0; i < (int)Param.Count; i++)
                 {
-                    if (i == (int)Param.Luck) continue;
                     var value = item.GetParam((Param)i);
 
                     var format = "{0}";

@@ -40,7 +40,6 @@ namespace UI
             var item = Entity.Instance.PetList.items.Find(v => v.uniqid == uniqid);
             for (int i = 0; i < (int)Param.Count; i++)
             {
-                if ((Param)i == Param.Luck) continue;
                 param[i].text = item.GetParam((Param)i).ToString();
             }
             name.text = item.Familiar.Name;

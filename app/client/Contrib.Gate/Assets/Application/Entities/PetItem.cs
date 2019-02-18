@@ -21,26 +21,35 @@ namespace Entities
             }
         }
 
-        ///// <summary>
-        ///// レベル取得
-        ///// </summary>
-        //public int Level
-        //{
-        //    get { return Entity.Instance.LevelTable.Level(this.exp); }
-        //}
+        public int HP { get { return CalcParam(8, 2, 3, 3, 1); } }
+        public int MP { get { return CalcParam(1, 2, 2, 2, 10); } }
+        public int Attack { get { return CalcParam(.1f, 2, .2f, .2f, .1f); } }
+        public int Defense { get { return CalcParam(.1f, .2f, 2f, .2f, .1f); } }
+        public int Agility { get { return CalcParam(.1f, .2f, .2f, 2f, .1f); } }
+        public int Magic { get { return CalcParam(-.3f, -.1f, .2f, -.1f, 3f); } }
 
-        /// <summary>
-        /// 指定したパラメータの実際値を取得する
-        /// 基礎パラメータ + レベルアップの増加 + 餌付けの増加
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+        int CalcParam(params float[] p)
+        {
+            var res = .0f;
+            for (int i = 0; i < (int)Score.Count; i++)
+            {
+                res += (Familiar.baseParam[i] + this.param[i]) * p[i];
+            }
+            return Mathf.FloorToInt(res);
+        }
+
         public int GetParam(Param param)
         {
-            var res = Familiar.baseParam[(int)param];                   // 基礎パラメータ
-            res += Familiar.additionParam[(int)param] * (level - 1);    // レベルアップによる増加パラメータ
-            res += this.param[(int)param];                              // 餌付けによる増加パラメータ
-            return res;
+            switch (param)
+            {
+                case Param.HP: return HP;
+                case Param.MP: return MP;
+                case Param.Attack: return Attack;
+                case Param.Defense: return Defense;
+                case Param.Agility: return Agility;
+                case Param.Magic: return Magic;
+                default: return 0;
+            }
         }
 
         /// <summary>
