@@ -28,7 +28,7 @@ function Powerup(params, context, done) {
 
                 // 一時対応:古いデータにセットされてなかったため
                 if (r.pet.powerupCount == undefined || r.pet.powerupCount == null) r.pet.powerupCount = 0;
-                let canPowerupCount = r.pet.level - r.pet.powerupCount;
+                let canPowerupCount = (r.pet.level * 4) - r.pet.powerupCount;
 
                 // 回数チェック
                 if (canPowerupCount < powerupCount) {

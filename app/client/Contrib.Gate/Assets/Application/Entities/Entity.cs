@@ -27,6 +27,26 @@ namespace Entities
             }
         }
 
+        public float[,] ParamTable = new float[,]
+        {
+            {8.0f, 2.0f, 3.0f, 3.0f, 1.0f},     // HP
+            {1.0f, 2.0f, 2.0f, 2.0f, 10.0f},    // MP
+            {0.1f, 2.0f, 0.2f, 0.2f, 0.1f},     // Attack
+            {0.1f, 0.2f, 2.0f, 0.2f, 0.1f},     // Defense
+            {0.1f, 0.2f, 0.2f, 2.0f, 0.1f},     // Agility
+            {-.1f, -.1f, 0.2f, -.1f, 1.1f},     // Magic
+        };
+
+        public int CalcParam(Param param, int[] baseParam, int[] addParam)
+        {
+            var res = .0f;
+            for (int i = 0; i < (int)Score.Count; i++)
+            {
+                res += (baseParam[i] + addParam[i]) * ParamTable[(int)param, i];
+            }
+            return Mathf.Max(0, Mathf.FloorToInt(res));
+        }
+
         // csv データ:ゲーム中変化なし
         public Familiar[] Familiars { get; private set; }
         public Material[] Materials { get; private set; }

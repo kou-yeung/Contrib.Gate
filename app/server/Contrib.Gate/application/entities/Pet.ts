@@ -55,7 +55,7 @@ namespace Entities {
             item.powerupCount = 0;
             item.skill = 0;
             item.param = [];
-            for (var i = 0; i < Param.Count; i++) item.param.push(0);
+            for (var i = 0; i < Score.Count; i++) item.param.push(0);
             this.item = item;
             this.uniqid = item.uniqid;
             return item;

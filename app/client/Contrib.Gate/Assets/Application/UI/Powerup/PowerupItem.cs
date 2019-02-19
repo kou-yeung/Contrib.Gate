@@ -14,17 +14,24 @@ namespace UI
         public Text paramType;
         public Text paramValue;
         public InputField input;
-        Param type;
+        Score type;
 
-        public void Setup(Param type, Entities.PetItem pet, int value)
+        public void Setup(Score type, Entities.PetItem pet, int value)
         {
             this.type = type;
             paramType.text = Entity.Instance.StringTable.Get(type);
-
             var powerup = pet.param[(int)type];
-            var totalParam = pet.GetParam(type);
-            paramValue.text = $"{totalParam + value} ({powerup + value})";
-            paramValue.color = (value != 0) ? Color.red : Color.black;
+
+            if (value != 0)
+            {
+                paramValue.text = $"{powerup + value} (+{value})";
+                paramValue.color = Color.red;
+            }
+            else
+            {
+                paramValue.text = $"{powerup + value}";
+                paramValue.color = Color.black;
+            }
 
             input.text = $"{value}";
         }
