@@ -262,31 +262,40 @@ namespace UI
                         command.behavior.Focus(() =>
                         {
                             var skill = Array.Find(Entity.Instance.Skills, v => v.Identify == command.action);
-                            var rect = RectTransformToScreenSpace(command.target.GetComponent<RectTransform>());
-                            var handle = EffectWindow.Instance.Play("Simple_GeneratingPosition1", rect.center, ()=>
+                            var behaviorRect = RectTransformToScreenSpace(command.behavior.GetComponent<RectTransform>());
+                            var targetRect = RectTransformToScreenSpace(command.target.GetComponent<RectTransform>());
+
+                            var actionEffect = skill?.ActionEffect;
+                            var receiveEffect = skill?.ReceiveEffect;
+                            if (string.IsNullOrEmpty(receiveEffect)) receiveEffect = "剣2";
+
+                            EffectWindow.Instance.Play(actionEffect, behaviorRect.center, ()=>
                             {
-                                if (command.action == Identify.Empty)
+                                EffectWindow.Instance.Play(receiveEffect, targetRect.center, () =>
                                 {
-                                    command.target.Damage(SkillLogic.Exec(command.behavior, command.target));
-                                }
-                                else
-                                {
-                                    switch (skill.Type)
+                                    if (command.action == Identify.Empty)
                                     {
-                                        case SkillType.Physical:
-                                        case SkillType.Magic:
-                                            command.target.Damage(SkillLogic.Exec(command.behavior, command.target, skill));
-                                            break;
-                                        //case SkillType.Buff:
-                                        //case SkillType.Debuff:
-                                        //    var buff = new Buff();
-                                        //    buff.remain = skill.Turn;
-                                        //    buff.skii = command.action;
-                                        //    command.target.Params.buffs.Add(buff);
-                                        //    break;
+                                        command.target.Damage(SkillLogic.Exec(command.behavior, command.target));
                                     }
-                                }
-                                combat.Next();
+                                    else
+                                    {
+                                        switch (skill.Type)
+                                        {
+                                            case SkillType.Physical:
+                                            case SkillType.Magic:
+                                                command.target.Damage(SkillLogic.Exec(command.behavior, command.target, skill));
+                                                break;
+                                                //case SkillType.Buff:
+                                                //case SkillType.Debuff:
+                                                //    var buff = new Buff();
+                                                //    buff.remain = skill.Turn;
+                                                //    buff.skii = command.action;
+                                                //    command.target.Params.buffs.Add(buff);
+                                                //    break;
+                                        }
+                                    }
+                                    combat.Next();
+                                });
                             });
                         });
                     }

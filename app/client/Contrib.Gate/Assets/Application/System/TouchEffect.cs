@@ -28,6 +28,6 @@ public class TouchEffect : MonoBehaviour
 
     private void PlayTouchEffect(Vector3 screenPos)
     {
-        EffectWindow.Instance.Play("Simple_GeneratingPosition1", screenPos);
+        EffectWindow.Instance.Play("回復10", screenPos);
     }
 }

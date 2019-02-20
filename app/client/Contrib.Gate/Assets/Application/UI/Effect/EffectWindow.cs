@@ -8,7 +8,7 @@ namespace UI
 {
     public class EffectWindow : Window
     {
-        public Monitor monitor;
+        //public Monitor monitor;
         static EffectWindow instance;
         static public EffectWindow Instance
         {
@@ -19,11 +19,17 @@ namespace UI
             }
         }
 
-        public EffekseerHandle Play(string fn, Vector3 screenPos, Action ended = null)
+        public void Play(string fn, Vector3 screenPos, Action ended = null)
         {
-            var root = monitor.MonitorRoot;
-            var location = monitor.Camera.ScreenToWorldPoint(screenPos);
-            return EffectManager.Instance.Play(fn, location + Vector3.forward * 100, ended);
+            if (string.IsNullOrEmpty(fn))
+            {
+                ended?.Invoke();
+            }
+            else
+            {
+                var player = EffectManager.Instance.Play(fn, screenPos, ended);
+                player.transform.SetParent(this.transform);
+            }
         }
     }
 }
