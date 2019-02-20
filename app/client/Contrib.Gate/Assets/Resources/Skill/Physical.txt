@@ -2,10 +2,10 @@ function Exec(behavior, target, conflict, skill)
 
   local rival = GetRival(behavior);
   local race = GetConflict(conflict);
-  local base = (math.sqrt(behavior.Params[Param.PhysicalAttack]) * 3) / ((behavior.Params[Param.PhysicalAttack] + 3) * target.Params[Param.PhysicalDefense]);
+  local base = (math.sqrt(behavior.Params[Param.Attack]) * 3) / ((behavior.Params[Param.Attack] + 3) * target.Params[Param.Defense]);
   local att = GetAtt(behavior, target, skill);
   local rnd = (89 + math.random(21)) / 100.0;
-  local critical = target.Params[Param.PhysicalDefense]*0.5 *(behavior.Level / target.Level);
+  local critical = target.Params[Param.Defense]*0.5 *(behavior.Level / target.Level);
 
   -- print("race: "..race);
   -- print("base: "..base);

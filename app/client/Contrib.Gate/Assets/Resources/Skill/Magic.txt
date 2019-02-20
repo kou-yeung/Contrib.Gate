@@ -13,7 +13,6 @@ function Exec(behavior, target, conflict, skill)
   local result = math.max(1, base * att * att_skill * mnd * rnd);
   print("result : "..result);
   return result;
-  -- return math.max(behavior.Params[Param.MagicAttack] * conflict, 1)
 end
 
 function GetBase(skill)
@@ -54,8 +53,8 @@ function GetAtt_Skill(skill, target)
 end
 
 function GetMND(behavior, target, skill)
-  local res = behavior.Params[Param.MagicAttack] / (103 + (20 * skill.Level));
-  local rate = behavior.Params[Param.MagicAttack]/target.Params[Param.MagicDefense];
+  local res = behavior.Params[Param.Magic] / (103 + (20 * skill.Level));
+  local rate = behavior.Params[Param.Magic]/target.Params[Param.Magic];
 
   if rate <= 0.7 then
     return res * 0.09;

@@ -34,7 +34,7 @@ namespace Entities
             {0.1f, 2.0f, 0.2f, 0.2f, 0.1f},     // Attack
             {0.1f, 0.2f, 2.0f, 0.2f, 0.1f},     // Defense
             {0.1f, 0.2f, 0.2f, 2.0f, 0.1f},     // Agility
-            {-.1f, -.1f, 0.2f, -.1f, 1.1f},     // Magic
+            {-.1f, -.1f, 0.2f, -.1f, 3.0f},     // Magic
         };
 
         public int CalcParam(Param param, int[] baseParam, int[] addParam)
