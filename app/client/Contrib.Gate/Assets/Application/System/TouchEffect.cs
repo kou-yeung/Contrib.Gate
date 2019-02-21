@@ -28,6 +28,7 @@ public class TouchEffect : MonoBehaviour
 
     private void PlayTouchEffect(Vector3 screenPos)
     {
-        EffectWindow.Instance.Play("回復10", screenPos);
+        var player = EffectWindow.Instance.Play("溜め2", screenPos, 0.5f);
+        //player.framePreCell = 2;
     }
 }

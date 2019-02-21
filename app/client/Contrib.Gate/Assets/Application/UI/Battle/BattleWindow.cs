@@ -261,23 +261,17 @@ namespace UI
                         // 行動再生
                         command.behavior.Focus(() =>
                         {
-                            var skill = Array.Find(Entity.Instance.Skills, v => v.Identify == command.action);
+                            var skill = Array.Find(Entity.Instance.Skills, v => v.Identify.Id == command.action.Id);
                             var behaviorRect = RectTransformToScreenSpace(command.behavior.GetComponent<RectTransform>());
                             var targetRect = RectTransformToScreenSpace(command.target.GetComponent<RectTransform>());
 
-                            var actionEffect = skill?.ActionEffect;
-                            var receiveEffect = skill?.ReceiveEffect;
-                            if (string.IsNullOrEmpty(receiveEffect)) receiveEffect = "剣2";
+                            var isPlayer = command.behavior.side == Unit.Side.Player;
 
-                            EffectWindow.Instance.Play(actionEffect, behaviorRect.center, ()=>
+                            EffectWindow.Instance.Play(skill.ActionEffect, behaviorRect.center, isPlayer ? 1 : 2, ()=>
                             {
-                                EffectWindow.Instance.Play(receiveEffect, targetRect.center, () =>
+                                EffectWindow.Instance.Play(skill.ReceiveEffect, targetRect.center, isPlayer ? 2 : 1, () =>
                                 {
-                                    if (command.action == Identify.Empty)
-                                    {
-                                        command.target.Damage(SkillLogic.Exec(command.behavior, command.target));
-                                    }
-                                    else
+                                    command.target.Shake(() =>
                                     {
                                         switch (skill.Type)
                                         {
@@ -293,8 +287,8 @@ namespace UI
                                                 //    command.target.Params.buffs.Add(buff);
                                                 //    break;
                                         }
-                                    }
-                                    combat.Next();
+                                        combat.Next();
+                                    });
                                 });
                             });
                         });

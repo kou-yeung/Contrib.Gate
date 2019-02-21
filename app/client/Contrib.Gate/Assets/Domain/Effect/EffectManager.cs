@@ -54,7 +54,11 @@ namespace Effect
         {
             for (int i = handles.Count - 1; i >= 0; i--)
             {
-                if (handles[i].player.IsEnded)
+                if (handles[i].player == null)
+                {
+                    handles.RemoveAt(i);
+                }
+                else if (handles[i].player.IsEnded)
                 {
                     handles[i].player.gameObject.SetActive(false);
                     handles[i].ended?.Invoke();

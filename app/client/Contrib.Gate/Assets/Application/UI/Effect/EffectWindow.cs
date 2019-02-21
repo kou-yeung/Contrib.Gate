@@ -18,17 +18,24 @@ namespace UI
                 return instance;
             }
         }
+        public EffectPlayer Play(string fn, Vector3 screenPos, Action ended = null)
+        {
+            return Play(fn, screenPos, 1, ended);
+        }
 
-        public void Play(string fn, Vector3 screenPos, Action ended = null)
+        public EffectPlayer Play(string fn, Vector3 screenPos, float scale, Action ended = null)
         {
             if (string.IsNullOrEmpty(fn))
             {
                 ended?.Invoke();
+                return null;
             }
             else
             {
                 var player = EffectManager.Instance.Play(fn, screenPos, ended);
                 player.transform.SetParent(this.transform);
+                player.transform.localScale = Vector3.one * scale;
+                return player;
             }
         }
     }

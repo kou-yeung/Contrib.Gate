@@ -84,6 +84,13 @@ public class Unit : MonoBehaviour
     {
         LeanTween.moveLocalY(character.gameObject, 15, 0.1f).setLoopPingPong(1).setOnComplete(cb);
     }
+
+    public void Shake(Action cb = null)
+    {
+        var rand = (UnityEngine.Random.Range(0, 100) < 50) ? 1 : -1;
+        LeanTween.moveLocal(character.gameObject, new Vector3(15 * rand, 0, 0), 0.4f).setEasePunch().setOnComplete(cb);
+    }
+
     private void OnDestroy()
     {
         if(outlineId.HasValue) LeanTween.cancel(outlineId.Value);

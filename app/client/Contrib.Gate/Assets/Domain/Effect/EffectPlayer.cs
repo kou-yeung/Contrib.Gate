@@ -14,7 +14,8 @@ namespace Effect
         public bool IsEnded { get; private set; }
 
         int count;
-        int framePreCell;
+        public int framePreCell { get; set; }
+
         public void Play(string name, int framePreCell = 3)
         {
             this.count = 0;
