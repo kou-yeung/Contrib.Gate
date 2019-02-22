@@ -18,6 +18,9 @@ public class Unit : MonoBehaviour
     public Image character;
     public CircleOutline outline;
     public Slider hp;
+    public Text hpText;
+    public Text level;
+    public Text damageText;
     public Side side { get; private set; }
 
     Identify id;
@@ -60,6 +63,9 @@ public class Unit : MonoBehaviour
         this.Attributes = new Attributes(item.Familiar.Attribute);
         this.Level = item.Level;
 
+        level.text = $"Lv.{Level}";
+        hpText.text = $"{Params[Param.HP]}/{MaxHP}";
+
         Setup(item.id);
         character.sprite = Resources.Load<Sprite>($"Familiar/{ item.Familiar.Image}/base");
         side = Side.Enemy;
@@ -74,6 +80,9 @@ public class Unit : MonoBehaviour
         this.Race = item.Familiar.Race;
         this.Attributes = new Attributes(item.Familiar.Attribute);
         this.Level = item.level;
+
+        level.text = $"Lv.{Level}";
+        hpText.text = $"{Params[Param.HP]}/{MaxHP}";
 
         Setup(item.id);
         character.sprite = Resources.LoadAll<Sprite>($"Familiar/{item.Familiar.Image}/face")[0];
@@ -100,14 +109,64 @@ public class Unit : MonoBehaviour
     /// ダメージを受けた
     /// </summary>
     /// <param name="damage"></param>
-    public void Damage(int damage)
+    public void Damage(int damage, Action cb)
     {
-        Params[Param.HP] -= damage;
-        hp.value = (float)Params[Param.HP] / (float)MaxHP;
+        if (damage <= 0)
+        {
+            // ミスと表示
+            ShowDamageText("ミス", () =>
+            {
+                cb?.Invoke();
+            });
+        }
+        else
+        {
+            Shake();
 
-        if (IsDead) this.gameObject.SetActive(false);   /// TODO : 演出追加!!現在はとりあえず消す
+            Params[Param.HP] = Mathf.Max(0, Params[Param.HP] - damage);
+            hp.value = (float)Params[Param.HP] / (float)MaxHP;
+            hpText.text = $"{Params[Param.HP]}/{MaxHP}";
+
+            ShowDamageText(damage.ToString(), () =>
+            {
+                if (IsDead)
+                {
+                    var group = GetComponent<CanvasGroup>();
+                    LeanTween.value(1.0f, 0.0f, 0.5f).setOnUpdate((float v) =>
+                    {
+                        group.alpha = v;
+                    }).setOnComplete(() =>
+                    {
+                        this.gameObject.SetActive(false);   /// TODO : 演出追加!!現在はとりあえず消す
+                        cb?.Invoke();
+                    });
+                }
+                else
+                {
+                    cb?.Invoke();
+                }
+            });
+        }
     }
 
+    void ShowDamageText(string text, Action cb)
+    {
+        // ダメージテキスト表示
+        damageText.gameObject.SetActive(true);
+        damageText.text = text;
+        damageText.gameObject.transform.localScale = Vector3.one;
+        LeanTween.scale(damageText.gameObject, Vector3.one * 1.5f, 0.5f).setOnComplete(() =>
+        {
+            damageText.gameObject.SetActive(false);
+            cb?.Invoke();
+        });
+        LeanTween.value(0.3f, 1.0f, 0.5f).setOnUpdate((float v) =>
+        {
+            var color = damageText.color;
+            color.a = v;
+            damageText.color = color;
+        }).setLoopPingPong(1);
+    }
     public bool Selectable
     {
         get

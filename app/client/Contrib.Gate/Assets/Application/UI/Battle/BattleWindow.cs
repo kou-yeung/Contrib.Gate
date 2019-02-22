@@ -271,13 +271,19 @@ namespace UI
                             {
                                 EffectWindow.Instance.Play(skill.ReceiveEffect, targetRect.center, isPlayer ? 2 : 1, () =>
                                 {
-                                    command.target.Shake(() =>
-                                    {
+                                    //command.target.Shake(() =>
+                                    //{
                                         switch (skill.Type)
                                         {
                                             case SkillType.Physical:
                                             case SkillType.Magic:
-                                                command.target.Damage(SkillLogic.Exec(command.behavior, command.target, skill));
+                                                {
+                                                    var damage = SkillLogic.Exec(command.behavior, command.target, skill);
+                                                    command.target.Damage(damage, ()=>
+                                                    {
+                                                        combat.Next();
+                                                    });
+                                                }
                                                 break;
                                                 //case SkillType.Buff:
                                                 //case SkillType.Debuff:
@@ -287,8 +293,7 @@ namespace UI
                                                 //    command.target.Params.buffs.Add(buff);
                                                 //    break;
                                         }
-                                        combat.Next();
-                                    });
+                                    //});
                                 });
                             });
                         });
