@@ -36,7 +36,7 @@ public class CircleOutline : BaseMeshEffect
 
     private void Update()
     {
-        if (image != null && image.sprite != target.sprite)
+        if (image != null && target != null && image.sprite != target.sprite)
         {
             image.sprite = target.sprite;
         }
