@@ -41,7 +41,7 @@ namespace UI
         public GameObject CellViewItem(int index, GameObject item)
         {
             if (item == null) item = Instantiate(prefab);
-            item.GetComponent<SkillSelectItem>().Setup(inventory[index], currentIndex == index);
+            item.GetComponent<SkillIcon>().Setup(inventory[index], currentIndex == index);
             return item;
         }
 
