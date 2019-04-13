@@ -16,6 +16,7 @@ namespace Network
 
     public class LoginReceive
     {
+		public string appVersion; // // アプリバージョン
 		public long timestamp; // // サーバ時間
 		public UserState userState;
 		public int[] iv;

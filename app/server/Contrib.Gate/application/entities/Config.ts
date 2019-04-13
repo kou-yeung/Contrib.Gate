@@ -25,6 +25,12 @@ namespace Entities {
         get key(): number[] {
             return this.encrypt(this.bucket.first.get("暗号化KEY", ""));
         }
+        get appVersion(): string {
+            return this.bucket.first.get("アプリバージョン", "");
+        }
+        get maintenanceFlag(): number {
+            return this.bucket.first.get("メンテナンスフラグ", 0);
+        }
 
         encrypt(s: string): number[] {
             let res = [];

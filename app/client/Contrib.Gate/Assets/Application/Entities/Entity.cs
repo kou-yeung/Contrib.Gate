@@ -60,6 +60,7 @@ namespace Entities
         public Enemy[] Enemies { get; private set; }
         public LevelTable LevelTable { get; private set; }
         public Skill[] Skills { get; private set; }
+        public Configs Configs { get; private set; }
 
         // 受信データなど、サーバ側キャッシュしたデータ（ローカル更新による疑似的同期を行う
         public Inventory Inventory { get; private set; }
@@ -91,6 +92,7 @@ namespace Entities
 
             Cheats = Parse<Cheat>("Entities/cheat", false);
             StringTable = new StringTable(Parse<StringTableKV>("Entities/string_table", false));
+            Configs = Parse<Configs>("Entities/config", false).FirstOrDefault();
         }
 
         /// <summary>

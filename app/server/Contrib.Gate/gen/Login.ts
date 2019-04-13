@@ -12,6 +12,7 @@ class LoginSend {
 }
 
 class LoginReceive {
+    appVersion: string; // // アプリバージョン
     timestamp: number; // // サーバ時間
     userState: UserState;
     iv: number[];

@@ -31,6 +31,7 @@ namespace CsvHelper
             configuration.RegisterClassMap<VendingMap>();
             configuration.RegisterClassMap<RecipeMap>();
             configuration.RegisterClassMap<ItemMap>();
+            configuration.RegisterClassMap<ConfigsMap>();
             configuration.RegisterClassMap<CheatMap>();
             configuration.RegisterClassMap<StringTableMap>();
             configuration.RegisterClassMap<DungeonMap>();
