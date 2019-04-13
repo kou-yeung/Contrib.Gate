@@ -7,6 +7,8 @@ using Util.Time;
 using Security;
 using UnityEngine.SceneManagement;
 using Entities;
+using UI;
+
 
 public class Title : MonoBehaviour
 {
@@ -17,6 +19,16 @@ public class Title : MonoBehaviour
         // ログインする
         Protocol.Send(new LoginSend(), (r) =>
         {
+            // アプリバージョンをチェックする
+            if (r.appVersion != Entity.Instance.Configs.AppVersion)
+            {
+                DialogWindow.OpenOk("確認", " バージョンが古いです!!", ()=>
+                {
+                    btn.interactable = true;
+                });
+                return;
+            }
+
             ServerTime.Init(r.timestamp);
 
             Crypt.Init(r.timestamp, r.iv, r.key);

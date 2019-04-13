@@ -27,6 +27,7 @@ down,InventoryItem[],items,
 
 // ログイン処理
 protocol,Login,
+down,string,appVersion,// アプリバージョン
 down,long,timestamp,// サーバ時間
 down,UserState,userState,
 down,int[],iv,

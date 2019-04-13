@@ -10,6 +10,7 @@ function Login(params, context, done) {
             new Entities.Player(user).refresh(player => {
                 // 返信
                 let r = new LoginReceive();
+                r.appVersion = config.appVersion;
                 r.userState = player.userState;
                 r.timestamp = Util.Time.ServerTime.current;
                 config.crypt = r.timestamp; // 暗号化タイミング設定
