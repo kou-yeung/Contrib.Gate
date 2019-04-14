@@ -29,4 +29,8 @@ public class Create : MonoBehaviour {
             }
         });
     }
+    public void OnEndEdit(Button btn)
+    {
+        btn.interactable = !string.IsNullOrEmpty(input.text);
+    }
 }
